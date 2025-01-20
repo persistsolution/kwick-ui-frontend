@@ -30,7 +30,19 @@ jobs:
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "Extracted Branch Name: $BRANCH_NAME"
 
-          # Connect to the EC2 instance
+          # Validate branch name
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "Error: Branch name is empty!"
+            exit 1
+          fi
+
+          # Check if the branch exists remotely
+          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
+          if [ -z "$BRANCH_EXISTS" ]; then
+            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
+            exit 1
+          fi
+
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
             echo 'Connected to EC2. Deploying branch: $BRANCH_NAME'
