@@ -13,33 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Debug GitHub Context
-      - name: Debug GitHub Context
+      - name: Debug Branch Name
         run: |
           echo "GITHUB_REF: $GITHUB_REF"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Branch Name Extracted: $BRANCH_NAME"
 
-      # Step 3: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 4: Deploy to EC2
       - name: Deploy to EC2
         run: |
-          # Extract branch name
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          echo "Branch Name: $BRANCH_NAME"
-
-          # Validate branch name
-          if [ -z "$BRANCH_NAME" ]; then
-            echo "Error: Branch name is empty!"
-            exit 1
-          fi
+          echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
 
           # Ensure the branch exists in the repository
           BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
@@ -48,19 +39,14 @@ jobs:
             exit 1
           fi
 
-          echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
-            echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
-
-            # Define variables
-            PROJECT_DIR=\"/home/ubuntu/kwick-ui-frontend/\$BRANCH_NAME\"
+            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
             PORT_MAP=(\"main:5173\" \"dev:5174\" \"test:5175\" \"stag:5176\")
+            PORT=0
 
             # Assign port based on branch name
-            PORT=0
             for MAPPING in \${PORT_MAP[@]}; do
-              echo \"Checking MAPPING: \$MAPPING\"
               if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
                 PORT=\${MAPPING#*:}
                 break
@@ -72,8 +58,6 @@ jobs:
               exit 1
             fi
 
-            echo \"Branch \$BRANCH_NAME will run on port \$PORT\"
-
             # Ensure Bun is installed
             if ! command -v bun &> /dev/null; then
               echo 'Bun is not installed. Installing Bun...'
@@ -82,30 +66,20 @@ jobs:
               source ~/.bashrc
             fi
 
-            echo 'Bun is installed at: $(command -v bun)'
-
             # Clean up existing directory
             if [ -d \"\$PROJECT_DIR\" ]; then
               echo 'Cleaning up existing directory: \$PROJECT_DIR'
               sudo lsof +D \"\$PROJECT_DIR\" || echo 'No active processes.'
               sudo chmod -R 777 \"\$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
-              if [ -d \"\$PROJECT_DIR\" ]; then
-                echo 'Retrying cleanup for directory: \$PROJECT_DIR'
-                sudo find \"\$PROJECT_DIR\" -type f -delete
-                sudo find \"\$PROJECT_DIR\" -type d -delete
-                sudo rm -rf \"\$PROJECT_DIR\"
-              fi
             fi
 
-            # Clone repository for the branch
+            # Clone repository
             git clone --branch \"\$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
-            # Navigate to the directory and install dependencies
+            # Install dependencies and start application
             cd \"\$PROJECT_DIR\"
             bun install --no-cache
-
-            # Start or restart the application using PM2
             if pm2 list | grep -q \"\$BRANCH_NAME\"; then
               pm2 restart \"\$BRANCH_NAME\" --update-env
             else
@@ -113,5 +87,4 @@ jobs:
             fi
 
             pm2 save
-            echo 'Deployment for branch: $BRANCH_NAME completed.'
           "
