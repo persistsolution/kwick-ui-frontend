@@ -31,11 +31,12 @@ jobs:
 
           # Debug and clean up existing directory
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory exists. Debugging contents and active processes:"
-            ls -la $PROJECT_DIR
+            echo "Directory exists. Debugging contents:"
+            sudo ls -la $PROJECT_DIR
+            echo "Checking active processes:"
             sudo lsof +D $PROJECT_DIR || echo "No active processes."
 
-            echo "Attempting to terminate any processes using the directory..."
+            echo "Terminating any processes using the directory..."
             sudo fuser -k $PROJECT_DIR || echo "No processes to terminate."
 
             echo "Changing permissions and forcing removal."
@@ -50,6 +51,7 @@ jobs:
             echo "Force removing files and directories within."
             sudo find $PROJECT_DIR -type f -exec rm -f {} \;
             sudo find $PROJECT_DIR -type d -exec rm -rf {} +
+            sudo rm -rf $PROJECT_DIR
           fi
 
           # Final check for cleanup
