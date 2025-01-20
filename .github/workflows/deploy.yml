@@ -28,7 +28,7 @@ jobs:
           set -e
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
           PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
-          
+
           # Debug existing directory
           if [ -d "$PROJECT_DIR" ]; then
             echo "Directory exists. Debugging contents:"
@@ -43,21 +43,29 @@ jobs:
           if [ -d "$PROJECT_DIR" ]; then
             echo "Directory still exists after cleanup attempt. Debugging contents:"
             ls -la $PROJECT_DIR
-            echo "Exiting with error due to cleanup failure."
+            echo "Force removing directory again."
+            sudo find $PROJECT_DIR -type f -exec rm -f {} \;
+            sudo find $PROJECT_DIR -type d -exec rm -rf {} +
+            sudo rm -rf $PROJECT_DIR
+          fi
+
+          # Ensure directory is gone
+          if [ -d "$PROJECT_DIR" ]; then
+            echo "Directory still exists after all cleanup attempts. Exiting."
             exit 1
           fi
 
           # Clone the repository
           echo "Cloning repository."
           git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
-          
+
           # Navigate to the directory
           cd $PROJECT_DIR
           git checkout $BRANCH_NAME
-          
+
           # Install dependencies
           bun install --no-cache
-          
+
           echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
           case "$BRANCH_NAME" in
             main)
