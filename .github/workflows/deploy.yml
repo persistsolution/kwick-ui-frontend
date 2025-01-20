@@ -13,14 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout Repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Step 2: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # Step 3: Deploy to EC2
       - name: Deploy to EC2
         run: |
           # Extract branch name
@@ -39,7 +42,7 @@ jobs:
             echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
 
             # Define variables
-            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend'
+            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
             PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
@@ -94,7 +97,7 @@ jobs:
             if pm2 list | grep -q \"$BRANCH_NAME\"; then
               pm2 restart \"$BRANCH_NAME\" --update-env
             else
-              pm2 start \"bun dev --port $PORT\" --name \"$BRANCH_NAME\"
+              pm2 start \"bun dev --port $PORT\" --name \"$BRANCH_NAME\" --cwd \"$PROJECT_DIR\"
             fi
 
             # Save PM2 process list
