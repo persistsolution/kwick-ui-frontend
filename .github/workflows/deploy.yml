@@ -23,7 +23,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           BRANCH_NAME=${{ github.ref_name }}
-          ssh -o StrictHostKeyChecking=no ubuntu@<EC2_IP> "bash -s" <<EOF
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<EOF
           set -e
           cd /path/to/react-multi-branch-deploy
           git fetch origin $BRANCH_NAME
