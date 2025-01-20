@@ -29,7 +29,7 @@ jobs:
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
           PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
 
-          # Ensure Bun is installeds
+          # Ensure Bun is installed
           if ! command -v bun &> /dev/null; then
             echo "Bun is not installed. Installing Bun..."
             curl -fsSL https://bun.sh/install | bash
@@ -40,7 +40,7 @@ jobs:
 
           # Debug existing directory before cleanup
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory exists. Debugging contents:"
+            echo "Directory exists. Debugging contents before removal:"
             sudo ls -la $PROJECT_DIR
             echo "Checking processes locking the directory:"
             sudo lsof +D $PROJECT_DIR || echo "No active processes using the directory."
@@ -65,6 +65,8 @@ jobs:
           if [ -d "$PROJECT_DIR" ]; then
             echo "Directory still exists after cleanup attempts. Debugging further:"
             sudo ls -la $PROJECT_DIR
+            echo "Listing locking processes again:"
+            sudo lsof +D $PROJECT_DIR || echo "No active processes using the directory."
             echo "Exiting due to cleanup failure."
             exit 1
           fi
