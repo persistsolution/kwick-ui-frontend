@@ -22,12 +22,14 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@<EC2_IP> << 'EOF'
+          BRANCH_NAME=${{ github.ref_name }}
+          ssh -o StrictHostKeyChecking=no ubuntu@<EC2_IP> "bash -s" <<EOF
+          set -e
           cd /path/to/react-multi-branch-deploy
-          git fetch origin ${{ github.ref_name }}
-          git reset --hard origin/${{ github.ref_name }}
+          git fetch origin $BRANCH_NAME
+          git reset --hard origin/$BRANCH_NAME
           bun install
-          case "${{ github.ref_name }}" in
+          case "$BRANCH_NAME" in
             main)
               pm2 restart main --update-env
               ;;
