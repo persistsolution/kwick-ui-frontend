@@ -36,6 +36,13 @@ jobs:
             exit 1
           fi
 
+          # Ensure the branch exists in the repository
+          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
+          if [ -z "$BRANCH_EXISTS" ]; then
+            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
+            exit 1
+          fi
+
           echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
