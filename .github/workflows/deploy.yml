@@ -1,4 +1,32 @@
 - name: Deploy to EC2
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - test
+      - stag
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Debug Branch Name
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Extracted Branch Name: $BRANCH_NAME"
+
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "Error: Branch name is empty!"
+            exit 1
+          fi
+
+      - name: Verify Branch Existence
   run: |
     # Extract branch name
     BRANCH_NAME="${GITHUB_REF#refs/heads/}"
