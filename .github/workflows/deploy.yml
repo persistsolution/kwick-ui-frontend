@@ -13,14 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Step 2: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # Step 3: Deploy to EC2
       - name: Deploy to EC2
         run: |
           # Extract branch name
@@ -39,7 +42,7 @@ jobs:
             echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
 
             # Define variables
-            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend'
+            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
             PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
@@ -67,24 +70,20 @@ jobs:
             fi
             echo 'Bun is installed at: $(command -v bun)'
 
-            # Debug and clean up existing directory
+            # Debug and clean up existing directory for the branch
             if [ -d \"\$PROJECT_DIR\" ]; then
-              echo 'Directory exists. Cleaning up.'
+              echo 'Directory exists for branch. Cleaning up.'
               sudo chmod -R 777 \"\$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
 
             # Clone the repository
-            echo 'Cloning repository.'
-            git clone https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
+            echo 'Cloning repository for branch: $BRANCH_NAME'
+            git clone --branch \"$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
             # Navigate to the cloned directory
             cd \"\$PROJECT_DIR\"
             echo 'Switched to project directory: $(pwd)'
-
-            # Checkout the correct branch
-            echo 'Checking out branch: $BRANCH_NAME'
-            git checkout \"$BRANCH_NAME\"
 
             # Install dependencies using Bun
             bun install --no-cache
@@ -94,7 +93,7 @@ jobs:
             if pm2 list | grep -q \"$BRANCH_NAME\"; then
               pm2 restart \"$BRANCH_NAME\" --update-env
             else
-              pm2 start \"bun dev --port $PORT\" --name \"$BRANCH_NAME\"
+              pm2 start \"bun dev --port $PORT\" --name \"$BRANCH_NAME\" --cwd \"$PROJECT_DIR\"
             fi
 
             # Save PM2 process list
