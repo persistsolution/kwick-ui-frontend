@@ -40,7 +40,7 @@ jobs:
 
           # Debug and clean up existing directory
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory exists. Debugging contents:"
+            echo "Directory exists. Debugging contents before removal:"
             sudo ls -la $PROJECT_DIR
             echo "Cleaning up existing directory."
             sudo chmod -R 777 $PROJECT_DIR
@@ -49,7 +49,17 @@ jobs:
 
           # Verify cleanup
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory still exists after cleanup. Exiting with error."
+            echo "Directory still exists after cleanup. Debugging further:"
+            sudo ls -la $PROJECT_DIR
+            echo "Force removing files and directories."
+            sudo find $PROJECT_DIR -type f -exec rm -f {} \;
+            sudo find $PROJECT_DIR -type d -exec rm -rf {} +
+            sudo rm -rf $PROJECT_DIR
+          fi
+
+          # Final check for cleanup
+          if [ -d "$PROJECT_DIR" ]; then
+            echo "Directory still exists after all cleanup attempts. Exiting."
             exit 1
           fi
 
