@@ -27,7 +27,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<EOF
           set -e
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
-          PROJECT_DIR="/home/ubuntu/kwick"
+          PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
 
           # Ensure Bun is installed
           if ! command -v bun &> /dev/null; then
