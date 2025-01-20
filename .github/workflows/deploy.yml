@@ -38,36 +38,18 @@ jobs:
           fi
           echo "Bun is installed at: \$(command -v bun)"
 
-          # Debug existing directory before cleanup
+          # Debug and clean up existing directory
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory exists. Debugging contents before removal:"
+            echo "Directory exists. Debugging contents:"
             sudo ls -la $PROJECT_DIR
-            echo "Checking processes locking the directory:"
-            sudo lsof +D $PROJECT_DIR || echo "No active processes using the directory."
-          fi
-
-          # Attempt to clean up the existing directory
-          if [ -d "$PROJECT_DIR" ]; then
-            echo "Attempting to remove the directory."
+            echo "Cleaning up existing directory."
             sudo chmod -R 777 $PROJECT_DIR
             sudo rm -rf $PROJECT_DIR
           fi
 
-          # Retry cleanup if directory still exists
+          # Verify cleanup
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Retrying cleanup."
-            sudo find $PROJECT_DIR -type f -exec rm -f {} \;
-            sudo find $PROJECT_DIR -type d -exec rm -rf {} +
-            sudo rm -rf $PROJECT_DIR
-          fi
-
-          # Final verification of cleanup
-          if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory still exists after cleanup attempts. Debugging further:"
-            sudo ls -la $PROJECT_DIR
-            echo "Listing locking processes again:"
-            sudo lsof +D $PROJECT_DIR || echo "No active processes using the directory."
-            echo "Exiting due to cleanup failure."
+            echo "Directory still exists after cleanup. Exiting with error."
             exit 1
           fi
 
@@ -86,6 +68,7 @@ jobs:
           # Validate package.json
           if [ ! -f "package.json" ]; then
             echo "Error: package.json not found in the cloned repository."
+            echo "Repository may not contain the required project files. Debugging further:"
             ls -la
             exit 1
           fi
