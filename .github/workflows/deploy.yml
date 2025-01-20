@@ -23,24 +23,28 @@ jobs:
       - name: Deploy to EC2
         run: |
           BRANCH_NAME=${{ github.ref_name }}
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<EOF
+          echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<'EOF'
           set -e
+          echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
           cd /path/to/react-multi-branch-deploy
           git fetch origin $BRANCH_NAME
           git reset --hard origin/$BRANCH_NAME
-          bun install
+          bun install --no-cache
+          echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
           case "$BRANCH_NAME" in
             main)
-              pm2 restart main --update-env
+              pm2 restart main --update-env || pm2 start "bun dev --port 5173" --name main
               ;;
             dev)
-              pm2 restart dev --update-env
+              pm2 restart dev --update-env || pm2 start "bun dev --port 5174" --name dev
               ;;
             test)
-              pm2 restart test --update-env
+              pm2 restart test --update-env || pm2 start "bun dev --port 5175" --name test
               ;;
             stag)
-              pm2 restart stag --update-env
+              pm2 restart stag --update-env || pm2 start "bun dev --port 5176" --name stag
               ;;
           esac
+          echo "Deployment for $BRANCH_NAME completed."
           EOF
