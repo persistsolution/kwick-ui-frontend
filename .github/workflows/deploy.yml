@@ -26,8 +26,8 @@ jobs:
       # Step 3: Deploy to EC2
       - name: Deploy to EC2
         run: |
-          # Extract branch name
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          # Extract the branch name
+          BRANCH_NAME="${GITHUB_REF##*/}"
           echo "Extracted Branch Name: $BRANCH_NAME"
 
           # Validate branch name
@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
 
-          # Check if the branch exists remotely
+          # Check if the branch exists in the remote repository
           BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
           if [ -z "$BRANCH_EXISTS" ]; then
             echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
@@ -52,7 +52,7 @@ jobs:
             PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
-            # Get the port based on the branch name
+            # Map the branch to the correct port
             for MAPPING in \${PORT_MAP[@]}; do
               if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
                 PORT=\${MAPPING#*:}
