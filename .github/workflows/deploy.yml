@@ -38,10 +38,14 @@ jobs:
           fi
           echo "Bun is installed at: \$(command -v bun)"
 
-          # Debug and clean up existing directory
+          # Debug existing directory before cleanup
           if [ -d "$PROJECT_DIR" ]; then
             echo "Directory exists. Debugging contents before removal:"
             sudo ls -la $PROJECT_DIR
+          fi
+
+          # Attempt to clean up the existing directory
+          if [ -d "$PROJECT_DIR" ]; then
             echo "Cleaning up existing directory."
             sudo chmod -R 777 $PROJECT_DIR
             sudo rm -rf $PROJECT_DIR
