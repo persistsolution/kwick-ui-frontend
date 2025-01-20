@@ -74,6 +74,8 @@ jobs:
           # Validate package.json
           if [ ! -f "package.json" ]; then
             echo "Error: package.json not found in the cloned repository."
+            echo "Repository may not contain the required project files. Debugging further:"
+            ls -la
             exit 1
           fi
 
