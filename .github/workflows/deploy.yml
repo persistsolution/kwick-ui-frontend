@@ -42,24 +42,7 @@ jobs:
             echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
 
             # Define variables
-            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
-            PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
-            PORT=0
-
-            # Get the port based on branch name
-            for MAPPING in \${PORT_MAP[@]}; do
-              if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
-                PORT=\${MAPPING#*:}
-                break
-              fi
-            done
-
-            if [[ \"\$PORT\" -eq 0 ]]; then
-              echo 'No port mapping found for branch: $BRANCH_NAME'
-              exit 1
-            fi
-
-            echo 'Branch $BRANCH_NAME will run on port $PORT'
+            PROJECT_DIR=\"/home/ubuntu/kwick-ui-frontend/\$BRANCH_NAME\"
 
             # Ensure Bun is installed
             if ! command -v bun &> /dev/null; then
@@ -68,36 +51,36 @@ jobs:
               export PATH=\"\$HOME/.bun/bin:\$PATH\"
               source ~/.bashrc
             fi
+
             echo 'Bun is installed at: $(command -v bun)'
 
-            # Debug and clean up existing directory for the branch
+            # Clone repository for the branch
             if [ -d \"\$PROJECT_DIR\" ]; then
               echo 'Directory exists for branch. Cleaning up.'
-              sudo chmod -R 777 \"\$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
+            git clone --branch \"\$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
-            # Clone the repository
-            echo 'Cloning repository for branch: $BRANCH_NAME'
-            git clone --branch \"$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
-
-            # Navigate to the cloned directory
+            # Navigate to the directory and install dependencies
             cd \"\$PROJECT_DIR\"
-            echo 'Switched to project directory: $(pwd)'
-
-            # Install dependencies using Bun
             bun install --no-cache
 
             # Start or restart the application using PM2
-            echo 'Restarting application for branch: $BRANCH_NAME on port: $PORT'
-            if pm2 list | grep -q \"$BRANCH_NAME\"; then
-              pm2 restart \"$BRANCH_NAME\" --update-env
+            PORT_MAP=(\"main:5173\" \"dev:5174\" \"test:5175\" \"stag:5176\")
+            PORT=0
+            for MAPPING in \${PORT_MAP[@]}; do
+              if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
+                PORT=\${MAPPING#*:}
+                break
+              fi
+            done
+
+            if pm2 list | grep -q \"\$BRANCH_NAME\"; then
+              pm2 restart \"\$BRANCH_NAME\" --update-env
             else
-              pm2 start \"bun dev --port $PORT\" --name \"$BRANCH_NAME\" --cwd \"$PROJECT_DIR\"
+              pm2 start \"bun dev --port \$PORT\" --name \"\$BRANCH_NAME\" --cwd \"\$PROJECT_DIR\"
             fi
 
-            # Save PM2 process list
             pm2 save
-
             echo 'Deployment for branch: $BRANCH_NAME completed.'
           "
