@@ -29,6 +29,14 @@ jobs:
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
           PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
 
+          # Ensure unzip is installed
+          if ! command -v unzip &> /dev/null; then
+            echo "Unzip is not installed. Installing unzip..."
+            sudo apt-get update
+            sudo apt-get install -y unzip
+          fi
+          echo "Unzip is installed."
+
           # Ensure Bun is installed
           if ! command -v bun &> /dev/null; then
             echo "Bun is not installed. Installing Bun..."
