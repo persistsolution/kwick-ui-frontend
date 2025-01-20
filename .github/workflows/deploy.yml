@@ -27,6 +27,15 @@ jobs:
             exit 1
           fi
 
+      - name: Verify Branch Existence
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
+          if [ -z "$BRANCH_EXISTS" ]; then
+            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
+            exit 1
+          fi
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -37,20 +46,16 @@ jobs:
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
 
-          # Ensure the branch exists in the repository
-          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
-          if [ -z "$BRANCH_EXISTS" ]; then
-            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
-            exit 1
-          fi
-
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
+            echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
+
+            # Define variables
             PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
-            PORT_MAP=(\"main:5173\" \"dev:5174\" \"test:5175\" \"stag:5176\")
+            PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
-            # Assign port based on branch name
+            # Get the port based on branch name
             for MAPPING in \${PORT_MAP[@]}; do
               if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
                 PORT=\${MAPPING#*:}
@@ -59,9 +64,11 @@ jobs:
             done
 
             if [[ \"\$PORT\" -eq 0 ]]; then
-              echo \"Error: No port mapping found for branch: \$BRANCH_NAME\"
+              echo 'No port mapping found for branch: $BRANCH_NAME'
               exit 1
             fi
+
+            echo 'Branch $BRANCH_NAME will run on port $PORT'
 
             # Ensure Bun is installed
             if ! command -v bun &> /dev/null; then
@@ -70,11 +77,11 @@ jobs:
               export PATH=\"\$HOME/.bun/bin:\$PATH\"
               source ~/.bashrc
             fi
+            echo 'Bun is installed at: $(command -v bun)'
 
             # Clean up existing directory
             if [ -d \"\$PROJECT_DIR\" ]; then
               echo 'Cleaning up existing directory: \$PROJECT_DIR'
-              sudo lsof +D \"\$PROJECT_DIR\" || echo 'No active processes.'
               sudo chmod -R 777 \"\$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
@@ -82,9 +89,11 @@ jobs:
             # Clone repository
             git clone --branch \"\$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
-            # Install dependencies and start application
+            # Navigate to the directory and install dependencies
             cd \"\$PROJECT_DIR\"
             bun install --no-cache
+
+            # Start or restart the application using PM2
             if pm2 list | grep -q \"\$BRANCH_NAME\"; then
               pm2 restart \"\$BRANCH_NAME\" --update-env
             else
