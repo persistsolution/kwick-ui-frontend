@@ -29,6 +29,14 @@ jobs:
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
           PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
 
+          # Ensure Bun is installed
+          if ! command -v bun &> /dev/null; then
+            echo "Bun is not installed. Installing Bun..."
+            curl -fsSL https://bun.sh/install | bash
+            export PATH="\$HOME/.bun/bin:\$PATH"
+          fi
+          echo "Bun is installed at: \$(command -v bun)"
+
           # Debug and clean up existing directory
           if [ -d "$PROJECT_DIR" ]; then
             echo "Directory exists. Debugging contents:"
@@ -63,18 +71,14 @@ jobs:
           # Clone the repository
           echo "Cloning repository."
           git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
-
-          # Debug the cloned directory
-          echo "Verifying the cloned directory exists: $PROJECT_DIR"
-          ls -la $PROJECT_DIR
-
+          
           # Navigate to the cloned directory
           cd $PROJECT_DIR
-          echo "Switched to project directory: $(pwd)"
+          echo "Switched to project directory: \$(pwd)"
           git checkout $BRANCH_NAME || echo "Failed to checkout branch: $BRANCH_NAME"
 
-          # Install dependencies
-          bun install --no-cache
+          # Install dependencies using Bun
+          bun install --no-cache || exit 1
 
           echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
           case "$BRANCH_NAME" in
