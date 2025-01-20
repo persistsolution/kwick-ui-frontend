@@ -33,6 +33,10 @@ jobs:
           if [ -d "$PROJECT_DIR" ]; then
             echo "Cleaning up existing directory."
             sudo rm -rf $PROJECT_DIR
+            if [ -d "$PROJECT_DIR" ]; then
+              echo "Failed to remove directory. Forcing cleanup."
+              sudo rm -rf $PROJECT_DIR/*
+            fi
           fi
           
           # Clone the repository
