@@ -29,16 +29,17 @@ jobs:
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
           PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
           
-          # Check if the project directory exists and is a git repository
+          # Handle project directory existence
           if [ -d "$PROJECT_DIR" ]; then
             if [ -d "$PROJECT_DIR/.git" ]; then
-              echo "Project directory exists and is a git repository. Pulling latest changes."
+              echo "Project directory exists and is a valid git repository. Pulling latest changes."
               cd $PROJECT_DIR
               git fetch origin $BRANCH_NAME
               git reset --hard origin/$BRANCH_NAME
             else
               echo "Directory exists but is not a git repository. Cleaning up."
               rm -rf $PROJECT_DIR
+              echo "Recreating directory and cloning repository."
               git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
               cd $PROJECT_DIR
               git checkout $BRANCH_NAME
@@ -49,9 +50,9 @@ jobs:
             cd $PROJECT_DIR
             git checkout $BRANCH_NAME
           fi
-
+          
           bun install --no-cache
-
+          
           echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
           case "$BRANCH_NAME" in
             main)
