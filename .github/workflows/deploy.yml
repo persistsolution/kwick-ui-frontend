@@ -40,20 +40,22 @@ jobs:
 
           # Debug existing directory before cleanup
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory exists. Debugging contents before removal:"
+            echo "Directory exists. Debugging contents:"
             sudo ls -la $PROJECT_DIR
+            echo "Checking processes locking the directory:"
+            sudo lsof +D $PROJECT_DIR || echo "No active processes using the directory."
           fi
 
           # Attempt to clean up the existing directory
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Cleaning up existing directory."
+            echo "Attempting to remove the directory."
             sudo chmod -R 777 $PROJECT_DIR
             sudo rm -rf $PROJECT_DIR
           fi
 
           # Retry cleanup if directory still exists
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory still exists. Retrying cleanup."
+            echo "Retrying cleanup."
             sudo find $PROJECT_DIR -type f -exec rm -f {} \;
             sudo find $PROJECT_DIR -type d -exec rm -rf {} +
             sudo rm -rf $PROJECT_DIR
@@ -61,7 +63,7 @@ jobs:
 
           # Final verification of cleanup
           if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory still exists after all cleanup attempts. Debugging contents:"
+            echo "Directory still exists after cleanup attempts. Debugging further:"
             sudo ls -la $PROJECT_DIR
             echo "Exiting due to cleanup failure."
             exit 1
