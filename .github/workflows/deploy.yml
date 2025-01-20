@@ -33,41 +33,33 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
-            echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
+            echo 'Connected to EC2. Deploying branch: $BRANCH_NAME'
 
             PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
             PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
-            echo 'Port Mapping: ${PORT_MAP[@]}'
-            echo 'Branch Name: $BRANCH_NAME'
-
             for MAPPING in \${PORT_MAP[@]}; do
-              BRANCH_NAME_PREFIX=\"\${MAPPING%%:*}\"
-              if [[ \"$BRANCH_NAME\" == \"$BRANCH_NAME_PREFIX\" ]]; then
-                PORT=\"\${MAPPING#*:}\"
+              if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
+                PORT=\${MAPPING#*:}
                 break
               fi
             done
 
-            if [[ \"$PORT\" -eq 0 ]]; then
+            if [[ \"\$PORT\" -eq 0 ]]; then
               echo \"Error: No port mapping found for branch: $BRANCH_NAME\"
               exit 1
             fi
 
-            echo \"Branch $BRANCH_NAME will run on port $PORT\"
-
             if ! command -v bun &> /dev/null; then
-              echo 'Bun is not installed. Installing Bun...'
+              echo 'Installing Bun...'
               curl -fsSL https://bun.sh/install | bash
               export PATH=\"\$HOME/.bun/bin:\$PATH\"
               source ~/.bashrc
             fi
-            echo 'Bun is installed at: $(command -v bun)'
 
             if [ -d \"\$PROJECT_DIR\" ]; then
-              echo 'Cleaning up existing directory: \$PROJECT_DIR'
-              sudo chmod -R 777 \"\$PROJECT_DIR\"
+              echo 'Cleaning up existing directory...'
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
 
