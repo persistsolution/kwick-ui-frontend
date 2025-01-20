@@ -1,0 +1,92 @@
+name: Deploy React App
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - test
+      - stag
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Debug Branch Name
+        run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Extracted Branch Name: $BRANCH_NAME"
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "Error: Branch name is empty!"
+            exit 1
+          fi
+    # Step 2: Set up SSH
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: Deploy to EC2
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
+
+          # Validate branch exists
+          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
+          if [ -z "$BRANCH_EXISTS" ]; then
+            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
+            exit 1
+          fi
+
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
+            set -e
+            echo 'Connected to EC2. Deploying branch: $BRANCH_NAME'
+
+            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
+            PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
+            PORT=0
+
+            for MAPPING in \${PORT_MAP[@]}; do
+              if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
+                PORT=\${MAPPING#*:}
+                break
+              fi
+            done
+
+            if [[ \"\$PORT\" -eq 0 ]]; then
+              echo \"Error: No port mapping found for branch: $BRANCH_NAME\"
+              exit 1
+            fi
+
+            echo \"Branch $BRANCH_NAME will run on port $PORT\"
+
+            if ! command -v bun &> /dev/null; then
+              echo 'Installing Bun...'
+              curl -fsSL https://bun.sh/install | bash
+              export PATH=\"\$HOME/.bun/bin:\$PATH\"
+              source ~/.bashrc
+            fi
+
+            if [ -d \"\$PROJECT_DIR\" ]; then
+              echo \"Cleaning up existing directory: \$PROJECT_DIR\"
+              sudo rm -rf \"\$PROJECT_DIR\"
+            fi
+
+            git clone --branch \"$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
+            cd \"\$PROJECT_DIR\"
+            bun install --no-cache
+
+            if pm2 list | grep -q \"$BRANCH_NAME\"; then
+              pm2 restart \"$BRANCH_NAME\" --update-env
+            else
+              pm2 start \"bun dev --port \$PORT\" --name \"$BRANCH_NAME\" --cwd \"$PROJECT_DIR\"
+            fi
+
+            pm2 save
+            echo 'Deployment for branch: $BRANCH_NAME completed.'
+          "
