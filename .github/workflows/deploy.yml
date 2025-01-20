@@ -70,15 +70,15 @@ jobs:
             fi
             echo 'Bun is installed at: $(command -v bun)'
 
-            # Debug and clean up existing directory
+            # Debug and clean up existing directory for the branch
             if [ -d \"\$PROJECT_DIR\" ]; then
-              echo 'Directory exists. Cleaning up.'
+              echo 'Directory exists for branch. Cleaning up.'
               sudo chmod -R 777 \"\$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
 
             # Clone the repository
-            echo 'Cloning repository.'
+            echo 'Cloning repository for branch: $BRANCH_NAME'
             git clone https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
             # Navigate to the cloned directory
