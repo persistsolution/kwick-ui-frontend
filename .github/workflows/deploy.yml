@@ -41,16 +41,17 @@ jobs:
               rm -rf $PROJECT_DIR
             fi
           fi
-
+          
           # Clone repository if directory was cleaned or did not exist
           if [ ! -d "$PROJECT_DIR" ]; then
             echo "Cloning repository as the project directory does not exist."
             git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
-            cd $PROJECT_DIR
-            git checkout $BRANCH_NAME
           fi
           
+          # Ensure we are in the correct directory
           cd $PROJECT_DIR
+          git checkout $BRANCH_NAME
+          
           bun install --no-cache
           
           echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
