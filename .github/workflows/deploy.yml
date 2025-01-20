@@ -37,20 +37,20 @@ jobs:
               git fetch origin $BRANCH_NAME
               git reset --hard origin/$BRANCH_NAME
             else
-              echo "Directory exists but is not a git repository. Cleaning up."
+              echo "Directory exists but is not a valid git repository. Cleaning up."
               rm -rf $PROJECT_DIR
-              echo "Recreating directory and cloning repository."
-              git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
-              cd $PROJECT_DIR
-              git checkout $BRANCH_NAME
             fi
-          else
+          fi
+
+          # Clone repository if directory was cleaned or did not exist
+          if [ ! -d "$PROJECT_DIR" ]; then
             echo "Cloning repository as the project directory does not exist."
             git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
             cd $PROJECT_DIR
             git checkout $BRANCH_NAME
           fi
           
+          cd $PROJECT_DIR
           bun install --no-cache
           
           echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
