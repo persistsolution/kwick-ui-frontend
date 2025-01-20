@@ -32,7 +32,7 @@ jobs:
           # Clone repo if not already present
           if [ ! -d "$PROJECT_DIR" ]; then
             echo "Cloning repository as the project directory does not exist."
-            git clone https://github.com/<your-username>/react-multi-branch-deploy.git $PROJECT_DIR
+            git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
           fi
 
           cd $PROJECT_DIR
