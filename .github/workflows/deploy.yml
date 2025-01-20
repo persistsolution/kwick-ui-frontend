@@ -31,12 +31,6 @@ jobs:
             exit 1
           fi
 
-          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
-          if [ -z "$BRANCH_EXISTS" ]; then
-            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
-            exit 1
-          fi
-
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
             echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
@@ -54,9 +48,11 @@ jobs:
             done
 
             if [[ \"$PORT\" -eq 0 ]]; then
-              echo 'Error: No port mapping found for branch: $BRANCH_NAME'
+              echo \"Error: No port mapping found for branch: $BRANCH_NAME\"
               exit 1
             fi
+
+            echo \"Branch $BRANCH_NAME will run on port $PORT\"
 
             if ! command -v bun &> /dev/null; then
               echo 'Bun is not installed. Installing Bun...'
