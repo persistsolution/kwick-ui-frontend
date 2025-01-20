@@ -13,17 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Repository
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      # Step 2: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 3: Deploy to EC2
       - name: Deploy to EC2
         run: |
           # Extract branch name
@@ -77,17 +71,13 @@ jobs:
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
 
-            # Clone the repository
+            # Clone the repository and check out the specific branch
             echo 'Cloning repository for branch: $BRANCH_NAME'
-            git clone https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
+            git clone --branch \"$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
             # Navigate to the cloned directory
             cd \"\$PROJECT_DIR\"
             echo 'Switched to project directory: $(pwd)'
-
-            # Checkout the correct branch
-            echo 'Checking out branch: $BRANCH_NAME'
-            git checkout \"$BRANCH_NAME\"
 
             # Install dependencies using Bun
             bun install --no-cache
