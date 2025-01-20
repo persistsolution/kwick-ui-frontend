@@ -34,64 +34,64 @@ jobs:
           fi
 
           echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<EOF
-          set -e
-          echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
+            set -e
+            echo 'Connected to EC2. Starting deployment for branch: $BRANCH_NAME'
 
-          # Define variables
-          PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
-          PORT_MAP=("main:5173" "dev:5174" "test:5175" "stag:5176")
-          PORT=0
+            # Define variables
+            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend'
+            PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
+            PORT=0
 
-          # Get the port based on branch name
-          for MAPPING in "\${PORT_MAP[@]}"; do
-            if [[ "\$MAPPING" == "\$BRANCH_NAME"* ]]; then
-              PORT=\${MAPPING#*:}
-              break
+            # Get the port based on branch name
+            for MAPPING in \${PORT_MAP[@]}; do
+              if [[ \"\$MAPPING\" == \"\$BRANCH_NAME\"* ]]; then
+                PORT=\${MAPPING#*:}
+                break
+              fi
+            done
+
+            if [[ \"\$PORT\" -eq 0 ]]; then
+              echo 'No port mapping found for branch: $BRANCH_NAME'
+              exit 1
             fi
-          done
 
-          if [[ "\$PORT" -eq 0 ]]; then
-            echo "No port mapping found for branch: \$BRANCH_NAME"
-            exit 1
-          fi
+            echo 'Branch $BRANCH_NAME will run on port $PORT'
 
-          echo "Branch \$BRANCH_NAME will run on port \$PORT"
+            # Ensure Bun is installed
+            if ! command -v bun &> /dev/null; then
+              echo 'Bun is not installed. Installing Bun...'
+              curl -fsSL https://bun.sh/install | bash
+              export PATH=\"\$HOME/.bun/bin:\$PATH\"
+              source ~/.bashrc
+            fi
+            echo 'Bun is installed at: $(command -v bun)'
 
-          # Ensure Bun is installed
-          if ! command -v bun &> /dev/null; then
-            echo "Bun is not installed. Installing Bun..."
-            curl -fsSL https://bun.sh/install | bash
-            export PATH="\$HOME/.bun/bin:\$PATH"
-            source ~/.bashrc
-          fi
-          echo "Bun is installed at: \$(command -v bun)"
+            # Debug and clean up existing directory
+            if [ -d \"\$PROJECT_DIR\" ]; then
+              echo 'Directory exists. Cleaning up.'
+              sudo chmod -R 777 \"\$PROJECT_DIR\"
+              sudo rm -rf \"\$PROJECT_DIR\"
+            fi
 
-          # Debug and clean up existing directory
-          if [ -d "\$PROJECT_DIR" ]; then
-            echo "Directory exists. Cleaning up."
-            sudo chmod -R 777 "\$PROJECT_DIR"
-            sudo rm -rf "\$PROJECT_DIR"
-          fi
+            # Clone the repository
+            echo 'Cloning repository.'
+            git clone https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
 
-          # Clone the repository
-          echo "Cloning repository."
-          git clone https://github.com/persistsolution/kwick-ui-frontend.git "\$PROJECT_DIR"
+            # Navigate to the cloned directory
+            cd \"\$PROJECT_DIR\"
+            echo 'Switched to project directory: $(pwd)'
 
-          # Navigate to the cloned directory
-          cd "\$PROJECT_DIR"
-          echo "Switched to project directory: \$(pwd)"
+            # Checkout the correct branch
+            echo 'Checking out branch: $BRANCH_NAME'
+            git checkout \"$BRANCH_NAME\"
 
-          # Checkout the correct branch
-          echo "Checking out branch: \$BRANCH_NAME"
-          git checkout "\$BRANCH_NAME"
+            # Install dependencies using Bun
+            bun install --no-cache
 
-          # Install dependencies using Bun
-          bun install --no-cache
+            # Start or restart the application using PM2
+            echo 'Restarting application for branch: $BRANCH_NAME on port: $PORT'
+            pm2 restart \"$BRANCH_NAME\" --update-env || pm2 start \"bun dev --port \$PORT\" --name \"$BRANCH_NAME\"
 
-          # Start or restart the application using PM2
-          echo "Restarting application for branch: \$BRANCH_NAME on port: \$PORT"
-          pm2 restart "\$BRANCH_NAME" --update-env || pm2 start "bun dev --port \$PORT" --name "\$BRANCH_NAME"
-
-          echo "Deployment for branch: \$BRANCH_NAME completed."
-          EOF
+            echo 'Deployment for branch: $BRANCH_NAME completed.'
+          "
