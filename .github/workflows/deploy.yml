@@ -32,7 +32,7 @@ jobs:
           # Ensure project directory is clean
           if [ -d "$PROJECT_DIR" ]; then
             echo "Cleaning up existing directory."
-            rm -rf $PROJECT_DIR
+            sudo rm -rf $PROJECT_DIR
           fi
           
           # Clone the repository
