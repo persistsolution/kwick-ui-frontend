@@ -11,15 +11,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Checkout Repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Step 2: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # Step 3: Deploy to EC2
       - name: Deploy to EC2
         run: |
           BRANCH_NAME=${{ github.ref_name }}
@@ -27,7 +31,26 @@ jobs:
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<EOF
           set -e
           echo "Connected to EC2. Starting deployment for branch: $BRANCH_NAME"
+
+          # Define variables
           PROJECT_DIR="/home/ubuntu/kwick-ui-frontend"
+          PORT_MAP=("main:5173" "dev:5174" "test:5175" "stag:5176")
+          PORT=0
+
+          # Get the port based on branch name
+          for MAPPING in "\${PORT_MAP[@]}"; do
+            if [[ "\$MAPPING" == "\$BRANCH_NAME"* ]]; then
+              PORT=\${MAPPING#*:}
+              break
+            fi
+          done
+
+          if [[ "\$PORT" -eq 0 ]]; then
+            echo "No port mapping found for branch: \$BRANCH_NAME"
+            exit 1
+          fi
+
+          echo "Branch \$BRANCH_NAME will run on port \$PORT"
 
           # Ensure unzip is installed
           if ! command -v unzip &> /dev/null; then
@@ -47,60 +70,29 @@ jobs:
           echo "Bun is installed at: \$(command -v bun)"
 
           # Debug and clean up existing directory
-          if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory exists. Debugging contents:"
-            sudo ls -la $PROJECT_DIR
-            echo "Cleaning up existing directory."
-            sudo chmod -R 777 $PROJECT_DIR
-            sudo rm -rf $PROJECT_DIR
-          fi
-
-          # Verify cleanup
-          if [ -d "$PROJECT_DIR" ]; then
-            echo "Directory still exists after cleanup. Exiting with error."
-            exit 1
+          if [ -d "\$PROJECT_DIR" ]; then
+            echo "Directory exists. Cleaning up."
+            sudo chmod -R 777 "\$PROJECT_DIR"
+            sudo rm -rf "\$PROJECT_DIR"
           fi
 
           # Clone the repository
           echo "Cloning repository."
-          git clone https://github.com/persistsolution/kwick-ui-frontend.git $PROJECT_DIR
-
-          # Debug cloned directory
-          echo "Contents of cloned directory after git clone:"
-          ls -la $PROJECT_DIR
+          git clone https://github.com/persistsolution/kwick-ui-frontend.git "\$PROJECT_DIR"
 
           # Navigate to the cloned directory
-          cd $PROJECT_DIR
+          cd "\$PROJECT_DIR"
           echo "Switched to project directory: \$(pwd)"
 
-          # Validate package.json
-          if [ ! -f "package.json" ]; then
-            echo "Error: package.json not found in the cloned repository."
-            echo "Repository may not contain the required project files. Debugging further:"
-            ls -la
-            exit 1
-          fi
-
           # Checkout the correct branch
-          git checkout $BRANCH_NAME || echo "Failed to checkout branch: $BRANCH_NAME"
+          git checkout "\$BRANCH_NAME"
 
           # Install dependencies using Bun
-          bun install --no-cache || exit 1
+          bun install --no-cache
 
-          echo "Installing dependencies completed. Restarting the service for $BRANCH_NAME."
-          case "$BRANCH_NAME" in
-            main)
-              pm2 restart main --update-env || pm2 start "bun dev --port 5173" --name main
-              ;;
-            dev)
-              pm2 restart dev --update-env || pm2 start "bun dev --port 5174" --name dev
-              ;;
-            test)
-              pm2 restart test --update-env || pm2 start "bun dev --port 5175" --name test
-              ;;
-            stag)
-              pm2 restart stag --update-env || pm2 start "bun dev --port 5176" --name stag
-              ;;
-          esac
-          echo "Deployment for $BRANCH_NAME completed."
+          # Start or restart the application using PM2
+          echo "Restarting application for branch: \$BRANCH_NAME on port: \$PORT"
+          pm2 restart "\$BRANCH_NAME" --update-env || pm2 start "bun dev --port \$PORT" --name "\$BRANCH_NAME"
+
+          echo "Deployment for branch: \$BRANCH_NAME completed."
           EOF
