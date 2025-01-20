@@ -39,6 +39,9 @@ jobs:
             PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
+            echo 'Port Mapping: ${PORT_MAP[@]}'
+            echo 'Branch Name: $BRANCH_NAME'
+
             for MAPPING in \${PORT_MAP[@]}; do
               BRANCH_NAME_PREFIX=\"\${MAPPING%%:*}\"
               if [[ \"$BRANCH_NAME\" == \"$BRANCH_NAME_PREFIX\" ]]; then
