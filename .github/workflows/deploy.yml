@@ -25,7 +25,12 @@ jobs:
             echo "Error: Branch name is empty!"
             exit 1
           fi
-
+    # Step 2: Set up SSH
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
       - name: Deploy to EC2
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
