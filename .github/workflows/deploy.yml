@@ -91,7 +91,14 @@ jobs:
 
             # Start or restart the application using PM2
             echo 'Restarting application for branch: $BRANCH_NAME on port: $PORT'
-            pm2 restart \"$BRANCH_NAME\" --update-env || pm2 start \"bun dev --port \$PORT\" --name \"$BRANCH_NAME\"
+            if pm2 list | grep -q \"$BRANCH_NAME\"; then
+              pm2 restart \"$BRANCH_NAME\" --update-env
+            else
+              pm2 start \"bun dev --port $PORT\" --name \"$BRANCH_NAME\"
+            fi
+
+            # Save PM2 process list
+            pm2 save
 
             echo 'Deployment for branch: $BRANCH_NAME completed.'
           "
