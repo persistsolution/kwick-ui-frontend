@@ -23,7 +23,16 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+          # Extract branch name
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "Branch Name: $BRANCH_NAME"
+
+          # Validate branch name
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "Error: Branch name is empty!"
+            exit 1
+          fi
+
           echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "bash -s" <<EOF
           set -e
@@ -49,14 +58,6 @@ jobs:
 
           echo "Branch \$BRANCH_NAME will run on port \$PORT"
 
-          # Ensure unzip is installed
-          if ! command -v unzip &> /dev/null; then
-            echo "Unzip is not installed. Installing unzip..."
-            sudo apt-get update
-            sudo apt-get install -y unzip
-          fi
-          echo "Unzip is installed."
-
           # Ensure Bun is installed
           if ! command -v bun &> /dev/null; then
             echo "Bun is not installed. Installing Bun..."
@@ -81,7 +82,7 @@ jobs:
           cd "\$PROJECT_DIR"
           echo "Switched to project directory: \$(pwd)"
 
-          # Debug branch name
+          # Checkout the correct branch
           echo "Checking out branch: \$BRANCH_NAME"
           git checkout "\$BRANCH_NAME"
 
