@@ -57,6 +57,12 @@ jobs:
               echo 'Docker is already installed.'
             fi
       
+            echo \"Adding user to the Docker group...\"
+            sudo usermod -aG docker ubuntu
+      
+            echo \"Re-logging into the Docker group...\"
+            newgrp docker
+      
             if [ -d \"\$PROJECT_DIR\" ]; then
               echo \"Cleaning up existing directory: \$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
@@ -85,3 +91,4 @@ jobs:
       
             echo 'Deployment completed.'
           "
+
