@@ -1,21 +1,27 @@
-# Use the latest Bun image
-FROM oven/bun:latest
+# Use the official Node.js image
+FROM node:16
 
-# Set the working directory
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /app
 
-# Copy dependency files and install dependencies
-COPY package.json bun.lockb tsconfig.json ./
-RUN bun install
+# Install Bun package manager
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:$PATH"
 
-# Copy the application source code
+# Copy package.json and bun.lockb to install dependencies first (to leverage Docker caching)
+COPY package.json bun.lockb ./
+
+# Install dependencies using Bun
+RUN bun install --no-cache
+
+# Copy the rest of the app files
 COPY . .
 
-# Build the application with Bun
-RUN bun build ./src/main.tsx --outdir=dist
+# Build the React app (optional if you want to run `bun dev`)
+RUN bun build
 
-# Expose the port for the application
+# Expose the port the app runs on
 EXPOSE 5177
 
-# Start the application in production mode
-CMD ["bun", "run", "dist/main.js"]
+# Start the app with Bun
+CMD ["bun", "dev", "--port", "5177"]
