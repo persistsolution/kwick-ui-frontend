@@ -10,7 +10,7 @@ RUN bun install
 COPY . .
 
 # Build the application with an explicit entry point
-RUN bun build src/App.tsx
+RUN bun build src/main.tsx
 
 # Expose port
 EXPOSE 5177
