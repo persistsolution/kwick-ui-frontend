@@ -7,6 +7,7 @@ on:
       - dev
       - test
       - stag
+      - dockertest
 
 jobs:
   deploy:
@@ -25,7 +26,7 @@ jobs:
             echo "Error: Branch name is empty!"
             exit 1
           fi
-    # Step 2: Set up SSH
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -48,7 +49,7 @@ jobs:
             echo 'Connected to EC2. Deploying branch: $BRANCH_NAME'
 
             PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
-            PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
+            PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176' 'dockertest:5177')
             PORT=0
 
             for MAPPING in \${PORT_MAP[@]}; do
