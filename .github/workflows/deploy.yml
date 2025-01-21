@@ -49,8 +49,11 @@ jobs:
       - name: Deploy to EC2 and Run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
-            # Stop and remove the existing container if it exists
-            docker ps -q -f name=kwick-ui-frontend-container | xargs -r docker stop | xargs -r docker rm
+            # Check if the container exists and stop/remove it
+            if [ \$(docker ps -aq -f name=kwick-ui-frontend-container) ]; then
+              docker stop kwick-ui-frontend-container
+              docker rm kwick-ui-frontend-container
+            fi
 
             # Check if another process is using port 5177 and kill it if necessary
             sudo lsof -t -i:5177 | xargs -r sudo kill -9
