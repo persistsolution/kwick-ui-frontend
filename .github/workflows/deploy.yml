@@ -37,14 +37,14 @@ jobs:
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
             echo 'Connected to EC2. Deploying branch to port 5177'
-      
+
             PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/5177'
             DOCKER_IMAGE='kwick-ui-frontend-5177'
             DOCKER_CONTAINER='kwick-ui-5177'
             PORT=5177
-      
+
             echo \"Branch will run on port \$PORT\"
-      
+
             echo \"Checking Docker installation...\"
             if ! command -v docker &> /dev/null; then
               echo 'Docker not found. Installing Docker...'
@@ -56,18 +56,17 @@ jobs:
             else
               echo 'Docker is already installed.'
             fi
-      
+
             echo \"Adding user to the Docker group...\"
-            sudo usermod -aG docker ubuntu
-      
-            echo \"Re-logging into the Docker group...\"
-            newgrp docker
-      
+            sudo usermod -aG docker \$USER
+            echo \"Docker group updated. Restarting Docker service...\"
+            sudo systemctl restart docker
+
             if [ -d \"\$PROJECT_DIR\" ]; then
               echo \"Cleaning up existing directory: \$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
-      
+
             echo \"Verifying branch existence...\"
             BRANCH_NAME='${BRANCH_NAME:-main}' # Use 'main' as fallback if empty
             git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git \"\$BRANCH_NAME\"
@@ -75,21 +74,19 @@ jobs:
                 echo \"Error: Branch '\$BRANCH_NAME' does not exist in the repository!\"
                 exit 1
             fi
-      
+
             git clone --branch \"\$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
             cd \"\$PROJECT_DIR\"
-      
+
             echo 'Building Docker image...'
             docker build -t \$DOCKER_IMAGE .
-      
+
             echo 'Stopping existing container...'
             docker stop \$DOCKER_CONTAINER || true
             docker rm \$DOCKER_CONTAINER || true
-      
+
             echo 'Running Docker container...'
             docker run -d --name \$DOCKER_CONTAINER -p \$PORT:5177 \$DOCKER_IMAGE
-      
+
             echo 'Deployment completed.'
           "
-
-
