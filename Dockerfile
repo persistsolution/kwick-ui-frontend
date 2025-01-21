@@ -1,23 +1,24 @@
-# Use the official Bun image as a base image
-FROM oven/bun:latest
+# Use the official Node.js v20 image
+FROM node:20
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /app
 
-# Copy package.json, bun.lockb, and tsconfig.json
-COPY package.json bun.lockb tsconfig.json ./
+# Install Bun package manager (for Bun-based projects, or use npm if not)
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:$PATH"
+
+# Copy package.json and bun.lockb to install dependencies first (to leverage Docker caching)
+COPY package.json bun.lockb ./
 
 # Install dependencies using Bun
-RUN bun install
+RUN bun install --no-cache
 
-# Copy the rest of the application files (including TypeScript source code)
+# Copy the rest of the app files
 COPY . .
 
-# Build the TypeScript project
-RUN bun build
-
-# Expose the application port (5173)
+# Expose the port the app runs on (Vite or Bun dev server uses port 5177 by default)
 EXPOSE 5173
 
-# Command to start the app on port 5173
-CMD ["sh", "-c", "bun run serve -l ${PORT:-5173}"]
+# Start the app with Bun (use bun dev for development mode)
+CMD ["bun", "dev", "--port", "5173"]
