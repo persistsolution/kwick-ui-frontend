@@ -49,7 +49,7 @@ jobs:
           BRANCH: ${{ github.ref_name }}
         run: |
           echo "Building Docker image for branch: $BRANCH"
-          docker build -t my-react-app:$BRANCH .
+          docker build -t kwickbill-react-app:$BRANCH .
 
       # Step 6: Log in to Docker Hub
       - name: Log in to Docker Hub
@@ -64,8 +64,8 @@ jobs:
           BRANCH: ${{ github.ref_name }}
         run: |
           echo "Pushing Docker image for branch: $BRANCH to Docker Hub"
-          docker tag my-react-app:$BRANCH ${{ secrets.DOCKER_USERNAME }}/my-react-app:$BRANCH
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-react-app:$BRANCH
+          docker tag kwickbill-react-app:$BRANCH ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH
+          docker push ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH
 
       # Step 8: Set up SSH
       - name: Set up SSH
@@ -110,14 +110,14 @@ jobs:
 
             echo 'Pulling Docker image...'
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker pull ${{ secrets.DOCKER_USERNAME }}/my-react-app:$BRANCH_NAME
+            docker pull ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH_NAME
 
             echo 'Stopping any existing container for branch: $BRANCH_NAME'
             docker stop $BRANCH_NAME || true
             docker rm $BRANCH_NAME || true
 
             echo 'Starting new container for branch: $BRANCH_NAME on port: $PORT'
-            docker run -d --name $BRANCH_NAME -p $PORT:$PORT ${{ secrets.DOCKER_USERNAME }}/my-react-app:$BRANCH_NAME
+            docker run -d --name $BRANCH_NAME -p $PORT:$PORT ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH_NAME
 
             echo 'Deployment for branch: $BRANCH_NAME completed.'
           "
