@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Step 2: Extract and validate branch name
       - name: Debug Branch Name
         run: |
           echo "GITHUB_REF: $GITHUB_REF"
@@ -27,11 +29,13 @@ jobs:
             exit 1
           fi
 
+      # Step 3: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # Step 4: Deploy to EC2
       - name: Deploy to EC2
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
@@ -69,14 +73,14 @@ jobs:
               cd \"\$PROJECT_DIR\"
 
               echo 'Building Docker image...'
-              cat <<EOF > Dockerfile
+              cat <<'EOF' > Dockerfile
               FROM node:16
               WORKDIR /app
               COPY . .
               RUN npm install
-              CMD [\"npm\", \"start\"]
+              CMD ["npm", "start"]
               EXPOSE 5177
-              EOF
+EOF
 
               docker build -t kwick-ui-frontend-dockertest .
 
@@ -88,6 +92,7 @@ jobs:
 
               echo 'Running Docker container...'
               docker run -d -p 5177:5177 --name dockertest-container kwick-ui-frontend-dockertest
+
             else
               echo 'Deploying non-docker branch'
 
