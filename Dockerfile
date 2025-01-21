@@ -1,5 +1,5 @@
-# Use the official Node.js image
-FROM node:16
+# Use the official Node.js v20 image
+FROM node:20
 
 # Set working directory
 WORKDIR /app
@@ -14,11 +14,8 @@ COPY package.json bun.lockb ./
 # Install dependencies using Bun
 RUN bun install --no-cache
 
-# Copy the rest of the app files
+# Copy the rest of the app files including vite.svg from the root
 COPY . .
-
-# Copy the public folder with static assets (like vite.svg)
-COPY ./public /app/public
 
 # Build the React app (specify the entry point)
 RUN bun build ./src/main.tsx  # Ensure the correct path to your entry file
