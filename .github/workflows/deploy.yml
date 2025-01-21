@@ -32,7 +32,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploy to EC2 on Port 5177
+      - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
@@ -42,8 +42,6 @@ jobs:
             DOCKER_IMAGE='kwick-ui-frontend-5177'
             DOCKER_CONTAINER='kwick-ui-5177'
             PORT=5177
-
-            echo \"Branch will run on port \$PORT\"
 
             echo \"Checking Docker installation...\"
             if ! command -v docker &> /dev/null; then
@@ -57,9 +55,8 @@ jobs:
               echo 'Docker is already installed.'
             fi
 
-            echo \"Adding user to the Docker group...\"
-            sudo usermod -aG docker \$USER
-            echo \"Docker group updated. Restarting Docker service...\"
+            echo \"Adding user to Docker group...\"
+            sudo usermod -aG docker ubuntu
             sudo systemctl restart docker
 
             if [ -d \"\$PROJECT_DIR\" ]; then
@@ -68,11 +65,11 @@ jobs:
             fi
 
             echo \"Verifying branch existence...\"
-            BRANCH_NAME='${BRANCH_NAME:-main}' # Use 'main' as fallback if empty
+            BRANCH_NAME='${BRANCH_NAME:-main}' # Default to 'main' if empty
             git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git \"\$BRANCH_NAME\"
             if [ $? -ne 0 ]; then
-                echo \"Error: Branch '\$BRANCH_NAME' does not exist in the repository!\"
-                exit 1
+              echo \"Error: Branch '\$BRANCH_NAME' does not exist!\"
+              exit 1
             fi
 
             git clone --branch \"\$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
