@@ -21,7 +21,7 @@ COPY . .
 COPY ./public /app/public
 
 # Build the React app (specify the entry point)
-RUN bun build ./src/main.tsx
+RUN bun build ./src/main.tsx  # Ensure the correct path to your entry file
 
 # Expose the port the app runs on
 EXPOSE 5177
