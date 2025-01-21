@@ -1,16 +1,18 @@
+# Use the Bun base image
 FROM oven/bun:latest
 
+# Set the working directory
 WORKDIR /usr/src/app
 
 # Copy package files and install dependencies
-COPY package.json bun.lockb tsconfig.json ./
+COPY package.json bun.lockb ./
 RUN bun install
 
-# Copy all source code
+# Copy all project files
 COPY . .
 
-# Build the application with an explicit entry point
-RUN bun build ./src/main.tsx --outdir=dist
+# Build the application using Vite (instead of specifying an entry point for Bun)
+RUN npm run build
 
 # Expose port 5177
 EXPOSE 5177
