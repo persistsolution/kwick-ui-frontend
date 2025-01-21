@@ -8,9 +8,9 @@ export default defineConfig({
     port: 5177, // Explicitly set the port for development
   },
   build: {
-    outDir: 'dist', // Directory for the output files
+    outDir: 'dist',
     rollupOptions: {
-      input: './src/main.tsx', // Specify the entry point for the build
+      input: './src/main.tsx', // Adjust this to your entry file
     },
   },
   plugins: [react()],
