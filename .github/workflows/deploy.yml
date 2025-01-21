@@ -74,12 +74,12 @@ jobs:
 
               echo 'Building Docker image...'
               cat <<'EOF' > Dockerfile
-              FROM node:16
-              WORKDIR /app
-              COPY . .
-              RUN npm install
-              CMD ["npm", "start"]
-              EXPOSE 5177
+FROM node:16
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["npm", "start"]
+EXPOSE 5177
 EOF
 
               docker build -t kwick-ui-frontend-dockertest .
