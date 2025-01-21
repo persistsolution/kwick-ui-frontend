@@ -1,19 +1,21 @@
+# Use the latest Bun image
 FROM oven/bun:latest
 
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Install dependencies
+# Copy package files and install dependencies
 COPY package.json bun.lockb tsconfig.json ./
 RUN bun install
 
-# Copy all project files
+# Copy the rest of the application code
 COPY . .
 
-# Build the application with an explicit entry point
-RUN bun build src/main.tsx
+# Build the application (ensure the correct entry point is specified)
+RUN bun build ./src/main.tsx --outdir=dist
 
-# Expose port
+# Expose port 5177 for the application
 EXPOSE 5177
 
-# Start the application
-CMD ["bun", "dev", "--port", "5177"]
+# Start the application on port 5177
+CMD ["bun", "run", "dev", "--port", "5177"]
