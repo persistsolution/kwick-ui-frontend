@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code from the repository
+      # Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -39,7 +39,13 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/kwick-ui-frontend:$GITHUB_SHA
 
-      # Optional: Deploy to EC2 and run Docker container
+      # Set up SSH Agent to authenticate using the SSH private key
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Optional: Deploy to EC2 and Run Docker container
       - name: Deploy to EC2 and Run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
