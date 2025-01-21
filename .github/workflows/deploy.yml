@@ -1,4 +1,4 @@
-name: Deploy React App with Bun and Docker
+name: Deploy React App
 
 on:
   push:
@@ -13,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Debug Branch Name
       - name: Debug Branch Name
         run: |
           echo "GITHUB_REF: $GITHUB_REF"
@@ -27,62 +25,29 @@ jobs:
             echo "Error: Branch name is empty!"
             exit 1
           fi
-
-      # Step 3: Install Bun Locally
-      - name: Install Bun
-        run: |
-          curl -fsSL https://bun.sh/install | bash
-          export PATH="$HOME/.bun/bin:$PATH"
-          echo "Bun version: $(bun --version)"
-
-      # Step 4: Install Dependencies and Build App
-      - name: Install Dependencies and Build App
-        run: |
-          export PATH="$HOME/.bun/bin:$PATH"
-          bun install
-          bun build src/main.tsx --outdir dist
-          echo "Build completed successfully"
-
-      # Step 5: Build Docker Image
-      - name: Build Docker Image
-        env:
-          BRANCH: ${{ github.ref_name }}
-        run: |
-          echo "Building Docker image for branch: $BRANCH"
-          docker build -t kwickbill-react-app:$BRANCH .
-
-      # Step 6: Log in to Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # Step 7: Push Docker Image
-      - name: Push Docker Image
-        env:
-          BRANCH: ${{ github.ref_name }}
-        run: |
-          echo "Pushing Docker image for branch: $BRANCH to Docker Hub"
-          docker tag kwickbill-react-app:$BRANCH ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH
-          docker push ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH
-
-      # Step 8: Set up SSH
+    # Step 2: Set up SSH
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           
-      # Step 9: Deploy Docker Container to EC2
       - name: Deploy to EC2
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "Deploying branch: $BRANCH_NAME to EC2 instance at ${{ secrets.EC2_HOST }}"
 
+          # Validate branch exists
+          BRANCH_EXISTS=$(git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git "$BRANCH_NAME")
+          if [ -z "$BRANCH_EXISTS" ]; then
+            echo "Error: Branch '$BRANCH_NAME' does not exist in the repository!"
+            exit 1
+          fi
+
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
             echo 'Connected to EC2. Deploying branch: $BRANCH_NAME'
 
+            PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/$BRANCH_NAME'
             PORT_MAP=('main:5173' 'dev:5174' 'test:5175' 'stag:5176')
             PORT=0
 
@@ -100,24 +65,28 @@ jobs:
 
             echo \"Branch $BRANCH_NAME will run on port $PORT\"
 
-            if ! command -v docker &> /dev/null; then
-              echo 'Installing Docker...'
-              sudo apt-get update
-              sudo apt-get install -y docker.io
-              sudo systemctl start docker
-              sudo systemctl enable docker
+            if ! command -v bun &> /dev/null; then
+              echo 'Installing Bun...'
+              curl -fsSL https://bun.sh/install | bash
+              export PATH=\"\$HOME/.bun/bin:\$PATH\"
+              source ~/.bashrc
             fi
 
-            echo 'Pulling Docker image...'
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker pull ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH_NAME
+            if [ -d \"\$PROJECT_DIR\" ]; then
+              echo \"Cleaning up existing directory: \$PROJECT_DIR\"
+              sudo rm -rf \"\$PROJECT_DIR\"
+            fi
 
-            echo 'Stopping any existing container for branch: $BRANCH_NAME'
-            docker stop $BRANCH_NAME || true
-            docker rm $BRANCH_NAME || true
+            git clone --branch \"$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
+            cd \"\$PROJECT_DIR\"
+            bun install --no-cache
 
-            echo 'Starting new container for branch: $BRANCH_NAME on port: $PORT'
-            docker run -d --name $BRANCH_NAME -p $PORT:$PORT ${{ secrets.DOCKER_USERNAME }}/kwickbill-react-app:$BRANCH_NAME
+            if pm2 list | grep -q \"$BRANCH_NAME\"; then
+              pm2 restart \"$BRANCH_NAME\" --update-env
+            else
+              pm2 start \"bun dev --port \$PORT\" --name \"$BRANCH_NAME\" --cwd \"$PROJECT_DIR\"
+            fi
 
+            pm2 save
             echo 'Deployment for branch: $BRANCH_NAME completed.'
           "
