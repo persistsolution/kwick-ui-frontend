@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
+      # Checkout the code from the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Set up Docker Buildx (multi-platform builds)
+      # Set up Docker Buildx for multi-platform builds (optional)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -32,17 +32,17 @@ jobs:
       # Build Docker image from Dockerfile
       - name: Build Docker image
         run: |
-          docker build -t your-dockerhub-username/kwick-ui-frontend:$GITHUB_SHA .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/kwick-ui-frontend:$GITHUB_SHA .
 
       # Push Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker push your-dockerhub-username/kwick-ui-frontend:$GITHUB_SHA
+          docker push ${{ secrets.DOCKER_USERNAME }}/kwick-ui-frontend:$GITHUB_SHA
 
-      # Optional: Run container on EC2
+      # Optional: Deploy to EC2 and run Docker container
       - name: Deploy to EC2 and Run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
-            docker pull your-dockerhub-username/kwick-ui-frontend:$GITHUB_SHA
-            docker run -d -p 5177:5177 --name kwick-ui-frontend-container your-dockerhub-username/kwick-ui-frontend:$GITHUB_SHA
+            docker pull ${{ secrets.DOCKER_USERNAME }}/kwick-ui-frontend:$GITHUB_SHA
+            docker run -d -p 5177:5177 --name kwick-ui-frontend-container ${{ secrets.DOCKER_USERNAME }}/kwick-ui-frontend:$GITHUB_SHA
           "
