@@ -1,21 +1,19 @@
-# Base image
-FROM node:20-alpine
+FROM oven/bun:latest
 
-# Set working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+# Install dependencies
+COPY package.json bun.lockb tsconfig.json ./
+RUN bun install
 
-# Copy the entire project
+# Copy all project files
 COPY . .
 
-# Build the application
-RUN yarn build
+# Build the application with an explicit entry point
+RUN bun build src/App.tsx
 
 # Expose port
 EXPOSE 5177
 
 # Start the application
-CMD ["yarn", "preview", "--host", "0.0.0.0", "--port", "5177"]
+CMD ["bun", "dev", "--port", "5177"]
