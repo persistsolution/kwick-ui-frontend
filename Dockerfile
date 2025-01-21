@@ -17,8 +17,8 @@ RUN bun install --no-cache
 # Copy the rest of the app files
 COPY . .
 
-# Build the React app (specify the entry point)
-RUN bun build ./src/main.tsx  # Ensure the correct path to your entry file
+# Build the React app (specify the entry point and output directory)
+RUN bun build ./src/main.tsx --outdir=./dist  # Specify the output directory for the build files
 
 # Expose the port the app runs on
 EXPOSE 5177
