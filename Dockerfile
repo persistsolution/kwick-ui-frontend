@@ -17,11 +17,8 @@ RUN bun install --no-cache
 # Copy the rest of the app files
 COPY . .
 
-# Build the React app (specify the entry point and output directory)
-RUN bun build ./src/main.tsx --outdir=./dist  # Specify the output directory for the build files
-
-# Expose the port the app runs on
+# Expose the port the app runs on (Ensure the port is open for Vite/Bun dev server)
 EXPOSE 5177
 
-# Start the app with Bun
+# Start the app with Bun (use bun dev for development)
 CMD ["bun", "dev", "--port", "5177"]
