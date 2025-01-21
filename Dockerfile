@@ -17,8 +17,11 @@ RUN bun install --no-cache
 # Copy the rest of the app files
 COPY . .
 
+# Copy the public folder with static assets (like vite.svg)
+COPY ./public /app/public
+
 # Build the React app (specify the entry point)
-RUN bun build ./src/main.tsx 
+RUN bun build ./src/main.tsx
 
 # Expose the port the app runs on
 EXPOSE 5177
