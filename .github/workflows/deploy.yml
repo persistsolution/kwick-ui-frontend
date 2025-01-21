@@ -1,4 +1,4 @@
-name: Deploy React App
+name: Deploy React App to Port 5177
 
 on:
   push:
@@ -31,29 +31,36 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-      - name: Deploy to EC2
+
+      - name: Deploy to EC2 on Port 5177
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "
             set -e
-            echo 'Connected to EC2. Deploying branch with port 5177'
+            echo 'Connected to EC2. Deploying branch to port 5177'
 
             PROJECT_DIR='/home/ubuntu/kwick-ui-frontend/5177'
             DOCKER_IMAGE='kwick-ui-frontend-5177'
             DOCKER_CONTAINER='kwick-ui-5177'
             PORT=5177
 
-            echo \"Branch will run on port $PORT\"
+            echo \"Branch will run on port \$PORT\"
 
             if [ -d \"\$PROJECT_DIR\" ]; then
               echo \"Cleaning up existing directory: \$PROJECT_DIR\"
               sudo rm -rf \"\$PROJECT_DIR\"
             fi
 
-            git clone --branch \"$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
+            echo \"Verifying branch existence...\"
+            BRANCH_NAME='${BRANCH_NAME:-main}' # Use 'main' as fallback if empty
+            git ls-remote --heads https://github.com/persistsolution/kwick-ui-frontend.git \"\$BRANCH_NAME\"
+            if [ $? -ne 0 ]; then
+                echo \"Error: Branch '\$BRANCH_NAME' does not exist in the repository!\"
+                exit 1
+            fi
+
+            git clone --branch \"\$BRANCH_NAME\" https://github.com/persistsolution/kwick-ui-frontend.git \"\$PROJECT_DIR\"
             cd \"\$PROJECT_DIR\"
 
-            # Docker setup
             echo 'Building Docker image...'
             docker build -t \$DOCKER_IMAGE .
 
@@ -62,7 +69,7 @@ jobs:
             docker rm \$DOCKER_CONTAINER || true
 
             echo 'Running Docker container...'
-            docker run -d --name \$DOCKER_CONTAINER -p \$PORT:5173 \$DOCKER_IMAGE
+            docker run -d --name \$DOCKER_CONTAINER -p \$PORT:5177 \$DOCKER_IMAGE
 
             echo 'Deployment completed.'
           "
