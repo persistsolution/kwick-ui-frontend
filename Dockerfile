@@ -9,8 +9,6 @@ RUN bun install
 # Copy the application source code
 COPY . .
 
-# Build the application with an explicit entry point
-RUN bun build ./src/main.tsx --outdir=dist
 
 # Expose port 5177
 EXPOSE 5177
