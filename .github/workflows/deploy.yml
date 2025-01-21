@@ -35,12 +35,13 @@ jobs:
           export PATH="$HOME/.bun/bin:$PATH"
           echo "Bun version: $(bun --version)"
 
-      # Step 4: Install Dependencies and Build App with Bun
+      # Step 4: Install Dependencies and Build App
       - name: Install Dependencies and Build App
         run: |
           export PATH="$HOME/.bun/bin:$PATH"
           bun install
-          bun build
+          bun build src/main.tsx --outdir dist
+          echo "Build completed successfully"
 
       # Step 5: Build Docker Image
       - name: Build Docker Image
