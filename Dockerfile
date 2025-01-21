@@ -18,7 +18,7 @@ RUN bun install --no-cache
 COPY . .
 
 # Expose the port the app runs on (Vite or Bun dev server uses port 5177 by default)
-EXPOSE 5174
+EXPOSE 5182
 
 # Start the app with Bun (use bun dev for development mode)
-CMD ["bun", "dev", "--port", "5174"]
+CMD ["bun", "dev", "--port", "5182"]
