@@ -1,5 +1,5 @@
 # Use the official Bun image as a base image
-FROM jarredsumner/bun:latest
+FROM oven/bun:latest
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -13,11 +13,11 @@ RUN bun install
 # Copy the rest of the application files (including TypeScript source code)
 COPY . .
 
-# Compile TypeScript to JavaScript
+# Build the TypeScript project
 RUN bun build
 
-# Expose the application port (dynamic, default 5173)
+# Expose the application port (5173)
 EXPOSE 5173
 
-# Command to serve the app, dynamically using PORT environment variable
+# Command to start the app on port 5173
 CMD ["sh", "-c", "bun run serve -l ${PORT:-5173}"]
