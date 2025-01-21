@@ -4,7 +4,7 @@ FROM node:20
 # Set working directory
 WORKDIR /app
 
-# Install Bun package manager
+# Install Bun package manager (for Bun-based projects, or use npm if not)
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:$PATH"
 
@@ -17,8 +17,8 @@ RUN bun install --no-cache
 # Copy the rest of the app files
 COPY . .
 
-# Expose the port the app runs on (Ensure the port is open for Vite/Bun dev server)
+# Expose the port the app runs on (Vite or Bun dev server uses port 5177 by default)
 EXPOSE 5177
 
-# Start the app with Bun (use bun dev for development)
+# Start the app with Bun (use bun dev for development mode)
 CMD ["bun", "dev", "--port", "5177"]
