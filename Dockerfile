@@ -14,7 +14,7 @@ COPY package.json bun.lockb ./
 # Install dependencies using Bun
 RUN bun install --no-cache
 
-# Copy the rest of the app files including vite.svg from the root
+# Copy the rest of the app files
 COPY . .
 
 # Build the React app (specify the entry point)
