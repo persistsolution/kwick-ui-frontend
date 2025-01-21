@@ -75,5 +75,5 @@ jobs:
             docker pull ${{ env.IMAGE_TAG }}
 
             # Step 5: Run the new Docker container on a different external port (5180)
-            docker run -d -p 5173:5173 --name kwick-ui-frontend-container ${{ env.IMAGE_TAG }}
+            docker run -d -p 5181:5173 --name kwick-ui-frontend-container ${{ env.IMAGE_TAG }}
           "
