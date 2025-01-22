@@ -89,7 +89,5 @@ jobs:
 
             pm2 save
             echo 'Deployment for branch: $BRANCH_NAME completed.'
-            DEPLOY_URL=\"http://$EC2_HOST:\$PORT\"
-            echo \"Deployed URL: \$DEPLOY_URL\"
           "
  
