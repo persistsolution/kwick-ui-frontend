@@ -89,6 +89,6 @@ jobs:
 
             pm2 save
             echo 'Deployment for branch: $BRANCH_NAME completed.'
-            echo \"Deployed URL: http://${{ secrets.EC2_HOST }}:\$PORT\"
+            echo \"Deployed URL: http://43.205.240.13:\$PORT\"
           "
  
