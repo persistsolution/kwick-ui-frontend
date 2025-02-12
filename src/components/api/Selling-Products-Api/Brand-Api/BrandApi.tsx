@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-// import { API_BASE_URL } from "../../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 export interface Brand {
   id: number;
@@ -10,7 +10,7 @@ export interface Brand {
 // Fetch all brands
 export const fetchBrandApi = async (): Promise<AxiosResponse<Brand[]>> => {
   return axios.get<Brand[]>(
-    `http://192.168.1.6:3000/selling-product/brand/get`
+    `${API_BASE_URL}/selling-product/brand/get`
   );
 };
 
@@ -19,7 +19,7 @@ export const fetchByIdBrandApi = async (
   id: number
 ): Promise<AxiosResponse<Brand>> => {
   return axios.get<Brand>(
-    `http://192.168.1.6:3000/selling-product/brand/edit/${id}`
+    `${API_BASE_URL}/selling-product/brand/edit/${id}`
   );
 };
 
@@ -29,7 +29,7 @@ export const updateBrandApi = async (
   data: Partial<Brand>
 ): Promise<AxiosResponse<Brand>> => {
   return axios.put<Brand>(
-    `http://192.168.1.6:3000/selling-product/brand/update/${id}`,
+    `${API_BASE_URL}/selling-product/brand/update/${id}`,
     data
   );
 };
@@ -39,7 +39,7 @@ export const deleteBrandApi = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `http://192.168.1.6:3000/selling-product/brand/delete/${id}`
+    `${API_BASE_URL}/selling-product/brand/delete/${id}`
   );
 };
 
@@ -48,7 +48,7 @@ export const createBrandApi = async (
   data: Brand
 ): Promise<AxiosResponse<void>> => {
   return axios.post<void>(
-    `http://192.168.1.6:3000/selling-product/brand/create`,
+    `${API_BASE_URL}/selling-product/brand/create`,
     data
   );
 };

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-// import { API_BASE_URL } from "../../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 interface unit {
   id: number;
@@ -8,5 +8,5 @@ interface unit {
 
 // API to Fetch all Unit
 export const fetchUnitApi = async (): Promise<AxiosResponse<unit[]>> => {
-  return axios.get<unit[]>(`http://localhost:3000/masters/unit/get`);
+  return axios.get<unit[]>(`${API_BASE_URL}/masters/unit/get`);
 };

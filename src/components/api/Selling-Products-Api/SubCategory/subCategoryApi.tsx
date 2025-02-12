@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-// import { API_BASE_URL } from "../../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 interface SubCategory {
   id: number;
@@ -13,7 +13,7 @@ export const fetchSubCategories = async (): Promise<
   AxiosResponse<SubCategory[]>
 > => {
   return axios.get<SubCategory[]>(
-    `http://localhost:3000/selling-product/subcategory/get`
+    `${API_BASE_URL}/selling-product/subcategory/get`
   );
 };
 
@@ -22,7 +22,7 @@ export const createSubCategory = async (
   data: Partial<SubCategory>
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.post<SubCategory>(
-    `http://localhost:3000/selling-product/subcategory/create`,
+    `${API_BASE_URL}/selling-product/subcategory/create`,
     data
   );
 };
@@ -32,7 +32,7 @@ export const deleteSubCategory = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `http://localhost:3000/selling-product/subcategory/delete/${id}`
+    `${API_BASE_URL}/selling-product/subcategory/delete/${id}`
   );
 };
 
@@ -42,7 +42,7 @@ export const updateSubCategory = async (
   data: Partial<SubCategory>
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.put<SubCategory>(
-    `http://localhost:3000/selling-product/subcategory/update/${id}`,
+    `${API_BASE_URL}/selling-product/subcategory/update/${id}`,
     data
   );
 };
@@ -52,6 +52,6 @@ export const fetchSubCategoryById = async (
   id: number
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.get<SubCategory>(
-    `http://localhost:3000/selling-product/subcategory/edit/${id}`
+    `${API_BASE_URL}/selling-product/subcategory/edit/${id}`
   );
 };

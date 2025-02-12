@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-// import { API_BASE_URL } from "../../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 export interface Category {
   id: number;
@@ -9,7 +9,7 @@ export interface Category {
 // Fetch all categories
 export const fetchCategories = async (): Promise<AxiosResponse<Category[]>> => {
   return axios.get<Category[]>(
-    `http://localhost:3000/selling-product/category/get/0`
+    `${API_BASE_URL}/selling-product/category/get/0`
   );
 };
 
@@ -18,7 +18,7 @@ export const fetchByIdCategory = async (
   id: number
 ): Promise<AxiosResponse<Category>> => {
   return axios.get<Category>(
-    `http://localhost:3000/selling-product/category/edit/${id}`
+    `${API_BASE_URL}/selling-product/category/edit/${id}`
   );
 };
 
@@ -28,7 +28,7 @@ export const updateCategory = async (
   data: Partial<Category>
 ): Promise<AxiosResponse<Category>> => {
   return axios.put<Category>(
-    `http://localhost:3000/selling-product/category/update/${id}`,
+    `${API_BASE_URL}/selling-product/category/update/${id}`,
     data
   );
 };
@@ -38,7 +38,7 @@ export const deleteCategory = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `http://localhost:3000/selling-product/category/delete/${id}`
+    `${API_BASE_URL}/selling-product/category/delete/${id}`
   );
 };
 
@@ -47,7 +47,7 @@ export const createCategory = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
   return axios.post<void>(
-    `http://localhost:3000/selling-product/category/create`,
+    `${API_BASE_URL}/selling-product/category/create`,
     data
   );
 };

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-// import { API_BASE_URL } from "../../../../config";
+import { API_BASE_URL } from "../../../../config";
 
 export interface Product {
   id: number;
@@ -9,7 +9,7 @@ export interface Product {
 // API to Fetch all products
 export const fetchProducts = async (): Promise<AxiosResponse<Product[]>> => {
   return axios.get<Product[]>(
-    `http://localhost:3000/selling-product/product/get/0`
+    `${API_BASE_URL}/selling-product/product/get/0`
   );
 };
 
@@ -18,7 +18,7 @@ export const fetchEditProducts = async (
   id: number
 ): Promise<AxiosResponse<Product>> => {
   return axios.get<Product>(
-    `http://localhost:3000/selling-product/product/edit/${id}`
+    `${API_BASE_URL}/selling-product/product/edit/${id}`
   );
 };
 
@@ -28,7 +28,7 @@ export const updateProducts = async (
   data: Partial<Product>
 ): Promise<AxiosResponse<Product>> => {
   return axios.put<Product>(
-    `http://localhost:3000/selling-product/product/update/${id}`,
+    `${API_BASE_URL}/selling-product/product/update/${id}`,
     data
   );
 };
@@ -38,7 +38,7 @@ export const deleteProducts = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `http://localhost:3000/selling-product/product/delete/${id}`
+    `${API_BASE_URL}/selling-product/product/delete/${id}`
   );
 };
 
@@ -47,7 +47,7 @@ export const createProducts = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
   return axios.post<void>(
-    `http://localhost:3000/selling-product/product/create`,
+    `${API_BASE_URL}/selling-product/product/create`,
     data
   );
 };
