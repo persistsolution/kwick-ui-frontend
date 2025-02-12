@@ -7,4 +7,4 @@ export default defineConfig({
     host: '0.0.0.0', // Bind to all network interfaces
     port: 5176,      // Adjust for each branch
   },
-});
+}); 
