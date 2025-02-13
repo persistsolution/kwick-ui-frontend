@@ -29,10 +29,13 @@ import Firebasereset from "./layouts/Firebase/Firebasereset";
 // PrivateRoute
 import PrivateRoute from "./components/Authentication/PrivateRoute";
 
+// config
+import { BASE_NAME } from "./config";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Fragment>
     <HelmetProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={BASE_NAME}>
         <React.Suspense fallback={<Loader />}>
           <ScrollToTop />
           <Routes>
