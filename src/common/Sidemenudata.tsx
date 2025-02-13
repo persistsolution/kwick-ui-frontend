@@ -58,7 +58,7 @@ const defaultMenu: MenuItemtype[] = [
   },
 
   // Bar Code
-  {
+ /* {
     path: `${import.meta.env.BASE_URL}BarCode/ViewUpdateBarcode`,
     title: "Update Barcode",
     icon: dashboardsvg,
@@ -66,7 +66,7 @@ const defaultMenu: MenuItemtype[] = [
     active: false,
     selected: false,
     dirchange: false,
-  },
+  },*/
 
   // Selling Product
   {
@@ -209,7 +209,7 @@ const defaultMenu: MenuItemtype[] = [
   },
 
   // Employee
-  {
+   /* {
     title: "Employee",
     icon: pagesSvg,
     type: "sub",
@@ -659,7 +659,7 @@ const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
     ],
-  },
+  },*/
 ];
 
 const frDashboardMenu: MenuItemtype[] = [
