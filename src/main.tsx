@@ -11,7 +11,7 @@ import Landingpagelayout from "./layouts/Landingpagelayout";
 
 //component import path
 import Error500 from "./components/Authentication/ErrorPages/Error500";
-import Indexpage from "./components/Dashboard/AddMinDashboard/IndexPage";
+import Indexpage from "./components/Client-side/Dashboard/AddMinDashboard/IndexPage";
 import Login from "./components/Authentication/LogIn";
 import Undermaintaince from "./components/Authentication/UnderMaintainance";
 import Error400 from "./components/Authentication/ErrorPages/Error400";

@@ -7,7 +7,7 @@ export const fetchUserApi = async (): Promise<AxiosResponse<any[]>> => {
 };
 
 // Fetch OTP Api.
-export const fetchOTPAPi = async (data): Promise<AxiosResponse<any[]>> => {
+export const fetchOTPAPi = async (data: any): Promise<AxiosResponse<any[]>> => {
   return axios.get<any[]>(
     `https://api.pinnacle.in/index.php/sms/send/MHCHAI${data}`
   );

@@ -1,7 +1,7 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
-import useViewFranchise from "../../Hook/Franchise/useViewFranchise";
+import useViewFranchise from "../../Hook/Franchise-Hook/useViewFranchise";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 

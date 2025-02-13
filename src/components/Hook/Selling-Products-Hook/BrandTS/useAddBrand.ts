@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { createBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
-
-const useAddBrand = (toggle : () => void , handelfetchBrand: () => void ) => {
+const useAddBrand = (toggle: () => void, handelfetchBrand: () => void) => {
   const [formData, setFormData] = useState({
-    status: '',
-    BrandName: null,
+    status: "",
+    BrandName: "",
     createdby: 2091,
-
   });
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,16 +35,15 @@ const useAddBrand = (toggle : () => void , handelfetchBrand: () => void ) => {
     };
 
     try {
-      const response: any = await createBrandApi(Object(raw)); 
+      const response: any = await createBrandApi(Object(raw));
       if (response.status === 200) {
         // setMessage("Brand Add successfully!");
         toggle();
         handelfetchBrand();
         setFormData({
-            status: '',
-            BrandName: "",
-            createdby: 2091,
-
+          status: "",
+          BrandName: "",
+          createdby: 2091,
         });
       } else {
         // setMessage(`Error: Failed To Add Brand.`);
@@ -61,12 +58,11 @@ const useAddBrand = (toggle : () => void , handelfetchBrand: () => void ) => {
 
   return {
     formData,
-    message,    
+    message,
     isLoading,
     handleChange,
     handleSubmit,
-    setMessage
-    
+    setMessage,
   };
 };
 

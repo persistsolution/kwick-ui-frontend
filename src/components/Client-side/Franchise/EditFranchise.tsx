@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
-import useEditFranchise from "../../Hook/Franchise/useEditFranchise";
+import useEditFranchise from "../../Hook/Franchise-Hook/useEditFranchise";
 import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 
 const EditFranchise: React.FC = () => {

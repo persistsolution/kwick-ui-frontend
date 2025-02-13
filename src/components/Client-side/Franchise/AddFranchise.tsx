@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
-import useAddFranchise from "../../Hook/Franchise/useAddFranchise";
+import useAddFranchise from "../../Hook/Franchise-Hook/useAddFranchise";
 import Select from "react-select";
 
 const AddFranchise: React.FC = () => {
