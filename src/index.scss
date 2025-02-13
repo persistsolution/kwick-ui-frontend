@@ -1,0 +1,69 @@
+// Sass modules (using @use) must be placed first
+@use "./assets/scss/variables";
+
+// Swiper CSS (supports @use)
+@use 'swiper/css' as *;
+@use 'swiper/css/pagination' as *;
+@use 'swiper/css/navigation' as *;
+@use 'swiper/css/effect-coverflow' as *;
+@use 'swiper/css/thumbs' as *;
+@use 'swiper/css/effect-flip' as *;
+@use 'swiper/css/effect-fade' as *;
+@use 'swiper/css/effect-cube' as *;
+@use 'swiper/css/scrollbar' as *;
+@use 'swiper/css/free-mode' as *;
+
+// Now include plain CSS files using @import
+@import '../src/assets/css/bootstrap.css';
+
+// Yet Another React Lightbox
+@import "yet-another-react-lightbox/styles.css";
+@import "yet-another-react-lightbox/plugins/thumbnails.css";
+
+// Filepond
+@import 'filepond/dist/filepond.min.css';
+@import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+// React Date Picker
+// @import "react-datepicker/dist/react-datepicker-cssmodules.css";
+// @import "react-datepicker/dist/react-datepicker.css";
+
+// React Quill
+@import 'react-quill/dist/quill.snow.css';
+@import 'react-quill/dist/quill.bubble.css';
+
+// React Range Slider
+@import 'react-range-slider-input/dist/style.css';
+
+// Grid-js Table
+@import "gridjs/dist/theme/mermaid.css";
+
+// React Tabulator
+@import "react-tabulator/lib/styles.css"; // default theme
+@import "react-tabulator/css/bootstrap/tabulator_bootstrap.min.css"; // use Theme(s)
+@import "react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css";
+
+// SimpleBar React
+@import 'simplebar-react/dist/simplebar.min.css';
+
+// Leaflet
+@import 'leaflet/dist/leaflet.css';
+
+// rc-Slider
+@import "rc-slider/assets/index.css";
+@import "react-range-slider-input/dist/style.css";
+
+// Simonwep Colorpicker
+@import "@simonwep/pickr/dist/themes/classic.min.css";
+@import "@simonwep/pickr/dist/themes/monolith.min.css";
+@import "@simonwep/pickr/dist/themes/nano.min.css";
+
+// React Toastify
+@import 'react-toastify/dist/ReactToastify.css';
+
+// Rodal CSS
+@import "rodal/lib/rodal.css";
+
+// Custom Styles
+@import "./assets/css/style.css";
+@import "./assets/css/icons.css";
