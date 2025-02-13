@@ -1,0 +1,370 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {
+  updateFranchise,
+  fetchByIdFranchise,
+} from "../../api/Franchise-Api/FranchiseApi";
+
+const useEditFranchise = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    icon: null as File | null,
+    photo: "",
+    photo2: null as File | null,
+    featured: 0,
+    prodtype: 0,
+    status: 1,
+    srno: 1.0,
+    createddate: new Date().toISOString(),
+    modifieddate: null as string | null,
+    roll: 5,
+    createdby: 2091,
+    modifiedby: 0,
+    push_flag: false,
+    delete_flag: false,
+    modified_time: new Date().toISOString(),
+    franchiseName: "",
+    shopName: "",
+    emailId: "",
+    mobileNo: "",
+    anotherMobileNo: "",
+    shopLocation: "",
+    details: "",
+    address: "",
+    sellBy: "",
+    sellAmount: "",
+    sellDate: "",
+    franchiseType: "",
+    latitude: "",
+    longitude: "",
+    FrontAdharcardPhoto: "",
+    BackAdharcardPhoto: "",
+    AdharNo: 0,
+    PanNo: 0,
+    FrontPanPhoto: "",
+    BackPanPhoto: "",
+    GSTINNo: 0,
+    gstCretificate: "",
+    GumastaNo: 0,
+    GumastaCretificate: "",
+    MSMENo: 0,
+    MSMECertificate: "",
+    UploadFoodLicense: "",
+    UploadFoodLicenseReceipt: "",
+    UploadAgreementCopy: "",
+    BankHolderName: "",
+    BankName: "",
+    AccountNo: 0,
+    Branch: "",
+    IFSCCode: "",
+    UPIID: "",
+    BankAccountStatus: "",
+  });
+  const [message, setMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchFranchiseById();
+  }, []);
+
+  const handleChange = (e: any) => {
+    const { name, value, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files && files.length > 0 ? files[0] : value,
+    }));
+    if (files) {
+      const url = URL.createObjectURL(files[0]);
+      setFormData((prev) => ({
+        ...prev,
+        photo: url,
+      }));
+    }
+  };
+  const fetchFranchiseById = async () => {
+    try {
+      const response: any = await fetchByIdFranchise(Number(id));
+      if (response.status === 200 && response.data) {
+        const franchiseData = response.data;
+        setFormData((prev) => ({
+          ...prev,
+          name: franchiseData.Fname || "",
+          icon: null,
+          photo: franchiseData.Photo || "",
+          photo2: null,
+          featured: 0,
+          prodtype: 0,
+          status: parseInt(franchiseData.Status) || 1,
+          srno: 1.0,
+          createddate: franchiseData.CreatedDate || new Date().toISOString(),
+          modifieddate: franchiseData.ModifiedDate || null,
+          roll: parseInt(franchiseData.Roll) || 5,
+          createdby: parseInt(franchiseData.CreatedBy) || 2091,
+          modifiedby: parseInt(franchiseData.ModifiedBy) || 0,
+          push_flag: franchiseData.push_flag === "true",
+          delete_flag: franchiseData.delete_flag === "true",
+          modified_time:
+            franchiseData.modified_time || new Date().toISOString(),
+          franchiseName: franchiseData.Fname || "",
+          shopName: franchiseData.ShopName || "",
+          emailId: franchiseData.EmailId || "",
+          mobileNo: franchiseData.Phone || "",
+          anotherMobileNo: franchiseData.Phone2 || "",
+          shopLocation: franchiseData.Location || "",
+          details: franchiseData.Details || "",
+          address: franchiseData.Address || "",
+          sellBy: franchiseData.SellAmt ? "Amount" : "",
+          sellAmount: franchiseData.SellAmt || "",
+          sellDate: franchiseData.SellDate || "",
+          franchiseType: franchiseData.TypeOfVendor || "",
+          latitude: franchiseData.Lattitude || "",
+          longitude: franchiseData.Longitude || "",
+          FrontAdharcardPhoto: franchiseData.AadharCard || "",
+          BackAdharcardPhoto: franchiseData.AadharCard2 || "",
+          AdharNo: parseInt(franchiseData.AadharNo) || 0,
+          PanNo: parseInt(franchiseData.PanNo) || 0,
+          FrontPanPhoto: franchiseData.PanCard || "",
+          BackPanPhoto: franchiseData.PanCard2 || "",
+          GSTINNo: franchiseData.GstNo || 0,
+          gstCretificate: franchiseData.GstCertificate || "",
+          GumastaNo: parseInt(franchiseData.GumastaNo) || 0,
+          GumastaCretificate: franchiseData.Gumasta || "",
+          MSMENo: parseInt(franchiseData.MsmeNo) || 0,
+          MSMECertificate: franchiseData.Msme || "",
+          UploadFoodLicense: franchiseData.FoodLicence || "",
+          UploadFoodLicenseReceipt: franchiseData.FoodLicenceReceipt || "",
+          UploadAgreementCopy: franchiseData.AgreementCopy || "",
+          BankHolderName: franchiseData.AccountName || "",
+          BankName: franchiseData.BankName || "",
+          AccountNo: parseInt(franchiseData.AccountNo) || 0,
+          Branch: franchiseData.Branch || "",
+          IFSCCode: franchiseData.IfscCode || "",
+          UPIID: franchiseData.UpiNo || "",
+          BankAccountStatus: franchiseData.Status,
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching franchise data:", error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage(null);
+    setIsLoading(true);
+
+    const payload = {
+      ShopName: formData.shopName,
+      Fname: formData.franchiseName,
+      Lattitude: formData.latitude,
+      Longitude: formData.longitude,
+      Details: formData.details,
+      Location: formData.shopLocation,
+      Phone: formData.mobileNo,
+      Phone2: formData.anotherMobileNo,
+      EmailId: formData.emailId,
+      SellAmt: formData.sellAmount,
+      SellDate: formData.sellDate,
+      TypeOfVendor: formData.franchiseType,
+      AadharNo: formData.AdharNo,
+      AadharCard: formData.FrontAdharcardPhoto,
+      AadharCard2: formData.BackAdharcardPhoto,
+      Address: formData.address,
+      PanNo: formData.PanNo,
+      PanCard: formData.FrontPanPhoto,
+      PanCard2: formData.BackPanPhoto,
+      GstNo: formData.GSTINNo,
+      GstCertificate: formData.gstCretificate,
+      GumastaNo: formData.GumastaNo,
+      Gumasta: formData.GumastaCretificate,
+      MsmeNo: formData.MSMENo,
+      Msme: formData.MSMECertificate,
+      FoodLicence: formData.UploadFoodLicense,
+      FoodLicenceReceipt: formData.UploadFoodLicenseReceipt,
+      AgreementCopy: formData.UploadAgreementCopy,
+      BankName: formData.BankName,
+      AccountName: formData.BankHolderName,
+      AccountNo: formData.AccountNo,
+      Branch: formData.Branch,
+      IfscCode: formData.IFSCCode,
+      UpiNo: formData.UPIID,
+      Status: formData.BankAccountStatus,
+      CustomerId: "",
+      ColgId: "",
+      Mname: "",
+      Lname: "",
+      Password: "",
+      CountryId: "",
+      StateId: "",
+      CityId: "",
+      AreaId: "",
+      Pincode: "",
+      Photo: "",
+      Photo2: "",
+      Photo3: "",
+      Roll: formData.roll,
+      CreatedBy: "",
+      ModifiedBy: "",
+      CreatedDate: new Date(),
+      ModifiedDate: new Date(),
+      Options: "",
+      BranchId: "",
+      Dob: new Date(),
+      Area: "",
+      UserType: "",
+      PayMode: "",
+      UnderUser: "",
+      InspectionDate: new Date(),
+      CommissioningDate: new Date(),
+      CustType: "",
+      CatId: "",
+      CompName: "",
+      CompAddress: "",
+      CompPhone: "",
+      AuthorName: "",
+      Tokens: "",
+      CompId: "",
+      FatherPhone: "",
+      Designation: "",
+      BloodGroup: "",
+      JoinDate: new Date(),
+      EmailId2: "",
+      PerDaySalary: 0,
+      Barcode: "",
+      KycStatus: "",
+      KycDate: new Date(),
+      Profession: "",
+      FsiicNo: "",
+      ShopActNo: "",
+      AnniversaryDate: new Date(),
+      ExeId: "",
+      UnderFr: "",
+      ReportingMgr: "",
+      ResignStatus: "",
+      ResignDate: new Date(),
+      ResignComment: "",
+      BillSoftFrId: "",
+      PkgId: "",
+      PkgAmt: 0,
+      PkgDiscount: 0,
+      PkgDate: new Date(),
+      PkgValidity: new Date(),
+      Prime: "",
+      terms_condition: "",
+      bottom_title: "",
+      ReferCode: "",
+      OwnFranchise: "",
+      PrintCompName: "",
+      PrintMobNo: "",
+      TableQrCode: "",
+      SalaryType: "",
+      CreditSalaryStatus: "",
+      IdStatus: "",
+      zone: "",
+      CocoFranchiseAccess: "",
+      CinNo: "",
+      push_flag: "",
+      delete_flag: "",
+      modified_time: new Date(),
+      UnderFrId: "",
+      ShowFrStatus: "",
+      ReferalNo1: "",
+      ReferalNo2: "",
+      NomineePartnerName: "",
+      NomineePartnerRelation: "",
+      NomineePartnerPhone: "",
+      BillAmount: 0,
+      ExpCatId: "",
+      MainBrEmp: "",
+      ExpApproval: "",
+      UnderByUser: "",
+      DeliveryPerson: "",
+      ChequeBook: "",
+      TradeName: "",
+      AllocateProd: "",
+      AllocateRawProd: "",
+    };
+
+    try {
+      const response = await updateFranchise(Number(id), Object(payload));
+      if (response.status === 201) {
+        setMessage("Franchise update successfully!");
+        navigate("/Products/ViewFranchise");
+        setFormData({
+          name: "",
+          icon: null,
+          photo: "",
+          photo2: null,
+          featured: 0,
+          prodtype: 0,
+          status: 1,
+          srno: 1.0,
+          createddate: new Date().toISOString(),
+          modifieddate: null,
+          roll: 5,
+          createdby: 2091,
+          modifiedby: 0,
+          push_flag: false,
+          delete_flag: false,
+          modified_time: new Date().toISOString(),
+          franchiseName: "",
+          shopName: "",
+          emailId: "",
+          mobileNo: "",
+          anotherMobileNo: "",
+          shopLocation: "",
+          details: "",
+          address: "",
+          sellBy: "",
+          sellAmount: "",
+          sellDate: "",
+          franchiseType: "",
+          latitude: "",
+          longitude: "",
+          FrontAdharcardPhoto: "",
+          BackAdharcardPhoto: "",
+          AdharNo: 0,
+          PanNo: 0,
+          FrontPanPhoto: "",
+          BackPanPhoto: "",
+          GSTINNo: 0,
+          gstCretificate: "",
+          GumastaNo: 0,
+          GumastaCretificate: "",
+          MSMENo: 0,
+          MSMECertificate: "",
+          UploadFoodLicense: "",
+          UploadFoodLicenseReceipt: "",
+          UploadAgreementCopy: "",
+          BankHolderName: "",
+          BankName: "",
+          AccountNo: 0,
+          Branch: "",
+          IFSCCode: "",
+          UPIID: "",
+          BankAccountStatus: "",
+        });
+      } else {
+        setMessage(`Error: Failed to Edit Franchise.`);
+      }
+    } catch (err: any) {
+      console.error("Error during Edit Franchise :", err);
+      setMessage("Network error. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    formData,
+    message,
+    isLoading,
+    handleChange,
+    handleSubmit,
+  };
+};
+
+export default useEditFranchise;
