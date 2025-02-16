@@ -22,8 +22,8 @@ const useAllocatedProducts = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  const [modal, setModal] = useState(false);
-  const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
+  // const [modal, setModal] = useState(false);
+  // const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
   const [selectAllocatedProduct, setSelectAllocatedProduct] = useState<
     object[]
   >([]);
@@ -230,8 +230,8 @@ const useAllocatedProducts = () => {
     exportToExcel,
     getVisiblePages,
     setallocateProductsPerPage,
-    modal,
-    allocateProductsEditId,
+    // modal,
+    // allocateProductsEditId,
     categories,
     subCategory,
     handelfetchallocateProducts,

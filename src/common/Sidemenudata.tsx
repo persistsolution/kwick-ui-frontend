@@ -662,31 +662,31 @@ const defaultMenu: MenuItemtype[] = [
   },*/
 ];
 
-const frDashboardMenu: MenuItemtype[] = [
-  {
-    menutitle: "Franchise",
-  },
+// const frDashboardMenu: MenuItemtype[] = [
+//   {
+//     menutitle: "Franchise",
+//   },
 
-  // Dashboard
-  {
-    title: "Franchise",
-    icon: pagesSvg,
-    type: "sub",
-    active: false,
-    selected: false,
-    dirchange: false,
-    children: [
-      {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewFranchise`,
-        title: "View Franchise",
-        type: "link",
-        active: false,
-        selected: false,
-        dirchange: false,
-      },
-    ],
-  },
-];
+//   // Dashboard
+//   {
+//     title: "Franchise",
+//     icon: pagesSvg,
+//     type: "sub",
+//     active: false,
+//     selected: false,
+//     dirchange: false,
+//     children: [
+//       {
+//         path: `${import.meta.env.BASE_URL}Franchise/ViewFranchise`,
+//         title: "View Franchise",
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//     ],
+//   },
+// ];
 
 export const MENUITEMS = window.location.pathname.includes("/Franchise/")
   ? defaultMenu

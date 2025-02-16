@@ -1,7 +1,7 @@
 import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
-import Select from "react-select";
+// import Select from "react-select";
 import useAllocatedProducts from "../../../Hook/Selling-Products-Hook/AllocateProductsTS/useAllocatedProducts";
 
 const AllocatedProducts: FC = () => {
@@ -13,9 +13,9 @@ const AllocatedProducts: FC = () => {
     currentPage,
     allocateProductsPerPage,
     totalPages,
-    franchiseList,
-    fromDate,
-    toDate,
+    // franchiseList,
+    // fromDate,
+    // toDate,
     currentallocateProducts,
     categories,
     subCategory,
@@ -25,9 +25,9 @@ const AllocatedProducts: FC = () => {
     getVisiblePages,
     setallocateProductsPerPage,
     handelAllocatedProduct,
-    handelAllocatedAllProduct,
-    setfromDate,
-    settodate,
+    // handelAllocatedAllProduct,
+    // setfromDate,
+    // settodate,
     exportToExcel,
   } = useAllocatedProducts();
 

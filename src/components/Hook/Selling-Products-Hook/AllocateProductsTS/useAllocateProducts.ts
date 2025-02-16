@@ -17,8 +17,8 @@ const useAllocateProducts = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  const [modal, setModal] = useState(false);
-  const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
+  // const [modal, setModal] = useState(false);
+  // const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
   const navigate = useNavigate();
 
   const franchiseList = [
@@ -155,8 +155,8 @@ const useAllocateProducts = () => {
     setallocateProductsPerPage,
     handelNavigateAllocatedProduct,
     // toggle,
-    modal,
-    allocateProductsEditId,
+    // modal,
+    // allocateProductsEditId,
     handelfetchallocateProducts,
     setfromDate,
     settodate,

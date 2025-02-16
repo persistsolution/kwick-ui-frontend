@@ -82,11 +82,11 @@ const useLogin = () => {
       return;
     }
 
-    // const isEmployeeExists = await checkEmployeeExists(mobileNumber);
-    // if (!isEmployeeExists) {
-    //   setError("Mobile number not found in the employee database.");
-    //   return;
-    // }
+    const isEmployeeExists = await checkEmployeeExists(mobileNumber);
+    if (!isEmployeeExists) {
+      setError("Mobile number not found in the employee database.");
+      return;
+    }
 
     const otpResponse: any = await sendOtpApi(mobileNumber);
     if (otpResponse.response.status === 200) {
