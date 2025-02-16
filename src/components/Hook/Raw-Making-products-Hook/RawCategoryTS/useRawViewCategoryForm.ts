@@ -17,12 +17,17 @@ const useRawViewCategoryForm = () => {
     direction: string;
   }>({ key: null, direction: "asc" });
   const [toggleAddRawCategory, settoggleAddRawCategory] = useState(false);
+  const [toggleEditRawCategory, settoggleEditRawCategory] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     handelfetchCategories();
   }, []);
+
+  const handelToggleEditRawCategory = () => {
+    settoggleEditRawCategory(!toggleEditRawCategory);
+  };
 
   const handelfetchCategories = async () => {
     try {
@@ -130,6 +135,7 @@ const useRawViewCategoryForm = () => {
     currentCategories,
     totalPages,
     toggleAddRawCategory,
+    toggleEditRawCategory,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -139,6 +145,7 @@ const useRawViewCategoryForm = () => {
     getVisiblePages,
     setCategoriesPerPage,
     modalAddRawCategory,
+    handelToggleEditRawCategory,
   };
 };
 

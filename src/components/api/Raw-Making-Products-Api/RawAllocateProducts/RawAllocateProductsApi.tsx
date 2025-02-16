@@ -11,6 +11,6 @@ export const fetchrawallocateProducts = async (): Promise<
   AxiosResponse<AllocateProducts[]>
 > => {
   return axios.get<AllocateProducts[]>(
-    `${API_BASE_URL}/selling-product/allocateProducts/get`
+    `${API_BASE_URL}/selling-product/allocateProducts/get/1`
   );
 };

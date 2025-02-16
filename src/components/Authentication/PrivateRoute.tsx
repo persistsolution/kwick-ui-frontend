@@ -53,11 +53,7 @@ const PrivateRoute = () => {
     window.location.href = "/";
   };
 
-  return isAuthenticated ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/Authentication/LogIn" replace />
-  );
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;

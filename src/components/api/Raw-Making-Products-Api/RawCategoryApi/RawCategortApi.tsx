@@ -12,7 +12,7 @@ interface Category {
 export const fetchRawCategories = async (): Promise<
   AxiosResponse<Category[]>
 > => {
-  return axios.get<Category[]>(`${API_BASE_URL}/raw-product/category/get`);
+  return axios.get<Category[]>(`${API_BASE_URL}/raw-product/category/get/1`);
 };
 
 // API to fetch a raw category by ID

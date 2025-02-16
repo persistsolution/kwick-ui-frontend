@@ -1,7 +1,10 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
-import { fetchRawSubCategories  , deleteRawSubCategory} from '../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi';
+import {
+  fetchRawSubCategories,
+  deleteRawSubCategory,
+} from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 
 const useViewRawSubCategory = () => {
   interface SubCategory {
@@ -19,6 +22,7 @@ const useViewRawSubCategory = () => {
   const [filteredSubCategories, setFilteredSubCategories] = useState<
     SubCategory[]
   >([]);
+  const [toggleaddRawSubCategory, settoggleaddRawSubCategory] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +39,10 @@ const useViewRawSubCategory = () => {
     }
   };
 
+  const modalAddRawSubCategory = () => {
+    settoggleaddRawSubCategory(!toggleaddRawSubCategory);
+  };
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setFilteredSubCategories(
@@ -49,11 +57,13 @@ const useViewRawSubCategory = () => {
   const handleSort = (key: keyof SubCategory | string) => {
     const direction =
       sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    const sortedSubCategories = [...filteredSubCategories].sort((a:any, b:any) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
+    const sortedSubCategories = [...filteredSubCategories].sort(
+      (a: any, b: any) => {
+        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+        return 0;
+      }
+    );
     setSortConfig({ key, direction });
     setFilteredSubCategories(sortedSubCategories);
   };
@@ -62,7 +72,7 @@ const useViewRawSubCategory = () => {
     if (!window.confirm("Are you sure you want to delete this subcategory?"))
       return;
     try {
-      const response = await deleteRawSubCategory(id)
+      const response = await deleteRawSubCategory(id);
       if (response.status === 200) {
         handelfetchSubCategories();
       }
@@ -120,14 +130,16 @@ const useViewRawSubCategory = () => {
     handlePageChange,
     exportToExcel,
     getVisiblePages,
+    modalAddRawSubCategory,
     currentSubCategories,
     subcategoriesPerPage,
     filteredSubCategories,
     indexOfFirstSubCategory,
     currentPage,
     indexOfLastSubCategory,
-    totalPages
-  }
+    totalPages,
+    toggleaddRawSubCategory,
+  };
 };
 
 export default useViewRawSubCategory;

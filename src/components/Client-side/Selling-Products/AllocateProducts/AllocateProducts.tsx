@@ -16,6 +16,7 @@ const AllocateProducts: FC = () => {
     franchiseList,
     fromDate,
     toDate,
+    currentallocateProducts,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -23,6 +24,7 @@ const AllocateProducts: FC = () => {
     setallocateProductsPerPage,
     setfromDate,
     settodate,
+    handelNavigateAllocatedProduct,
   } = useAllocateProducts();
 
   return (
@@ -45,11 +47,13 @@ const AllocateProducts: FC = () => {
                       <Select
                         name="state"
                         options={franchiseList}
-                        className="basic-multi-select "
+                        className="basic-multi-select"
                         isSearchable
                         menuPlacement="auto"
                         classNamePrefix="Select2"
-                        defaultValue={[franchiseList[0]]}
+                        defaultValue={franchiseList[0]}
+                        getOptionLabel={(e: any) => e.label}
+                        getOptionValue={(e: any) => String(e.id)}
                       />
                     </Form.Group>
                   </div>
@@ -116,11 +120,13 @@ const AllocateProducts: FC = () => {
                     <thead className="table-primary">
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("name")}>
+                        <th onClick={() => handleSort("Fname")}>
                           Franchise Name
                         </th>
-                        <th onClick={() => handleSort("name")}>Shop Name</th>
-                        <th onClick={() => handleSort("type")}>
+                        <th onClick={() => handleSort("ShopName")}>
+                          Shop Name
+                        </th>
+                        <th onClick={() => handleSort("Roll")}>
                           {" "}
                           Franchise Type
                         </th>
@@ -128,19 +134,42 @@ const AllocateProducts: FC = () => {
                           {" "}
                           Contact No{" "}
                         </th>
-                        <th onClick={() => handleSort("allocate")}>Allocate</th>
+                        <th onClick={() => handleSort("id")}>Allocate</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredallocateProducts.length > 0 ? (
-                        filteredallocateProducts.map((products: any) => (
+                      {currentallocateProducts.length > 0 ? (
+                        currentallocateProducts.map((products: any) => (
                           <tr key={products.id}>
+                            <td>{products.id}</td>
+                            <td>{products.Fname}</td>
+                            <td>{products.ShopName}</td>
+                            <td
+                              className={
+                                products.Roll === 1
+                                  ? "text-warning"
+                                  : products.Roll === 2
+                                  ? "text-success"
+                                  : "text-danger"
+                              }
+                            >
+                              {products.Roll == 1
+                                ? "COCO Franchise"
+                                : products.Roll == 2
+                                ? "FOFO Franchise"
+                                : "Other Franchise"}
+                            </td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                              <button
+                                onClick={() =>
+                                  handelNavigateAllocatedProduct(products.id)
+                                }
+                                className="rounded-pill btn btn-primary-light"
+                              >
+                                Allocated Product
+                              </button>
+                            </td>
                           </tr>
                         ))
                       ) : (

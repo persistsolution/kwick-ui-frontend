@@ -73,6 +73,7 @@ import ViewRawFinancerstockReport from "../components/Client-side/FinancerReport
 // Report
 import ViewCustomerSellReport from "../components/Client-side/Report/ViewCustomerSellReport";
 import ViewDailySellReport from "../components/Client-side/Report/ViewDailySellReport";
+import AllocatedProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocatedProducts";
 
 export interface routeType {
   id: number;
@@ -124,8 +125,14 @@ export const RouteData: routeType[] = [
 
   {
     id: 8,
-    path: `${import.meta.env.BASE_URL}Products/EditProductFrom/:id`,
+    path: `${import.meta.env.BASE_URL}SellingProduct/EditProductFrom/:id`,
     element: <EditProductForm />,
+  },
+
+  {
+    id: 8,
+    path: `${import.meta.env.BASE_URL}SellingProduct/AllocatedProducts/:id`,
+    element: <AllocatedProducts />,
   },
 
   // Franchise

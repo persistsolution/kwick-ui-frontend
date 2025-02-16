@@ -3,7 +3,7 @@ import { API_BASE_URL } from "../../../config";
 
 // Fetch all franchise
 export const fetchFranchise = async (): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/franchise/get/5`);
+  return axios.get<any[]>(`${API_BASE_URL}/franchise/get/${5}`);
 };
 
 // API to fetch a franchise by ID

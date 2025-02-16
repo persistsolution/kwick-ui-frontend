@@ -1,28 +1,36 @@
 import React, { Fragment } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import useRawEditCategory from "../../../Hook/Raw-Making-products-Hook/RawCategoryTS/useRawEditCategory";
+import Rodal from "rodal";
 
-const EditRawCategoryFrom: React.FC = () => {
+interface EditRawCategoryFromProps {
+  handelToggleEditRawCategory: () => void;
+  toggleEditRawCategory: boolean;
+}
+
+const EditRawCategoryFrom: React.FC<EditRawCategoryFromProps> = ({
+  handelToggleEditRawCategory,
+  toggleEditRawCategory,
+}) => {
   const { formData, message, isLoading, handleChange, handleSubmit } =
     useRawEditCategory();
 
   return (
-    <Fragment>
-      <Pageheader
-        heading="Edit Category"
-        homepage="Forms"
-        activepage="Edit Category"
-      />
-
-      <div className="main-container container-fluid">
-        <Row>
-          <Col xl={12}>
-            <Card className="custom-card">
-              <Card.Header>
-                <div className="card-title">Edit Category</div>
-              </Card.Header>
-              <Card.Body>
+    <Rodal
+      onClose={() => {
+        handelToggleEditRawCategory();
+      }}
+      visible={toggleEditRawCategory}
+      animation="slideUp"
+      height={300}
+      width={600}
+    >
+      <div className="modal-header">Edit Raw Category</div>
+      <Fragment>
+        <div className="modal-body text-start">
+          <div className="main-container container-fluid">
+            <Row>
+              <Col xl={12}>
                 <Form onSubmit={handleSubmit}>
                   <Row className="gy-4">
                     <Col xl={6}>
@@ -79,35 +87,37 @@ const EditRawCategoryFrom: React.FC = () => {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row className="mt-4">
-                    <Col>
-                      <Button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Submitting..." : "Submit"}
-                      </Button>
-                      {message && (
-                        <p
-                          className={`mt-3 ${
-                            message.includes("successfully")
-                              ? "text-success"
-                              : "text-danger"
-                          }`}
+                  <div className="modal-footer">
+                    <Row>
+                      <Col>
+                        <Button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={isLoading}
                         >
-                          {message}
-                        </p>
-                      )}
-                    </Col>
-                  </Row>
+                          {isLoading ? "Submitting..." : "Submit"}
+                        </Button>
+                        {message && (
+                          <p
+                            className={`mt-3 ${
+                              message.includes("successfully")
+                                ? "text-success"
+                                : "text-danger"
+                            }`}
+                          >
+                            {message}
+                          </p>
+                        )}
+                      </Col>
+                    </Row>
+                  </div>
                 </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </Fragment>
+              </Col>
+            </Row>
+          </div>
+        </div>
+      </Fragment>
+    </Rodal>
   );
 };
 

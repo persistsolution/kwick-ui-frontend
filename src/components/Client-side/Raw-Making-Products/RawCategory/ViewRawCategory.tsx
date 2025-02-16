@@ -2,6 +2,8 @@ import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useRawViewCategoryForm from "../../../Hook/Raw-Making-products-Hook/RawCategoryTS/useRawViewCategoryForm";
+import EditRawCategoryFrom from "./EditRawCategoryForm";
+import AddRawCategoryForm from "./AddRawCategoryForm";
 
 const ViewRawCategory: FC = () => {
   const {
@@ -12,6 +14,8 @@ const ViewRawCategory: FC = () => {
     currentPage,
     categoriesPerPage,
     totalPages,
+    toggleEditRawCategory,
+    toggleAddRawCategory,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -21,6 +25,7 @@ const ViewRawCategory: FC = () => {
     getVisiblePages,
     setCategoriesPerPage,
     modalAddRawCategory,
+    handelToggleEditRawCategory,
   } = useRawViewCategoryForm();
 
   return (
@@ -225,6 +230,18 @@ const ViewRawCategory: FC = () => {
           </Col>
         </Row>
       </div>
+
+      {/* Edit Raw Caregory Modal */}
+      <EditRawCategoryFrom
+        toggleEditRawCategory={toggleEditRawCategory}
+        handelToggleEditRawCategory={handelToggleEditRawCategory}
+      />
+
+      {/* Add Raw Category Modal */}
+      <AddRawCategoryForm
+        modalAddRawCategory={modalAddRawCategory}
+        toggleAddRawCategory={toggleAddRawCategory}
+      />
     </Fragment>
   );
 };

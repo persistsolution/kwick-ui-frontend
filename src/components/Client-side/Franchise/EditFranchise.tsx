@@ -200,9 +200,9 @@ const EditFranchise: React.FC = () => {
                             required
                           >
                             <option value="">Select </option>
-                            <option value="COCO">COCO Franchise</option>
-                            <option value="FOFO">FOFO Franchise </option>
-                            <option value="Other">Other Franchise </option>
+                            <option value="1">COCO Franchise</option>
+                            <option value="2">FOFO Franchise </option>
+                            <option value="0">Other Franchise </option>
                           </Form.Select>
                         </Form.Group>
                       </Col>

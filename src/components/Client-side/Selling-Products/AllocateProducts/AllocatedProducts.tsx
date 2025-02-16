@@ -1,39 +1,42 @@
 import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewRawSubCategory from "../../../Hook/Raw-Making-products-Hook/RawSubCategoryTS/useViewRawSubCategory";
-import RawAddSubCategory from "./RawAddSubCategory";
+import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
+import Select from "react-select";
+import useAllocatedProducts from "../../../Hook/Selling-Products-Hook/AllocateProductsTS/useAllocatedProducts";
 
-interface ComponentProps {}
-
-const ViewRawSubCategory: FC<ComponentProps> = () => {
+const AllocatedProducts: FC = () => {
   const {
+    indexOfLastAllocateProducts,
+    indexOfFirstAllocateProducts,
+    filteredallocateProducts,
     searchTerm,
-    setSubCategoriesPerPage,
+    currentPage,
+    allocateProductsPerPage,
+    totalPages,
+    franchiseList,
+    fromDate,
+    toDate,
+    currentallocateProducts,
+    categories,
+    subCategory,
     handleSearch,
     handleSort,
-    handleDelete,
-    handleEdit,
     handlePageChange,
-    exportToExcel,
     getVisiblePages,
-    modalAddRawSubCategory,
-    currentSubCategories,
-    subcategoriesPerPage,
-    filteredSubCategories,
-    indexOfFirstSubCategory,
-    currentPage,
-    indexOfLastSubCategory,
-    totalPages,
-    toggleaddRawSubCategory,
-  } = useViewRawSubCategory();
+    setallocateProductsPerPage,
+    handelAllocatedProduct,
+    handelAllocatedAllProduct,
+    setfromDate,
+    settodate,
+    exportToExcel,
+  } = useAllocatedProducts();
 
   return (
     <Fragment>
       <Pageheader
-        heading="SubCategory List"
+        heading="List Of Allocate Products"
         homepage="Products"
-        activepage="SubCategory List"
+        activepage="Allocate Products"
       />
 
       <div className="main-container container-fluid">
@@ -54,25 +57,19 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
 
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={subcategoriesPerPage}
+                      value={allocateProductsPerPage}
                       onChange={(e) =>
-                        setSubCategoriesPerPage(Number(e.target.value))
+                        setallocateProductsPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={filteredSubCategories.length}>
+                      <option value={filteredallocateProducts.length}>
                         All Items
                       </option>
                     </Form.Select>
-                    <Button
-                      variant="success"
-                      onClick={() => modalAddRawSubCategory()}
-                    >
-                      Add More
-                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -81,74 +78,99 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
 
                 <div className="table-responsive">
                   <Table
-                    id="subcategory-table"
+                    id="AllocateProducts-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
                     <thead className="table-primary">
                       <tr>
+                        <th>
+                          {" "}
+                          {/* <Form.Check
+                            className="form-check-md d-flex align-items-center"
+                            type="checkbox"
+                            id="checkebox-md"
+                            onChange={handelAllocatedAllProduct}
+                            label="Medium"
+                          /> */}
+                          #
+                        </th>
                         <th onClick={() => handleSort("id")}>ID</th>
-                        <th>Photo</th>
-                        <th onClick={() => handleSort("Name")}>Sub Category</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th onClick={() => handleSort("name")}>
+                          Franchise Name
+                        </th>
+                        <th onClick={() => handleSort("name")}>Barcode No</th>
+                        <th onClick={() => handleSort("category")}>
+                          {" "}
+                          Category{" "}
+                        </th>
+                        <th onClick={() => handleSort("subcategory")}>
+                          {" "}
+                          Sub Category{" "}
+                        </th>
+                        <th onClick={() => handleSort("productType")}>
+                          Product Type
+                        </th>
+                        <th onClick={() => handleSort("price")}>Price </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentSubCategories.length > 0 ? (
-                        currentSubCategories.map((subcategory: any) => (
-                          <tr key={subcategory.id}>
-                            <td>{subcategory.id}</td>
+                      {currentallocateProducts.length > 0 ? (
+                        currentallocateProducts.map((products: any) => (
+                          <tr key={products.id}>
                             <td>
-                              {subcategory.photo ? (
-                                <img
-                                  className="avatar rounded-pill cover-image"
-                                  src={`https://kwickfoods.in/uploads/${subcategory.Photo}`}
-                                  alt={subcategory.Name || "SubCategory Image"}
-                                />
-                              ) : (
-                                <img
-                                  className="avatar rounded-pill cover-image"
-                                  src={`https://kwickfoods.in/uploads/${subcategory.Photo}`}
-                                  alt={subcategory.Name || "SubCategory Image"}
-                                />
-                              )}
+                              {" "}
+                              <Form.Check
+                                className="form-check-md d-flex align-items-center"
+                                type="checkbox"
+                                checked={products.checkstatus}
+                                onChange={(e) =>
+                                  handelAllocatedProduct(
+                                    e,
+                                    products.id,
+                                    products
+                                  )
+                                }
+                                id="checkebox-md"
+                                label="Medium"
+                              />
                             </td>
-                            <td>{subcategory.Name}</td>
+                            <td>{products.id}</td>
+                            <td>{products.ProductName}</td>
+                            <td>{products.BarcodeNo}</td>
                             <td
-                              className={`${
-                                parseInt(subcategory.Status) === 1
-                                  ? "text-success"
+                              className={
+                                categories.find(
+                                  (item: any) => item.id === products.CatId
+                                )
+                                  ? ""
                                   : "text-danger"
-                              }`}
+                              }
                             >
-                              {parseInt(subcategory.Status) === 1
-                                ? "Active"
-                                : "In Active"}
-                            </td>{" "}
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-azure"
-                                onClick={() => handleEdit(subcategory.id)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                <i className="bi bi-pen fs-15"></i>
-                              </span>
+                              {categories.find(
+                                (item: any) => item.id === products.CatId
+                              )?.Name || "Unknown Category"}
                             </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-pink"
-                                onClick={() => handleDelete(subcategory.id)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </span>
+                            <td
+                              className={
+                                subCategory.find(
+                                  (item: any) => item.id == products.SubCatId
+                                )
+                                  ? ""
+                                  : "text-danger"
+                              }
+                            >
+                              {subCategory.find(
+                                (item: any) => item.id == products.SubCatId
+                              )?.Name || "Unknown Category"}
                             </td>
+
+                            <td></td>
+                            <td>{products.ProdPrice}</td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={5} className="text-center">
+                          <td colSpan={3} className="text-center">
                             No records found.
                           </td>
                         </tr>
@@ -159,12 +181,12 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstSubCategory + 1} to{" "}
+                    Showing {indexOfFirstAllocateProducts + 1} to{" "}
                     {Math.min(
-                      indexOfLastSubCategory,
-                      filteredSubCategories.length
+                      indexOfLastAllocateProducts,
+                      filteredallocateProducts.length
                     )}{" "}
-                    of {filteredSubCategories.length} entries
+                    of {filteredallocateProducts.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -241,14 +263,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
           </Col>
         </Row>
       </div>
-
-      {/* Add Raw SubCategory */}
-      <RawAddSubCategory
-        toggleaddRawSubCategory={toggleaddRawSubCategory}
-        modalAddRawSubCategory={modalAddRawSubCategory}
-      />
     </Fragment>
   );
 };
 
-export default ViewRawSubCategory;
+export default AllocatedProducts;

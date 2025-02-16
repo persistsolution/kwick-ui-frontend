@@ -58,7 +58,7 @@ const defaultMenu: MenuItemtype[] = [
   },
 
   // Bar Code
- /* {
+  /* {
     path: `${import.meta.env.BASE_URL}BarCode/ViewUpdateBarcode`,
     title: "Update Barcode",
     icon: dashboardsvg,
@@ -209,7 +209,7 @@ const defaultMenu: MenuItemtype[] = [
   },
 
   // Employee
-   /* {
+  /* {
     title: "Employee",
     icon: pagesSvg,
     type: "sub",
@@ -689,7 +689,7 @@ const frDashboardMenu: MenuItemtype[] = [
 ];
 
 export const MENUITEMS = window.location.pathname.includes("/Franchise/")
-  ? frDashboardMenu
+  ? defaultMenu
   : defaultMenu;
 
 // export const MENUITEMS = location.pathname.includes("/Franchise/")

@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { createRawCategory } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 
+const statusOptions = [
+  { value: 1, label: "Active" },
+  { value: 0, label: "Not Active" },
+];
+
 const useRawCategoryForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -109,9 +114,11 @@ const useRawCategoryForm = () => {
     formData,
     message,
     isLoading,
+    statusOptions,
     handleChange,
     handleSubmit,
     handleMessage,
+    setFormData,
   };
 };
 
