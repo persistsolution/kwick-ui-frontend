@@ -164,7 +164,7 @@ const AllocatedProducts: FC = () => {
                               )?.Name || "Unknown Category"}
                             </td>
 
-                            <td></td>
+                            <td>{products.Phone}</td>
                             <td>{products.ProdPrice}</td>
                           </tr>
                         ))

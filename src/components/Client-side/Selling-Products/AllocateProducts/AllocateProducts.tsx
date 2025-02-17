@@ -159,7 +159,7 @@ const AllocateProducts: FC = () => {
                                 ? "FOFO Franchise"
                                 : "Other Franchise"}
                             </td>
-                            <td></td>
+                            <td>{products.Phone}</td>
                             <td>
                               <button
                                 onClick={() =>

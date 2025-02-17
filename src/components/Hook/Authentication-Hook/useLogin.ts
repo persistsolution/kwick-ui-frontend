@@ -45,19 +45,45 @@ const useLogin = () => {
   //     }
   // };
 
+  // const checkEmployeeExists = async (mobileNumber: string) => {
+  //   try {
+  //     const response: any = await fetchUserApi(mobileNumber);
+  //     console.log(response, "response");
+  //     if (!response) {
+  //       console.error("Invalid API response format");
+  //       setError("Mobile number not found in the employee database.");
+  //       return false;
+  //     }
+  //     if (!response.data.success || !response.data.data[0].Status) {
+  //       setError("UserId is not active contacat admin.");
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking employee:", error);
+  //   }
+  // };
+
   const checkEmployeeExists = async (mobileNumber: string) => {
     try {
-      const response: any = await fetchUserApi();
-      if (!response || !Array.isArray(response)) {
+      const response: any = await fetchUserApi(mobileNumber);
+      console.log(response, "response");
+
+      if (!response || !response.data) {
         console.error("Invalid API response format");
+        setError("Mobile number not found in the employee database.");
         return false;
       }
-      const isExists = response.some(
-        (employee: any) => employee.email?.trim() === mobileNumber.trim()
-      );
-      return isExists;
+
+      if (!response.data.success || !response.data.data[0]?.Status) {
+        setError("UserId is not active. Contact admin.");
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error("Error checking employee:", error);
+      setError("Mobile number not found in the employee database.");
+      return false;
     }
   };
 
@@ -84,7 +110,6 @@ const useLogin = () => {
 
     const isEmployeeExists = await checkEmployeeExists(mobileNumber);
     if (!isEmployeeExists) {
-      setError("Mobile number not found in the employee database.");
       return;
     }
 
@@ -117,6 +142,12 @@ const useLogin = () => {
     setToken(authToken);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSendOtp();
+    }
+  };
+
   return {
     mobileNumber,
     setMobileNumber,
@@ -130,6 +161,7 @@ const useLogin = () => {
     setEnteredOtp,
     handleVerifyOtp,
     handleSendOtp,
+    handleKeyDown,
   };
 };
 
