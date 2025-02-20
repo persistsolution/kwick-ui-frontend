@@ -13,7 +13,7 @@ export const fetchRawSubCategories = async (): Promise<
   AxiosResponse<SubCategory[]>
 > => {
   return axios.get<SubCategory[]>(
-    `${API_BASE_URL}/raw-product/subcategory/get`
+    `${API_BASE_URL}/selling-product/subcategory/get`
   );
 };
 
@@ -22,7 +22,7 @@ export const createRawSubCategory = async (
   data: Partial<SubCategory>
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.post<SubCategory>(
-    `${API_BASE_URL}/raw-product/subcategory/create`,
+    `${API_BASE_URL}/selling-product/subcategory/create`,
     data
   );
 };
@@ -32,7 +32,7 @@ export const deleteRawSubCategory = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `${API_BASE_URL}/raw-product/subcategory/delete/${id}`
+    `${API_BASE_URL}/selling-product/subcategory/delete/${id}`
   );
 };
 
@@ -42,7 +42,7 @@ export const updateRawSubCategory = async (
   data: Partial<SubCategory>
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.put<SubCategory>(
-    `${API_BASE_URL}/raw-product/subcategory/update/${id}`,
+    `${API_BASE_URL}/selling-product/subcategory/update/${id}`,
     data
   );
 };
@@ -52,6 +52,6 @@ export const fetchRawSubCategoryById = async (
   id: number
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.get<SubCategory>(
-    `${API_BASE_URL}/raw-product/subcategory/edit/${id}`
+    `${API_BASE_URL}/selling-product/subcategory/edit/${id}`
   );
 };

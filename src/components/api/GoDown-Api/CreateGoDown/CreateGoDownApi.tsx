@@ -10,7 +10,7 @@ export const createGodownApi = async (
 
 // Fetch all Godown Account
 export const fetchGodownApi = async (): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/godownaccount/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/account/get/93`);
 };
 
 // API to delete Godown Account

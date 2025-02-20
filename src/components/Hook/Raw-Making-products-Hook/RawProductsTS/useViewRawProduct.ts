@@ -1,7 +1,10 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
-import { deleteRawProducts , fetchRawProducts } from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
+import {
+  deleteRawProducts,
+  fetchRawProducts,
+} from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
 
 const useViewRawProduct = () => {
   const [ProductArray, setProductArray] = useState([]);
@@ -21,7 +24,7 @@ const useViewRawProduct = () => {
 
   const fetchGetProduct = async () => {
     try {
-      const response:any = await fetchRawProducts();
+      const response: any = await fetchRawProducts();
       setProductArray(response.data);
       setFilteredProductArray(response.data);
     } catch (error) {
@@ -60,6 +63,10 @@ const useViewRawProduct = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handelNavigateAddMore = () => {
+    navigate("/SellingProduct/AddProductForm");
+  };
+
   const exportToExcel = () => {
     const table = document.getElementById("category-table");
     const workbook = utils.table_to_book(table);
@@ -87,7 +94,7 @@ const useViewRawProduct = () => {
         "Are you sure you want to delete this product?"
       );
       if (!confirmDelete) return;
-      const response = await deleteRawProducts(id)
+      const response = await deleteRawProducts(id);
       if (response.status === 200) {
         console.log("Product deleted successfully:", response.data);
         fetchGetProduct();
@@ -100,7 +107,7 @@ const useViewRawProduct = () => {
     }
   };
 
-  const handelEditProduct = (id:any) => {
+  const handelEditProduct = (id: any) => {
     navigate(`/Products/EditRawProduct/${id}`);
   };
 
@@ -112,24 +119,25 @@ const useViewRawProduct = () => {
   );
   const totalPages = Math.ceil(filteredProductArray.length / categoriesPerPage);
 
-return{
-  searchTerm,
-  currentCategories,
-  categoriesPerPage,
-  filteredProductArray,
-  indexOfFirstCategory,
-  indexOfLastCategory,
-  currentPage,
-  totalPages,
-  handelEditProduct,
-  handleDeleteProduct,
-  handlePageChange,
-  getVisiblePages,
-  exportToExcel,
-  handleSort,
-  handleSearch,
-  setCategoriesPerPage
-}
+  return {
+    searchTerm,
+    currentCategories,
+    categoriesPerPage,
+    filteredProductArray,
+    indexOfFirstCategory,
+    indexOfLastCategory,
+    currentPage,
+    totalPages,
+    handelEditProduct,
+    handleDeleteProduct,
+    handlePageChange,
+    getVisiblePages,
+    exportToExcel,
+    handleSort,
+    handleSearch,
+    setCategoriesPerPage,
+    handelNavigateAddMore,
+  };
 };
 
 export default useViewRawProduct;

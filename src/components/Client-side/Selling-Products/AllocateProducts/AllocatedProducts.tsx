@@ -17,8 +17,8 @@ const AllocatedProducts: FC = () => {
     // fromDate,
     // toDate,
     currentallocateProducts,
-    categories,
-    subCategory,
+    // categories,
+    // subCategory,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -131,41 +131,15 @@ const AllocatedProducts: FC = () => {
                                   )
                                 }
                                 id="checkebox-md"
-                                label="Medium"
                               />
                             </td>
                             <td>{products.id}</td>
                             <td>{products.ProductName}</td>
                             <td>{products.BarcodeNo}</td>
-                            <td
-                              className={
-                                categories.find(
-                                  (item: any) => item.id === products.CatId
-                                )
-                                  ? ""
-                                  : "text-danger"
-                              }
-                            >
-                              {categories.find(
-                                (item: any) => item.id === products.CatId
-                              )?.Name || "Unknown Category"}
-                            </td>
-                            <td
-                              className={
-                                subCategory.find(
-                                  (item: any) => item.id == products.SubCatId
-                                )
-                                  ? ""
-                                  : "text-danger"
-                              }
-                            >
-                              {subCategory.find(
-                                (item: any) => item.id == products.SubCatId
-                              )?.Name || "Unknown Category"}
-                            </td>
-
+                            <td>{products.Category}</td>
+                            <td>{products.SubCatName}</td>
                             <td>{products.Phone}</td>
-                            <td>{products.ProdPrice}</td>
+                            <td>{products.MinPrice}</td>
                           </tr>
                         ))
                       ) : (

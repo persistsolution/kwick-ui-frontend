@@ -1,8 +1,9 @@
 // AWS LIVE URL
-const LIVE_AWS_URL = "http://13.232.248.194:3001";
+var SERVER_STATUS;
+SERVER_STATUS = "http://13.232.248.194:3001";
 // DEVELOPMENT URL
-// const DEVELOPMENT_SERVER = "http://localhost:3000";
+// SERVER_STATUS = "http://localhost:3000";
 // BASE NAME OF APPLICATION
 export const BASE_NAME = "";
 // EXPORT URL
-export const API_BASE_URL = LIVE_AWS_URL;
+export const API_BASE_URL = SERVER_STATUS;

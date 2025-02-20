@@ -94,7 +94,7 @@ const useViewFranchise = () => {
       );
       if (!confirmDelete) return;
       const response = await deleteFranchise(id);
-      if (response.status === 201) {
+      if (response.status === 200) {
         handleFetchFranchises();
       } else {
         console.error("Failed to delete the franchise:", response.statusText);

@@ -21,6 +21,7 @@ const ViewRawProduct: FC = () => {
     handleSort,
     handleSearch,
     setCategoriesPerPage,
+    handelNavigateAddMore,
   } = useViewRawProduct();
 
   return (
@@ -62,6 +63,9 @@ const ViewRawProduct: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                    <Button variant="success" onClick={handelNavigateAddMore}>
+                      Add More
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
