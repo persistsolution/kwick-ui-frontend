@@ -15,6 +15,7 @@ const ViewRawCategory: FC = () => {
     categoriesPerPage,
     totalPages,
     toggleEditRawCategory,
+    currentCategories,
     toggleAddRawCategory,
     handleSearch,
     handleSort,
@@ -96,8 +97,8 @@ const ViewRawCategory: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredCategories.length > 0 ? (
-                        filteredCategories.map((category: any) => (
+                      {currentCategories.length > 0 ? (
+                        currentCategories.map((category: any) => (
                           <tr key={category.id}>
                             <td>{category.id}</td>
                             <td>

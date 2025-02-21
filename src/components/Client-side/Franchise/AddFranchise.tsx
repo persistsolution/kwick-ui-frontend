@@ -31,7 +31,7 @@ const AddFranchise: React.FC = () => {
             <Card className="custom-card">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Container className="fieldset">
+                  <Col className="fieldset">
                     <h4 className="legend">Franchise Detail</h4>
                     <Row className="gy-4">
                       <Col xl={4}>
@@ -338,9 +338,9 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
                     </Row>
-                  </Container>
+                  </Col>
 
-                  <Container className="fieldset">
+                  <Col className="fieldset">
                     <h4 className="legend">ID Proof Documents</h4>
                     <Row className="gy-4">
                       <Col xl={6}>
@@ -538,9 +538,9 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
                     </Row>
-                  </Container>
+                  </Col>
 
-                  <Container className="fieldset">
+                  <Col className="fieldset">
                     <h4 className="legend">Bank Account Detail</h4>
                     <Row className="gy-4">
                       <Col xl={6}>
@@ -655,7 +655,7 @@ const AddFranchise: React.FC = () => {
                         )}
                       </Col>
                     </Row>
-                  </Container>
+                  </Col>
                 </Form>
               </Card.Body>
             </Card>
