@@ -64,7 +64,7 @@ const useViewRawProduct = () => {
   };
 
   const handelNavigateAddMore = () => {
-    navigate("/SellingProduct/AddProductForm");
+    navigate("/RawProducts/AddRawMakingProducts");
   };
 
   const exportToExcel = () => {
@@ -108,7 +108,7 @@ const useViewRawProduct = () => {
   };
 
   const handelEditProduct = (id: any) => {
-    navigate(`/Products/EditRawProduct/${id}`);
+    navigate(`/RawProducts/EditRawProducts/${id}`);
   };
 
   const indexOfLastCategory = currentPage * categoriesPerPage;

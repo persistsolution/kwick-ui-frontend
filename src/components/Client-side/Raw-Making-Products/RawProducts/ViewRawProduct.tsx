@@ -81,11 +81,11 @@ const ViewRawProduct: FC = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Name</th>
-                        <th onClick={() => handleSort("name")}>Barcode No</th>
+                        <th onClick={() => handleSort("name")}>Product Name</th>
+                        {/* <th onClick={() => handleSort("name")}>Barcode No</th> */}
                         <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("name")}>Sub Category</th>
-                        <th onClick={() => handleSort("name")}>Product Type</th>
+                        {/* <th onClick={() => handleSort("name")}>Product Type</th> */}
                         <th onClick={() => handleSort("name")}>Price</th>
                         <th onClick={() => handleSort("name")}>Status</th>
                         <th onClick={() => handleSort("Name")}>Edit</th>
@@ -105,14 +105,14 @@ const ViewRawProduct: FC = () => {
                               />
                             </td>
                             <td>{category.ProductName}</td>
-                            <td>{category.BarcodeNo}</td>
+                            {/* <td>{category.BarcodeNo}</td> */}
                             <td></td>
                             <td></td>
-                            <td className="text-success">
+                            {/* <td className="text-success">
                               {category.ProdType === 1
                                 ? "Raw / Making Product"
                                 : "MRP Product"}
-                            </td>
+                            </td> */}
                             <td>
                               <span>
                                 <i className="bi bi-currency-rupee  fs-15"></i>{" "}

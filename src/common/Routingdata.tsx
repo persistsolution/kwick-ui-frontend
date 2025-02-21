@@ -22,6 +22,8 @@ import ViewRawCategory from "../components/Client-side/Raw-Making-Products/RawCa
 import ViewRawSubCategory from "../components/Client-side/Raw-Making-Products/RawSubCategory/ViewRawSubCategory";
 import ViewRawProduct from "../components/Client-side/Raw-Making-Products/RawProducts/ViewRawProduct";
 import RawAllocateProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocateProducts";
+import AddRawProducts from "../components/Client-side/Raw-Making-Products/RawProducts/AddRawProducts";
+import EditRawProducts from "../components/Client-side/Raw-Making-Products/RawProducts/EditRawProducts";
 
 // Employee
 import AddEmployee from "../components/Client-side/Employee/AddEmployee/AddEmployee";
@@ -174,6 +176,16 @@ export const RouteData: routeType[] = [
     id: 15,
     path: `${import.meta.env.BASE_URL}RawProducts/ViewRawAllocateProducts`,
     element: <RawAllocateProducts />,
+  },
+  {
+    id: 16,
+    path: `${import.meta.env.BASE_URL}RawProducts/AddRawMakingProducts`,
+    element: <AddRawProducts />,
+  },
+  {
+    id: 17,
+    path: `${import.meta.env.BASE_URL}RawProducts/EditRawProducts/:id`,
+    element: <EditRawProducts />,
   },
 
   // Employee

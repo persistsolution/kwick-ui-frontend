@@ -27,11 +27,11 @@ const useAddBrand = (toggle: () => void, handelfetchBrand: () => void) => {
       // id: 0,
       name: formData.BrandName,
       srno: 0,
-      status: formData.status ? true : false,
+      status: formData.status,
       createdby: formData.createdby,
-      // createddate: Date | null,
+      createddate: new Date().toISOString(),
       modifiedby: 0,
-      // modifieddate: Date | null,
+      modifieddate: new Date().toISOString(),
     };
 
     try {

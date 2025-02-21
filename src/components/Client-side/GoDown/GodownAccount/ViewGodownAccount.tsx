@@ -17,7 +17,7 @@ const ViewGodownAccount: FC = () => {
     handleSort,
     handlePageChange,
     exportToExcel,
-    // handleDeleteGodownAccount,
+    handleDeleteGodownAccount,
     // handleEdit,
     getVisiblePages,
     setviewGodownAccountPerPage,
@@ -101,15 +101,11 @@ const ViewGodownAccount: FC = () => {
                           <tr key={GodownAccount.id}>
                             <td>{GodownAccount.id}</td>
                             <td>
-                              {GodownAccount.Photo ? (
-                                <img
-                                  src={GodownAccount.Photo}
-                                  alt="Photo"
-                                  width="50"
-                                />
-                              ) : (
-                                "No Image"
-                              )}
+                              <img
+                                className="avatar rounded-pill cover-image"
+                                src={GodownAccount.Photo}
+                                alt="Photo"
+                              />
                             </td>
                             <td>{GodownAccount.ShopName}</td>
                             <td>{GodownAccount.Fname}</td>
@@ -117,7 +113,13 @@ const ViewGodownAccount: FC = () => {
                             <td>{GodownAccount.Phone}</td>
                             <td>{GodownAccount.Phone2}</td>
                             <td>{GodownAccount.Address}</td>
-                            <td>
+                            <td
+                              className={`${
+                                GodownAccount.Status === 1
+                                  ? "text-success"
+                                  : "text-danger"
+                              }`}
+                            >
                               {GodownAccount.Status === 1
                                 ? "Active"
                                 : "Inactive"}
@@ -129,7 +131,12 @@ const ViewGodownAccount: FC = () => {
                               </button>
                             </td>
                             <td>
-                              <button className="avatar rounded-circle bg-pink cursor-pointer border-0">
+                              <button
+                                onClick={() =>
+                                  handleDeleteGodownAccount(GodownAccount.id)
+                                }
+                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                              >
                                 <i className="bi bi-trash fs-15"></i>
                               </button>
                             </td>

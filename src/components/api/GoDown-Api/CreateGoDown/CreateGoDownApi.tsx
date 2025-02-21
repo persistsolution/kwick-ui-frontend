@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../../../../config";
 export const createGodownApi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/godown/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/godown/account/create`, data);
 };
 
 // Fetch all Godown Account
@@ -17,5 +17,5 @@ export const fetchGodownApi = async (): Promise<AxiosResponse<any[]>> => {
 export const deleteGodownAccount = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
-  return axios.delete<void>(`${API_BASE_URL}/godownaccount/delete/${id}`);
+  return axios.delete<void>(`${API_BASE_URL}/godown/account/delete/${id}`);
 };
