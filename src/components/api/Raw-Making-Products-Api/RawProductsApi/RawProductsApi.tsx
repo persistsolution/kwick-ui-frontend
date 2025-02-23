@@ -11,6 +11,15 @@ export const fetchRawProducts = async (): Promise<AxiosResponse<Product[]>> => {
   return axios.get<Product[]>(`${API_BASE_URL}/raw-product/product/get/1`);
 };
 
+// API to raw Fetch all Customer products List
+export const fetchRawCustomerProductListApi = async (): Promise<
+  AxiosResponse<Product[]>
+> => {
+  return axios.get<Product[]>(
+    `${API_BASE_URL}/raw-product/product/getprodlist`
+  );
+};
+
 // API to raw fetch a Product by ID
 export const fetchRawEditProductsApi = async (
   id: number

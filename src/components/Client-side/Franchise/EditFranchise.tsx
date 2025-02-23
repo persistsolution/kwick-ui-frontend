@@ -26,7 +26,10 @@ const EditFranchise: React.FC = () => {
                     <Row className="gy-4">
                       <Col xl={6}>
                         <Form.Group controlId="franchiseName">
-                          <Form.Label>Franchise Name*</Form.Label>
+                          <Form.Label>
+                            Franchise Name{" "}
+                            <span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="franchiseName"
@@ -40,7 +43,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={6}>
                         <Form.Group controlId="shopName">
-                          <Form.Label>Shop Name*</Form.Label>
+                          <Form.Label>
+                            Shop Name<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="shopName"
@@ -52,7 +57,7 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="emailId">
                           <Form.Label>Email Id</Form.Label>
                           <Form.Control
@@ -65,9 +70,11 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="mobileNo">
-                          <Form.Label>Mobile No*</Form.Label>
+                          <Form.Label>
+                            Mobile No<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="number"
                             name="mobileNo"
@@ -79,7 +86,7 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="anotherMobileNo">
                           <Form.Label>Another Mobile No</Form.Label>
                           <Form.Control
@@ -92,9 +99,11 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="shopLocation">
-                          <Form.Label>Shop Location*</Form.Label>
+                          <Form.Label>
+                            Shop Location<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="shopLocation"
@@ -106,7 +115,7 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={8}>
+                      <Col xl={6}>
                         <Form.Group controlId="details">
                           <Form.Label>Details</Form.Label>
                           <Form.Control
@@ -121,7 +130,7 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={6}>
+                      <Col xl={3}>
                         <Form.Group controlId="photo">
                           <Form.Label>Photo</Form.Label>
                           <Form.Control
@@ -135,7 +144,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={6}>
                         <Form.Group controlId="address">
-                          <Form.Label>Address*</Form.Label>
+                          <Form.Label>
+                            Address<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             as="textarea"
                             aria-label="With textarea"
@@ -151,7 +162,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={3}>
                         <Form.Group controlId="sellBy">
-                          <Form.Label>Sell by*</Form.Label>
+                          <Form.Label>
+                            Sell by<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="text"
                             name="sellBy"
@@ -165,7 +178,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={3}>
                         <Form.Group controlId="sellAmount">
-                          <Form.Label>Sell Amount*</Form.Label>
+                          <Form.Label>
+                            Sell Amount<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="number"
                             name="sellAmount"
@@ -179,7 +194,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={3}>
                         <Form.Group controlId="sellDate">
-                          <Form.Label>Sell Date*</Form.Label>
+                          <Form.Label>
+                            Sell Date<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="date"
                             name="sellDate"
@@ -192,7 +209,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={3}>
                         <Form.Group controlId="franchiseType">
-                          <Form.Label>Franchise Type*</Form.Label>
+                          <Form.Label>
+                            Franchise Type<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Select
                             name="franchiseType"
                             value={formData.franchiseType}
@@ -207,7 +226,7 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={6}>
+                      <Col xl={4}>
                         <Form.Group controlId="latitude">
                           <Form.Label>Latitude</Form.Label>
                           <Form.Control
@@ -220,7 +239,7 @@ const EditFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={6}>
+                      <Col xl={4}>
                         <Form.Group controlId="longitude">
                           <Form.Label>Longitude</Form.Label>
                           <Form.Control
@@ -512,7 +531,9 @@ const EditFranchise: React.FC = () => {
 
                       <Col xl={6}>
                         <Form.Group controlId="BankAccountStatus ">
-                          <Form.Label>Status*</Form.Label>
+                          <Form.Label>
+                            Status<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Select
                             name="BankAccountStatus"
                             value={formData.BankAccountStatus}

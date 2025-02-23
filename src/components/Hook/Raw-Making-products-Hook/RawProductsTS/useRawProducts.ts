@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { fetchRawCategories } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
-import { createRawProducts } from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
+import {
+  createRawProducts,
+  fetchRawCustomerProductListApi,
+} from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
 import { fetchRawSubCategories } from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 
@@ -75,7 +78,20 @@ const useRawProducts = () => {
     handelGetCategories();
     handelGetSubCategories();
     fetchUnit();
+    fetchRawCustomerProductList();
   }, []);
+
+  const fetchRawCustomerProductList = async () => {
+    const response: any = await fetchRawCustomerProductListApi();
+    const data = await response.data;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      productList: data.map((prolist: { ProductName: string; id: number }) => ({
+        name: prolist.ProductName,
+        id: prolist.id,
+      })),
+    }));
+  };
 
   const fetchUnit = async () => {
     try {
@@ -85,7 +101,7 @@ const useRawProducts = () => {
         ...prevValues,
         unitList: data.map((unit: { Name: string; id: number }) => ({
           name: unit.Name,
-          id: unit.id,
+          id: unit.Name,
         })),
       }));
     } catch (error) {
@@ -122,10 +138,11 @@ const useRawProducts = () => {
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
       Unit: formValues.unit,
+      Status: formValues.status,
       productdetails: addedProducts.map((item) => ({
         id: item.customerProductId,
         Qty: item.makingQty,
-        Unit: "",
+        Unit: formValues.unit,
       })),
     };
 
@@ -133,7 +150,6 @@ const useRawProducts = () => {
       const response: any = await createRawProducts(productData);
       if (response.status === 200) {
         alert("Product added successfully!");
-        // navigate("/RawProducts/ViewRawProduct");
         setFormValues((prevValues) => ({
           productName: "",
           categoryId: 0,
@@ -204,22 +220,47 @@ const useRawProducts = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     handelAddProduct();
   };
 
-  const handelAddProductList = () => {
+  const handelAddProductList = (e: React.FormEvent<HTMLFormElement>) => {
     // if (formValues.customerProductId && formValues.makingQty) {
+    e.preventDefault();
     const newProduct = {
       customerProductId: formValues.customerProductId,
       makingQty: formValues.makingQty,
     };
     setAddedProducts((prev) => [...prev, newProduct]);
-    setFormValues((prev) => ({
-      ...prev,
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      // productName: "",
+      // categoryId: 0,
+      // subCategoryId: 0,
+      // unit: "",
+      purchasePrice: "",
+      totalPrice: "",
+      cgst: "",
+      sgst: "",
+      igst: "",
+      totalGst: "",
+      priceWoGst: "",
+      barcodeNo: "",
+      minStockQty: "",
+      // status: "",
+      productType: "",
+      transferProduct: "",
+      qrDisplay: "",
+      srNo: "",
+      productImage: null,
+      getcategory: prevValues.getcategory,
+      getSubCategory: prevValues.getSubCategory,
+      photo: "",
+      Qty: 0,
       customerProductId: 0,
       makingQty: 0,
+      unitList: prevValues.unitList,
+      productList: prevValues.productList,
     }));
     // } else {
     //   alert("Please select a Customer Product and specify the Making Qty.");

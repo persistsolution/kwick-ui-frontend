@@ -13,6 +13,7 @@ import ViewBrand from "../components/Client-side/Selling-Products/Brand/ViewBran
 // Franchise
 import ViewFranchise from "../components/Client-side/Franchise/ViewFranchise";
 import AddFranchise from "../components/Client-side/Franchise/AddFranchise";
+import EditFranchise from "../components/Client-side/Franchise/EditFranchise";
 
 // Bar Code
 import ViewUpdateBarcode from "../components/Client-side/UpdateBarcode/ViewUpdateBarcode";
@@ -76,6 +77,7 @@ import ViewRawFinancerstockReport from "../components/Client-side/FinancerReport
 import ViewCustomerSellReport from "../components/Client-side/Report/ViewCustomerSellReport";
 import ViewDailySellReport from "../components/Client-side/Report/ViewDailySellReport";
 import AllocatedProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocatedProducts";
+import RawAllocatedProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocatedProducts";
 
 export interface routeType {
   id: number;
@@ -148,6 +150,11 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Franchise/AddFranchise`,
     element: <AddFranchise />,
   },
+  {
+    id: 10,
+    path: `${import.meta.env.BASE_URL}Franchise/EditFranchise/:id`,
+    element: <EditFranchise />,
+  },
 
   // Bar Code
   {
@@ -179,182 +186,187 @@ export const RouteData: routeType[] = [
   },
   {
     id: 16,
+    path: `${import.meta.env.BASE_URL}RawProducts/ViewRawAllocatedProducts/:id`,
+    element: <RawAllocatedProducts />,
+  },
+  {
+    id: 17,
     path: `${import.meta.env.BASE_URL}RawProducts/AddRawMakingProducts`,
     element: <AddRawProducts />,
   },
   {
-    id: 17,
+    id: 18,
     path: `${import.meta.env.BASE_URL}RawProducts/EditRawProducts/:id`,
     element: <EditRawProducts />,
   },
 
   // Employee
   {
-    id: 16,
+    id: 19,
     path: `${import.meta.env.BASE_URL}Employee/AddEmployee`,
     element: <AddEmployee />,
   },
   {
-    id: 17,
+    id: 20,
     path: `${import.meta.env.BASE_URL}Employee/ViewEmployee`,
     element: <ViewEmployee />,
   },
 
   // Financer
   {
-    id: 18,
+    id: 21,
     path: `${import.meta.env.BASE_URL}Financer/ViewFinancer`,
     element: <ViewFinancer />,
   },
   {
-    id: 19,
+    id: 22,
     path: `${import.meta.env.BASE_URL}Financer/CreateFinancer`,
     element: <CreateFinancer />,
   },
   {
-    id: 20,
+    id: 23,
     path: `${import.meta.env.BASE_URL}Financer/AddCommissionNote`,
     element: <AddCommissionNote />,
   },
   {
-    id: 21,
+    id: 24,
     path: `${import.meta.env.BASE_URL}Financer/ViewCommissionNote`,
     element: <ViewCommission />,
   },
 
   // Retailer
   {
-    id: 22,
+    id: 25,
     path: `${import.meta.env.BASE_URL}Retailer/AddRetailer`,
     element: <AddRetailer />,
   },
   {
-    id: 23,
+    id: 26,
     path: `${import.meta.env.BASE_URL}Retailer/ViewRetailer`,
     element: <ViewRetailer />,
   },
   {
-    id: 24,
+    id: 27,
     path: `${import.meta.env.BASE_URL}Retailer/CreateRetailerAccount`,
     element: <CreateRetailerAccount />,
   },
   {
-    id: 25,
+    id: 28,
     path: `${import.meta.env.BASE_URL}Retailer/ViewSellToRetailer`,
     element: <ViewSellToRetailer />,
   },
 
   // GoDown
   {
-    id: 26,
+    id: 29,
     path: `${import.meta.env.BASE_URL}GoDown/CreateGodownAccount`,
     element: <CreateGodownAccount />,
   },
   {
-    id: 27,
+    id: 30,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownAccount`,
     element: <ViewGodownAccount />,
   },
   {
-    id: 28,
+    id: 31,
     path: `${import.meta.env.BASE_URL}GoDown/AddGodownStock`,
     element: <AddGodownStock />,
   },
   {
-    id: 29,
+    id: 32,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownStock`,
     element: <ViewGodownStock />,
   },
   {
-    id: 30,
+    id: 33,
     path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToCocoFr`,
     element: <ViewTransferStockToCocoFr />,
   },
   {
-    id: 31,
+    id: 34,
     path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToOtherFr`,
     element: <ViewTransferStockToOtherFr />,
   },
   {
-    id: 32,
+    id: 35,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownPendingRequest`,
     element: <ViewGodownPendingRequest />,
   },
   {
-    id: 33,
+    id: 36,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownApproveRequest`,
     element: <ViewGodownApproveRequest />,
   },
   {
-    id: 34,
+    id: 37,
     path: `${import.meta.env.BASE_URL}GoDown/CreateInvoiceProductStock`,
     element: <CreateInvoiceProductStock />,
   },
   {
-    id: 35,
+    id: 38,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownReturnProduct`,
     element: <ViewGodownReturnProduct />,
   },
 
   // Target
   {
-    id: 36,
+    id: 39,
     path: `${import.meta.env.BASE_URL}Target/ViewSetTarget`,
     element: <ViewSetTarget />,
   },
   {
-    id: 37,
+    id: 40,
     path: `${import.meta.env.BASE_URL}Target/SetTarget`,
     element: <SetTarget />,
   },
   {
-    id: 38,
+    id: 41,
     path: `${import.meta.env.BASE_URL}Target/TragetCompletion`,
     element: <TragetCompletion />,
   },
   {
-    id: 39,
+    id: 42,
     path: `${import.meta.env.BASE_URL}Target/ViewTargetCompletionReport`,
     element: <ViewTargetCompletionReport />,
   },
 
   // Vendor Payments
   {
-    id: 40,
+    id: 43,
     path: `${import.meta.env.BASE_URL}VendorPayment/AddVendorPayment`,
     element: <AddVendorPayment />,
   },
   {
-    id: 41,
+    id: 44,
     path: `${import.meta.env.BASE_URL}VendorPayment/ViewVendorPayment`,
     element: <ViewVendorPayment />,
   },
 
   // Financer Patner
   {
-    id: 42,
+    id: 45,
     path: `${import.meta.env.BASE_URL}FinancerPatner/AddFinancerPartnerAccount`,
     element: <AddFinancerPartnerAccount />,
   },
   {
-    id: 43,
+    id: 46,
     path: `${import.meta.env.BASE_URL}FinancerPatner/ViewFinancerPatnerAccount`,
     element: <ViewFinancerPatnerAccount />,
   },
   {
-    id: 44,
+    id: 47,
     path: `${import.meta.env.BASE_URL}FinancerPatner/ViewCommisionNote`,
     element: <ViewCommisionNote />,
   },
 
   // Franchise Report
   {
-    id: 45,
+    id: 48,
     path: `${import.meta.env.BASE_URL}FranchiseReport/ViewFinancerReport`,
     element: <ViewFinancerReport />,
   },
   {
-    id: 46,
+    id: 49,
     path: `${
       import.meta.env.BASE_URL
     }FranchiseReport/ViewRawFinancerstockReport`,
@@ -363,12 +375,12 @@ export const RouteData: routeType[] = [
 
   //  Report
   {
-    id: 47,
+    id: 50,
     path: `${import.meta.env.BASE_URL}Report/ViewCustomerSellReport`,
     element: <ViewCustomerSellReport />,
   },
   {
-    id: 48,
+    id: 51,
     path: `${import.meta.env.BASE_URL}Report/ViewDailySellReport`,
     element: <ViewDailySellReport />,
   },

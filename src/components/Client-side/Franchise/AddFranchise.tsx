@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import useAddFranchise from "../../Hook/Franchise-Hook/useAddFranchise";
 import Select from "react-select";
@@ -99,7 +99,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="emailId">
                           <Form.Label>Email Id</Form.Label>
                           <Form.Control
@@ -112,7 +112,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="mobileNo">
                           <Form.Label>
                             Mobile No <span className="text-danger">*</span>
@@ -128,7 +128,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="anotherMobileNo">
                           <Form.Label>Another Mobile No</Form.Label>
                           <Form.Control
@@ -141,7 +141,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="shopLocation">
                           <Form.Label>
                             Shop Location <span className="text-danger">*</span>
@@ -157,7 +157,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={8}>
+                      <Col xl={6}>
                         <Form.Group controlId="details">
                           <Form.Label>Details</Form.Label>
                           <Form.Control
@@ -172,7 +172,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="photo">
                           <Form.Label>Photo</Form.Label>
                           <Form.Control
@@ -184,7 +184,7 @@ const AddFranchise: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={8}>
+                      <Col xl={6}>
                         <Form.Group controlId="address">
                           <Form.Label>
                             Address <span className="text-danger">*</span>

@@ -1,10 +1,10 @@
 import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
-import Select from "react-select";
-import useRawAllocatProducts from "../../../Hook/Raw-Making-products-Hook/RawAllocateProductTS/useRawAllocatProducts";
+// import Select from "react-select";
+import useRawAllocatedProductTS from "../../../Hook/Raw-Making-products-Hook/RawAllocateProductTS/useRawAllocatedProductTS";
 
-const RawAllocateProducts: FC = () => {
+const RawAllocatedProducts: FC = () => {
   const {
     indexOfLastAllocateProducts,
     indexOfFirstAllocateProducts,
@@ -13,27 +13,31 @@ const RawAllocateProducts: FC = () => {
     currentPage,
     allocateProductsPerPage,
     totalPages,
-    franchiseList,
-    fromDate,
-    toDate,
+    // franchiseList,
+    // fromDate,
+    // toDate,
     currentallocateProducts,
-    setfromDate,
-    settodate,
+    // categories,
+    // subCategory,
     handleSearch,
     handleSort,
     handlePageChange,
     getVisiblePages,
     setallocateProductsPerPage,
-    // handelAllocatedProduct,
-    handelNavigateAllocatedProduct,
-  } = useRawAllocatProducts();
+    handelAllocatedProduct,
+    // handelAllocatedAllProduct,
+    // setfromDate,
+    // settodate,
+    exportToExcel,
+    assignProducts,
+  } = useRawAllocatedProductTS();
 
   return (
     <Fragment>
       <Pageheader
-        heading="List Of Allocate Raw Products"
+        heading="List Of Allocate Products"
         homepage="Products"
-        activepage="Allocate Raw Products"
+        activepage="Allocate Products"
       />
 
       <div className="main-container container-fluid">
@@ -42,49 +46,6 @@ const RawAllocateProducts: FC = () => {
             <Card>
               <Card.Body>
                 <div className="row align-items-center g-2 mb-3">
-                  <div className="col-md-3 col-12">
-                    <Form.Group controlId="goDownlist">
-                      <Form.Label>Franchise</Form.Label>
-                      <Select
-                        name="state"
-                        options={franchiseList}
-                        className="basic-multi-select "
-                        isSearchable
-                        menuPlacement="auto"
-                        classNamePrefix="Select2"
-                        defaultValue={[franchiseList[0]]}
-                        getOptionLabel={(e: any) => e.label}
-                        getOptionValue={(e: any) => String(e.id)}
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-md-2 col-12">
-                    <Form.Group controlId="fromDate">
-                      <Form.Label> From Date</Form.Label>
-                      <Form.Control
-                        value={fromDate}
-                        type="date"
-                        onChange={(date: any) => setfromDate(date)}
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-md-2 col-12">
-                    <Form.Group controlId="toDate">
-                      <Form.Label> To Date</Form.Label>
-                      <Form.Control
-                        value={toDate}
-                        type="date"
-                        onChange={(date: any) => settodate(date)}
-                      />
-                    </Form.Group>
-                  </div>
-
-                  <div className="col-md-2 col-12">
-                    <Button variant="success mt-4">Search </Button>
-                  </div>
-
                   <div className="col-md-6 col-12">
                     <Form.Control
                       type="text"
@@ -110,6 +71,9 @@ const RawAllocateProducts: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                    <Button variant="success" onClick={exportToExcel}>
+                      <i className="fe fe-download me-2"></i>Export to Excel
+                    </Button>
                   </div>
                 </div>
 
@@ -120,55 +84,55 @@ const RawAllocateProducts: FC = () => {
                   >
                     <thead className="table-primary">
                       <tr>
+                        <th>
+                          {" "}
+                          {/* <Form.Check
+                            className="form-check-md d-flex align-items-center"
+                            type="checkbox"
+                            id="checkebox-md"
+                            onChange={handelAllocatedAllProduct}
+                            label="Medium"
+                          /> */}
+                          #
+                        </th>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("name")}>
                           Franchise Name
                         </th>
-                        <th onClick={() => handleSort("name")}>Shop Name</th>
-                        <th onClick={() => handleSort("type")}>
+                        <th onClick={() => handleSort("category")}>
                           {" "}
-                          Franchise Type
+                          Category{" "}
                         </th>
-                        <th onClick={() => handleSort("contact")}>
+                        <th onClick={() => handleSort("subcategory")}>
                           {" "}
-                          Contact No{" "}
+                          Sub Category{" "}
                         </th>
-                        <th onClick={() => handleSort("allocate")}>Allocate</th>
                       </tr>
                     </thead>
                     <tbody>
                       {currentallocateProducts.length > 0 ? (
                         currentallocateProducts.map((products: any) => (
                           <tr key={products.id}>
-                            <td>{products.id}</td>
-                            <td>{products.Fname}</td>
-                            <td>{products.ShopName}</td>
-                            <td
-                              className={
-                                products.Roll === 1
-                                  ? "text-warning"
-                                  : products.Roll === 2
-                                  ? "text-success"
-                                  : "text-danger"
-                              }
-                            >
-                              {products.Roll == 1
-                                ? "COCO Franchise"
-                                : products.Roll == 2
-                                ? "FOFO Franchise"
-                                : "Other Franchise"}
-                            </td>
-                            <td>{products.Phone}</td>
                             <td>
-                              <button
-                                onClick={() =>
-                                  handelNavigateAllocatedProduct(products.id)
+                              {" "}
+                              <Form.Check
+                                className="form-check-md d-flex align-items-center"
+                                type="checkbox"
+                                checked={products.checkstatus}
+                                onChange={(e) =>
+                                  handelAllocatedProduct(
+                                    e,
+                                    products.id,
+                                    products
+                                  )
                                 }
-                                className="rounded-pill btn btn-primary-light"
-                              >
-                                Allocated Product
-                              </button>
+                                id="checkebox-md"
+                              />
                             </td>
+                            <td>{products.id}</td>
+                            <td>{products.ProductName}</td>
+                            <td>{products.CatName}</td>
+                            <td>{products.SubCatName}</td>
                           </tr>
                         ))
                       ) : (
@@ -262,6 +226,18 @@ const RawAllocateProducts: FC = () => {
                   </ul>
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <Row>
+                  <Col>
+                    <Button
+                      className="btn btn-primary"
+                      onClick={assignProducts}
+                    >
+                      ASSIGN
+                    </Button>
+                  </Col>
+                </Row>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
@@ -270,4 +246,4 @@ const RawAllocateProducts: FC = () => {
   );
 };
 
-export default RawAllocateProducts;
+export default RawAllocatedProducts;

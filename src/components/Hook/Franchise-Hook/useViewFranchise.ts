@@ -108,7 +108,7 @@ const useViewFranchise = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/Products/EditFranchise/${id}`);
+    navigate(`/Franchise/EditFranchise/${id}`);
   };
 
   const indexOfLastFranchise = currentPage * franchisesPerPage;

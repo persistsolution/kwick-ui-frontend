@@ -246,110 +246,110 @@ const defaultMenu: MenuItemtype[] = [
         ],
       },
 
-      // {
-      //   title: "Godown Stock",
-      //   //icon: dashboardsvg,
-      //   type: "sub",
-      //   active: false,
-      //   selected: false,
-      //   dirchange: false,
-      //   children: [
-      //     {
-      //       path: `${import.meta.env.BASE_URL}GoDown/AddGodownStock`,
-      //       title: "Add Stock",
-      //       //icon: dashboardsvg,
-      //       type: "link",
-      //       active: false,
-      //       selected: false,
-      //       dirchange: false,
-      //     },
-      //     {
-      //       path: `${import.meta.env.BASE_URL}GoDown/ViewGodownStock`,
-      //       title: "View Stock",
-      //       //icon: dashboardsvg,
-      //       type: "link",
-      //       active: false,
-      //       selected: false,
-      //       dirchange: false,
-      //     },
-      //   ],
-      // },
+      {
+        title: "Godown Stock",
+        //icon: dashboardsvg,
+        type: "sub",
+        active: false,
+        selected: false,
+        dirchange: false,
+        children: [
+          {
+            path: `${import.meta.env.BASE_URL}GoDown/AddGodownStock`,
+            title: "Add Stock",
+            //icon: dashboardsvg,
+            type: "link",
+            active: false,
+            selected: false,
+            dirchange: false,
+          },
+          {
+            path: `${import.meta.env.BASE_URL}GoDown/ViewGodownStock`,
+            title: "View Stock",
+            //icon: dashboardsvg,
+            type: "link",
+            active: false,
+            selected: false,
+            dirchange: false,
+          },
+        ],
+      },
 
-      // {
-      //   title: "Transfer Stock",
-      //   //icon: dashboardsvg,
-      //   type: "sub",
-      //   active: false,
-      //   selected: false,
-      //   dirchange: false,
-      //   children: [
-      //     {
-      //       path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToCocoFr`,
-      //       title: "Godown To Coco Fr",
-      //       //icon: dashboardsvg,
-      //       type: "link",
-      //       active: false,
-      //       selected: false,
-      //       dirchange: false,
-      //     },
-      //     {
-      //       path: `${
-      //         import.meta.env.BASE_URL
-      //       }GoDown/ViewTransferStockToOtherFr`,
-      //       title: "Godown To Other Fr",
-      //       //icon: dashboardsvg,
-      //       type: "link",
-      //       active: false,
-      //       selected: false,
-      //       dirchange: false,
-      //     },
-      //   ],
-      // },
+      {
+        title: "Transfer Stock",
+        //icon: dashboardsvg,
+        type: "sub",
+        active: false,
+        selected: false,
+        dirchange: false,
+        children: [
+          {
+            path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToCocoFr`,
+            title: "Godown To Coco Fr",
+            //icon: dashboardsvg,
+            type: "link",
+            active: false,
+            selected: false,
+            dirchange: false,
+          },
+          {
+            path: `${
+              import.meta.env.BASE_URL
+            }GoDown/ViewTransferStockToOtherFr`,
+            title: "Godown To Other Fr",
+            //icon: dashboardsvg,
+            type: "link",
+            active: false,
+            selected: false,
+            dirchange: false,
+          },
+        ],
+      },
 
-      // {
-      //   path: `${import.meta.env.BASE_URL}GoDown/ViewGodownPendingRequest`,
-      //   title: "Pending Request For Product Stock",
-      //   //icon: dashboardsvg,
-      //   type: "link",
-      //   active: false,
-      //   selected: false,
-      //   dirchange: false,
-      // },
+      {
+        path: `${import.meta.env.BASE_URL}GoDown/ViewGodownPendingRequest`,
+        title: "Pending Request For Product Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
 
-      // {
-      //   path: `${import.meta.env.BASE_URL}GoDown/ViewGodownApproveRequest`,
-      //   title: "Approve Request For Product Stock",
-      //   //icon: dashboardsvg,
-      //   type: "link",
-      //   active: false,
-      //   selected: false,
-      //   dirchange: false,
-      // },
+      {
+        path: `${import.meta.env.BASE_URL}GoDown/ViewGodownApproveRequest`,
+        title: "Approve Request For Product Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
 
-      // {
-      //   path: `${import.meta.env.BASE_URL}GoDown/CreateInvoiceProductStock`,
-      //   title: "Create Invoice For Product Stock",
-      //   //icon: dashboardsvg,
-      //   type: "link",
-      //   active: false,
-      //   selected: false,
-      //   dirchange: false,
-      // },
+      {
+        path: `${import.meta.env.BASE_URL}GoDown/CreateInvoiceProductStock`,
+        title: "Create Invoice For Product Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
 
-      // {
-      //   path: `${import.meta.env.BASE_URL}GoDown/ViewGodownReturnProduct`,
-      //   title: "Return Godown Product",
-      //   //icon: dashboardsvg,
-      //   type: "link",
-      //   active: false,
-      //   selected: false,
-      //   dirchange: false,
-      // },
+      {
+        path: `${import.meta.env.BASE_URL}GoDown/ViewGodownReturnProduct`,
+        title: "Return Godown Product",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
     ],
   },
 
   // Employee
-  /* {
+  {
     title: "Employee",
     icon: pagesSvg,
     type: "sub",
@@ -478,7 +478,6 @@ const defaultMenu: MenuItemtype[] = [
     ],
   },
 
- 
   // Set Target
   {
     title: "Set Target",
@@ -660,7 +659,7 @@ const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
     ],
-  },*/
+  },
 ];
 
 // const frDashboardMenu: MenuItemtype[] = [

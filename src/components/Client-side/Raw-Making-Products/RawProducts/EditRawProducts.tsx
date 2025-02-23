@@ -100,6 +100,16 @@ const EditRawProducts: FC = () => {
                         label: "Making Qty",
                         type: "number",
                       },
+                      {
+                        name: "status",
+                        label: "Status",
+                        type: "select",
+                        required: "*",
+                        options: [
+                          { name: "Active", id: 1 },
+                          { name: "InActive", id: 0 },
+                        ],
+                      },
                     ].map((field, index) => (
                       <Fragment>
                         <Col

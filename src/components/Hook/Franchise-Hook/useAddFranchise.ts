@@ -68,7 +68,7 @@ const useAddFranchise = () => {
     prodtype: 0,
     status: 1,
     srno: 1.0,
-    createddate: new Date().toISOString(), // ISO string format
+    createddate: new Date().toISOString(),
     modifieddate: null as string | null,
     roll: 5,
     createdby: 2091,

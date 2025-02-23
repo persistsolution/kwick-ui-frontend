@@ -58,7 +58,7 @@ const AddRawProducts: FC = () => {
                 <div className="card-title">Add Product</div>
               </Card.Header>
               <Card.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handelAddProductList}>
                   <Row className="gy-4">
                     {[
                       {
@@ -69,7 +69,7 @@ const AddRawProducts: FC = () => {
                       },
 
                       {
-                        name: "unitId",
+                        name: "unit",
                         label: "Unit",
                         type: "select",
                         options: formValues.unitList,
@@ -100,6 +100,16 @@ const AddRawProducts: FC = () => {
                         label: "Making Qty",
                         type: "number",
                       },
+                      {
+                        name: "status",
+                        label: "Status",
+                        type: "select",
+                        required: "*",
+                        options: [
+                          { name: "Active", id: 1 },
+                          { name: "InActive", id: 0 },
+                        ],
+                      },
                     ].map((field, index) => (
                       <Fragment>
                         <Col
@@ -117,7 +127,7 @@ const AddRawProducts: FC = () => {
                               "qrDisplay",
                               "status",
                               "transferProduct",
-                              "unitId",
+                              "unit",
                               "makingQty",
                             ].includes(field.name)
                               ? 2
@@ -193,100 +203,96 @@ const AddRawProducts: FC = () => {
                       </Fragment>
                     ))}
                     <Col xl={1} lg={1} md={1} sm={1}>
-                      <Button
-                        className="btn btn-primary mt-4"
-                        onClick={handelAddProductList}
-                      >
+                      <Button className="btn btn-primary mt-4" type="submit">
                         <AddIcon />
-                      </Button>
-                    </Col>
-
-                    <Col xl={12} lg={12} md={12} sm={12}>
-                      <h5>Added Products</h5>
-                      <Table striped bordered hover>
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Customer Product ID</th>
-                            <th>Making Qty</th>
-                            <th className="text-center">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {addedProducts.map((product, idx) => (
-                            <tr key={idx + 1}>
-                              <td>{idx + 1}</td>
-                              {/* <td>{product.customerProductId}</td> */}
-                              <Select
-                                id={"product"}
-                                name={"product"}
-                                value={
-                                  formValues.productList
-                                    ?.map((option: any) => ({
-                                      label: option.name,
-                                      value: option.id,
-                                    }))
-                                    .find(
-                                      (option: any) =>
-                                        option.value ===
-                                        product.customerProductId
-                                    ) || null
-                                }
-                                options={
-                                  formValues.productList?.map(
-                                    (option: any) => ({
-                                      label: option.name,
-                                      value: option.id,
-                                    })
-                                  ) || []
-                                }
-                                onChange={(selectedOption: any) => {
-                                  setAddedProducts((prevProducts) =>
-                                    prevProducts.map((p, index) =>
-                                      index === idx
-                                        ? {
-                                            ...p,
-                                            customerProductId:
-                                              selectedOption?.value || "",
-                                          }
-                                        : p
-                                    )
-                                  );
-                                }}
-                                isSearchable
-                              />
-
-                              <td>
-                                <Form.Control
-                                  onChange={(e) =>
-                                    handleChangeProductList(e.target.value, idx)
-                                  }
-                                  value={product.makingQty}
-                                />
-                              </td>
-                              <td className="text-center">
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  onClick={() => handleDelete(idx)}
-                                >
-                                  <DeleteIcon />
-                                </Button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
-                    </Col>
-                  </Row>
-                  <Row className="mt-4">
-                    <Col>
-                      <Button type="submit" className="btn btn-primary">
-                        Submit
                       </Button>
                     </Col>
                   </Row>
                 </Form>
+                <Row className="mt-4">
+                  <Col xl={12} lg={12} md={12} sm={12}>
+                    <h5>Added Products</h5>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Customer Product ID</th>
+                          <th>Making Qty</th>
+                          <th className="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addedProducts.map((product, idx) => (
+                          <tr key={idx + 1}>
+                            <td>{idx + 1}</td>
+                            {/* <td>{product.customerProductId}</td> */}
+                            <Select
+                              id={"product"}
+                              name={"product"}
+                              value={
+                                formValues.productList
+                                  ?.map((option: any) => ({
+                                    label: option.name,
+                                    value: option.id,
+                                  }))
+                                  .find(
+                                    (option: any) =>
+                                      option.value === product.customerProductId
+                                  ) || null
+                              }
+                              options={
+                                formValues.productList?.map((option: any) => ({
+                                  label: option.name,
+                                  value: option.id,
+                                })) || []
+                              }
+                              onChange={(selectedOption: any) => {
+                                setAddedProducts((prevProducts) =>
+                                  prevProducts.map((p, index) =>
+                                    index === idx
+                                      ? {
+                                          ...p,
+                                          customerProductId:
+                                            selectedOption?.value || "",
+                                        }
+                                      : p
+                                  )
+                                );
+                              }}
+                              isSearchable
+                            />
+
+                            <td>
+                              <Form.Control
+                                onChange={(e) =>
+                                  handleChangeProductList(e.target.value, idx)
+                                }
+                                value={product.makingQty}
+                              />
+                            </td>
+                            <td className="text-center">
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                onClick={() => handleDelete(idx)}
+                              >
+                                <DeleteIcon />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </Col>
+                  <Col>
+                    <Button
+                      onClick={() => handleSubmit()}
+                      className="btn btn-primary"
+                    >
+                      Submit
+                    </Button>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           </Col>
