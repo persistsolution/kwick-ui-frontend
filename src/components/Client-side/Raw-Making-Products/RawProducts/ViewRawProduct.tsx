@@ -106,8 +106,8 @@ const ViewRawProduct: FC = () => {
                             </td>
                             <td>{category.ProductName}</td>
                             {/* <td>{category.BarcodeNo}</td> */}
-                            <td></td>
-                            <td></td>
+                            <td>{category.CatName}</td>
+                            <td>{category.SubCatName}</td>
                             {/* <td className="text-success">
                               {category.ProdType === 1
                                 ? "Raw / Making Product"
@@ -121,14 +121,14 @@ const ViewRawProduct: FC = () => {
                             </td>
                             <td
                               className={`${
-                                category.tempstatus === "Publish"
+                                category.Status === 1
                                   ? "text-success"
                                   : "text-danger"
                               }`}
                             >
-                              {category.tempstatus === "Publish"
-                                ? "Active"
-                                : "In Active"}
+                              {category.Status === 1
+                                ? "Publish"
+                                : "Not Publish"}
                             </td>
                             <td>
                               <span

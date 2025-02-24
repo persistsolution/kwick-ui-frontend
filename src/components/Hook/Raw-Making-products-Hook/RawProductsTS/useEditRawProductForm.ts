@@ -89,7 +89,6 @@ const useEditRawProductForm = () => {
   const fetchRawproductData = async () => {
     const response: any = await fetchRawEditProductsApi(Number(id));
     const data = response.data;
-    console.log(data, "response");
     setFormValues((prevValues) => ({
       ...prevValues,
       productName: data.ProductName,

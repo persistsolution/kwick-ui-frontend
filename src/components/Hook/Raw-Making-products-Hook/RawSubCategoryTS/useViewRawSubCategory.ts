@@ -23,6 +23,9 @@ const useViewRawSubCategory = () => {
     SubCategory[]
   >([]);
   const [toggleaddRawSubCategory, settoggleaddRawSubCategory] = useState(false);
+  const [toggleEditRawSubCategory, settoggleEditRawSubCategory] =
+    useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +44,10 @@ const useViewRawSubCategory = () => {
 
   const modalAddRawSubCategory = () => {
     settoggleaddRawSubCategory(!toggleaddRawSubCategory);
+  };
+
+  const modaltoggleEditRawSubCategory = () => {
+    settoggleEditRawSubCategory(!toggleEditRawSubCategory);
   };
 
   const handleSearch = (term: string) => {
@@ -82,7 +89,12 @@ const useViewRawSubCategory = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/Products/EditRawSubCategory/${id}`);
+    settoggleEditRawSubCategory(!toggleEditRawSubCategory);
+    if (typeof id === "number") {
+      localStorage.setItem("subCatId", id.toString());
+    } else {
+      localStorage.removeItem("subCatId");
+    }
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -131,6 +143,9 @@ const useViewRawSubCategory = () => {
     exportToExcel,
     getVisiblePages,
     modalAddRawSubCategory,
+    handelfetchSubCategories,
+    modaltoggleEditRawSubCategory,
+    toggleEditRawSubCategory,
     currentSubCategories,
     subcategoriesPerPage,
     filteredSubCategories,

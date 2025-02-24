@@ -25,8 +25,13 @@ const useRawViewCategoryForm = () => {
     handelfetchCategories();
   }, []);
 
-  const handelToggleEditRawCategory = () => {
+  const handelToggleEditRawCategory = (id: number) => {
     settoggleEditRawCategory(!toggleEditRawCategory);
+    if (typeof id === "number") {
+      localStorage.setItem("rawCatId", id.toString());
+    } else {
+      localStorage.removeItem("rawCatId");
+    }
   };
 
   const handelfetchCategories = async () => {
@@ -112,7 +117,7 @@ const useRawViewCategoryForm = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/Products/EditRawCategoryFrom/${id}`);
+    handelToggleEditRawCategory(id);
   };
 
   const indexOfLastCategory = currentPage * categoriesPerPage;
@@ -146,6 +151,7 @@ const useRawViewCategoryForm = () => {
     setCategoriesPerPage,
     modalAddRawCategory,
     handelToggleEditRawCategory,
+    handelfetchCategories,
   };
 };
 

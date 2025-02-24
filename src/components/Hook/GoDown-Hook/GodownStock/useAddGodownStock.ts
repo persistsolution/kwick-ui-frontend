@@ -264,10 +264,21 @@ const useAddGodownStock = () => {
   const handelChangeAddedGodownPoduct = (e: any, idx: number) => {
     const { name, value } = e.target;
     const updatedAddGodownStockArray = [...formValues.addGodownStockArray];
+    const newValue =
+      name === "stockInQty" || name === "productPrice" ? Number(value) : value;
+
     updatedAddGodownStockArray[idx] = {
       ...updatedAddGodownStockArray[idx],
-      [name]: value,
+      [name]: newValue,
     };
+    if (name === "stockInQty" || name === "productPrice") {
+      const stockInQty =
+        Number(updatedAddGodownStockArray[idx].stockInQty) || 0;
+      const productPrice =
+        Number(updatedAddGodownStockArray[idx].productPrice) || 0;
+      updatedAddGodownStockArray[idx].totalPrice = stockInQty * productPrice;
+    }
+
     setFormValues({
       ...formValues,
       addGodownStockArray: updatedAddGodownStockArray,

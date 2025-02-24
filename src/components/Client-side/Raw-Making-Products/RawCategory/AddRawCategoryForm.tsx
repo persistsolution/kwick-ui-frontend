@@ -7,11 +7,13 @@ import Select from "react-select";
 interface AddRawCategoryFromProps {
   modalAddRawCategory: () => void;
   toggleAddRawCategory: boolean;
+  handelfetchCategories: () => void;
 }
 
 const AddRawCategoryForm: React.FC<AddRawCategoryFromProps> = ({
   modalAddRawCategory,
   toggleAddRawCategory,
+  handelfetchCategories,
 }) => {
   const {
     formData,
@@ -22,7 +24,7 @@ const AddRawCategoryForm: React.FC<AddRawCategoryFromProps> = ({
     handleSubmit,
     handleMessage,
     setFormData,
-  } = useRawCategoryForm();
+  } = useRawCategoryForm({ handelfetchCategories, modalAddRawCategory });
   return (
     <Rodal
       onClose={() => {

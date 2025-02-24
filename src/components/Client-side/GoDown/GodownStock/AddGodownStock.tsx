@@ -163,7 +163,7 @@ const AddGodownStock: React.FC = () => {
                             <Form.Control
                               type="number"
                               name="totalPrice"
-                              value={formValues.totalPrice}
+                              value={Number(formValues.totalPrice).toFixed(2)}
                               readOnly
                             />
                           </Form.Group>

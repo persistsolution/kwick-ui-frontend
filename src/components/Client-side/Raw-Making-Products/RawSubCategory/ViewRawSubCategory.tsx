@@ -3,6 +3,7 @@ import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewRawSubCategory from "../../../Hook/Raw-Making-products-Hook/RawSubCategoryTS/useViewRawSubCategory";
 import RawAddSubCategory from "./RawAddSubCategory";
+import EditRawSubCategory from "./EditRawSubCategory";
 
 interface ComponentProps {}
 
@@ -18,7 +19,10 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
     exportToExcel,
     getVisiblePages,
     modalAddRawSubCategory,
+    handelfetchSubCategories,
+    modaltoggleEditRawSubCategory,
     currentSubCategories,
+    toggleEditRawSubCategory,
     subcategoriesPerPage,
     filteredSubCategories,
     indexOfFirstSubCategory,
@@ -88,6 +92,7 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th>Photo</th>
+                        <th onClick={() => handleSort("Name")}> Category</th>
                         <th onClick={() => handleSort("Name")}>Sub Category</th>
                         <th>Status</th>
                         <th>Edit</th>
@@ -114,6 +119,7 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                                 />
                               )}
                             </td>
+                            <td>{subcategory.CatName}</td>
                             <td>{subcategory.Name}</td>
                             <td
                               className={`${
@@ -246,6 +252,14 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
       <RawAddSubCategory
         toggleaddRawSubCategory={toggleaddRawSubCategory}
         modalAddRawSubCategory={modalAddRawSubCategory}
+        handelfetchSubCategories={handelfetchSubCategories}
+      />
+
+      {/* Edit Raw SubCategory */}
+      <EditRawSubCategory
+        handelfetchSubCategories={handelfetchSubCategories}
+        modaltoggleEditRawSubCategory={modaltoggleEditRawSubCategory}
+        toggleEditRawSubCategory={toggleEditRawSubCategory}
       />
     </Fragment>
   );

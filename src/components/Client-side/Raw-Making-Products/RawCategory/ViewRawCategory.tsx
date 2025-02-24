@@ -27,6 +27,7 @@ const ViewRawCategory: FC = () => {
     setCategoriesPerPage,
     modalAddRawCategory,
     handelToggleEditRawCategory,
+    handelfetchCategories,
   } = useRawViewCategoryForm();
 
   return (
@@ -89,7 +90,7 @@ const ViewRawCategory: FC = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Name</th>
+                        <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("srno")}>Sr No</th>
                         <th onClick={() => handleSort("status")}>Status</th>
                         <th onClick={() => handleSort("Name")}>Edit</th>
@@ -235,13 +236,15 @@ const ViewRawCategory: FC = () => {
       {/* Edit Raw Caregory Modal */}
       <EditRawCategoryFrom
         toggleEditRawCategory={toggleEditRawCategory}
-        handelToggleEditRawCategory={handelToggleEditRawCategory}
+        handelToggleEditRawCategory={() => handelToggleEditRawCategory(0)}
+        handelfetchCategories={handelfetchCategories}
       />
 
       {/* Add Raw Category Modal */}
       <AddRawCategoryForm
         modalAddRawCategory={modalAddRawCategory}
         toggleAddRawCategory={toggleAddRawCategory}
+        handelfetchCategories={handelfetchCategories}
       />
     </Fragment>
   );
