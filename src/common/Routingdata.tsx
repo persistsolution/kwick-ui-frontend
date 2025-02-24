@@ -48,6 +48,7 @@ import ViewGodownAccount from "../components/Client-side/GoDown/GodownAccount/Vi
 import AddGodownStock from "../components/Client-side/GoDown/GodownStock/AddGodownStock";
 import ViewGodownStock from "../components/Client-side/GoDown/GodownStock/ViewGodownStock";
 import ViewTransferStockToCocoFr from "../components/Client-side/GoDown/Transfer-Stock/ViewTransferStockToCocoFr";
+import ViewTransferStockToFofoFr from "../components/Client-side/GoDown/Transfer-Stock/ViewTransferStockToFofoFr";
 import ViewTransferStockToOtherFr from "../components/Client-side/GoDown/Transfer-Stock/ViewTransferStockToOtherFr";
 import ViewGodownApproveRequest from "../components/Client-side/GoDown/GodownApproveRequest/ViewGodownApproveRequest";
 import CreateInvoiceProductStock from "../components/Client-side/GoDown/CreateInvoiceProductStock/CreateInvoiceProductStock";
@@ -281,6 +282,11 @@ export const RouteData: routeType[] = [
     id: 33,
     path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToCocoFr`,
     element: <ViewTransferStockToCocoFr />,
+  },
+  {
+    id: 33,
+    path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToFofoFr`,
+    element: <ViewTransferStockToFofoFr />,
   },
   {
     id: 34,

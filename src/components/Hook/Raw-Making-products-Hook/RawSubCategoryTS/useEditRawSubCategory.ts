@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 import {
   fetchRawSubCategoryById,
@@ -32,8 +30,6 @@ const useEditRawSubCategory = ({
   const [message, setMessage] = useState<string | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<object[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  // const { id } = useParams();
   const id = localStorage.getItem("subCatId");
 
   useEffect(() => {

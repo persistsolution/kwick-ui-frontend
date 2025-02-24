@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { useNavigate } from "react-router-dom";
 import {
   fetchRawSubCategories,
   deleteRawSubCategory,
@@ -25,8 +24,6 @@ const useViewRawSubCategory = () => {
   const [toggleaddRawSubCategory, settoggleaddRawSubCategory] = useState(false);
   const [toggleEditRawSubCategory, settoggleEditRawSubCategory] =
     useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     handelfetchSubCategories();

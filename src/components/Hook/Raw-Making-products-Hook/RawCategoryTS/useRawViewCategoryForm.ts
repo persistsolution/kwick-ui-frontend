@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { useNavigate } from "react-router-dom";
 import {
   fetchRawCategories,
   deleteRawCategory,
@@ -18,8 +17,6 @@ const useRawViewCategoryForm = () => {
   }>({ key: null, direction: "asc" });
   const [toggleAddRawCategory, settoggleAddRawCategory] = useState(false);
   const [toggleEditRawCategory, settoggleEditRawCategory] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     handelfetchCategories();

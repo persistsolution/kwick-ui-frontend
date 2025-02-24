@@ -86,7 +86,7 @@ const ViewRawProduct: FC = () => {
                         <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("name")}>Sub Category</th>
                         {/* <th onClick={() => handleSort("name")}>Product Type</th> */}
-                        <th onClick={() => handleSort("name")}>Price</th>
+                        {/* <th onClick={() => handleSort("name")}>Price</th> */}
                         <th onClick={() => handleSort("name")}>Status</th>
                         <th onClick={() => handleSort("Name")}>Edit</th>
                         <th onClick={() => handleSort("Name")}>Delet</th>
@@ -113,12 +113,12 @@ const ViewRawProduct: FC = () => {
                                 ? "Raw / Making Product"
                                 : "MRP Product"}
                             </td> */}
-                            <td>
+                            {/* <td>
                               <span>
                                 <i className="bi bi-currency-rupee  fs-15"></i>{" "}
                                 {category.ProdPrice}
                               </span>
-                            </td>
+                            </td> */}
                             <td
                               className={`${
                                 category.Status === 1
@@ -126,9 +126,7 @@ const ViewRawProduct: FC = () => {
                                   : "text-danger"
                               }`}
                             >
-                              {category.Status === 1
-                                ? "Publish"
-                                : "Not Publish"}
+                              {category.Status === 1 ? "Active" : "In Active"}
                             </td>
                             <td>
                               <span

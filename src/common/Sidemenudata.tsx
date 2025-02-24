@@ -293,6 +293,15 @@ const defaultMenu: MenuItemtype[] = [
             dirchange: false,
           },
           {
+            path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToFofoFr`,
+            title: "Godown To Fofo Fr",
+            //icon: dashboardsvg,
+            type: "link",
+            active: false,
+            selected: false,
+            dirchange: false,
+          },
+          {
             path: `${
               import.meta.env.BASE_URL
             }GoDown/ViewTransferStockToOtherFr`,
