@@ -95,6 +95,11 @@ const useEditRawProductForm = () => {
       categoryId: data.CatId,
       subCategoryId: data.SubCatId,
       unit: data.Unit,
+      productdetails: addedProducts.map((item) => ({
+        id: item.customerProductId,
+        Qty: item.makingQty,
+        Unit: formValues.unit,
+      })),
     }));
   };
 
@@ -146,7 +151,7 @@ const useEditRawProductForm = () => {
       productdetails: addedProducts.map((item) => ({
         id: item.customerProductId,
         Qty: item.makingQty,
-        Unit: "",
+        Unit: formValues.unit,
       })),
     };
 

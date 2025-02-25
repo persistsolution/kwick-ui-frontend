@@ -1,8 +1,8 @@
 import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useTransferStockToCocoFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useTransferStockToCocoFr";
 import Select from "react-select";
+import useViewTransferStockToCocoFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useViewTransferStockToCocoFr";
 
 const ViewTransferStockToCocoFr: FC = () => {
   const {
@@ -27,7 +27,7 @@ const ViewTransferStockToCocoFr: FC = () => {
     setviewTransferStockToCocoFrPerPage,
     setfromDate,
     settodate,
-  } = useTransferStockToCocoFr();
+  } = useViewTransferStockToCocoFr();
 
   return (
     <Fragment>

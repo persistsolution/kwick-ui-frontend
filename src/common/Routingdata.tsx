@@ -79,6 +79,7 @@ import ViewCustomerSellReport from "../components/Client-side/Report/ViewCustome
 import ViewDailySellReport from "../components/Client-side/Report/ViewDailySellReport";
 import AllocatedProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocatedProducts";
 import RawAllocatedProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocatedProducts";
+import TransferStockGodownToFr from "../components/Client-side/GoDown/Transfer-Stock/TransferStockGodownToFr";
 
 export interface routeType {
   id: number;
@@ -282,6 +283,12 @@ export const RouteData: routeType[] = [
     id: 33,
     path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToCocoFr`,
     element: <ViewTransferStockToCocoFr />,
+  },
+
+  {
+    id: 34,
+    path: `${import.meta.env.BASE_URL}GoDown/TransferStockGodownToFr`,
+    element: <TransferStockGodownToFr />,
   },
   {
     id: 33,

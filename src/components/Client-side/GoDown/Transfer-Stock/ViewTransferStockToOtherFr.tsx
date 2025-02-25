@@ -1,7 +1,7 @@
 import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useTransferStockToOtherFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useTransferStockToOtherFr";
+import useViewTransferStockToOtherFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useViewTransferStockToOtherFr";
 import Select from "react-select";
 
 const ViewTransferStockToOtherFr: FC = () => {
@@ -16,6 +16,7 @@ const ViewTransferStockToOtherFr: FC = () => {
     fromDate,
     FranchiseList,
     toDate,
+    currentviewTransferStockToOtherFr,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -26,7 +27,7 @@ const ViewTransferStockToOtherFr: FC = () => {
     setviewTransferStockToOtherFrPerPage,
     setfromDate,
     settodate,
-  } = useTransferStockToOtherFr();
+  } = useViewTransferStockToOtherFr();
 
   return (
     <Fragment>
@@ -148,37 +149,39 @@ const ViewTransferStockToOtherFr: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {viewTransferStockToOtherFr.length > 0 ? (
-                        viewTransferStockToOtherFr.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}>
-                            <td>{GodownAccount.id}</td>
-                            <td>{GodownAccount.GodownName}</td>
-                            <td></td>
-                            <td>{GodownAccount.StockDate}</td>
-                            <td>{GodownAccount.TotQty}</td>
-                            <td>{GodownAccount.TotalAmount}</td>
-                            <td>{GodownAccount.Narration}</td>
-                            <td>{GodownAccount.CreatedDate}</td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                // onClick={() => handelEditProduct(product.id)}
-                              >
-                                <i className="bi bi-pen fs-15"></i>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                                // onClick={() => handleDeleteProduct(product.id)}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        ))
+                      {currentviewTransferStockToOtherFr.length > 0 ? (
+                        currentviewTransferStockToOtherFr.map(
+                          (GodownAccount: any) => (
+                            <tr key={GodownAccount.id}>
+                              <td>{GodownAccount.id}</td>
+                              <td>{GodownAccount.GodownName}</td>
+                              <td></td>
+                              <td>{GodownAccount.StockDate}</td>
+                              <td>{GodownAccount.TotQty}</td>
+                              <td>{GodownAccount.TotalAmount}</td>
+                              <td>{GodownAccount.Narration}</td>
+                              <td>{GodownAccount.CreatedDate}</td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
+                                  // onClick={() => handelEditProduct(product.id)}
+                                >
+                                  <i className="bi bi-pen fs-15"></i>
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                                  // onClick={() => handleDeleteProduct(product.id)}
+                                >
+                                  <i className="bi bi-trash fs-15"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        )
                       ) : (
                         <tr>
                           <td colSpan={3} className="text-center">

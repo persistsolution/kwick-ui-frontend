@@ -5,7 +5,7 @@ import {
   deleteTransferStockToCocoFr,
 } from "../../../api/GoDown-Api/Transfer-Stock/TransferStockApi";
 
-const useTransferStockToCocoFr = () => {
+const useViewTransferStockToCocoFr = () => {
   const [viewTransferStockToCocoFr, setviewTransferStockToCocoFr] = useState(
     []
   );
@@ -162,4 +162,4 @@ const useTransferStockToCocoFr = () => {
   };
 };
 
-export default useTransferStockToCocoFr;
+export default useViewTransferStockToCocoFr;
