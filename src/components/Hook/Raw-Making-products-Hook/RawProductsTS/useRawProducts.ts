@@ -22,7 +22,7 @@ interface ProductFormValues {
   barcodeNo: string;
   minStockQty: string;
   status: string;
-  productType: string;
+  productType: number;
   transferProduct: string;
   qrDisplay: string;
   srNo: string;
@@ -36,6 +36,7 @@ interface ProductFormValues {
   makingQty: number;
   unitList: string[];
   productList: string[];
+  productType2: number;
 }
 
 const useRawProducts = () => {
@@ -53,7 +54,7 @@ const useRawProducts = () => {
     barcodeNo: "",
     minStockQty: "",
     status: "",
-    productType: "",
+    productType: 1,
     transferProduct: "",
     qrDisplay: "",
     srNo: "",
@@ -67,6 +68,7 @@ const useRawProducts = () => {
     makingQty: 0,
     unitList: [],
     productList: [],
+    productType2: 2,
   });
   const [addedProducts, setAddedProducts] = useState<
     { customerProductId: number; makingQty: number }[]
@@ -139,6 +141,8 @@ const useRawProducts = () => {
       SubCatId: formValues.subCategoryId,
       Unit: formValues.unit,
       Status: formValues.status,
+      ProdType: formValues.productType,
+      prodType2: formValues.productType2,
       productdetails: addedProducts.map((item) => ({
         id: item.customerProductId,
         Qty: item.makingQty,
@@ -165,7 +169,7 @@ const useRawProducts = () => {
           barcodeNo: "",
           minStockQty: "",
           status: "",
-          productType: "",
+          productType: 1,
           transferProduct: "",
           qrDisplay: "",
           srNo: "",
@@ -178,6 +182,7 @@ const useRawProducts = () => {
           makingQty: 0,
           unitList: prevValues.unitList,
           productList: prevValues.productList,
+          productType2: 2,
         }));
         setAddedProducts([]);
       }
@@ -248,7 +253,7 @@ const useRawProducts = () => {
       barcodeNo: "",
       minStockQty: "",
       // status: "",
-      productType: "",
+      productType: 1,
       transferProduct: "",
       qrDisplay: "",
       srNo: "",
