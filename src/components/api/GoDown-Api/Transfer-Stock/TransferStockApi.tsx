@@ -12,7 +12,7 @@ export const addTransferStockToCocoFrApi = async (
 export const fetchTransferStockToCocoFrApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godownaccountstock/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/transferstock/get/1`);
 };
 
 // Delete Coco Stock API
@@ -38,7 +38,7 @@ export const addTransferStockToOtherFrApi = async (
 export const fetchTransferStockToOtherFrApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godownaccountstock/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/transferstock/get/0`);
 };
 
 // Delete Other Stock API

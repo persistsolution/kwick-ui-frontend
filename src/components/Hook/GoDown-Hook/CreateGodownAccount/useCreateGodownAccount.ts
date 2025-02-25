@@ -21,7 +21,7 @@ const useCreateGodownAccount = () => {
     anothermobileNo: 0,
     emailId: "",
     Photo: "",
-    status: 0,
+    status: 1,
     lattitude: "",
     longitude: "",
   });
@@ -62,6 +62,12 @@ const useCreateGodownAccount = () => {
       EmailId: formValues.emailId,
       Photo: formValues.Photo,
       Status: formValues.status,
+      Password: "12345",
+      Roll: 93,
+      CreatedBy: 5,
+      ModifiedBy: 5,
+      CreatedDate: new Date().toISOString().split("T")[0],
+      ModifiedDate: new Date().toISOString().split("T")[0],
     };
     try {
       const response: any = await createGodownApi(createGodownAccountData);
@@ -74,7 +80,7 @@ const useCreateGodownAccount = () => {
           anothermobileNo: 0,
           emailId: "",
           Photo: "",
-          status: 0,
+          status: 1,
           lattitude: "",
           longitude: "",
         });

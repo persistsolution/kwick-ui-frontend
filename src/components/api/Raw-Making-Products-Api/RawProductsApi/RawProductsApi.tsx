@@ -8,18 +8,27 @@ export interface Product {
 
 // API to raw Fetch all products
 export const fetchRawProducts = async (): Promise<AxiosResponse<Product[]>> => {
-  return axios.get<Product[]>(`${API_BASE_URL}/raw-product/product/get`);
+  return axios.get<Product[]>(`${API_BASE_URL}/raw-product/product/get/1`);
+};
+
+// API to raw Fetch all Customer products List
+export const fetchRawCustomerProductListApi = async (): Promise<
+  AxiosResponse<Product[]>
+> => {
+  return axios.get<Product[]>(
+    `${API_BASE_URL}/raw-product/product/getprodlist`
+  );
 };
 
 // API to raw fetch a Product by ID
-export const fetchRawEditProducts = async (
+export const fetchRawEditProductsApi = async (
   id: number
 ): Promise<AxiosResponse<Product>> => {
   return axios.get<Product>(`${API_BASE_URL}/raw-product/product/edit/${id}`);
 };
 
 // API to raw update a product
-export const updateRawProducts = async (
+export const updateRawProductsApi = async (
   id: number,
   data: Partial<Product>
 ): Promise<AxiosResponse<Product>> => {

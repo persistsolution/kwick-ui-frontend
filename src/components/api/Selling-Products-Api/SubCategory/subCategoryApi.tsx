@@ -13,7 +13,7 @@ export const fetchSubCategories = async (): Promise<
   AxiosResponse<SubCategory[]>
 > => {
   return axios.get<SubCategory[]>(
-    `${API_BASE_URL}/selling-product/subcategory/get`
+    `${API_BASE_URL}/selling-product/subcategory/get/0`
   );
 };
 

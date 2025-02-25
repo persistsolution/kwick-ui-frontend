@@ -3,6 +3,8 @@ import { utils, writeFile } from "xlsx";
 import {
   deleteGodownStock,
   fetchGodownStockApi,
+  fetchGodownStockProduct,
+  fetchGodownListApi,
 } from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
 
 const useViewGodownStock = () => {
@@ -21,10 +23,32 @@ const useViewGodownStock = () => {
   const [categoryList, setcategoryList] = useState([]);
   const [subcategoryList, setsubcategoryList] = useState([]);
   const [goDownProductlist, setgoDownProductlist] = useState([]);
+  const [selectGodownStockProduct, setselectGodownStockProduct] = useState(0);
+  const [selectGodown, setselectGodown] = useState(0);
 
   useEffect(() => {
     handleFetchviewGodownStock();
+    handleFetchGodownPord();
+    fetchGodownList();
   }, []);
+
+  const fetchGodownList = async () => {
+    try {
+      const response: any = await fetchGodownListApi();
+      setgoDownList(response.data);
+    } catch (error) {
+      console.error("Error fetching viewGodownStock:", error);
+    }
+  };
+
+  const handleFetchGodownPord = async () => {
+    try {
+      const response: any = await fetchGodownStockProduct();
+      setgoDownProductlist(response.data);
+    } catch (error) {
+      console.error("Error fetching viewGodownStock:", error);
+    }
+  };
 
   const handleFetchviewGodownStock = async () => {
     try {
@@ -140,6 +164,8 @@ const useViewGodownStock = () => {
     categoryList,
     subcategoryList,
     goDownProductlist,
+    selectGodownStockProduct,
+    selectGodown,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -154,6 +180,8 @@ const useViewGodownStock = () => {
     setcategoryList,
     setsubcategoryList,
     setgoDownProductlist,
+    setselectGodownStockProduct,
+    setselectGodown,
   };
 };
 

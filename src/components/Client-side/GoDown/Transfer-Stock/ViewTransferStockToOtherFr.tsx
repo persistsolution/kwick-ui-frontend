@@ -150,7 +150,34 @@ const ViewTransferStockToOtherFr: FC = () => {
                     <tbody>
                       {viewTransferStockToOtherFr.length > 0 ? (
                         viewTransferStockToOtherFr.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
+                          <tr key={GodownAccount.id}>
+                            <td>{GodownAccount.id}</td>
+                            <td>{GodownAccount.GodownName}</td>
+                            <td></td>
+                            <td>{GodownAccount.StockDate}</td>
+                            <td>{GodownAccount.TotQty}</td>
+                            <td>{GodownAccount.TotalAmount}</td>
+                            <td>{GodownAccount.Narration}</td>
+                            <td>{GodownAccount.CreatedDate}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                              <button
+                                className="avatar rounded-circle bg-azure cursor-pointer border-0"
+                                // onClick={() => handelEditProduct(product.id)}
+                              >
+                                <i className="bi bi-pen fs-15"></i>
+                              </button>
+                            </td>
+                            <td>
+                              <button
+                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                                // onClick={() => handleDeleteProduct(product.id)}
+                              >
+                                <i className="bi bi-trash fs-15"></i>
+                              </button>
+                            </td>
+                          </tr>
                         ))
                       ) : (
                         <tr>

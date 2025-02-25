@@ -57,7 +57,7 @@ const AddProductForm: FC = () => {
                         required: "*",
                       },
                       {
-                        name: "barnd",
+                        name: "brandId",
                         label: "Select Brand",
                         type: "select",
                         options: formValues.getBrandList,

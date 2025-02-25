@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { useNavigate } from "react-router-dom";
 import {
   fetchRawCategories,
   deleteRawCategory,
@@ -17,12 +16,20 @@ const useRawViewCategoryForm = () => {
     direction: string;
   }>({ key: null, direction: "asc" });
   const [toggleAddRawCategory, settoggleAddRawCategory] = useState(false);
-
-  const navigate = useNavigate();
+  const [toggleEditRawCategory, settoggleEditRawCategory] = useState(false);
 
   useEffect(() => {
     handelfetchCategories();
   }, []);
+
+  const handelToggleEditRawCategory = (id: number) => {
+    settoggleEditRawCategory(!toggleEditRawCategory);
+    if (typeof id === "number") {
+      localStorage.setItem("rawCatId", id.toString());
+    } else {
+      localStorage.removeItem("rawCatId");
+    }
+  };
 
   const handelfetchCategories = async () => {
     try {
@@ -107,7 +114,7 @@ const useRawViewCategoryForm = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/Products/EditRawCategoryFrom/${id}`);
+    handelToggleEditRawCategory(id);
   };
 
   const indexOfLastCategory = currentPage * categoriesPerPage;
@@ -130,6 +137,7 @@ const useRawViewCategoryForm = () => {
     currentCategories,
     totalPages,
     toggleAddRawCategory,
+    toggleEditRawCategory,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -139,6 +147,8 @@ const useRawViewCategoryForm = () => {
     getVisiblePages,
     setCategoriesPerPage,
     modalAddRawCategory,
+    handelToggleEditRawCategory,
+    handelfetchCategories,
   };
 };
 

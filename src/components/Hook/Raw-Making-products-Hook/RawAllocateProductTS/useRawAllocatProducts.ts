@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchrawallocateProducts } from "../../../api/Raw-Making-Products-Api/RawAllocateProducts/RawAllocateProductsApi";
+import { fetchFranchise } from "../../../api/Franchise-Api/FranchiseApi";
+import { useNavigate } from "react-router-dom";
 
-const useRawAllocatedProducts = () => {
+const useRawAllocatProducts = () => {
   const [allocateProducts, setallocateProducts] = useState([]);
   const [filteredallocateProducts, setFilteredallocateProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,9 +15,30 @@ const useRawAllocatedProducts = () => {
   }>({ key: null, direction: "asc" });
   const [modal, setModal] = useState(false);
   const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
-  const [franchiseList, setfranchiseList] = useState([]);
+  // const [franchiseList, setfranchiseList] = useState([]);
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
+  const navigate = useNavigate();
+
+  const franchiseList = [
+    {
+      id: "all",
+      label: "All",
+    },
+    {
+      id: 1,
+      label: "COCO Franchise",
+    },
+
+    {
+      id: 2,
+      label: "FOFO Franchise",
+    },
+    {
+      id: 0,
+      label: "Other Franchise ",
+    },
+  ];
 
   const toggle = (id: any) => {
     setModal(!modal);
@@ -34,7 +56,7 @@ const useRawAllocatedProducts = () => {
 
   const handelfetchallocateProducts = async () => {
     try {
-      const response: any = await fetchrawallocateProducts();
+      const response: any = await fetchFranchise();
       setallocateProducts(response.data);
       setFilteredallocateProducts(response.data);
     } catch (error) {
@@ -68,6 +90,12 @@ const useRawAllocatedProducts = () => {
 
     setSortConfig({ key, direction });
     setFilteredallocateProducts(sortedallocateProducts);
+  };
+
+  const handelAllocatedProduct = () => {};
+
+  const handelNavigateAllocatedProduct = (id: number) => {
+    navigate(`/RawProducts/ViewRawAllocatedProducts/${id}`);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -132,8 +160,9 @@ const useRawAllocatedProducts = () => {
     handelfetchallocateProducts,
     setfromDate,
     settodate,
-    setfranchiseList,
+    handelAllocatedProduct,
+    handelNavigateAllocatedProduct,
   };
 };
 
-export default useRawAllocatedProducts;
+export default useRawAllocatProducts;

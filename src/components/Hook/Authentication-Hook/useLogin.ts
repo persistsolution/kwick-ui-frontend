@@ -9,17 +9,16 @@ const useLogin = () => {
   const [mobileNumber, setMobileNumber] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [isOtpSent, setIsOtpSent] = useState<boolean>(false);
-  const [otp, setOtp] = useState<string>("");
+  const [otp, setOtp] = useState<string | any>("");
   const [enteredOtp, setEnteredOtp] = useState<string>("");
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("authToken")
   );
-
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/");
     }
   }, [token, navigate]);
 
@@ -46,19 +45,45 @@ const useLogin = () => {
   //     }
   // };
 
+  // const checkEmployeeExists = async (mobileNumber: string) => {
+  //   try {
+  //     const response: any = await fetchUserApi(mobileNumber);
+  //     console.log(response, "response");
+  //     if (!response) {
+  //       console.error("Invalid API response format");
+  //       setError("Mobile number not found in the employee database.");
+  //       return false;
+  //     }
+  //     if (!response.data.success || !response.data.data[0].Status) {
+  //       setError("UserId is not active contacat admin.");
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking employee:", error);
+  //   }
+  // };
+
   const checkEmployeeExists = async (mobileNumber: string) => {
     try {
-      const response: any = await fetchUserApi();
-      if (!response || !Array.isArray(response)) {
+      const response: any = await fetchUserApi(mobileNumber);
+      console.log(response, "response");
+
+      if (!response || !response.data) {
         console.error("Invalid API response format");
+        setError("Mobile number not found in the employee database.");
         return false;
       }
-      const isExists = response.some(
-        (employee: any) => employee.email?.trim() === mobileNumber.trim()
-      );
-      return isExists;
+
+      if (!response.data.success || !response.data.data[0]?.Status) {
+        setError("UserId is not active. Contact admin.");
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error("Error checking employee:", error);
+      setError("Mobile number not found in the employee database.");
+      return false;
     }
   };
 
@@ -83,25 +108,24 @@ const useLogin = () => {
       return;
     }
 
-    // const isEmployeeExists = await checkEmployeeExists(mobileNumber);
-    // if (!isEmployeeExists) {
-    //   setError("Mobile number not found in the employee database.");
-    //   return;
-    // }
+    const isEmployeeExists = await checkEmployeeExists(mobileNumber);
+    if (!isEmployeeExists) {
+      return;
+    }
 
     const otpResponse: any = await sendOtpApi(mobileNumber);
-    console.log(otpResponse, "otpResponse");
     if (otpResponse.response.status === 200) {
       setOtp(otpResponse);
       setIsOtpSent(true);
       setError(null);
     } else {
-      // setError("Failed to send OTP. Please try again.");
+      setError("Failed to send OTP. Please try again.");
     }
   };
 
   const handleVerifyOtp = () => {
-    if (enteredOtp !== otp) {
+    console.log(enteredOtp, otp);
+    if (enteredOtp !== otp.otp) {
       setError("Invalid OTP. Please try again.");
       return;
     }
@@ -111,9 +135,17 @@ const useLogin = () => {
 
   const login = (mobile: string) => {
     const authToken = `auth_${mobile}_${new Date().getTime()}`;
+    const loginTime = new Date().toISOString();
     localStorage.setItem("authToken", authToken);
+    localStorage.setItem("loginTime", loginTime);
     navigate(`${import.meta.env.BASE_URL}Dashboard/IndexPage`);
     setToken(authToken);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSendOtp();
+    }
   };
 
   return {
@@ -129,6 +161,7 @@ const useLogin = () => {
     setEnteredOtp,
     handleVerifyOtp,
     handleSendOtp,
+    handleKeyDown,
   };
 };
 
