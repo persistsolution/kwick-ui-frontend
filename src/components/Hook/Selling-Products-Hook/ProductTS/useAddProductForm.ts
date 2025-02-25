@@ -3,6 +3,7 @@ import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/c
 import { createProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
+import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
 interface ProductFormValues {
   productName: string;
@@ -29,6 +30,7 @@ interface ProductFormValues {
   getBrandList: string[];
   brandId: number;
   unitList: string[];
+  brandList: string[];
   unitId: string;
   code: string;
 }
@@ -59,6 +61,7 @@ const useAddProductForm = () => {
     getBrandList: [],
     brandId: 0,
     unitList: [],
+    brandList: [],
     unitId: "",
     code: "",
   });
@@ -67,7 +70,27 @@ const useAddProductForm = () => {
     handelGetCategories();
     handelGetSubCategories();
     fetchUnit();
+    handelfetchBrand();
   }, []);
+
+  console.log(formValues, "formValues");
+
+  const handelfetchBrand = async () => {
+    try {
+      const response: any = await fetchBrandApi();
+      const data = response.data;
+
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        getBrandList: data.map((unit: { name: string; id: number }) => ({
+          name: unit.name,
+          id: unit.id,
+        })),
+      }));
+    } catch (error) {
+      console.error("Error fetching Brand:", error);
+    }
+  };
 
   const fetchUnit = async () => {
     try {
@@ -178,7 +201,8 @@ const useAddProductForm = () => {
 
       if (response.status === 200) {
         // alert("Product added successfully!");
-        setFormValues({
+        setFormValues((prevValues) => ({
+          ...prevValues,
           productName: "",
           categoryId: 0,
           subCategoryId: 0,
@@ -197,15 +221,16 @@ const useAddProductForm = () => {
           qrDisplay: "",
           srNo: 1,
           productImage: null,
-          getcategory: [],
-          getSubCategory: [],
+          getcategory: prevValues.getcategory,
+          getSubCategory: prevValues.getSubCategory,
           photo: "",
-          getBrandList: [],
+          getBrandList: prevValues.getBrandList,
           brandId: 0,
-          unitList: [],
+          unitList: prevValues.unitList,
           unitId: "",
           code: "",
-        });
+          brandList: prevValues.brandList,
+        }));
       }
     } catch (error) {
       console.error("Error adding product:", error);

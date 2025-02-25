@@ -96,12 +96,12 @@ const ViewBrand: FC = () => {
                             <td>{Brand.name}</td>
                             <td
                               className={`${
-                                Brand.status === true
+                                Brand.status === 1
                                   ? "text-success"
                                   : "text-danger"
                               }`}
                             >
-                              {Brand.status === true ? "Active" : "In Active"}
+                              {Brand.status === 1 ? "Active" : "In Active"}
                             </td>
                             <td>
                               <button

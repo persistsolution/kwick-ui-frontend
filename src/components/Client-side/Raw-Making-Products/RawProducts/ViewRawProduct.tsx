@@ -21,6 +21,7 @@ const ViewRawProduct: FC = () => {
     handleSort,
     handleSearch,
     setCategoriesPerPage,
+    handelNavigateAddMore,
   } = useViewRawProduct();
 
   return (
@@ -62,6 +63,9 @@ const ViewRawProduct: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                    <Button variant="success" onClick={handelNavigateAddMore}>
+                      Add More
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -77,12 +81,12 @@ const ViewRawProduct: FC = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Name</th>
-                        <th onClick={() => handleSort("name")}>Barcode No</th>
+                        <th onClick={() => handleSort("name")}>Product Name</th>
+                        {/* <th onClick={() => handleSort("name")}>Barcode No</th> */}
                         <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("name")}>Sub Category</th>
-                        <th onClick={() => handleSort("name")}>Product Type</th>
-                        <th onClick={() => handleSort("name")}>Price</th>
+                        {/* <th onClick={() => handleSort("name")}>Product Type</th> */}
+                        {/* <th onClick={() => handleSort("name")}>Price</th> */}
                         <th onClick={() => handleSort("name")}>Status</th>
                         <th onClick={() => handleSort("Name")}>Edit</th>
                         <th onClick={() => handleSort("Name")}>Delet</th>
@@ -101,30 +105,28 @@ const ViewRawProduct: FC = () => {
                               />
                             </td>
                             <td>{category.ProductName}</td>
-                            <td>{category.BarcodeNo}</td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-success">
+                            {/* <td>{category.BarcodeNo}</td> */}
+                            <td>{category.CatName}</td>
+                            <td>{category.SubCatName}</td>
+                            {/* <td className="text-success">
                               {category.ProdType === 1
                                 ? "Raw / Making Product"
                                 : "MRP Product"}
-                            </td>
-                            <td>
+                            </td> */}
+                            {/* <td>
                               <span>
                                 <i className="bi bi-currency-rupee  fs-15"></i>{" "}
                                 {category.ProdPrice}
                               </span>
-                            </td>
+                            </td> */}
                             <td
                               className={`${
-                                category.tempstatus === "Publish"
+                                category.Status === 1
                                   ? "text-success"
                                   : "text-danger"
                               }`}
                             >
-                              {category.tempstatus === "Publish"
-                                ? "Active"
-                                : "In Active"}
+                              {category.Status === 1 ? "Active" : "In Active"}
                             </td>
                             <td>
                               <span

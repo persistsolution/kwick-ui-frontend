@@ -1,10 +1,19 @@
-import React, {  useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
-import { fetchRawSubCategoryById, updateRawSubCategory } from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
+import {
+  fetchRawSubCategoryById,
+  updateRawSubCategory,
+} from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 
-const useEditSubCategoryForm = () => {
+interface EditRawSubCategoryProps {
+  handelfetchSubCategories: () => void;
+  modaltoggleEditRawSubCategory: () => void;
+}
+
+const useEditRawSubCategory = ({
+  handelfetchSubCategories,
+  modaltoggleEditRawSubCategory,
+}: EditRawSubCategoryProps) => {
   const [formData, setFormData] = useState({
     catid: 0,
     subCatname: "",
@@ -14,47 +23,46 @@ const useEditSubCategoryForm = () => {
     createddate: new Date().toISOString(),
     modifiedby: 1,
     modifieddate: new Date().toISOString(),
-    productType: "",
+    productType: 1,
     frId: 0,
     category: "",
   });
   const [message, setMessage] = useState<string | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<object[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const id = localStorage.getItem("subCatId");
 
   useEffect(() => {
     handelGetCategories();
     handelGetSubCategories();
-  }, []);
+  }, [id]);
 
   const handelGetCategories = async () => {
     try {
-      const response :any = await fetchCategories()
+      const response: any = await fetchCategories();
       const data = await response.data;
       setCategoryOptions(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      setMessage("Failed to fetch categories. Please try again later.");
+      // setMessage("Failed to fetch categories. Please try again later.");
     }
   };
 
   const handelGetSubCategories = async () => {
     try {
-      const response :any = await fetchRawSubCategoryById(Number(id))
-      const updateresponse = response?.data?.data;
+      const response: any = await fetchRawSubCategoryById(Number(id));
+      const updateresponse = response?.data;
       if (response.status === 200) {
         setFormData({
           catid: Number(updateresponse?.CatId),
           subCatname: updateresponse?.Name,
           photo: null,
-          status: Number(updateresponse?.Status) ,
+          status: Number(updateresponse?.Status),
           createdby: 1,
           createddate: new Date().toISOString(),
           modifiedby: 1,
           modifieddate: new Date().toISOString(),
-          productType: "",
+          productType: 1,
           frId: 0,
           category: "",
         });
@@ -105,9 +113,8 @@ const useEditSubCategoryForm = () => {
       ModifiedDate: formData.modifieddate,
     };
     try {
-      const response :any= await updateRawSubCategory(Number(id) , Object(raw))
+      const response: any = await updateRawSubCategory(Number(id), Object(raw));
       if (response.status === 200) {
-        setMessage("Category Edit successfully!");
         setFormData({
           catid: 0,
           subCatname: "",
@@ -117,19 +124,21 @@ const useEditSubCategoryForm = () => {
           createddate: new Date().toISOString(),
           modifiedby: 1,
           modifieddate: new Date().toISOString(),
-          productType: "",
+          productType: 1,
           frId: 0,
           category: "",
         });
-        navigate("/Products/ViewRawSubCategory/");
+        handelfetchSubCategories();
+        modaltoggleEditRawSubCategory();
+        // navigate("/Products/ViewRawSubCategory/");
       } else {
-        setMessage(
-          `Error: ${response.data?.message || "Failed to edit category."}`
-        );
+        // setMessage(
+        //   `Error: ${response.data?.message || "Failed to edit category."}`
+        // );
       }
     } catch (err) {
       console.error("Network error:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -142,8 +151,8 @@ const useEditSubCategoryForm = () => {
     isLoading,
     handleChange,
     handleCategoryChange,
-    handleSubmit
+    handleSubmit,
   };
 };
 
-export default useEditSubCategoryForm;
+export default useEditRawSubCategory;

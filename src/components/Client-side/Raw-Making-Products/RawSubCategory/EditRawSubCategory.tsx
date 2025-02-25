@@ -1,14 +1,18 @@
 import React, { Fragment } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import useEditSubCategoryForm from "../../../Hook/Selling-Products-Hook/SubCategoryTS/useEditSubCategory";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import useEditRawSubCategory from "../../../Hook/Raw-Making-products-Hook/RawSubCategoryTS/useEditRawSubCategory";
+import Rodal from "rodal";
 
 interface EditRawSubCategoryProps {
   handelfetchSubCategories: () => void;
+  toggleEditRawSubCategory: boolean;
+  modaltoggleEditRawSubCategory: () => void;
 }
 
 const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
   handelfetchSubCategories,
+  modaltoggleEditRawSubCategory,
+  toggleEditRawSubCategory,
 }) => {
   const {
     formData,
@@ -18,28 +22,36 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
     handleChange,
     handleCategoryChange,
     handleSubmit,
-  } = useEditSubCategoryForm({ handelfetchSubCategories });
+  } = useEditRawSubCategory({
+    handelfetchSubCategories,
+    modaltoggleEditRawSubCategory,
+  });
+
+  console.log(formData, "formData");
 
   return (
-    <Fragment>
-      <Pageheader
-        heading="Edit Sub Category"
-        homepage="Forms"
-        activepage="Edit Sub Category"
-      />
-
-      <div className="main-container container-fluid">
-        <Row>
-          <Col xl={12}>
-            <Card className="custom-card">
-              <Card.Header>
-                <div className="card-title">Edit Sub Category</div>
-              </Card.Header>
-              <Card.Body>
-                <Form onSubmit={handleSubmit}>
+    <Rodal
+      onClose={() => {
+        modaltoggleEditRawSubCategory();
+      }}
+      visible={toggleEditRawSubCategory}
+      animation="slideUp"
+      height={300}
+      width={600}
+    >
+      <div className="modal-header">Edit Raw Sub Category</div>
+      <Fragment>
+        <div className="main-container container-fluid">
+          <Row>
+            <Col xl={12}>
+              <Form onSubmit={handleSubmit}>
+                <div className="modal-body text-start">
                   <Row className="gy-4">
-                    <Col xl={4}>
-                      <Form.Label> Category Name *</Form.Label>
+                    <Col xl={6}>
+                      <Form.Label>
+                        {" "}
+                        Category Name <span className="text-danger">*</span>
+                      </Form.Label>
                       <Form.Select
                         name="category"
                         value={formData.catid}
@@ -55,9 +67,12 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                       </Form.Select>
                     </Col>
 
-                    <Col xl={4}>
+                    <Col xl={6}>
                       <Form.Group controlId="name">
-                        <Form.Label>Sub Category Name *</Form.Label>
+                        <Form.Label>
+                          Sub Category Name{" "}
+                          <span className="text-danger">*</span>
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="subCatname"
@@ -69,7 +84,7 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                       </Form.Group>
                     </Col>
 
-                    <Col xl={4}>
+                    <Col xl={6}>
                       <Form.Group className="my-1">
                         <label className="form-label mt-0">Photo Upload</label>
                         <input
@@ -84,6 +99,9 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
 
                     <Col xl={4}>
                       <Form.Group className="my-1">
+                        <Form.Label>
+                          Status <span className="text-danger">*</span>
+                        </Form.Label>
                         <Form.Select
                           name="status"
                           onChange={handleChange}
@@ -97,7 +115,9 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                </div>
+                <div className="modal-footer">
+                  <Row>
                     <Col>
                       <Button
                         type="submit"
@@ -119,13 +139,13 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                       )}
                     </Col>
                   </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </Fragment>
+                </div>
+              </Form>
+            </Col>
+          </Row>
+        </div>
+      </Fragment>
+    </Rodal>
   );
 };
 

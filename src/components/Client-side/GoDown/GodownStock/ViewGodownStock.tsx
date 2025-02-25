@@ -19,6 +19,9 @@ const ViewGodownStock: FC = () => {
     categoryList,
     subcategoryList,
     goDownProductlist,
+    currentviewGodownStock,
+    // selectGodownStockProduct,
+    // selectGodown,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -29,6 +32,8 @@ const ViewGodownStock: FC = () => {
     setviewGodownStockPerPage,
     setfromDate,
     settodate,
+    setselectGodownStockProduct,
+    setselectGodown,
   } = useViewGodownStock();
 
   return (
@@ -48,30 +53,58 @@ const ViewGodownStock: FC = () => {
                   <div className="row">
                     <div className="col-md-3 col-12">
                       <Form.Group controlId="goDownlist">
-                        <Form.Label>Godown*</Form.Label>
+                        <Form.Label>
+                          Godown <span className="text-danger">*</span>
+                        </Form.Label>
                         <Select
-                          name="state"
-                          options={goDownList}
+                          name="goDownlist"
+                          id="goDownlist"
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
                           classNamePrefix="Select2"
-                          defaultValue={[goDownList[0]]}
+                          options={
+                            goDownList?.map((option: any) => ({
+                              label: option.Fname,
+                              value: option.id,
+                            })) || []
+                          }
+                          onChange={(selectedOption) => {
+                            setselectGodown((prevValues: any) => ({
+                              ...prevValues,
+                              selectGodown: selectedOption
+                                ? selectedOption.value
+                                : "",
+                            }));
+                          }}
                         />
                       </Form.Group>
                     </div>
 
                     <div className="col-md-3 col-12">
                       <Form.Group controlId="goDownProductlist">
-                        <Form.Label>Godown Product*</Form.Label>
+                        <Form.Label>Godown Product</Form.Label>
                         <Select
-                          name="state"
-                          options={goDownProductlist}
+                          name="goDownProductlist"
+                          id="goDownProductlist"
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
                           classNamePrefix="Select2"
-                          defaultValue={[goDownProductlist[0]]}
+                          options={
+                            goDownProductlist?.map((option: any) => ({
+                              label: option.ProductName,
+                              value: option.id,
+                            })) || []
+                          }
+                          onChange={(selectedOption) => {
+                            setselectGodownStockProduct((prevValues: any) => ({
+                              ...prevValues,
+                              selectGodownStockProduct: selectedOption
+                                ? selectedOption.value
+                                : "",
+                            }));
+                          }}
                         />
                       </Form.Group>
                     </div>
@@ -170,35 +203,56 @@ const ViewGodownStock: FC = () => {
                   >
                     <thead className="table-primary">
                       <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("photo")}>Photo</th>
-                        <th onClick={() => handleSort("ShopName")}>
-                          Shop Name
-                        </th>
+                        <th onClick={() => handleSort("id")}>Sr.No</th>
                         <th onClick={() => handleSort("GoDownName")}>
                           GoDown Name{" "}
                         </th>
-                        <th onClick={() => handleSort("Email")}>Email </th>
-                        <th onClick={() => handleSort("ContactNo")}>
-                          Contact No
+                        <th onClick={() => handleSort("ShopName")}>
+                          Product Name
                         </th>
-                        <th onClick={() => handleSort("AnotherContactNo")}>
-                          Another Contact No
+                        <th onClick={() => handleSort("date")}>Date </th>
+                        <th onClick={() => handleSort("Email")}>
+                          Stock In Qty{" "}
                         </th>
-                        <th onClick={() => handleSort("Address")}>Address </th>
-                        <th onClick={() => handleSort("Status")}>Status </th>
-                        <th onClick={() => handleSort("RegisterDate")}>
-                          Register Date{" "}
+                        <th onClick={() => handleSort("price")}>Price </th>
+                        <th onClick={() => handleSort("totalPrice")}>
+                          Total Price
                         </th>
                         <th>Edit</th>
                         <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredviewGodownStock.length > 0 ? (
-                        filteredviewGodownStock.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
-                        ))
+                      {currentviewGodownStock.length > 0 ? (
+                        currentviewGodownStock.map(
+                          (godowonStock: any, idx: number) => (
+                            <tr key={godowonStock.id}>
+                              <td>{idx + 1}</td>
+                              <td>{godowonStock.Fname}</td>
+                              <td>{godowonStock.ProductName}</td>
+                              <td>{godowonStock.StockDate}</td>
+                              <td>{godowonStock.Qty}</td>
+                              <td>{godowonStock.Price}</td>
+                              <td>{godowonStock.TotalPrice}</td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
+                                  // onClick={() => handelEditProduct(product.id)}
+                                >
+                                  <i className="bi bi-pen fs-15"></i>
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                                  // onClick={() => handleDeleteProduct(product.id)}
+                                >
+                                  <i className="bi bi-trash fs-15"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        )
                       ) : (
                         <tr>
                           <td colSpan={3} className="text-center">

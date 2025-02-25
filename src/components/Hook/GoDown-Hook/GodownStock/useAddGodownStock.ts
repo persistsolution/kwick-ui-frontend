@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { addGodownStockApi } from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
+import { useEffect, useState } from "react";
+import {
+  addGodownStockApi,
+  fetchGodownListApi,
+  fetchGodownStockProduct,
+  fetchProductDetailsApi,
+} from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
 
 interface retailerFormValues {
   productName: string;
@@ -15,18 +20,32 @@ interface retailerFormValues {
   narration: string;
   goDownlist: any;
   productList: any;
+  unit: string;
+  qtyUnit: string;
   addGodownStockArray: {
     id: number;
     availableStock: number;
     stockInQty: number;
     productPrice: number;
     totalPrice: number;
+    unit: string;
     cgst: number;
     sgst: number;
     igst: number;
+    qtyUnit: string;
     totalgst: number;
   }[];
 }
+
+type GodownStockProduct = {
+  label: string;
+  value: number;
+} | null;
+
+type selectGodownProduct = {
+  label: string;
+  value: number;
+} | null;
 
 const useAddGodownStock = () => {
   const [formValues, setFormValues] = useState<retailerFormValues>({
@@ -40,6 +59,8 @@ const useAddGodownStock = () => {
     igst: 0,
     totalgst: 0,
     date: "",
+    unit: "",
+    qtyUnit: "",
     narration: "",
     goDownlist: [],
     productList: [],
@@ -48,9 +69,54 @@ const useAddGodownStock = () => {
 
   const [message, setMessage] = useState("");
   const [isLoading, setisLoading] = useState(false);
+  const [selectGodown, setselectGodown] = useState<selectGodownProduct>(null);
+  const [goDownList, setgoDownList] = useState([]);
+  const [goDownProductlist, setgoDownProductlist] = useState([]);
+  const [selectGodownStockProduct, setselectGodownStockProduct] =
+    useState<GodownStockProduct>(null);
+
+  useEffect(() => {
+    fetchGodownList();
+    handleFetchGodownPord();
+  }, []);
+
+  const handlSelectGodownProductList = async (selectedOption: any) => {
+    const response: any = await fetchProductDetailsApi(
+      Number(selectedOption.value),
+      Number(selectGodown?.value)
+    );
+    const updateResponce = response.data;
+    if (response) {
+      setFormValues((prevState) => ({
+        ...prevState,
+        productName: prevState.productName,
+        availableStock: updateResponce.balqty,
+        stockInQty: prevState.stockInQty,
+        productPrice: updateResponce.Price,
+        totalPrice: prevState.totalPrice,
+        cgst: updateResponce.CgstPer,
+        sgst: updateResponce.SgstPer,
+        qtyUnit: updateResponce.Unit,
+        igst: updateResponce.IgstPer,
+        totalgst: prevState.totalgst,
+        date: prevState.date,
+        narration: prevState.narration,
+        unit: updateResponce.Unit,
+        goDownlist: prevState.goDownlist,
+        productList: prevState.productList,
+        addGodownStockArray: prevState.addGodownStockArray,
+      }));
+    }
+
+    setselectGodownStockProduct((prevValues: any) => ({
+      ...prevValues,
+      value: selectedOption ? selectedOption.value : "",
+    }));
+  };
 
   const handleChange = (e: any) => {
     const { name, value, type } = e.target;
+
     if (type === "file") {
       const target = e.target as HTMLInputElement;
       const files: any = target.files;
@@ -64,17 +130,77 @@ const useAddGodownStock = () => {
         photo: url,
       }));
     } else {
-      const updatedValues = {
+      let updatedValues = {
         ...formValues,
         [name]: value,
       };
+
+      if (name === "stockInQty" || name === "productPrice") {
+        const stockInQty =
+          name === "stockInQty" ? Number(value) : Number(formValues.stockInQty);
+        const unitPrice =
+          name === "productPrice"
+            ? Number(value)
+            : Number(formValues.productPrice);
+
+        updatedValues = {
+          ...updatedValues,
+          totalPrice: stockInQty * unitPrice,
+        };
+      }
 
       setFormValues(updatedValues);
     }
   };
 
+  const fetchGodownList = async () => {
+    try {
+      const response: any = await fetchGodownListApi();
+      setgoDownList(response.data);
+    } catch (error) {
+      console.error("Error fetching viewGodownStock:", error);
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+  const handleFetchGodownPord = async () => {
+    try {
+      const response: any = await fetchGodownStockProduct();
+      setgoDownProductlist(response.data);
+    } catch (error) {
+      console.error("Error fetching viewGodownStock:", error);
+    }
+  };
+
   const handelAddGodownStock = async () => {
-    const addGodownStockData = {};
+    const productdetailsList = formValues.addGodownStockArray.map(
+      (item: any) => ({
+        ProdId: Number(item.productId),
+        AvailStock: Number(item.availableStock),
+        AvailStockUnit: item.unit,
+        Qty: Number(item.stockInQty),
+        QtyUnit: item.qtyUnit,
+        Price: Number(item.productPrice),
+        TotalPrice: Number(item.totalPrice),
+        CgstPer: Number(item.cgst),
+        SgstPer: Number(item.sgst),
+        IgstPer: Number(item.igst),
+        GstAmt: Number(item.totalgst),
+      })
+    );
+    const addGodownStockData = {
+      GodownId: Number(selectGodown?.value),
+      StockDate: formatDate(formValues.date),
+      Narration: formValues.narration,
+      productdetails: productdetailsList,
+    };
     try {
       const response: any = await addGodownStockApi(addGodownStockData);
       if (response.status === 201) {
@@ -87,10 +213,12 @@ const useAddGodownStock = () => {
           totalPrice: 0,
           cgst: 0,
           sgst: 0,
+          qtyUnit: "",
           igst: 0,
           totalgst: 0,
           date: "",
           narration: "",
+          unit: "",
           goDownlist: [],
           productList: [],
           addGodownStockArray: [],
@@ -107,12 +235,16 @@ const useAddGodownStock = () => {
   };
 
   const handelAddGodown = () => {
+    const selectvalueproductName: any = goDownProductlist.find(
+      (data: any) => data.id == selectGodownStockProduct?.value
+    );
     setFormValues((prevValues) => ({
       ...prevValues,
       addGodownStockArray: [
         ...prevValues.addGodownStockArray,
         {
-          productName: formValues.productName,
+          productName: selectvalueproductName?.ProductName,
+          productId: selectvalueproductName?.id,
           id: 0,
           availableStock: formValues.availableStock,
           stockInQty: formValues.stockInQty,
@@ -120,8 +252,10 @@ const useAddGodownStock = () => {
           totalPrice: formValues.totalPrice,
           cgst: formValues.cgst,
           sgst: formValues.sgst,
+          unit: formValues.unit,
           igst: formValues.igst,
           totalgst: formValues.totalgst,
+          qtyUnit: formValues.qtyUnit,
         },
       ],
     }));
@@ -130,10 +264,21 @@ const useAddGodownStock = () => {
   const handelChangeAddedGodownPoduct = (e: any, idx: number) => {
     const { name, value } = e.target;
     const updatedAddGodownStockArray = [...formValues.addGodownStockArray];
+    const newValue =
+      name === "stockInQty" || name === "productPrice" ? Number(value) : value;
+
     updatedAddGodownStockArray[idx] = {
       ...updatedAddGodownStockArray[idx],
-      [name]: value,
+      [name]: newValue,
     };
+    if (name === "stockInQty" || name === "productPrice") {
+      const stockInQty =
+        Number(updatedAddGodownStockArray[idx].stockInQty) || 0;
+      const productPrice =
+        Number(updatedAddGodownStockArray[idx].productPrice) || 0;
+      updatedAddGodownStockArray[idx].totalPrice = stockInQty * productPrice;
+    }
+
     setFormValues({
       ...formValues,
       addGodownStockArray: updatedAddGodownStockArray,
@@ -141,14 +286,16 @@ const useAddGodownStock = () => {
   };
 
   // Function to remove a stock entry
-  const handleRemoveGodownStock = (id: number) => {
+  const handleRemoveGodownStock = (index: number) => {
     setFormValues((prevValues) => ({
       ...prevValues,
       addGodownStockArray: prevValues.addGodownStockArray.filter(
-        (item) => item.id !== id
+        (_, idx) => idx !== index
       ),
     }));
   };
+
+  console.log(formValues.addGodownStockArray, "addGodownStockArray");
 
   return {
     formValues,
@@ -156,10 +303,18 @@ const useAddGodownStock = () => {
     handleChange,
     message,
     isLoading,
+    selectGodown,
+    goDownList,
+    goDownProductlist,
+    selectGodownStockProduct,
     handelAddGodown,
     handleRemoveGodownStock,
     handelChangeAddedGodownPoduct,
     setisLoading,
+    setselectGodown,
+    setselectGodownStockProduct,
+    setFormValues,
+    handlSelectGodownProductList,
   };
 };
 

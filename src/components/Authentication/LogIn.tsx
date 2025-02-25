@@ -17,6 +17,7 @@ const Login: FC = () => {
     setEnteredOtp,
     handleVerifyOtp,
     handleSendOtp,
+    handleKeyDown,
   } = useLogin();
   return (
     <Fragment>
@@ -62,6 +63,7 @@ const Login: FC = () => {
                           placeholder="Enter your Mobile Number"
                           value={mobileNumber}
                           onChange={(e) => setMobileNumber(e.target.value)}
+                          onKeyDown={handleKeyDown}
                         />
                       </div>
                       <div className="d-grid mb-3">

@@ -11,12 +11,13 @@ const ViewGodownAccount: FC = () => {
     searchTerm,
     currentPage,
     viewGodownAccountPerPage,
+    currentviewGodownAccount,
     totalPages,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
-    // handleDeleteGodownAccount,
+    handleDeleteGodownAccount,
     // handleEdit,
     getVisiblePages,
     setviewGodownAccountPerPage,
@@ -75,37 +76,75 @@ const ViewGodownAccount: FC = () => {
                     <thead className="table-primary">
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("photo")}>Photo</th>
+                        <th onClick={() => handleSort("Photo")}>Photo</th>
                         <th onClick={() => handleSort("ShopName")}>
                           Shop Name
                         </th>
-                        <th onClick={() => handleSort("GoDownName")}>
-                          GoDown Name{" "}
-                        </th>
-                        <th onClick={() => handleSort("Email")}>Email </th>
-                        <th onClick={() => handleSort("ContactNo")}>
-                          Contact No
-                        </th>
-                        <th onClick={() => handleSort("AnotherContactNo")}>
+                        <th onClick={() => handleSort("Fname")}>GoDown Name</th>
+                        <th onClick={() => handleSort("EmailId")}>Email</th>
+                        <th onClick={() => handleSort("Phone")}>Contact No</th>
+                        <th onClick={() => handleSort("Phone2")}>
                           Another Contact No
                         </th>
-                        <th onClick={() => handleSort("Address")}>Address </th>
-                        <th onClick={() => handleSort("Status")}>Status </th>
-                        <th onClick={() => handleSort("RegisterDate")}>
-                          Register Date{" "}
+                        <th onClick={() => handleSort("Address")}>Address</th>
+                        <th onClick={() => handleSort("Status")}>Status</th>
+                        <th onClick={() => handleSort("CreatedDate")}>
+                          Register Date
                         </th>
                         <th>Edit</th>
                         <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredviewGodownAccount.length > 0 ? (
-                        filteredviewGodownAccount.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
+                      {currentviewGodownAccount.length > 0 ? (
+                        currentviewGodownAccount.map((GodownAccount: any) => (
+                          <tr key={GodownAccount.id}>
+                            <td>{GodownAccount.id}</td>
+                            <td>
+                              <img
+                                className="avatar rounded-pill cover-image"
+                                src={GodownAccount.Photo}
+                                alt="Photo"
+                              />
+                            </td>
+                            <td>{GodownAccount.ShopName}</td>
+                            <td>{GodownAccount.Fname}</td>
+                            <td>{GodownAccount.EmailId}</td>
+                            <td>{GodownAccount.Phone}</td>
+                            <td>{GodownAccount.Phone2}</td>
+                            <td>{GodownAccount.Address}</td>
+                            <td
+                              className={`${
+                                GodownAccount.Status === 1
+                                  ? "text-success"
+                                  : "text-danger"
+                              }`}
+                            >
+                              {GodownAccount.Status === 1
+                                ? "Active"
+                                : "Inactive"}
+                            </td>
+                            <td>{GodownAccount.CreatedDate}</td>
+                            <td>
+                              <button className="avatar rounded-circle bg-azure cursor-pointer border-0">
+                                <i className="bi bi-pen fs-15"></i>
+                              </button>
+                            </td>
+                            <td>
+                              <button
+                                onClick={() =>
+                                  handleDeleteGodownAccount(GodownAccount.id)
+                                }
+                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                              >
+                                <i className="bi bi-trash fs-15"></i>
+                              </button>
+                            </td>
+                          </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={3} className="text-center">
+                          <td colSpan={12} className="text-center">
                             No records found.
                           </td>
                         </tr>

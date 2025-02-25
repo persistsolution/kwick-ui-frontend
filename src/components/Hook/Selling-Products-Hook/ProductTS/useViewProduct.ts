@@ -1,7 +1,10 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
-import { deleteProducts, fetchProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
+import {
+  deleteProducts,
+  fetchProducts,
+} from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 
@@ -11,8 +14,8 @@ const useViewProduct = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [productPage, setproductPage] = useState(1);
   const [productPerPage, setproductPerPage] = useState(5);
-  const [categoryList , setcategoryList] = useState([]);
-  const [subcategoryList , setsubcategoryList] = useState([]);
+  const [categoryList, setcategoryList] = useState([]);
+  const [subcategoryList, setsubcategoryList] = useState([]);
 
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
@@ -28,7 +31,7 @@ const useViewProduct = () => {
 
   const fetchGetProduct = async () => {
     try {
-      const response:any = await fetchProducts();
+      const response: any = await fetchProducts();
       setProductArray(response.data);
       setFilteredProductArray(response.data);
     } catch (error) {
@@ -47,25 +50,25 @@ const useViewProduct = () => {
     );
   };
 
-    const handelGetproduct = async () => {
-      try {
-        const response :any = await fetchCategories()
-        const data = await response.data;
-        setcategoryList(data);
-      } catch (error) {
-        console.error("Error adding product:", error);
-      }
-    };
-  
-    const handelGetSubproduct = async () => {
-      try {
-        const response :any= await fetchSubCategories()
-        const data  =  response.data;
-        setsubcategoryList(data);
-      } catch (error) {
-        console.error("Error adding product:", error);
-      }
-    };
+  const handelGetproduct = async () => {
+    try {
+      const response: any = await fetchCategories();
+      const data = await response.data;
+      setcategoryList(data);
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+
+  const handelGetSubproduct = async () => {
+    try {
+      const response: any = await fetchSubCategories();
+      const data = response.data;
+      setsubcategoryList(data);
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
 
   const handleSort = (key: string) => {
     let direction = "asc";
@@ -114,7 +117,7 @@ const useViewProduct = () => {
         "Are you sure you want to delete this product?"
       );
       if (!confirmDelete) return;
-      const response = await deleteProducts(id)
+      const response = await deleteProducts(id);
       if (response.status === 200) {
         console.log("Product deleted successfully:", response.data);
         fetchGetProduct();
@@ -127,13 +130,13 @@ const useViewProduct = () => {
     }
   };
 
-  const handelEditProduct = (id:any) => {
-    navigate(`/Products/EditProductFrom/${id}`);
+  const handelEditProduct = (id: any) => {
+    navigate(`/SellingProduct/EditProductFrom/${id}`);
   };
 
-  const handelAddProduct = ()=>{
-    navigate(`/Products/AddProductForm`)
-  }
+  const handelAddProduct = () => {
+    navigate(`/SellingProduct/AddProductForm`);
+  };
 
   const indexOfLastproduct = productPage * productPerPage;
   const indexOfFirstproduct = indexOfLastproduct - productPerPage;
@@ -143,27 +146,27 @@ const useViewProduct = () => {
   );
   const totalPages = Math.ceil(filteredProductArray.length / productPerPage);
 
-return{
-  searchTerm,
-  currentproduct,
-  productPerPage,
-  filteredProductArray,
-  indexOfFirstproduct,
-  indexOfLastproduct,
-  productPage,
-  totalPages,
-  categoryList,
-  subcategoryList,
-  handelEditProduct,
-  handleDeleteProduct,
-  handlePageChange,
-  getVisiblePages,
-  exportToExcel,
-  handleSort,
-  handleSearch,
-  setproductPerPage,
-  handelAddProduct
-}
+  return {
+    searchTerm,
+    currentproduct,
+    productPerPage,
+    filteredProductArray,
+    indexOfFirstproduct,
+    indexOfLastproduct,
+    productPage,
+    totalPages,
+    categoryList,
+    subcategoryList,
+    handelEditProduct,
+    handleDeleteProduct,
+    handlePageChange,
+    getVisiblePages,
+    exportToExcel,
+    handleSort,
+    handleSearch,
+    setproductPerPage,
+    handelAddProduct,
+  };
 };
 
 export default useViewProduct;

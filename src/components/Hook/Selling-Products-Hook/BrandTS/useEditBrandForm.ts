@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { updateBrandApi  , fetchByIdBrandApi} from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
-
+import {
+  updateBrandApi,
+  fetchByIdBrandApi,
+} from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
 interface useEditBrandProps {
   BrandEditId: number;
   handelfetchBrand: () => void;
   toggleEdit: () => void;
 }
-const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBrandProps) => {
-    const [formData, setFormData] = useState({
+const useEditBrand = ({
+  BrandEditId,
+  handelfetchBrand,
+  toggleEdit,
+}: useEditBrandProps) => {
+  const [formData, setFormData] = useState({
     name: "",
     icon: null,
     photo: "",
@@ -31,24 +37,24 @@ const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBran
   });
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const id = BrandEditId || localStorage.getItem("BrandId") 
+  const id = BrandEditId || localStorage.getItem("BrandId");
 
   useEffect(() => {
-      handelFetchEditBrand();
+    handelFetchEditBrand();
   }, [id]);
 
   const handelFetchEditBrand = async () => {
     if (!id) return;
     try {
-      const response: any = await fetchByIdBrandApi(Number(id)); 
+      const response: any = await fetchByIdBrandApi(Number(id));
       const responceData = response.data;
       if (response.status === 200) {
         setFormData((prev) => ({
           ...prev,
           BrandName: responceData?.name,
           BrandSrno: responceData?.srno || 0,
-          status: responceData?.status ? 1 : 0 || 1,
-          photo:responceData?.Photo || ""
+          status: responceData?.status,
+          photo: responceData?.Photo || "",
         }));
       } else {
         // setMessage(`Error: ${response.data?.message || "Failed to Fetch Edit Brand."}`);
@@ -58,7 +64,7 @@ const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBran
       // setMessage("Error fetching Brand details.");
     }
   };
-  
+
   const handleChange = (e: any) => {
     const { name, value, files } = e.target;
     if (files && files.length > 0) {
@@ -70,9 +76,9 @@ const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBran
       const url = URL.createObjectURL(files[0]);
       setFormData((prev) => ({
         ...prev,
-        photo:url
-      }));   
-     }
+        photo: url,
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,10 +93,10 @@ const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBran
       Photo2: formData.photo2,
       Featured: formData.featured,
       ProdType: Number(formData.prodtype),
-      status: Number(formData.status) ? true : false,
+      status: Number(formData.status),
       srno: Number(formData.BrandSrno),
-      CreatedDate: formData.createddate,
-      ModifiedDate: formData.modifieddate,
+      createddate: new Date().toISOString(),
+      modifieddate: new Date().toISOString(),
       Roll: Number(formData.roll),
       createdby: formData.createdby,
       push_flag: formData.push_flag ? 1 : 0,
@@ -99,12 +105,12 @@ const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBran
     };
 
     try {
-      const response: any = await updateBrandApi(Number(id),Object(raw)); 
+      const response: any = await updateBrandApi(Number(id), Object(raw));
       if (response.status === 200) {
         // setMessage("Brand Edit successfully!");
-        localStorage.removeItem("BrandId")
-        toggleEdit()
-        handelfetchBrand()
+        localStorage.removeItem("BrandId");
+        toggleEdit();
+        handelfetchBrand();
         setFormData({
           name: "",
           icon: null,
@@ -139,7 +145,7 @@ const useEditBrand = ({ BrandEditId, handelfetchBrand , toggleEdit}: useEditBran
 
   return {
     formData,
-    message,    
+    message,
     isLoading,
     handleChange,
     handleSubmit,

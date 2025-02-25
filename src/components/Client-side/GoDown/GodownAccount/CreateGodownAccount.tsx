@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useCreateGodownAccount from "../../../Hook/GoDown-Hook/CreateGodownAccount/useCreateGodownAccount";
 
@@ -21,12 +21,14 @@ const CreateGodownAccount: React.FC = () => {
             <Card className="custom-card">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Container className="fieldset">
+                  <Col className="fieldset">
                     <h4 className="legend">Godown Detail</h4>
                     <Row className="gy-4">
                       <Col xl={8}>
                         <Form.Group controlId="createGodownAccountName">
-                          <Form.Label>Godown Name *</Form.Label>
+                          <Form.Label>
+                            Godown Name <span className="text-danger"> *</span>
+                          </Form.Label>
                           <Form.Control
                             name="createGodownAccountName"
                             value={formValues.createGodownAccountName}
@@ -48,9 +50,11 @@ const CreateGodownAccount: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="mobileNo">
-                          <Form.Label>Mobile No*</Form.Label>
+                          <Form.Label>
+                            Mobile No <span className="text-danger"> *</span>
+                          </Form.Label>
                           <Form.Control
                             name="mobileNo"
                             value={formValues.mobileNo}
@@ -60,7 +64,7 @@ const CreateGodownAccount: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="anothermobileNo">
                           <Form.Label>Another Mobile No</Form.Label>
                           <Form.Control
@@ -72,22 +76,7 @@ const CreateGodownAccount: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={8}>
-                        <Form.Group controlId="retailerAddress">
-                          <Form.Label>Address*</Form.Label>
-                          <Form.Control
-                            name="retailerAddress"
-                            type="text"
-                            as="textarea"
-                            aria-label="With textarea"
-                            value={formValues.retailerAddress}
-                            onChange={handleChange}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
-
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="Photo">
                           <Form.Label>Photo</Form.Label>
                           <Form.Control
@@ -99,7 +88,7 @@ const CreateGodownAccount: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      {/* <Col xl={3}>
                         <Form.Group controlId="lattitude">
                           <Form.Label>Lattitude</Form.Label>
                           <Form.Control
@@ -111,7 +100,7 @@ const CreateGodownAccount: React.FC = () => {
                         </Form.Group>
                       </Col>
 
-                      <Col xl={4}>
+                      <Col xl={3}>
                         <Form.Group controlId="longitude">
                           <Form.Label>Longitude</Form.Label>
                           <Form.Control
@@ -121,11 +110,13 @@ const CreateGodownAccount: React.FC = () => {
                             onChange={handleChange}
                           />
                         </Form.Group>
-                      </Col>
+                      </Col> */}
 
-                      <Col xl={3}>
+                      <Col xl={2}>
                         <Form.Group controlId="name">
-                          <Form.Label>Status*</Form.Label>
+                          <Form.Label>
+                            Status<span className="text-danger"> *</span>
+                          </Form.Label>
                           <Form.Select
                             name="status"
                             value={formValues.status}
@@ -137,6 +128,23 @@ const CreateGodownAccount: React.FC = () => {
                             <option value={1}>Active</option>
                             <option value={0}>Not Active</option>
                           </Form.Select>
+                        </Form.Group>
+                      </Col>
+
+                      <Col xl={7}>
+                        <Form.Group controlId="retailerAddress">
+                          <Form.Label>
+                            Address <span className="text-danger"> *</span>
+                          </Form.Label>
+                          <Form.Control
+                            name="retailerAddress"
+                            type="text"
+                            as="textarea"
+                            aria-label="With textarea"
+                            value={formValues.retailerAddress}
+                            onChange={handleChange}
+                            required
+                          />
                         </Form.Group>
                       </Col>
                     </Row>
@@ -163,7 +171,7 @@ const CreateGodownAccount: React.FC = () => {
                         )}
                       </Col>
                     </Row>
-                  </Container>
+                  </Col>
                 </Form>
               </Card.Body>
             </Card>

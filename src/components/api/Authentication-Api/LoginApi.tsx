@@ -2,8 +2,10 @@ import axios, { AxiosResponse } from "axios";
 import { API_BASE_URL } from "../../../config";
 
 // Fetch all user Api.
-export const fetchUserApi = async (): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/user/get`);
+export const fetchUserApi = async (
+  mobile: string
+): Promise<AxiosResponse<any[]>> => {
+  return axios.get<any[]>(`${API_BASE_URL}/employee/login/${mobile}`);
 };
 
 // Fetch OTP Api.

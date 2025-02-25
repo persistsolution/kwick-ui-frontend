@@ -12,14 +12,18 @@ interface Category {
 export const fetchRawCategories = async (): Promise<
   AxiosResponse<Category[]>
 > => {
-  return axios.get<Category[]>(`${API_BASE_URL}/raw-product/category/get`);
+  return axios.get<Category[]>(
+    `${API_BASE_URL}/selling-product/category/get/1`
+  );
 };
 
 // API to fetch a raw category by ID
 export const fetchByIdRawCategory = async (
   id: number
 ): Promise<AxiosResponse<Category>> => {
-  return axios.get<Category>(`${API_BASE_URL}/raw-product/category/edit/${id}`);
+  return axios.get<Category>(
+    `${API_BASE_URL}/selling-product/category/edit/${id}`
+  );
 };
 
 // API to update a raw category
@@ -28,7 +32,7 @@ export const updateRawCategory = async (
   data: Partial<Category>
 ): Promise<AxiosResponse<Category>> => {
   return axios.put<Category>(
-    `${API_BASE_URL}/raw-product/category/update/${id}`,
+    `${API_BASE_URL}/selling-product/category/update/${id}`,
     data
   );
 };
@@ -38,7 +42,7 @@ export const deleteRawCategory = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `${API_BASE_URL}/raw-product/category/delete/${id}`
+    `${API_BASE_URL}/selling-product/category/delete/${id}`
   );
 };
 
@@ -46,5 +50,8 @@ export const deleteRawCategory = async (
 export const createRawCategory = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/raw-product/category/create`, data);
+  return axios.post<void>(
+    `${API_BASE_URL}/selling-product/category/create`,
+    data
+  );
 };

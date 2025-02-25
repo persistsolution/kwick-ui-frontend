@@ -108,22 +108,9 @@ const ViewProduct: FC = () => {
                             </td>
                             <td>{product.ProductName}</td>
                             <td>{product.BarcodeNo}</td>
-                            <td>
-                              {" "}
-                              {/* {categoryList.length !== 0 &&
-                                categoryList.find(
-                                  (item: any) =>
-                                    Number(item.id) == product.CatId
-                                ).Name} */}
-                            </td>
-                            <td>
-                              {" "}
-                              {/* {subcategoryList.length !== 0 &&
-                                subcategoryList.find(
-                                  (item: any) =>
-                                    Number(item.id) == product.SubCatId
-                                ).Name} */}
-                            </td>
+                            <td>{product.CatName}</td>
+                            <td>{product.SubCatName}</td>
+
                             <td className="text-success">
                               {product.ProdType === 1
                                 ? "Raw / Making Product"
@@ -137,14 +124,12 @@ const ViewProduct: FC = () => {
                             </td>
                             <td
                               className={`${
-                                product.tempstatus === 1
+                                product.Status === 1
                                   ? "text-success"
                                   : "text-danger"
                               }`}
                             >
-                              {product.tempstatus === 1
-                                ? "Active"
-                                : "In Active"}
+                              {product.Status === 1 ? "Publish" : "Not Publish"}
                             </td>
                             <td>
                               <button
