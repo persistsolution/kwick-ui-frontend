@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { createRawSubCategory } from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 import { fetchRawCategories } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 
-const useRawSubCategory= () => {
+interface useRawSubCategoryProps {
+  modalAddRawSubCategory: () => void;
+  handelfetchSubCategories: () => void;
+}
+
+const useRawSubCategory = ({
+  modalAddRawSubCategory,
+  handelfetchSubCategories,
+}: useRawSubCategoryProps) => {
   const [formData, setFormData] = useState({
     catid: 0,
     subCatname: "",
@@ -26,17 +34,16 @@ const useRawSubCategory= () => {
 
   const handelGetCategories = async () => {
     try {
-      const response: any  = await fetchRawCategories()
-      const data =  response.data
+      const response: any = await fetchRawCategories();
+      const data = response.data;
       setCategoryOptions(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
-  const handleMessage = ()=>{
+  const handleMessage = () => {
     setMessage(null);
-
-  }
+  };
 
   const handleChange = (e: any) => {
     const { name, value, files } = e.target;
@@ -78,10 +85,10 @@ const useRawSubCategory= () => {
       ModifiedDate: formData.modifieddate,
     };
     try {
-      const response :any = await createRawSubCategory(Object(raw))
+      const response: any = await createRawSubCategory(Object(raw));
 
       if (response.status === 200) {
-        setMessage("Sub Category Added successfully!");
+        // setMessage("Sub Category Added successfully!");
         setFormData({
           catid: 0,
           subCatname: "",
@@ -95,14 +102,16 @@ const useRawSubCategory= () => {
           frId: 0,
           category: "",
         });
+        modalAddRawSubCategory();
+        handelfetchSubCategories();
       } else {
-        setMessage(
-          `Error: ${response.data?.message || "Failed to add category."}`
-        );
+        // setMessage(
+        //   `Error: ${response.data?.message || "Failed to add category."}`
+        // );
       }
     } catch (err) {
       console.error("Network error:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -116,9 +125,8 @@ const useRawSubCategory= () => {
     handleChange,
     handleCategoryChange,
     handleSubmit,
-    handleMessage
-  }
-
+    handleMessage,
+  };
 };
 
 export default useRawSubCategory;

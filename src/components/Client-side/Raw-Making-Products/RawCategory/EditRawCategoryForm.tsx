@@ -1,33 +1,45 @@
 import React, { Fragment } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import useRawEditCategory from "../../../Hook/Raw-Making-products-Hook/RawCategoryTS/useRawEditCategory";
+import Rodal from "rodal";
 
-const EditRawCategoryFrom: React.FC = () => {
+interface EditRawCategoryFromProps {
+  handelToggleEditRawCategory: () => void;
+  toggleEditRawCategory: boolean;
+  handelfetchCategories: () => void;
+}
+
+const EditRawCategoryFrom: React.FC<EditRawCategoryFromProps> = ({
+  handelToggleEditRawCategory,
+  toggleEditRawCategory,
+  handelfetchCategories,
+}) => {
   const { formData, message, isLoading, handleChange, handleSubmit } =
-    useRawEditCategory();
+    useRawEditCategory({ handelToggleEditRawCategory, handelfetchCategories });
 
   return (
-    <Fragment>
-      <Pageheader
-        heading="Edit Category"
-        homepage="Forms"
-        activepage="Edit Category"
-      />
-
-      <div className="main-container container-fluid">
-        <Row>
-          <Col xl={12}>
-            <Card className="custom-card">
-              <Card.Header>
-                <div className="card-title">Edit Category</div>
-              </Card.Header>
-              <Card.Body>
-                <Form onSubmit={handleSubmit}>
+    <Rodal
+      onClose={() => {
+        handelToggleEditRawCategory();
+      }}
+      visible={toggleEditRawCategory}
+      animation="slideUp"
+      height={300}
+      width={600}
+    >
+      <div className="modal-header">Edit Raw Category</div>
+      <Fragment>
+        <div className="main-container container-fluid">
+          <Row>
+            <Col xl={12}>
+              <Form onSubmit={handleSubmit}>
+                <div className="modal-body text-start">
                   <Row className="gy-4">
                     <Col xl={6}>
                       <Form.Group controlId="name">
-                        <Form.Label>Category Name *</Form.Label>
+                        <Form.Label>
+                          Category Name <span className="text-danger">*</span>
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="categoryName"
@@ -40,7 +52,9 @@ const EditRawCategoryFrom: React.FC = () => {
                     </Col>
                     <Col xl={6}>
                       <Form.Group controlId="name">
-                        <Form.Label>Category Image *</Form.Label>
+                        <Form.Label>
+                          Category Image <span className="text-danger">*</span>
+                        </Form.Label>
                         <Form.Control
                           type="file"
                           name="categoryImage"
@@ -52,7 +66,9 @@ const EditRawCategoryFrom: React.FC = () => {
                     </Col>
                     <Col xl={6}>
                       <Form.Group controlId="name">
-                        <Form.Label>Sr No *</Form.Label>
+                        <Form.Label>
+                          Sr No <span className="text-danger">*</span>
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="categorySrno"
@@ -65,7 +81,9 @@ const EditRawCategoryFrom: React.FC = () => {
                     </Col>
                     <Col xl={6}>
                       <Form.Group controlId="name">
-                        <Form.Label>Status *</Form.Label>
+                        <Form.Label>
+                          Status <span className="text-danger">*</span>
+                        </Form.Label>
                         <Form.Select
                           name="status"
                           value={formData.status}
@@ -79,7 +97,9 @@ const EditRawCategoryFrom: React.FC = () => {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                </div>
+                <div className="modal-footer">
+                  <Row>
                     <Col>
                       <Button
                         type="submit"
@@ -101,13 +121,13 @@ const EditRawCategoryFrom: React.FC = () => {
                       )}
                     </Col>
                   </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </Fragment>
+                </div>
+              </Form>
+            </Col>
+          </Row>
+        </div>
+      </Fragment>
+    </Rodal>
   );
 };
 

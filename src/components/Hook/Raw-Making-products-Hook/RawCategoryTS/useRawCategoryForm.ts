@@ -1,14 +1,27 @@
 import { useState } from "react";
 import { createRawCategory } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 
-const useRawCategoryForm = () => {
+const statusOptions = [
+  { value: 1, label: "Active" },
+  { value: 0, label: "Not Active" },
+];
+
+interface UseRawCategoryFormsProps {
+  handelfetchCategories: () => void;
+  modalAddRawCategory: () => void;
+}
+
+const useRawCategoryForm = ({
+  modalAddRawCategory,
+  handelfetchCategories,
+}: UseRawCategoryFormsProps) => {
   const [formData, setFormData] = useState({
     name: "",
     icon: null as File | null,
     photo: "",
     photo2: null as File | null,
     featured: 0,
-    prodtype: 0,
+    prodtype: 1,
     status: 1,
     srno: 1.0,
     createddate: new Date().toISOString(),
@@ -66,20 +79,21 @@ const useRawCategoryForm = () => {
       push_flag: formData.push_flag ? 1 : 0,
       delete_flag: formData.delete_flag ? 1 : 0,
       modified_time: formData.modified_time,
+      ModifiedBy: 0,
     };
 
     try {
       const response = await createRawCategory(payload);
 
       if (response.status === 200) {
-        setMessage("Category added successfully!");
+        // setMessage("Category added successfully!");
         setFormData({
           name: "",
           icon: null,
           photo: "",
           photo2: null,
           featured: 0,
-          prodtype: 0,
+          prodtype: 1,
           status: 1,
           srno: 1.0,
           createddate: new Date().toISOString(),
@@ -94,12 +108,14 @@ const useRawCategoryForm = () => {
           categorySrno: 0,
           categoryName: "",
         });
+        modalAddRawCategory();
+        handelfetchCategories();
       } else {
-        setMessage(`Error: Failed to add category.`);
+        // setMessage(`Error: Failed to add category.`);
       }
     } catch (err: any) {
       console.error("Error during category creation:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -109,9 +125,11 @@ const useRawCategoryForm = () => {
     formData,
     message,
     isLoading,
+    statusOptions,
     handleChange,
     handleSubmit,
     handleMessage,
+    setFormData,
   };
 };
 

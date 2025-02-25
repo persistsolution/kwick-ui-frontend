@@ -17,6 +17,7 @@ const ViewFranchise: FC = () => {
     franchiseList,
     fromDate,
     toDate,
+    currentFranchises,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -153,11 +154,11 @@ const ViewFranchise: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredFranchises.length > 0 ? (
-                        filteredFranchises.map((franchise: any) => (
+                      {currentFranchises.length > 0 ? (
+                        currentFranchises.map((franchise: any) => (
                           <tr key={franchise.id}>
-                            <td>{franchise.id}</td>
-                            <td>{franchise.newFranchiseId}</td>{" "}
+                            <td>{franchise.TableQrCode}</td>
+                            <td>{franchise.id}</td> <td></td>
                             <td>
                               <Link
                                 to={`/Franchise/frDashboard/${franchise.id}`}
@@ -206,7 +207,7 @@ const ViewFranchise: FC = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={3} className="text-center">
+                          <td colSpan={6} className="text-center">
                             No records found.
                           </td>
                         </tr>

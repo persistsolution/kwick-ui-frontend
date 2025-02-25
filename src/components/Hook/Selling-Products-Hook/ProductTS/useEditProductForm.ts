@@ -236,7 +236,7 @@ const useEditProductForm = () => {
       );
       if (response.status === 200) {
         // alert("Product Edit successfully!");
-        navigate("/Products/ViewProducts");
+        navigate("/SellingProduct/ViewProducts");
         setFormValues({
           productName: "",
           categoryId: 0,

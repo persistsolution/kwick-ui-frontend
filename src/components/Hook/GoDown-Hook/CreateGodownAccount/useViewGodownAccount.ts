@@ -92,7 +92,7 @@ const useViewGodownAccount = () => {
       );
       if (!confirmDelete) return;
       const response = await deleteGodownAccount(id);
-      if (response.status === 201) {
+      if (response.status === 200) {
         handleFetchviewGodownAccount();
       } else {
         console.error(

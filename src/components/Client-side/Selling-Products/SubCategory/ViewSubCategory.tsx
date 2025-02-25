@@ -89,6 +89,7 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th>Photo</th>
+                        <th onClick={() => handleSort("Name")}> Category</th>
                         <th onClick={() => handleSort("Name")}>Sub Category</th>
                         <th>Status</th>
                         <th>Edit</th>
@@ -115,6 +116,7 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                                 />
                               )}
                             </td>
+                            <td>{subcategory.CatName}</td>
                             <td>{subcategory.Name}</td>
                             <td
                               className={`${

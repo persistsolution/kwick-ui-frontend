@@ -1,7 +1,9 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { useNavigate } from "react-router-dom";
-import { fetchRawSubCategories  , deleteRawSubCategory} from '../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi';
+import {
+  fetchRawSubCategories,
+  deleteRawSubCategory,
+} from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 
 const useViewRawSubCategory = () => {
   interface SubCategory {
@@ -19,7 +21,9 @@ const useViewRawSubCategory = () => {
   const [filteredSubCategories, setFilteredSubCategories] = useState<
     SubCategory[]
   >([]);
-  const navigate = useNavigate();
+  const [toggleaddRawSubCategory, settoggleaddRawSubCategory] = useState(false);
+  const [toggleEditRawSubCategory, settoggleEditRawSubCategory] =
+    useState(false);
 
   useEffect(() => {
     handelfetchSubCategories();
@@ -33,6 +37,14 @@ const useViewRawSubCategory = () => {
     } catch (error) {
       console.error("Error fetching subcategories:", error);
     }
+  };
+
+  const modalAddRawSubCategory = () => {
+    settoggleaddRawSubCategory(!toggleaddRawSubCategory);
+  };
+
+  const modaltoggleEditRawSubCategory = () => {
+    settoggleEditRawSubCategory(!toggleEditRawSubCategory);
   };
 
   const handleSearch = (term: string) => {
@@ -49,11 +61,13 @@ const useViewRawSubCategory = () => {
   const handleSort = (key: keyof SubCategory | string) => {
     const direction =
       sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    const sortedSubCategories = [...filteredSubCategories].sort((a:any, b:any) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
+    const sortedSubCategories = [...filteredSubCategories].sort(
+      (a: any, b: any) => {
+        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+        return 0;
+      }
+    );
     setSortConfig({ key, direction });
     setFilteredSubCategories(sortedSubCategories);
   };
@@ -62,7 +76,7 @@ const useViewRawSubCategory = () => {
     if (!window.confirm("Are you sure you want to delete this subcategory?"))
       return;
     try {
-      const response = await deleteRawSubCategory(id)
+      const response = await deleteRawSubCategory(id);
       if (response.status === 200) {
         handelfetchSubCategories();
       }
@@ -72,7 +86,12 @@ const useViewRawSubCategory = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/Products/EditRawSubCategory/${id}`);
+    settoggleEditRawSubCategory(!toggleEditRawSubCategory);
+    if (typeof id === "number") {
+      localStorage.setItem("subCatId", id.toString());
+    } else {
+      localStorage.removeItem("subCatId");
+    }
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -120,14 +139,19 @@ const useViewRawSubCategory = () => {
     handlePageChange,
     exportToExcel,
     getVisiblePages,
+    modalAddRawSubCategory,
+    handelfetchSubCategories,
+    modaltoggleEditRawSubCategory,
+    toggleEditRawSubCategory,
     currentSubCategories,
     subcategoriesPerPage,
     filteredSubCategories,
     indexOfFirstSubCategory,
     currentPage,
     indexOfLastSubCategory,
-    totalPages
-  }
+    totalPages,
+    toggleaddRawSubCategory,
+  };
 };
 
 export default useViewRawSubCategory;

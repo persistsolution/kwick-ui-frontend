@@ -16,6 +16,7 @@ const ViewTransferStockToCocoFr: FC = () => {
     fromDate,
     toDate,
     FranchiseList,
+    currentviewTransferStockToCocoFr,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -44,7 +45,7 @@ const ViewTransferStockToCocoFr: FC = () => {
                 <div className="row align-items-center g-2 mb-3">
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="FranchiseList">
-                      <Form.Label>Select Franchise *</Form.Label>
+                      <Form.Label>Select Franchise</Form.Label>
                       <Select
                         name="state"
                         options={FranchiseList}
@@ -129,8 +130,8 @@ const ViewTransferStockToCocoFr: FC = () => {
                         <th onClick={() => handleSort("totalQty")}>
                           Total Qty{" "}
                         </th>
-                        <th onClick={() => handleSort("totalContact")}>
-                          Total Contact{" "}
+                        <th onClick={() => handleSort("totalAmount")}>
+                          Total Amount{" "}
                         </th>
                         <th onClick={() => handleSort("narration")}>
                           Narration{" "}
@@ -147,10 +148,39 @@ const ViewTransferStockToCocoFr: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {viewTransferStockToCocoFr.length > 0 ? (
-                        viewTransferStockToCocoFr.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
-                        ))
+                      {currentviewTransferStockToCocoFr.length > 0 ? (
+                        currentviewTransferStockToCocoFr.map(
+                          (GodownAccount: any) => (
+                            <tr key={GodownAccount.id}>
+                              <td>{GodownAccount.id}</td>
+                              <td>{GodownAccount.GodownName}</td>
+                              <td></td>
+                              <td>{GodownAccount.StockDate}</td>
+                              <td>{GodownAccount.TotQty}</td>
+                              <td>{GodownAccount.TotalAmount}</td>
+                              <td>{GodownAccount.Narration}</td>
+                              <td>{GodownAccount.CreatedDate}</td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
+                                  // onClick={() => handelEditProduct(product.id)}
+                                >
+                                  <i className="bi bi-pen fs-15"></i>
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                                  // onClick={() => handleDeleteProduct(product.id)}
+                                >
+                                  <i className="bi bi-trash fs-15"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        )
                       ) : (
                         <tr>
                           <td colSpan={3} className="text-center">

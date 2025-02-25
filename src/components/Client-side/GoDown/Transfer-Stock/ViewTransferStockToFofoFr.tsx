@@ -12,6 +12,7 @@ const ViewTransferStockToFofoFr: FC = () => {
     searchTerm,
     currentPage,
     viewTransferStockToFofoFrPerPage,
+    currentviewTransferStockToFofoFr,
     totalPages,
     fromDate,
     toDate,
@@ -44,7 +45,7 @@ const ViewTransferStockToFofoFr: FC = () => {
                 <div className="row align-items-center g-2 mb-3">
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="FranchiseList">
-                      <Form.Label>Select Franchise *</Form.Label>
+                      <Form.Label>Select Franchise</Form.Label>
                       <Select
                         name="state"
                         options={FranchiseList}
@@ -147,10 +148,39 @@ const ViewTransferStockToFofoFr: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {viewTransferStockToFofoFr.length > 0 ? (
-                        viewTransferStockToFofoFr.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
-                        ))
+                      {currentviewTransferStockToFofoFr.length > 0 ? (
+                        currentviewTransferStockToFofoFr.map(
+                          (GodownAccount: any) => (
+                            <tr key={GodownAccount.id}>
+                              <td>{GodownAccount.id}</td>
+                              <td>{GodownAccount.GodownName}</td>
+                              <td></td>
+                              <td>{GodownAccount.StockDate}</td>
+                              <td>{GodownAccount.TotQty}</td>
+                              <td>{GodownAccount.TotalAmount}</td>
+                              <td>{GodownAccount.Narration}</td>
+                              <td>{GodownAccount.CreatedDate}</td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
+                                  // onClick={() => handelEditProduct(product.id)}
+                                >
+                                  <i className="bi bi-pen fs-15"></i>
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                                  // onClick={() => handleDeleteProduct(product.id)}
+                                >
+                                  <i className="bi bi-trash fs-15"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        )
                       ) : (
                         <tr>
                           <td colSpan={3} className="text-center">

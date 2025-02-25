@@ -9,7 +9,7 @@ import Loader from "./layouts/Component/Loader/Loader";
 import Authenticationlayout from "./layouts/Authenticationlayout";
 import Landingpagelayout from "./layouts/Landingpagelayout";
 
-//component import path
+// Component Imports
 import Error500 from "./components/Authentication/ErrorPages/Error500";
 import Indexpage from "./components/Client-side/Dashboard/AddMinDashboard/IndexPage";
 import Login from "./components/Authentication/LogIn";
@@ -26,15 +26,20 @@ import Firebasesignin from "./layouts/Firebase/Firebasesignin";
 import Firebasesignup from "./layouts/Firebase/Firebasesignup";
 import Firebasereset from "./layouts/Firebase/Firebasereset";
 
+// PrivateRoute
+import PrivateRoute from "./components/Authentication/PrivateRoute";
+
+// config
+import { BASE_NAME } from "./config";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Fragment>
     <HelmetProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={BASE_NAME}>
         <React.Suspense fallback={<Loader />}>
           <ScrollToTop />
           <Routes>
-            <Route></Route>
-
+            {/* Firebase Authentication Routes (No Auth Required) */}
             <Route
               path={`${import.meta.env.BASE_URL}`}
               element={<Firebaselayout />}
@@ -53,33 +58,30 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 element={<Firebasereset />}
               />
             </Route>
-            {/* //main layout */}
 
-            <Route path={`${import.meta.env.BASE_URL}`} element={<App />}>
-              <Route index element={<Indexpage />} />
-              {RouteData.map((idx) => (
-                <Route
-                  key={Math.random()}
-                  path={idx.path}
-                  element={idx.element}
-                />
-              ))}
-            </Route>
+            {/* Protected Routes */}
+            <Route element={<PrivateRoute />}>
+              {/* Main App Layout */}
+              <Route path={`${import.meta.env.BASE_URL}`} element={<App />}>
+                <Route index element={<Indexpage />} />
+                {RouteData.map((idx) => (
+                  <Route key={idx.path} path={idx.path} element={idx.element} />
+                ))}
+              </Route>
 
-            {/* //LandingPage layout */}
-
-            <Route
-              path={`${import.meta.env.BASE_URL}`}
-              element={<Landingpagelayout />}
-            >
+              {/* Landing Page Layout */}
               <Route
-                path={`${import.meta.env.BASE_URL}LandingPage`}
-                element={<Landingpage />}
-              />
+                path={`${import.meta.env.BASE_URL}`}
+                element={<Landingpagelayout />}
+              >
+                <Route
+                  path={`${import.meta.env.BASE_URL}LandingPage`}
+                  element={<Landingpage />}
+                />
+              </Route>
             </Route>
 
-            {/* //Authentication layout */}
-
+            {/* Authentication Layout (No Auth Required) */}
             <Route
               path={`${import.meta.env.BASE_URL}`}
               element={<Authenticationlayout />}
@@ -89,7 +91,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 path={`${import.meta.env.BASE_URL}Authentication/LogIn`}
                 element={<Login />}
               />
-
               <Route
                 path={`${
                   import.meta.env.BASE_URL
@@ -133,6 +134,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 element={<Error503 />}
               />
             </Route>
+
+            {/* Catch-All for Unknown Routes */}
+            <Route path="*" element={<Error404 />} />
           </Routes>
         </React.Suspense>
       </BrowserRouter>

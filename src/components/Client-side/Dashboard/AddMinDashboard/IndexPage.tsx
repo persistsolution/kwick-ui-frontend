@@ -16,7 +16,7 @@ const Indexpage: FC = () => {
         <Row>
           <Col xxl={9}>
             <Row>
-              <Col xxl={5} xl={12}>
+              <Col xxl={6} xl={12}>
                 <Row>
                   {/* Total Employees */}
                   <Col xl={3} lg={6} md={6} sm={6} xxl={6}>

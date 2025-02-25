@@ -1,1 +1,9 @@
-export const API_BASE_URL = "http://13.232.248.194:3003";
+// AWS LIVE URL
+var SERVER_STATUS;
+SERVER_STATUS = "http://13.232.248.194:3003";
+// DEVELOPMENT URL
+// SERVER_STATUS = "http://localhost:3000";
+// BASE NAME OF APPLICATION
+export const BASE_NAME = "";
+// EXPORT URL
+export const API_BASE_URL = SERVER_STATUS;

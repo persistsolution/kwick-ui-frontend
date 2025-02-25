@@ -90,7 +90,7 @@ const ViewCategory: FC = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Name</th>
+                        <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("srno")}>Sr No</th>
                         <th onClick={() => handleSort("status")}>Status</th>
                         <th onClick={() => handleSort("Name")}>Edit</th>

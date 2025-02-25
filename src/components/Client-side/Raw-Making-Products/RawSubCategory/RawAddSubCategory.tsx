@@ -1,9 +1,19 @@
 import React, { Fragment } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import useRawSubCategory from "../../../Hook/Raw-Making-products-Hook/RawSubCategoryTS/useRawSubCategory";
+import Rodal from "rodal";
 
-const RawAddSubCategory: React.FC = () => {
+interface AddRawSubCategoryFromProps {
+  modalAddRawSubCategory: () => void;
+  toggleaddRawSubCategory: boolean;
+  handelfetchSubCategories: () => void;
+}
+
+const RawAddSubCategory: React.FC<AddRawSubCategoryFromProps> = ({
+  modalAddRawSubCategory,
+  toggleaddRawSubCategory,
+  handelfetchSubCategories,
+}) => {
   const {
     categoryOptions,
     formData,
@@ -13,27 +23,30 @@ const RawAddSubCategory: React.FC = () => {
     handleCategoryChange,
     handleSubmit,
     handleMessage,
-  } = useRawSubCategory();
+  } = useRawSubCategory({ modalAddRawSubCategory, handelfetchSubCategories });
   return (
-    <Fragment>
-      <Pageheader
-        heading="Add Sub Category"
-        homepage="Forms"
-        activepage="Add Sub Category"
-      />
-
-      <div className="main-container container-fluid">
-        <Row>
-          <Col xl={12}>
-            <Card className="custom-card">
-              <Card.Header>
-                <div className="card-title">Add Sub Category</div>
-              </Card.Header>
-              <Card.Body>
-                <Form onSubmit={handleSubmit}>
+    <Rodal
+      onClose={() => {
+        modalAddRawSubCategory();
+      }}
+      visible={toggleaddRawSubCategory}
+      animation="slideUp"
+      height={300}
+      width={600}
+    >
+      <div className="modal-header">Add Sub Category</div>
+      <Fragment>
+        <div className="main-container container-fluid">
+          <Row>
+            <Col>
+              <Form onSubmit={handleSubmit}>
+                <div className="modal-body text-start">
                   <Row className="gy-4">
-                    <Col xl={4}>
-                      <Form.Label> Category Name *</Form.Label>
+                    <Col xl={6}>
+                      <Form.Label>
+                        {" "}
+                        Category Name <span className="text-danger"> *</span>
+                      </Form.Label>
                       <Form.Select
                         name="category"
                         value={formData.catid}
@@ -50,9 +63,12 @@ const RawAddSubCategory: React.FC = () => {
                       </Form.Select>
                     </Col>
 
-                    <Col xl={4}>
+                    <Col xl={6}>
                       <Form.Group controlId="name">
-                        <Form.Label>Sub Category Name *</Form.Label>
+                        <Form.Label>
+                          Sub Category Name{" "}
+                          <span className="text-danger"> *</span>
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="subCatname"
@@ -65,7 +81,7 @@ const RawAddSubCategory: React.FC = () => {
                       </Form.Group>
                     </Col>
 
-                    <Col xl={4}>
+                    <Col xl={6}>
                       <Form.Group className="my-1">
                         <label className="form-label mt-0">Photo Upload</label>
                         <input
@@ -78,8 +94,11 @@ const RawAddSubCategory: React.FC = () => {
                       </Form.Group>
                     </Col>
 
-                    <Col xl={4}>
+                    <Col xl={6}>
                       <Form.Group className="my-1">
+                        <label className="form-label mt-0">
+                          Status <span className="text-danger"> *</span>
+                        </label>
                         <Form.Select
                           name="status"
                           onChange={handleChange}
@@ -94,7 +113,9 @@ const RawAddSubCategory: React.FC = () => {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                </div>
+                <div className="modal-footer">
+                  <Row>
                     <Col>
                       <Button
                         type="submit"
@@ -116,13 +137,13 @@ const RawAddSubCategory: React.FC = () => {
                       )}
                     </Col>
                   </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </Fragment>
+                </div>
+              </Form>
+            </Col>
+          </Row>
+        </div>
+      </Fragment>
+    </Rodal>
   );
 };
 

@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { updateRawCategory, fetchByIdRawCategory } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
+// import { useNavigate } from "react-router-dom";S
+import {
+  updateRawCategory,
+  fetchByIdRawCategory,
+} from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 
-const useRawEditCategory = () => {
+interface UseEditCategoryProps {
+  handelToggleEditRawCategory: () => void;
+  handelfetchCategories: () => void;
+}
+
+const useRawEditCategory = ({
+  handelToggleEditRawCategory,
+  handelfetchCategories,
+}: UseEditCategoryProps) => {
   const [formData, setFormData] = useState({
     name: "",
     icon: null,
     photo: "",
     photo2: null,
     featured: 0,
-    prodtype: 0,
+    prodtype: 1,
     status: 1,
     srno: 1.0,
     createddate: new Date().toISOString(),
@@ -27,14 +37,13 @@ const useRawEditCategory = () => {
   });
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { id } = useParams();
-  const navigate = useNavigate();
-
+  // const navigate = useNavigate();
+  const id = localStorage.getItem("rawCatId");
   useEffect(() => {
     if (id) {
       handelFetchEditCategory();
     } else {
-      setMessage("Category ID is missing.");
+      // setMessage("Category ID is missing.");
     }
   }, [id]);
 
@@ -42,22 +51,24 @@ const useRawEditCategory = () => {
     if (!id) return;
 
     try {
-      const response: any = await fetchByIdRawCategory(Number(id)); 
+      const response: any = await fetchByIdRawCategory(Number(id));
       const responceData = response.data;
       if (response.status === 200) {
         setFormData((prev) => ({
           ...prev,
           categoryName: responceData?.Name,
-          categorySrno: responceData?.srno || 0,
-          status: responceData?.Status || 1,
-          photo:responceData?.Photo || ""
+          categorySrno: responceData?.srno,
+          status: responceData?.Status,
+          photo: responceData?.Photo,
         }));
       } else {
-        setMessage(`Error: ${response.data?.message || "Failed to Fetch Edit Category."}`);
+        // setMessage(
+        //   `Error: ${response.data?.message || "Failed to Fetch Edit Category."}`
+        // );
       }
     } catch (error) {
       console.log(error);
-      setMessage("Error fetching category details.");
+      // setMessage("Error fetching category details.");
     }
   };
 
@@ -72,9 +83,9 @@ const useRawEditCategory = () => {
       const url = URL.createObjectURL(files[0]);
       setFormData((prev) => ({
         ...prev,
-        photo:url
-      }));   
-     }
+        photo: url,
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,17 +112,16 @@ const useRawEditCategory = () => {
     };
 
     try {
-      const response: any = await updateRawCategory(Number(id),Object(raw)); 
-
+      const response: any = await updateRawCategory(Number(id), Object(raw));
       if (response.status === 200) {
-        setMessage("Category Edit successfully!");
+        // setMessage("Raw Category Edit successfully!");
         setFormData({
           name: "",
           icon: null,
           photo: "",
           photo2: null,
           featured: 0,
-          prodtype: 0,
+          prodtype: 1,
           status: 1,
           srno: 1.0,
           createddate: new Date().toISOString(),
@@ -126,13 +136,16 @@ const useRawEditCategory = () => {
           categorySrno: 0,
           categoryName: "",
         });
-        navigate("/Products/ViewRawCategory/");
+        handelToggleEditRawCategory();
+        handelfetchCategories();
       } else {
-        setMessage(`Error: ${response.data?.message || "Failed To Edit Category."}`);
+        // setMessage(
+        //   `Error: ${response.data?.message || "Failed To Edit Category."}`
+        // );
       }
     } catch (err) {
       console.error("Network error:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }

@@ -2,6 +2,8 @@ import { FC, Fragment } from "react";
 import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useRawViewCategoryForm from "../../../Hook/Raw-Making-products-Hook/RawCategoryTS/useRawViewCategoryForm";
+import EditRawCategoryFrom from "./EditRawCategoryForm";
+import AddRawCategoryForm from "./AddRawCategoryForm";
 
 const ViewRawCategory: FC = () => {
   const {
@@ -12,6 +14,9 @@ const ViewRawCategory: FC = () => {
     currentPage,
     categoriesPerPage,
     totalPages,
+    toggleEditRawCategory,
+    currentCategories,
+    toggleAddRawCategory,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -21,6 +26,8 @@ const ViewRawCategory: FC = () => {
     getVisiblePages,
     setCategoriesPerPage,
     modalAddRawCategory,
+    handelToggleEditRawCategory,
+    handelfetchCategories,
   } = useRawViewCategoryForm();
 
   return (
@@ -83,7 +90,7 @@ const ViewRawCategory: FC = () => {
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Name</th>
+                        <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("srno")}>Sr No</th>
                         <th onClick={() => handleSort("status")}>Status</th>
                         <th onClick={() => handleSort("Name")}>Edit</th>
@@ -91,8 +98,8 @@ const ViewRawCategory: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredCategories.length > 0 ? (
-                        filteredCategories.map((category: any) => (
+                      {currentCategories.length > 0 ? (
+                        currentCategories.map((category: any) => (
                           <tr key={category.id}>
                             <td>{category.id}</td>
                             <td>
@@ -225,6 +232,20 @@ const ViewRawCategory: FC = () => {
           </Col>
         </Row>
       </div>
+
+      {/* Edit Raw Caregory Modal */}
+      <EditRawCategoryFrom
+        toggleEditRawCategory={toggleEditRawCategory}
+        handelToggleEditRawCategory={() => handelToggleEditRawCategory(0)}
+        handelfetchCategories={handelfetchCategories}
+      />
+
+      {/* Add Raw Category Modal */}
+      <AddRawCategoryForm
+        modalAddRawCategory={modalAddRawCategory}
+        toggleAddRawCategory={toggleAddRawCategory}
+        handelfetchCategories={handelfetchCategories}
+      />
     </Fragment>
   );
 };
