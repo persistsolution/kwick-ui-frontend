@@ -58,7 +58,7 @@ const AddSubCategoryFormModal: React.FC<AddSubCategoryFormModalProps> = ({
                       required
                     >
                       {categoryOptions?.map((item: any, idx: number) => (
-                        <option value={0}>Select Category</option>
+                        
                       <Fragment key={idx}>
                           <option value={item.id}>{item.Name}</option>
                         </Fragment>
