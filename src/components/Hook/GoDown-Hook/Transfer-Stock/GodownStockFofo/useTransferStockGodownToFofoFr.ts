@@ -4,8 +4,8 @@ import {
   fetchGodownListApi,
   fetchGodownStockProduct,
   fetchProductDetailsApi,
-} from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
-import { fetchFranchise } from "../../../api/Franchise-Api/FranchiseApi";
+} from "../../../../api/GoDown-Api/GodownStock/GodownStockApi";
+import { fetchFranchise } from "../../../../api/Franchise-Api/FranchiseApi";
 
 interface retailerFormValues {
   productName: string;
@@ -55,7 +55,7 @@ type selectFranchise = {
   value: number;
 } | null;
 
-const useTransferStockGodownToFr = () => {
+const useTransferStockGodownToFofoFr = () => {
   const [formValues, setFormValues] = useState<retailerFormValues>({
     availableStock: 0,
     productName: "",
@@ -86,8 +86,6 @@ const useTransferStockGodownToFr = () => {
     useState<GodownStockProduct>(null);
   const [franchisesList, setFranchisesList] = useState([]);
   const [selectFranchise, setselectFranchise] = useState<selectFranchise>(null);
-
-  console.log(formValues, "formValues");
 
   useEffect(() => {
     fetchGodownList();
@@ -399,4 +397,4 @@ const useTransferStockGodownToFr = () => {
   };
 };
 
-export default useTransferStockGodownToFr;
+export default useTransferStockGodownToFofoFr;

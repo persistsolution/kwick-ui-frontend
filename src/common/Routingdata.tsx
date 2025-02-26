@@ -47,9 +47,11 @@ import CreateGodownAccount from "../components/Client-side/GoDown/GodownAccount/
 import ViewGodownAccount from "../components/Client-side/GoDown/GodownAccount/ViewGodownAccount";
 import AddGodownStock from "../components/Client-side/GoDown/GodownStock/AddGodownStock";
 import ViewGodownStock from "../components/Client-side/GoDown/GodownStock/ViewGodownStock";
-import ViewTransferStockToCocoFr from "../components/Client-side/GoDown/Transfer-Stock/ViewTransferStockToCocoFr";
-import ViewTransferStockToFofoFr from "../components/Client-side/GoDown/Transfer-Stock/ViewTransferStockToFofoFr";
-import ViewTransferStockToOtherFr from "../components/Client-side/GoDown/Transfer-Stock/ViewTransferStockToOtherFr";
+import ViewTransferStockToCocoFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockCoco/ViewTransferStockToCocoFr";
+import ViewTransferStockToFofoFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockFofo/ViewTransferStockToFofoFr";
+import TransferStockGodownToFofoFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockFofo/TransferStockGodownToFofoFr";
+import ViewTransferStockToOtherFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockOther/ViewTransferStockToOtherFr";
+import TransferStockGodownToOtherFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockOther/TransferStockGodownToOtherFr";
 import ViewGodownApproveRequest from "../components/Client-side/GoDown/GodownApproveRequest/ViewGodownApproveRequest";
 import CreateInvoiceProductStock from "../components/Client-side/GoDown/CreateInvoiceProductStock/CreateInvoiceProductStock";
 import ViewGodownPendingRequest from "../components/Client-side/GoDown/GodownPendingRequest/ViewGodownPendingRequest";
@@ -79,7 +81,7 @@ import ViewCustomerSellReport from "../components/Client-side/Report/ViewCustome
 import ViewDailySellReport from "../components/Client-side/Report/ViewDailySellReport";
 import AllocatedProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocatedProducts";
 import RawAllocatedProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocatedProducts";
-import TransferStockGodownToFr from "../components/Client-side/GoDown/Transfer-Stock/TransferStockGodownToFr";
+import TransferStockGodownToFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockCoco/TransferStockGodownToFr";
 
 export interface routeType {
   id: number;
@@ -295,11 +297,25 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToFofoFr`,
     element: <ViewTransferStockToFofoFr />,
   },
+
+  {
+    id: 33,
+    path: `${import.meta.env.BASE_URL}GoDown/TransferStockGodownToFofoFr`,
+    element: <TransferStockGodownToFofoFr />,
+  },
+
   {
     id: 34,
     path: `${import.meta.env.BASE_URL}GoDown/ViewTransferStockToOtherFr`,
     element: <ViewTransferStockToOtherFr />,
   },
+
+  {
+    id: 34,
+    path: `${import.meta.env.BASE_URL}GoDown/TransferStockGodownToOtherFr`,
+    element: <TransferStockGodownToOtherFr />,
+  },
+
   {
     id: 35,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownPendingRequest`,

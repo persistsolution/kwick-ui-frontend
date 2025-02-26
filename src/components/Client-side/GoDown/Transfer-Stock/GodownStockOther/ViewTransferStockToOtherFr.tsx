@@ -1,38 +1,39 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewTransferStockToFofoFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useViewTransferStockToFofoFr";
 import Select from "react-select";
+import useViewTransferStockToOtherFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockOther/useViewTransferStockToOtherFr";
 
-const ViewTransferStockToFofoFr: FC = () => {
+const ViewTransferStockToOtherFr: FC = () => {
   const {
-    indexOfLastTransferStockToFofoFr,
-    indexOfFirstTransferStockToFofoFr,
-    viewTransferStockToFofoFr,
+    indexOfLastTransferStockToOtherFr,
+    indexOfFirstTransferStockToOtherFr,
+    viewTransferStockToOtherFr,
     searchTerm,
     currentPage,
-    viewTransferStockToFofoFrPerPage,
-    currentviewTransferStockToFofoFr,
+    viewTransferStockToOtherFrPerPage,
     totalPages,
     fromDate,
-    toDate,
     FranchiseList,
+    toDate,
+    currentviewTransferStockToOtherFr,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
-    // handleDeleteTransferStockToFofoFr,
+    // handleDeleteTransferStockToOtherFr,
     // handleEdit,
     getVisiblePages,
-    setviewTransferStockToFofoFrPerPage,
+    setviewTransferStockToOtherFrPerPage,
     setfromDate,
     settodate,
-  } = useViewTransferStockToFofoFr();
+    handelNavigatetoTransferOther,
+  } = useViewTransferStockToOtherFr();
 
   return (
     <Fragment>
       <Pageheader
-        heading="Transfer Stock Godown To Fofo Franchise"
+        heading="Transfer Stock Godown To Other Franchise"
         homepage="Products"
         activepage="Transfer Stock"
       />
@@ -45,7 +46,7 @@ const ViewTransferStockToFofoFr: FC = () => {
                 <div className="row align-items-center g-2 mb-3">
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="FranchiseList">
-                      <Form.Label>Select Franchise</Form.Label>
+                      <Form.Label>Select Franchise *</Form.Label>
                       <Select
                         name="state"
                         options={FranchiseList}
@@ -89,11 +90,12 @@ const ViewTransferStockToFofoFr: FC = () => {
                       className="w-100"
                     />
                   </div>
+
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={viewTransferStockToFofoFrPerPage}
+                      value={viewTransferStockToOtherFrPerPage}
                       onChange={(e) =>
-                        setviewTransferStockToFofoFrPerPage(
+                        setviewTransferStockToOtherFrPerPage(
                           Number(e.target.value)
                         )
                       }
@@ -102,10 +104,17 @@ const ViewTransferStockToFofoFr: FC = () => {
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={viewTransferStockToFofoFr.length}>
+                      <option value={viewTransferStockToOtherFr.length}>
                         All Items
                       </option>
                     </Form.Select>
+
+                    <Button
+                      variant="success"
+                      onClick={handelNavigatetoTransferOther}
+                    >
+                      Add New{" "}
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -148,8 +157,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentviewTransferStockToFofoFr.length > 0 ? (
-                        currentviewTransferStockToFofoFr.map(
+                      {currentviewTransferStockToOtherFr.length > 0 ? (
+                        currentviewTransferStockToOtherFr.map(
                           (GodownAccount: any) => (
                             <tr key={GodownAccount.id}>
                               <td>{GodownAccount.id}</td>
@@ -194,12 +203,12 @@ const ViewTransferStockToFofoFr: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstTransferStockToFofoFr + 1} to{" "}
+                    Showing {indexOfFirstTransferStockToOtherFr + 1} to{" "}
                     {Math.min(
-                      indexOfLastTransferStockToFofoFr,
-                      viewTransferStockToFofoFr.length
+                      indexOfLastTransferStockToOtherFr,
+                      viewTransferStockToOtherFr.length
                     )}{" "}
-                    of {viewTransferStockToFofoFr.length} entries
+                    of {viewTransferStockToOtherFr.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -280,4 +289,4 @@ const ViewTransferStockToFofoFr: FC = () => {
   );
 };
 
-export default ViewTransferStockToFofoFr;
+export default ViewTransferStockToOtherFr;

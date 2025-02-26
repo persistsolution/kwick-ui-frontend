@@ -1,38 +1,38 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
-import useViewTransferStockToCocoFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useViewTransferStockToCocoFr";
-
-const ViewTransferStockToCocoFr: FC = () => {
+import useViewTransferStockToFofoFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockFofo/useViewTransferStockToFofoFr";
+const ViewTransferStockToFofoFr: FC = () => {
   const {
-    indexOfLastTransferStockToCocoFr,
-    indexOfFirstTransferStockToCocoFr,
-    viewTransferStockToCocoFr,
+    indexOfLastTransferStockToFofoFr,
+    indexOfFirstTransferStockToFofoFr,
+    viewTransferStockToFofoFr,
     searchTerm,
     currentPage,
-    viewTransferStockToCocoFrPerPage,
+    viewTransferStockToFofoFrPerPage,
+    currentviewTransferStockToFofoFr,
     totalPages,
     fromDate,
     toDate,
     FranchiseList,
-    currentviewTransferStockToCocoFr,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
-    // handleDeleteTransferStockToCocoFr,
+    // handleDeleteTransferStockToFofoFr,
     // handleEdit,
     getVisiblePages,
-    setviewTransferStockToCocoFrPerPage,
+    setviewTransferStockToFofoFrPerPage,
     setfromDate,
     settodate,
-  } = useViewTransferStockToCocoFr();
+    handelNavigatetoTransferFofo,
+  } = useViewTransferStockToFofoFr();
 
   return (
     <Fragment>
       <Pageheader
-        heading="Transfer Stock Godown To COCO Franchise"
+        heading="Transfer Stock Godown To Fofo Franchise"
         homepage="Products"
         activepage="Transfer Stock"
       />
@@ -91,9 +91,9 @@ const ViewTransferStockToCocoFr: FC = () => {
                   </div>
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={viewTransferStockToCocoFrPerPage}
+                      value={viewTransferStockToFofoFrPerPage}
                       onChange={(e) =>
-                        setviewTransferStockToCocoFrPerPage(
+                        setviewTransferStockToFofoFrPerPage(
                           Number(e.target.value)
                         )
                       }
@@ -102,10 +102,16 @@ const ViewTransferStockToCocoFr: FC = () => {
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={viewTransferStockToCocoFr.length}>
+                      <option value={viewTransferStockToFofoFr.length}>
                         All Items
                       </option>
                     </Form.Select>
+                    <Button
+                      variant="success"
+                      onClick={handelNavigatetoTransferFofo}
+                    >
+                      Add New{" "}
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -130,8 +136,8 @@ const ViewTransferStockToCocoFr: FC = () => {
                         <th onClick={() => handleSort("totalQty")}>
                           Total Qty{" "}
                         </th>
-                        <th onClick={() => handleSort("totalAmount")}>
-                          Total Amount{" "}
+                        <th onClick={() => handleSort("totalContact")}>
+                          Total Contact{" "}
                         </th>
                         <th onClick={() => handleSort("narration")}>
                           Narration{" "}
@@ -148,8 +154,8 @@ const ViewTransferStockToCocoFr: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentviewTransferStockToCocoFr.length > 0 ? (
-                        currentviewTransferStockToCocoFr.map(
+                      {currentviewTransferStockToFofoFr.length > 0 ? (
+                        currentviewTransferStockToFofoFr.map(
                           (GodownAccount: any) => (
                             <tr key={GodownAccount.id}>
                               <td>{GodownAccount.id}</td>
@@ -194,12 +200,12 @@ const ViewTransferStockToCocoFr: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstTransferStockToCocoFr + 1} to{" "}
+                    Showing {indexOfFirstTransferStockToFofoFr + 1} to{" "}
                     {Math.min(
-                      indexOfLastTransferStockToCocoFr,
-                      viewTransferStockToCocoFr.length
+                      indexOfLastTransferStockToFofoFr,
+                      viewTransferStockToFofoFr.length
                     )}{" "}
-                    of {viewTransferStockToCocoFr.length} entries
+                    of {viewTransferStockToFofoFr.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -280,4 +286,4 @@ const ViewTransferStockToCocoFr: FC = () => {
   );
 };
 
-export default ViewTransferStockToCocoFr;
+export default ViewTransferStockToFofoFr;

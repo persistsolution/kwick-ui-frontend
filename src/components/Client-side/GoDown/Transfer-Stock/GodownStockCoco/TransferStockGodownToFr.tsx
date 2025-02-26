@@ -8,11 +8,10 @@ import {
   Container,
   Table,
 } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import useTransferStockGodownToFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useTransferStockGodownToFr";
+import useTransferStockGodownToFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockCoco/useTransferStockGodownToFr";
 
 const TransferStockGodownToFr: React.FC = () => {
   const {

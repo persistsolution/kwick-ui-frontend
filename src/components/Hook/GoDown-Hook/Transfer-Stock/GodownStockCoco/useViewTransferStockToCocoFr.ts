@@ -1,23 +1,24 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import {
-  fetchTransferStockToFofoFrApi,
-  deleteTransferStockToFofoFr,
-} from "../../../api/GoDown-Api/Transfer-Stock/TransferStockFofoFrApi";
+  fetchTransferStockToCocoFrApi,
+  deleteTransferStockToCocoFr,
+} from "../../../../api/GoDown-Api/Transfer-Stock/TransferStockApi";
 
-const useViewTransferStockToFofoFr = () => {
-  const [viewTransferStockToFofoFr, setviewTransferStockToFofoFr] = useState(
+const useViewTransferStockToCocoFr = () => {
+  const [viewTransferStockToCocoFr, setviewTransferStockToCocoFr] = useState(
     []
   );
   const [
-    filteredviewTransferStockToFofoFr,
-    setFilteredviewTransferStockToFofoFr,
+    filteredviewTransferStockToCocoFr,
+    setFilteredviewTransferStockToCocoFr,
   ] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [
-    viewTransferStockToFofoFrPerPage,
-    setviewTransferStockToFofoFrPerPage,
+    viewTransferStockToCocoFrPerPage,
+    setviewTransferStockToCocoFrPerPage,
   ] = useState(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
@@ -26,30 +27,35 @@ const useViewTransferStockToFofoFr = () => {
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
   const [FranchiseList, setFranchiseList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    handleFetchviewTransferStockToFofoFr();
+    handleFetchviewTransferStockToCocoFr();
   }, []);
 
-  const handleFetchviewTransferStockToFofoFr = async () => {
+  const handelNavigatetoTransferCoco = () => {
+    navigate("/GoDown/TransferStockGodownToFr");
+  };
+
+  const handleFetchviewTransferStockToCocoFr = async () => {
     try {
-      const response: any = await fetchTransferStockToFofoFrApi();
-      setviewTransferStockToFofoFr(response.data);
-      setFilteredviewTransferStockToFofoFr(response.data);
+      const response: any = await fetchTransferStockToCocoFrApi();
+      setviewTransferStockToCocoFr(response.data);
+      setFilteredviewTransferStockToCocoFr(response.data);
     } catch (error) {
-      console.error("Error fetching viewTransferStockToFofoFr:", error);
+      console.error("Error fetching viewTransferStockToCocoFr:", error);
     }
   };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFilteredviewTransferStockToFofoFr(
-      viewTransferStockToFofoFr.filter(
-        (TransferStockToFofoFr: any) =>
-          TransferStockToFofoFr?.Name?.toLowerCase().includes(
+    setFilteredviewTransferStockToCocoFr(
+      viewTransferStockToCocoFr.filter(
+        (TransferStockToCocoFr: any) =>
+          TransferStockToCocoFr?.Name?.toLowerCase().includes(
             term.toLowerCase()
           ) ||
-          TransferStockToFofoFr?.id?.toString().includes(term.toLowerCase())
+          TransferStockToCocoFr?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
@@ -59,8 +65,8 @@ const useViewTransferStockToFofoFr = () => {
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedviewTransferStockToFofoFr = [
-      ...filteredviewTransferStockToFofoFr,
+    const sortedviewTransferStockToCocoFr = [
+      ...filteredviewTransferStockToCocoFr,
     ].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
@@ -68,7 +74,7 @@ const useViewTransferStockToFofoFr = () => {
     });
 
     setSortConfig({ key, direction });
-    setFilteredviewTransferStockToFofoFr(sortedviewTransferStockToFofoFr);
+    setFilteredviewTransferStockToCocoFr(sortedviewTransferStockToCocoFr);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -76,9 +82,9 @@ const useViewTransferStockToFofoFr = () => {
   };
 
   const exportToExcel = () => {
-    const table = document.getElementById("TransferStockToFofoFr-table");
+    const table = document.getElementById("TransferStockToCocoFr-table");
     const workbook = utils.table_to_book(table);
-    writeFile(workbook, "TransferStockToFofoFr_data.xlsx");
+    writeFile(workbook, "TransferStockToCocoFr_data.xlsx");
   };
 
   const getVisiblePages = () => {
@@ -96,15 +102,15 @@ const useViewTransferStockToFofoFr = () => {
     );
   };
 
-  const handleDeleteTransferStockToFofoFr = async (id: number) => {
+  const handleDeleteTransferStockToCocoFr = async (id: number) => {
     try {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this Godown Stock?"
       );
       if (!confirmDelete) return;
-      const response = await deleteTransferStockToFofoFr(id);
+      const response = await deleteTransferStockToCocoFr(id);
       if (response.status === 201) {
-        handleFetchviewTransferStockToFofoFr();
+        handleFetchviewTransferStockToCocoFr();
       } else {
         console.error(
           "Failed to delete the Godown Stock:",
@@ -121,29 +127,29 @@ const useViewTransferStockToFofoFr = () => {
 
   const handleEdit = () => {};
 
-  const indexOfLastTransferStockToFofoFr =
-    currentPage * viewTransferStockToFofoFrPerPage;
-  const indexOfFirstTransferStockToFofoFr =
-    indexOfLastTransferStockToFofoFr - viewTransferStockToFofoFrPerPage;
-  const currentviewTransferStockToFofoFr =
-    filteredviewTransferStockToFofoFr.slice(
-      indexOfFirstTransferStockToFofoFr,
-      indexOfLastTransferStockToFofoFr
+  const indexOfLastTransferStockToCocoFr =
+    currentPage * viewTransferStockToCocoFrPerPage;
+  const indexOfFirstTransferStockToCocoFr =
+    indexOfLastTransferStockToCocoFr - viewTransferStockToCocoFrPerPage;
+  const currentviewTransferStockToCocoFr =
+    filteredviewTransferStockToCocoFr.slice(
+      indexOfFirstTransferStockToCocoFr,
+      indexOfLastTransferStockToCocoFr
     );
   const totalPages = Math.ceil(
-    filteredviewTransferStockToFofoFr.length / viewTransferStockToFofoFrPerPage
+    filteredviewTransferStockToCocoFr.length / viewTransferStockToCocoFrPerPage
   );
 
   return {
-    indexOfLastTransferStockToFofoFr,
-    indexOfFirstTransferStockToFofoFr,
-    viewTransferStockToFofoFr,
-    filteredviewTransferStockToFofoFr,
+    indexOfLastTransferStockToCocoFr,
+    indexOfFirstTransferStockToCocoFr,
+    viewTransferStockToCocoFr,
+    filteredviewTransferStockToCocoFr,
     searchTerm,
     currentPage,
-    viewTransferStockToFofoFrPerPage,
+    viewTransferStockToCocoFrPerPage,
     sortConfig,
-    currentviewTransferStockToFofoFr,
+    currentviewTransferStockToCocoFr,
     totalPages,
     fromDate,
     toDate,
@@ -152,14 +158,15 @@ const useViewTransferStockToFofoFr = () => {
     handleSort,
     handlePageChange,
     exportToExcel,
-    handleDeleteTransferStockToFofoFr,
+    handleDeleteTransferStockToCocoFr,
     handleEdit,
     getVisiblePages,
-    setviewTransferStockToFofoFrPerPage,
+    setviewTransferStockToCocoFrPerPage,
     setfromDate,
     settodate,
     setFranchiseList,
+    handelNavigatetoTransferCoco,
   };
 };
 
-export default useViewTransferStockToFofoFr;
+export default useViewTransferStockToCocoFr;

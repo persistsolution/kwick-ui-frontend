@@ -1,38 +1,39 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewTransferStockToOtherFr from "../../../Hook/GoDown-Hook/Transfer-Stock/useViewTransferStockToOtherFr";
 import Select from "react-select";
+import useViewTransferStockToCocoFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockCoco/useViewTransferStockToCocoFr";
 
-const ViewTransferStockToOtherFr: FC = () => {
+const ViewTransferStockToCocoFr: FC = () => {
   const {
-    indexOfLastTransferStockToOtherFr,
-    indexOfFirstTransferStockToOtherFr,
-    viewTransferStockToOtherFr,
+    indexOfLastTransferStockToCocoFr,
+    indexOfFirstTransferStockToCocoFr,
+    viewTransferStockToCocoFr,
     searchTerm,
     currentPage,
-    viewTransferStockToOtherFrPerPage,
+    viewTransferStockToCocoFrPerPage,
     totalPages,
     fromDate,
-    FranchiseList,
     toDate,
-    currentviewTransferStockToOtherFr,
+    FranchiseList,
+    currentviewTransferStockToCocoFr,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
-    // handleDeleteTransferStockToOtherFr,
+    // handleDeleteTransferStockToCocoFr,
     // handleEdit,
     getVisiblePages,
-    setviewTransferStockToOtherFrPerPage,
+    setviewTransferStockToCocoFrPerPage,
     setfromDate,
     settodate,
-  } = useViewTransferStockToOtherFr();
+    handelNavigatetoTransferCoco,
+  } = useViewTransferStockToCocoFr();
 
   return (
     <Fragment>
       <Pageheader
-        heading="Transfer Stock Godown To Other Franchise"
+        heading="Transfer Stock Godown To COCO Franchise"
         homepage="Products"
         activepage="Transfer Stock"
       />
@@ -45,7 +46,7 @@ const ViewTransferStockToOtherFr: FC = () => {
                 <div className="row align-items-center g-2 mb-3">
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="FranchiseList">
-                      <Form.Label>Select Franchise *</Form.Label>
+                      <Form.Label>Select Franchise</Form.Label>
                       <Select
                         name="state"
                         options={FranchiseList}
@@ -89,12 +90,11 @@ const ViewTransferStockToOtherFr: FC = () => {
                       className="w-100"
                     />
                   </div>
-
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={viewTransferStockToOtherFrPerPage}
+                      value={viewTransferStockToCocoFrPerPage}
                       onChange={(e) =>
-                        setviewTransferStockToOtherFrPerPage(
+                        setviewTransferStockToCocoFrPerPage(
                           Number(e.target.value)
                         )
                       }
@@ -103,10 +103,16 @@ const ViewTransferStockToOtherFr: FC = () => {
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={viewTransferStockToOtherFr.length}>
+                      <option value={viewTransferStockToCocoFr.length}>
                         All Items
                       </option>
                     </Form.Select>
+                    <Button
+                      variant="success"
+                      onClick={handelNavigatetoTransferCoco}
+                    >
+                      Add New
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -131,8 +137,8 @@ const ViewTransferStockToOtherFr: FC = () => {
                         <th onClick={() => handleSort("totalQty")}>
                           Total Qty{" "}
                         </th>
-                        <th onClick={() => handleSort("totalContact")}>
-                          Total Contact{" "}
+                        <th onClick={() => handleSort("totalAmount")}>
+                          Total Amount{" "}
                         </th>
                         <th onClick={() => handleSort("narration")}>
                           Narration{" "}
@@ -149,8 +155,8 @@ const ViewTransferStockToOtherFr: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentviewTransferStockToOtherFr.length > 0 ? (
-                        currentviewTransferStockToOtherFr.map(
+                      {currentviewTransferStockToCocoFr.length > 0 ? (
+                        currentviewTransferStockToCocoFr.map(
                           (GodownAccount: any) => (
                             <tr key={GodownAccount.id}>
                               <td>{GodownAccount.id}</td>
@@ -195,12 +201,12 @@ const ViewTransferStockToOtherFr: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstTransferStockToOtherFr + 1} to{" "}
+                    Showing {indexOfFirstTransferStockToCocoFr + 1} to{" "}
                     {Math.min(
-                      indexOfLastTransferStockToOtherFr,
-                      viewTransferStockToOtherFr.length
+                      indexOfLastTransferStockToCocoFr,
+                      viewTransferStockToCocoFr.length
                     )}{" "}
-                    of {viewTransferStockToOtherFr.length} entries
+                    of {viewTransferStockToCocoFr.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -281,4 +287,4 @@ const ViewTransferStockToOtherFr: FC = () => {
   );
 };
 
-export default ViewTransferStockToOtherFr;
+export default ViewTransferStockToCocoFr;
