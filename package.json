@@ -24,6 +24,7 @@
     "@mui/material": "^5.14.18",
     "@mui/styled-engine-sc": "^6.0.0-alpha.6",
     "@mui/x-tree-view": "^6.17.0",
+    "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^1.9.7",
     "@simonwep/pickr": "^1.9.0",
     "@types/leaflet": "^1.9.8",
