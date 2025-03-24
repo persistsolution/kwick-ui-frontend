@@ -42955,3 +42955,16 @@ input[type=range]::-webkit-slider-runnable-track {
 /* end:: quill editor */
 
 /*# sourceMappingURL=style.css.map */
+
+.height_100px{
+height: 100px;
+}
+
+.font-size-small{
+font-size:12px;
+font-weight:bold;
+}
+
+.font-size-22px{
+font-size:22px !important
+}

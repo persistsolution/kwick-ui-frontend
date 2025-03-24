@@ -1,7 +1,7 @@
 import { FC, Fragment } from "react";
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 import ALLImages from "../../common/ImageData";
-import useLogin from "../Hook/Authentication-Hook/useLogin";
+import useLogin from "../Hook/Authentication/useLogin";
 
 const Login: FC = () => {
   const {
@@ -17,7 +17,6 @@ const Login: FC = () => {
     setEnteredOtp,
     handleVerifyOtp,
     handleSendOtp,
-    handleKeyDown,
   } = useLogin();
   return (
     <Fragment>
@@ -63,7 +62,6 @@ const Login: FC = () => {
                           placeholder="Enter your Mobile Number"
                           value={mobileNumber}
                           onChange={(e) => setMobileNumber(e.target.value)}
-                          onKeyDown={handleKeyDown}
                         />
                       </div>
                       <div className="d-grid mb-3">

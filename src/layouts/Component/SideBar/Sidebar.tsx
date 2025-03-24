@@ -32,7 +32,24 @@ const Sidebar: FC<ComponentProps> = ({
     const mainContent = document.querySelector(".main-content") as HTMLElement;
     mainContent.addEventListener("click", menuClose);
     window.addEventListener("resize", menuResizeFn);
+    closeSideBar();
+
+ const timeout = setTimeout(() => {
+      const sidebar = document.getElementById("sidebar");
+      if (sidebar) {
+        sidebar.classList.remove("d-none"); 
+        sidebar.style.display = "block";
+      }
+    }, 1000); 
+
+    return () => clearTimeout(timeout); 
   }, []);
+  
+
+  const closeSideBar = ()=>{
+    const theme = store.getState();
+    ThemeChanger({ ...theme, toggled: "close" });
+  }
 
   const location = useLocation();
 
@@ -679,10 +696,12 @@ const Sidebar: FC<ComponentProps> = ({
     }
   }
 
+
+
   return (
     <Fragment>
       <aside
-        className="app-sidebar sticky"
+        className="app-sidebar d-none sticky"
         id="sidebar"
         onMouseEnter={() => Onhover()}
         onMouseLeave={() => Outhover()}
@@ -732,6 +751,7 @@ const Sidebar: FC<ComponentProps> = ({
                                                     } 
 													${levelone?.active ? "open" : ""} 
 													${levelone?.selected ? "active" : ""}`}
+                          onClick={closeSideBar}
                   >
                     {levelone.menutitle ? (
                       <span className="category-name">

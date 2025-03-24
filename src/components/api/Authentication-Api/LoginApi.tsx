@@ -1,15 +1,13 @@
 import axios, { AxiosResponse } from "axios";
-import { API_BASE_URL } from "../../../config";
+// import { API_BASE_URL } from "../../../config";
 
 // Fetch all user Api.
-export const fetchUserApi = async (
-  mobile: string
-): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/employee/login/${mobile}`);
+export const fetchUserApi = async (number): Promise<AxiosResponse<any[]>> => {
+  return axios.get<any[]>(`https://kwickfoods.in/iosempapp/api/login-api.php?phone=${number}`);
 };
 
 // Fetch OTP Api.
-export const fetchOTPAPi = async (data: any): Promise<AxiosResponse<any[]>> => {
+export const fetchOTPAPi = async (data): Promise<AxiosResponse<any[]>> => {
   return axios.get<any[]>(
     `https://api.pinnacle.in/index.php/sms/send/MHCHAI${data}`
   );

@@ -1,21 +1,65 @@
-import { FC, Fragment } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { FC, Fragment } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-interface ComponentProps { }
+interface ComponentProps {}
 
 const Footer: FC<ComponentProps> = () => {
-    return (
-        <Fragment>
-            <footer className="footer">
-                <Container>
-                    <Row className="align-items-center flex-row-reverse">
-                        <Col md={12} sm={12} className="text-center"> Copyright © <span id="year">{new Date().getFullYear()}</span> <Link to="#">Kwick Bill</Link>. Designed with <span className="fa fa-heart text-danger"></span> by <Link to="#"> Maha Chai Private Limited </Link> All rights reserved.</Col>
-                    </Row>
-                </Container>
-            </footer>
-        </Fragment>
-    );
+  return (
+    <Fragment>
+      <footer className="footer">
+        <Container>
+          <Row className="justify-content-around text-center p-0">
+            <Col xs={2}>
+              <Link to="/Dashboard/IndexPage/" className="footer-icon">
+                <i
+                  className="fa fa-home font-size-22px"
+                  data-bs-toggle="tooltip"
+                  title="fa fa-home"
+                ></i>
+              </Link>
+            </Col>
+            <Col xs={2}>
+              <Link to="/Dashboard/IndexPage/" className="footer-icon">
+                <i
+                  className="fa fa-shopping-bag font-size-22px"
+                  data-bs-toggle="tooltip"
+                  title="fa fa-shopping-bag"
+                ></i>
+              </Link>
+            </Col>
+            <Col xs={2}>
+              <Link to="/Dashboard/IndexPage/" className="footer-icon">
+                <i
+                  className="fa fa-qrcode font-size-22px"
+                  data-bs-toggle="tooltip"
+                  title="fa fa-qrcode"
+                ></i>
+              </Link>
+            </Col>
+            <Col xs={2}>
+              <Link to="/Dashboard/IndexPage/" className="footer-icon">
+                <i
+                  className="fa fa-google-wallet font-size-22px"
+                  data-bs-toggle="tooltip"
+                  title="fa fa-google-wallet"
+                ></i>
+              </Link>
+            </Col>
+            <Col xs={2}>
+              <Link to="/Dashboard/IndexPage/" className="footer-icon">
+                <i
+                  className="fa fa-user font-size-22px"
+                  data-bs-toggle="tooltip"
+                  title="fa fa-user"
+                ></i>
+              </Link>
+            </Col>
+          </Row>
+        </Container>
+      </footer>
+    </Fragment>
+  );
 };
 
 export default Footer;

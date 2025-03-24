@@ -1,5 +1,5 @@
 import { FC, Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ALLImages from '../../../common/ImageData';
 import {  Dropdown, DropdownDivider, Navbar } from 'react-bootstrap';
 //import { HeaderCart, cartData } from '../../../common/CommonData';
@@ -19,7 +19,7 @@ interface ComponentProps { }
 const Header: FC<ComponentProps> = ({ ThemeChanger }: any) => {
 
     const [open, setOpen] = useState(false);
-
+    const navigate = useNavigate()
     //small screen
 
     //const [ setShow] = useState(false);
@@ -189,10 +189,19 @@ const Header: FC<ComponentProps> = ({ ThemeChanger }: any) => {
     //     }
     // };
 
+    // useEffect(()=>{
+    //   document.getElementById("closeSideBar").click()
+    // },[])
+
     function menuClose() {
         const theme = store.getState();
         ThemeChanger({ ...theme, "toggled": "close" });
+    }
 
+
+    const handelSignOut= ()=>{
+      localStorage.clear()
+      navigate("/")
     }
 
     const toggleSidebar = () => { 
@@ -358,7 +367,7 @@ const Header: FC<ComponentProps> = ({ ThemeChanger }: any) => {
                         </div>
                         <div className="header-element">
                             <Link to="#" className="sidemenu-toggle header-link" data-bs-toggle="sidebar" onClick={() => toggleSidebar()}>
-                                <span className="open-toggle">
+                                <span className="open-toggle" id="closeSideBar">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="header-link-icon" viewBox="0 0 24 24">
                                         <path d="M24 0v24H0V0h24z" fill="none" opacity=".87" />
                                         <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z" />
@@ -403,7 +412,7 @@ const Header: FC<ComponentProps> = ({ ThemeChanger }: any) => {
                                             <Link className='dropdown-item' to={`${import.meta.env.BASE_URL}Pages/Extension/Faq/`}><i className="ti ti-help fs-18 me-2 op-7"></i>Help Center</Link>
                                             <DropdownDivider className='my-0' />
                                             <Link className='dropdown-item' to={`${import.meta.env.BASE_URL}Authentication/Register`}><i className="ti ti-user-plus fs-18 me-2 op-7"></i>Add Another Account</Link> */}
-                                            <Link className='dropdown-item' to={`${import.meta.env.BASE_URL}`}><i className="ti ti-power fs-18 me-2 op-7"></i>Sign Out</Link>
+                                            <Link className='dropdown-item' to={`${import.meta.env.BASE_URL}`}  onClick={handelSignOut}><i className="ti ti-power fs-18 me-2 op-7"></i>Sign Out</Link>
                                             <DropdownDivider className='my-0' />
                                             {/* <li className="d-flex justify-content-center p-2">
                                                 <span><Link className="fs-12 px-2 border-end" to="#">Privacy Policy</Link></span>

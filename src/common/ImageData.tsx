@@ -303,10 +303,12 @@ import discover_dark from '../assets/images/payments/discover-dark.svg';
 import sepa_dark from '../assets/images/payments/sepa-dark.svg';
 import paymill_dark from '../assets/images/payments/paymill-dark.svg';
 
+import attendence from "../assets/images/icons/attendance.jpg"
+
 import loader from '../assets/images/loader.svg';
 const ALLImages = (img: string | number) => {
     const i: any = {
-        BG1, BG3,
+        BG1, BG3,attendence,
         logo1, logo2, logo3, logo4, logo5, logo6, logo7,
         chrome, edge, firefox, ie, netscape, opera, safari,
         bitcoin, bitcoincash, bitcoinglod, cardano, dash, eos, ethereum, iota, litecoin, monero, nem, neo, ripple, stellar, tron,
