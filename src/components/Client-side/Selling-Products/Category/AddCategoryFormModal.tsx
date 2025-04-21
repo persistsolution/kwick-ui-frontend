@@ -53,7 +53,7 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       name="categoryName"
                       placeholder="Enter Category Name"
                       value={formData.categoryName}
-                      onChange={handleChange}
+                      onChange={(e : any)=>handleChange(e)}
                       onClick={handelMessage}
                       required
                     />
@@ -67,7 +67,7 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       name="categoryImage"
                       placeholder="Enter Category Name"
                       // value={formData.categoryImage}
-                      onChange={handleChange}
+                      onChange={(e : any)=>handleChange(e)}
                       onClick={handelMessage}
                       accept="image/*"
                       // required
@@ -84,7 +84,7 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       name="categorySrno"
                       placeholder="Enter Category Name"
                       value={formData.categorySrno}
-                      onChange={handleChange}
+                      onChange={(e : any)=>handleChange(e)}
                       onClick={handelMessage}
                       required
                     />
