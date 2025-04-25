@@ -78,9 +78,6 @@ const useViewSubCategory = () => {
       return;
     try {
       const response = await deleteSubCategory(id)
-      // if (response.status === 200) {
-        // handelfetchSubCategories();
-      // }
             if (response) {
         handelfetchSubCategories();
       }

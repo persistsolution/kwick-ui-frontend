@@ -103,26 +103,76 @@ const useEditSubCategoryForm = ({
     }
   };
 
+  // const handleSubmit = async (e: any) => {
+  //   e.preventDefault();
+  //   setMessage(null);
+  //   setIsLoading(true);
+  //   const raw = {
+  //     CatId: formData.catid,
+  //     Name: formData.subCatname,
+  //     Photo: formData.photo,
+  //     Status: formData.status,
+  //     FrId: formData.frId,
+  //     ProdType: formData.productType,
+  //     CreatedBy: formData.createdby,
+  //     CreatedDate: formData.createddate,
+  //     ModifiedBy: formData.modifiedby,
+  //     ModifiedDate: formData.modifieddate,
+  //   };
+  //   try {
+  //     const response: any = await updateSubCategory(Number(id), Object(raw));
+  //     if (response.status === 200) {
+  //       // setMessage("Sub Category Edit successfully!");
+  //       localStorage.removeItem("subCategoryId");
+  //       handelfetchSubCategories();
+  //       setFormData({
+  //         catid: 0,
+  //         subCatname: "",
+  //         photo: null,
+  //         status: 1,
+  //         createdby: 1,
+  //         createddate: new Date().toISOString(),
+  //         modifiedby: 1,
+  //         modifieddate: new Date().toISOString(),
+  //         productType: 0,
+  //         frId: 0,
+  //         category: "",
+  //       });
+  //     } else {
+  //       // setMessage(
+  //       //   `Error: ${response.data?.message || "Failed to edit category."}`
+  //       // );
+  //     }
+  //   } catch (err) {
+  //     console.error("Network error:", err);
+  //     // setMessage("Network error. Please try again later.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-    const raw = {
-      CatId: formData.catid,
-      Name: formData.subCatname,
-      Photo: formData.photo,
-      Status: formData.status,
-      FrId: formData.frId,
-      ProdType: formData.productType,
-      CreatedBy: formData.createdby,
-      CreatedDate: formData.createddate,
-      ModifiedBy: formData.modifiedby,
-      ModifiedDate: formData.modifieddate,
-    };
+  
+    const formDataToSend :any = new FormData();
+    formDataToSend.append("CatId", String(formData.catid));
+    formDataToSend.append("Name", formData.subCatname || "");
+    formDataToSend.append("Status", String(formData.status));
+    formDataToSend.append("FrId", String(formData.frId));
+    formDataToSend.append("ProdType", String(formData.productType));
+    formDataToSend.append("CreatedBy", String(formData.createdby));
+    formDataToSend.append("CreatedDate", formData.createddate);
+    formDataToSend.append("ModifiedBy", String(formData.modifiedby));
+    formDataToSend.append("ModifiedDate", formData.modifieddate);
+      if (formData.photo) {
+      formDataToSend.append("Photo", formData.photo);
+    }
+  
     try {
-      const response: any = await updateSubCategory(Number(id), Object(raw));
+      const response = await updateSubCategory(Number(id), formDataToSend); 
       if (response.status === 200) {
-        // setMessage("Sub Category Edit successfully!");
         localStorage.removeItem("subCategoryId");
         handelfetchSubCategories();
         setFormData({
@@ -138,19 +188,14 @@ const useEditSubCategoryForm = ({
           frId: 0,
           category: "",
         });
-      } else {
-        // setMessage(
-        //   `Error: ${response.data?.message || "Failed to edit category."}`
-        // );
       }
     } catch (err) {
       console.error("Network error:", err);
-      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   return {
     formData,
     categoryOptions,

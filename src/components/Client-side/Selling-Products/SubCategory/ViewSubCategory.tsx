@@ -102,19 +102,11 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                           <tr key={subcategory.id}>
                             <td>{subcategory.id}</td>
                             <td>
-                              {subcategory.photo ? (
                                 <img
                                   className="avatar rounded-pill cover-image"
-                                  src={`https://kwickfoods.in/uploads/${subcategory.Photo}`}
+                                  src={subcategory.Photo}
                                   alt={subcategory.Name || "SubCategory Image"}
                                 />
-                              ) : (
-                                <img
-                                  className="avatar rounded-pill cover-image"
-                                  src={`https://kwickfoods.in/uploads/${subcategory.Photo}`}
-                                  alt={subcategory.Name || "SubCategory Image"}
-                                />
-                              )}
                             </td>
                             <td>{subcategory.CatName}</td>
                             <td>{subcategory.Name}</td>

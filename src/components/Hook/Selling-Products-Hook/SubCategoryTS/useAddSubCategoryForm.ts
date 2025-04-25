@@ -17,7 +17,7 @@ const useAddSubCategoryForm = ({
     catid: 0,
     subCatname: "",
     photo: null,
-    status: "",
+    status: 1,
     createdby: 1,
     createddate: new Date().toISOString(),
     modifiedby: 1,
@@ -72,34 +72,83 @@ const useAddSubCategoryForm = ({
     }
   };
 
+  // const handleSubmit = async (e: any) => {
+  //   e.preventDefault();
+  //   // setMessage(null);
+  //   setIsLoading(true);
+  //   const raw = {
+  //     CatId: formData.catid,
+  //     Name: formData.subCatname,
+  //     Photo: formData.photo,
+  //     Status: formData.status,
+  //     FrId: formData.frId,
+  //     ProdType: formData.productType,
+  //     CreatedBy: formData.createdby,
+  //     CreatedDate: formData.createddate,
+  //     ModifiedBy: formData.modifiedby,
+  //     ModifiedDate: formData.modifieddate,
+  //   };
+  //   try {
+  //     const response: any = await createSubCategory(Object(raw));
+
+  //     if (response.status === 200) {
+  //       // setMessage("Category Added successfully!");
+  //       modalAddSubCategory();
+  //       handelfetchSubCategories();
+  //       setFormData({
+  //         catid: 0,
+  //         subCatname: "",
+  //         photo: null,
+  //         status: "",
+  //         createdby: 1,
+  //         createddate: new Date().toISOString(),
+  //         modifiedby: 1,
+  //         modifieddate: new Date().toISOString(),
+  //         productType: 0,
+  //         frId: 0,
+  //         category: "",
+  //       });
+  //     } else {
+  //       console.log(
+  //         `Error: ${response.data?.message || "Failed to add category."}`
+  //       );
+  //     }
+  //   } catch (err) {
+  //     console.error("Network error:", err);
+  //     // setMessage("Network error. Please try again later.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // setMessage(null);
     setIsLoading(true);
-    const raw = {
-      CatId: formData.catid,
-      Name: formData.subCatname,
-      Photo: formData.photo,
-      Status: formData.status,
-      FrId: formData.frId,
-      ProdType: formData.productType,
-      CreatedBy: formData.createdby,
-      CreatedDate: formData.createddate,
-      ModifiedBy: formData.modifiedby,
-      ModifiedDate: formData.modifieddate,
-    };
+  
+    const formDataToSend :any = new FormData();
+    formDataToSend.append("CatId", Number(formData.catid).toString());
+    formDataToSend.append("Name", formData.subCatname);
+    formDataToSend.append("Photo", formData.photo);
+    formDataToSend.append("Status", Number(formData.status).toString());
+    formDataToSend.append("FrId", Number(formData.frId).toString());
+    formDataToSend.append("ProdType", Number(formData.productType).toString());
+    formDataToSend.append("CreatedBy", Number(formData.createdby).toString());
+    formDataToSend.append("CreatedDate", formData.createddate);
+    formDataToSend.append("ModifiedBy", Number(formData.modifiedby).toString());
+    formDataToSend.append("ModifiedDate", formData.modifieddate);
+  
     try {
-      const response: any = await createSubCategory(Object(raw));
-
+      const response: any = await createSubCategory(formDataToSend);
+  
       if (response.status === 200) {
-        // setMessage("Category Added successfully!");
         modalAddSubCategory();
         handelfetchSubCategories();
         setFormData({
           catid: 0,
           subCatname: "",
           photo: null,
-          status: "",
+          status: 1,
           createdby: 1,
           createddate: new Date().toISOString(),
           modifiedby: 1,
@@ -115,11 +164,12 @@ const useAddSubCategoryForm = ({
       }
     } catch (err) {
       console.error("Network error:", err);
-      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
+  
+  
 
   return {
     categoryOptions,
