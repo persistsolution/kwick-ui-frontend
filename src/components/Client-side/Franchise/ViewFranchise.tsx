@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import useViewFranchise from "../../Hook/Franchise-Hook/useViewFranchise";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -32,11 +32,11 @@ const ViewFranchise: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="View Franchise"
         homepage="Products"
         activepage="View Franchise"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

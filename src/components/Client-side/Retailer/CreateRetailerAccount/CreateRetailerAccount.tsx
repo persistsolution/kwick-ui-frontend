@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useCreateRetailerAccount from "../../../Hook/Retailer-Hook/CreateRetailerAccount/useCreateRetailerAccount";
@@ -20,12 +20,12 @@ const CreateRetailerAccount: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Create Retailer Account"
         homepage="Forms"
         activepage="Create Retailer Account
 "
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

@@ -41,7 +41,7 @@ export interface MenuItemtype {
   menusub?: boolean;
 }
 
-const defaultMenu: MenuItemtype[] = [
+export const defaultMenu: MenuItemtype[] = [
   {
     menutitle: "MAIN",
   },

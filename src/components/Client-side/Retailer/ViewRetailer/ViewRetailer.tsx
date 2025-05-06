@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewRetailer from "../../../Hook/Retailer-Hook/ViewRetailer/useViewRetailer";
 
@@ -24,11 +24,11 @@ const ViewRetailer: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="View Retailer"
         homepage="Products"
         activepage="View Retailer"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

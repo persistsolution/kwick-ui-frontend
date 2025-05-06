@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
 // import Select from "react-select";
 import useRawAllocatedProductTS from "../../../Hook/Raw-Making-products-Hook/RawAllocateProductTS/useRawAllocatedProductTS";
@@ -34,11 +34,11 @@ const RawAllocatedProducts: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="List Of Allocate Products"
         homepage="Products"
         activepage="Allocate Products"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

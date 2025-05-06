@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import EditBrandFormModal from "./EditBrandFormModal";
 import useViewBrandForm from "../../../Hook/Selling-Products-Hook/BrandTS/useViewBrandForm";
@@ -33,11 +33,11 @@ const ViewBrand: FC = () => {
   console.log(BrandEditId, "view");
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="List Of Brands"
         homepage="Products"
         activepage="List Of Brands"
-      />
+      /> */}
       <div className="main-container container-fluid">
         <Row>
           <Col xl={12}>

@@ -7,14 +7,14 @@ export const fetchEmploye = async (): Promise<AxiosResponse<any[]>> => {
 };
 
 // API to fetch a Employe by ID
-export const fetchByIdEmploye = async (
+export const fetchByIdEmployeeApi = async (
   id: number
 ): Promise<AxiosResponse<any>> => {
   return axios.get<any>(`${API_BASE_URL}/employee/edit/${id}`);
 };
 
 // API to update a Employe
-export const updateEmploye = async (
+export const updateEmployeeApi = async (
   id: number,
   data: Partial<any>
 ): Promise<AxiosResponse<any>> => {

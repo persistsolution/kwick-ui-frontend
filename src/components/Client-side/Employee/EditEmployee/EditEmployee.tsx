@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import useAddEmployee from "../../../Hook/Employee-Hook/AddEmployee/useAddEmployee";
+import useEditEmployee from "../../../Hook/Employee-Hook/EditEmployee/useEditEmployee";
 
-const AddEmployee: React.FC = () => {
+const EditEmployee: React.FC = () => {
   const {
     AdminAccess,
     RightAccess,
@@ -13,14 +13,14 @@ const AddEmployee: React.FC = () => {
     isLoading,
     handleChange,
     handleSubmit,
-  } = useAddEmployee();
+  } = useEditEmployee();
 
   return (
     <Fragment>
       {/* <Pageheader 
         heading="Create Employee Account"
         homepage="Forms"
-        activepage="Add Employee"
+        activepage="Edit Employee"
       /> */}
 
       <div className="main-container container-fluid">
@@ -464,4 +464,4 @@ const AddEmployee: React.FC = () => {
   );
 };
 
-export default AddEmployee;
+export default EditEmployee;

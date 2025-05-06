@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import useAddFranchise from "../../Hook/Franchise-Hook/useAddFranchise";
 import Select from "react-select";
 
@@ -19,11 +19,11 @@ const AddFranchise: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Create Franchise Account"
         homepage="Forms"
         activepage="Add Franchise"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>
@@ -31,7 +31,7 @@ const AddFranchise: React.FC = () => {
             <Card className="custom-card">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Col className="fieldset">
+                  <Col className="fieldset col-12">
                     <h4 className="legend">Franchise Detail</h4>
                     <Row className="gy-4">
                       <Col xl={4}>
@@ -340,7 +340,7 @@ const AddFranchise: React.FC = () => {
                     </Row>
                   </Col>
 
-                  <Col className="fieldset">
+                  <Col className="fieldset col-12">
                     <h4 className="legend">ID Proof Documents</h4>
                     <Row className="gy-4">
                       <Col xl={6}>

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 import useEditFranchise from "../../Hook/Franchise-Hook/useEditFranchise";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 
 const EditFranchise: React.FC = () => {
   const { formData, message, isLoading, handleChange, handleSubmit } =
@@ -9,11 +9,11 @@ const EditFranchise: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Edit Franchise Account"
         homepage="Forms"
         activepage="Edit Franchise"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>
@@ -21,7 +21,7 @@ const EditFranchise: React.FC = () => {
             <Card className="custom-card">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend">Franchise Detail</h4>
                     <Row className="gy-4">
                       <Col xl={6}>
@@ -254,7 +254,7 @@ const EditFranchise: React.FC = () => {
                     </Row>
                   </Container>
 
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend">ID Proof Documents</h4>
                     <Row className="gy-4">
                       <Col xl={6}>
@@ -454,7 +454,7 @@ const EditFranchise: React.FC = () => {
                     </Row>
                   </Container>
 
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend">Bank Account Detail</h4>
                     <Row className="gy-4">
                       <Col xl={6}>

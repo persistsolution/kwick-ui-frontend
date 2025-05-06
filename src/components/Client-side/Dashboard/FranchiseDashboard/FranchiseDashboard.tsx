@@ -1,7 +1,7 @@
 import { FC, Fragment, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import useFranchiseDashboard from "../../../Hook/Dashboard-Hook/FranchiseDashboard/useFranchiseDashboard";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { ApexOptions } from "apexcharts";
 import Graph from "../../Graph/Graph";
 
@@ -104,7 +104,7 @@ const FranchiseDashboard: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader heading="Dashboard" homepage="Admin" activepage="Dashboard" />
+      {/* <Pageheader  heading="Dashboard" homepage="Admin" activepage="Dashboard" /> */}
 
       <div className="main-container container-fluid">
         <Row>

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useAddCommissionNote from "../../../Hook/Financer-Hook/AddCommissionNote/useAddCommissionNote";
 
 const AddCommissionNote: React.FC = () => {
@@ -9,11 +9,11 @@ const AddCommissionNote: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Add Commission Note"
         homepage="Forms"
         activepage="Commission Note"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

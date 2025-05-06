@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewSubCategory from "../../../Hook/Selling-Products-Hook/SubCategoryTS/useViewSubCategory";
 import EditSubCategoryFormModal from "./EditSubCategoryFormModal";
@@ -34,11 +34,11 @@ const ViewSubCategory: FC<ComponentProps> = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="SubCategory List"
         homepage="Products"
         activepage="SubCategory List"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

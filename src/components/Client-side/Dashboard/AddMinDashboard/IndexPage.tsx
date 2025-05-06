@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import Graph from "../../Graph/Graph";
 import useIndexPage from "../../../Hook/Dashboard-Hook/AddMinDashboard/useIndexPage";
 
@@ -10,7 +10,7 @@ const Indexpage: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader heading="Dashboard" homepage="Admin" activepage="Dashboard" />
+      {/* <Pageheader  heading="Dashboard" homepage="Admin" activepage="Dashboard" /> */}
 
       <div className="main-container container-fluid">
         <Row>

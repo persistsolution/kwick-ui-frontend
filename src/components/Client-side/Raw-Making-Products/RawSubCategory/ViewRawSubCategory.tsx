@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewRawSubCategory from "../../../Hook/Raw-Making-products-Hook/RawSubCategoryTS/useViewRawSubCategory";
 import RawAddSubCategory from "./RawAddSubCategory";
@@ -34,11 +34,11 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="SubCategory List"
         homepage="Products"
         activepage="SubCategory List"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>
@@ -108,13 +108,13 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                               {subcategory.photo ? (
                                 <img
                                   className="avatar rounded-pill cover-image"
-                                  src={`https://kwickfoods.in/uploads/${subcategory.Photo}`}
+                                  src={`${subcategory.Photo}`}
                                   alt={subcategory.Name || "SubCategory Image"}
                                 />
                               ) : (
                                 <img
                                   className="avatar rounded-pill cover-image"
-                                  src={`https://kwickfoods.in/uploads/${subcategory.Photo}`}
+                                  src={`${subcategory.Photo}`}
                                   alt={subcategory.Name || "SubCategory Image"}
                                 />
                               )}

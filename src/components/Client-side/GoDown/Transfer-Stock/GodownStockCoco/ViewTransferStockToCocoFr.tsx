@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewTransferStockToCocoFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockCoco/useViewTransferStockToCocoFr";
@@ -32,11 +32,11 @@ const ViewTransferStockToCocoFr: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Transfer Stock Godown To COCO Franchise"
         homepage="Products"
         activepage="Transfer Stock"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

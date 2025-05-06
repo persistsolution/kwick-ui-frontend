@@ -46,10 +46,10 @@ const useRawCategoryForm = ({
       [name]: files && files.length > 0 ? files[0] : value,
     }));
     if (files) {
-      const url = URL.createObjectURL(files[0]);
+      // const url = URL.createObjectURL(files[0]);
       setFormData((prev) => ({
         ...prev,
-        photo: url,
+        photo: files[0],
       }));
     }
   };
@@ -58,35 +58,96 @@ const useRawCategoryForm = ({
     setMessage(null);
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setMessage(null);
+  //   setIsLoading(true);
+
+  //   const payload = {
+  //     Name: formData.categoryName,
+  //     Icon: formData.icon,
+  //     Photo: formData.photo,
+  //     Photo2: formData.photo2,
+  //     Featured: formData.featured,
+  //     ProdType: Number(formData.prodtype),
+  //     Status: Number(formData.status),
+  //     srno: Number(formData.categorySrno),
+  //     CreatedDate: formData.createddate,
+  //     ModifiedDate: formData.modifieddate,
+  //     Roll: Number(formData.roll),
+  //     CreatedBy: formData.createdby,
+  //     push_flag: formData.push_flag ? 1 : 0,
+  //     delete_flag: formData.delete_flag ? 1 : 0,
+  //     modified_time: formData.modified_time,
+  //     ModifiedBy: 0,
+  //   };
+
+  //   try {
+  //     const response = await createRawCategory(payload);
+
+  //     if (response.status === 200) {
+  //       // setMessage("Category added successfully!");
+  //       setFormData({
+  //         name: "",
+  //         icon: null,
+  //         photo: "",
+  //         photo2: null,
+  //         featured: 0,
+  //         prodtype: 1,
+  //         status: 1,
+  //         srno: 1.0,
+  //         createddate: new Date().toISOString(),
+  //         modifieddate: null,
+  //         roll: 1,
+  //         createdby: 2091,
+  //         modifiedby: 0,
+  //         push_flag: false,
+  //         delete_flag: false,
+  //         modified_time: new Date().toISOString(),
+  //         categoryImage: "",
+  //         categorySrno: 0,
+  //         categoryName: "",
+  //       });
+  //       modalAddRawCategory();
+  //       handelfetchCategories();
+  //     } else {
+  //       // setMessage(`Error: Failed to add category.`);
+  //     }
+  //   } catch (err: any) {
+  //     console.error("Error during category creation:", err);
+  //     // setMessage("Network error. Please try again later.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-
-    const payload = {
-      Name: formData.categoryName,
-      Icon: formData.icon,
-      Photo: formData.photo,
-      Photo2: formData.photo2,
-      Featured: formData.featured,
-      ProdType: Number(formData.prodtype),
-      Status: Number(formData.status),
-      srno: Number(formData.categorySrno),
-      CreatedDate: formData.createddate,
-      ModifiedDate: formData.modifieddate,
-      Roll: Number(formData.roll),
-      CreatedBy: formData.createdby,
-      push_flag: formData.push_flag ? 1 : 0,
-      delete_flag: formData.delete_flag ? 1 : 0,
-      modified_time: formData.modified_time,
-      ModifiedBy: 0,
-    };
+    const formDataObj = new FormData();
+    formDataObj.append("Name", formData.categoryName);
+    formDataObj.append("Icon", formData.icon || "");
+    formDataObj.append("Photo", formData.photo);  
+    formDataObj.append("Photo2", formData.photo2 || "");
+    formDataObj.append("Featured", formData.featured.toString());
+    formDataObj.append("ProdType", formData.prodtype.toString());
+    formDataObj.append("Status", formData.status.toString());
+    formDataObj.append("srno", formData.categorySrno.toString());
+    formDataObj.append("CreatedDate", formData.createddate);
+    formDataObj.append("ModifiedDate", formData.modifieddate || "");
+    formDataObj.append("Roll", formData.roll.toString());
+    formDataObj.append("CreatedBy", formData.createdby.toString());
+    formDataObj.append("push_flag", formData.push_flag ? "1" : "0");
+    formDataObj.append("delete_flag", formData.delete_flag ? "1" : "0");
+    formDataObj.append("modified_time", formData.modified_time);
+    formDataObj.append("ModifiedBy", "0"); 
 
     try {
-      const response = await createRawCategory(payload);
-
+      const response = await createRawCategory(formDataObj);
+  
       if (response.status === 200) {
-        // setMessage("Category added successfully!");
+        setMessage("Category added successfully!");
         setFormData({
           name: "",
           icon: null,
@@ -111,15 +172,16 @@ const useRawCategoryForm = ({
         modalAddRawCategory();
         handelfetchCategories();
       } else {
-        // setMessage(`Error: Failed to add category.`);
+        setMessage(`Error: Failed to add category.`);
       }
     } catch (err: any) {
       console.error("Error during category creation:", err);
-      // setMessage("Network error. Please try again later.");
+      setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return {
     formData,

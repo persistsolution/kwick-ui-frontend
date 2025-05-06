@@ -12,7 +12,7 @@
     display: inline-block;
     width: 0;
     height: 0;
-    margin-inline-start: 0.255em;
+    //margin-inline-start: 0.255em;
     vertical-align: 0.255em;
     content: "";
     border-block-start: 0.3em solid;
@@ -21,7 +21,7 @@
     border-inline-start: 0.3em solid transparent;
   }
   &:empty::after {
-    margin-inline-start: 0;
+    //margin-inline-start: 0;
   }
 }
 
@@ -47,7 +47,7 @@
       display: inline-block;
       width: 0;
       height: 0;
-      margin-inline-start: 0.255em;
+      //margin-inline-start: 0.255em;
       vertical-align: 0.255em;
       content: "";
       border-block-start: 0;
@@ -56,7 +56,7 @@
       border-inline-start: 0.3em solid transparent;
     }
     &:empty::after {
-      margin-inline-start: 0;
+      //margin-inline-start: 0;
     }
   }
 }
@@ -67,14 +67,14 @@
     inset-inline-end: auto;
     inset-inline-start: 100%;
     margin-block-start: 0;
-    margin-inline-start: 0.125rem;
+    //margin-inline-start: 0.125rem;
   }
   .dropdown-toggle {
     &::after {
       display: inline-block;
       width: 0;
       height: 0;
-      margin-inline-start: 0.255em;
+      //margin-inline-start: 0.255em;
       vertical-align: 0.255em;
       content: "";
       border-block-start: 0.3em solid transparent;
@@ -83,7 +83,7 @@
       border-inline-start: 0.3em solid;
     }
     &:empty::after {
-      margin-inline-start: 0;
+      //margin-inline-start: 0;
     }
   }
 }
@@ -101,7 +101,7 @@
       display: inline-block;
       width: 0;
       height: 0;
-      margin-inline-start: 0.255em;
+      //margin-inline-start: 0.255em;
       vertical-align: 0.255em;
       content: "";
     }
@@ -117,7 +117,7 @@
       border-block-end: 0.3em solid transparent;
     }
     &:empty::after {
-      margin-inline-start: 0;
+      //margin-inline-start: 0;
     }
     &::before {
       vertical-align: 0;
@@ -363,14 +363,14 @@ ul.dropdown-menu li.dropdown ul.dropdown-menu .dropdown-plus-title {
     vertical-align: 0.155em;
   }
   &:empty:after {
-    margin-inline-start: 0;
+    //margin-inline-start: 0;
   }
 }
 
 .dropdown-icon {
   color: #8f9daf;
   margin-inline-end: 0.5rem;
-  margin-inline-start: -0.5rem;
+  //margin-inline-start: -0.5rem;
   width: 1em;
   display: inline-block;
   text-align: center;

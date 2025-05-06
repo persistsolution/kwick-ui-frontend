@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useCreateFinancer from "../../../Hook/Financer-Hook/CreateFinancer/useCreateFinancer";
 
 const CreateFinancer: React.FC = () => {
@@ -9,11 +9,11 @@ const CreateFinancer: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Create Financer Account"
         homepage="Forms"
         activepage="Add Financer"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

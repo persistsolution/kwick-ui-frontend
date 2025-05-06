@@ -161,7 +161,7 @@
 }
 
 div.dataTables_wrapper div.dataTables_filter input {
-    margin-inline-start: 0.5em;
+    //margin-inline-start: 0.5em;
     display: inline-block;
     width: auto;
 }
@@ -439,7 +439,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 .custom-switch-description {
-    margin-inline-start: .5rem;
+    //margin-inline-start: .5rem;
     color: $default-color;
     transition: .3s color;
 }

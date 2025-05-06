@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 import useAddFinancerPatner from "../../../Hook/FinancerPatner-Hook/FinancerPatnerAccount/useAddFinancerPatner";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 
 const AddFinancerPartnerAccount: React.FC = () => {
   const {
@@ -17,11 +17,11 @@ const AddFinancerPartnerAccount: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Add Financer/Partner Account"
         homepage="Forms"
         activepage="Add Financer/Partner Account"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>
@@ -29,7 +29,7 @@ const AddFinancerPartnerAccount: React.FC = () => {
             <Card className="custom-card">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend">Personal Detail</h4>
                     <Row className="gy-4">
                       <Col xl={12}>
@@ -142,15 +142,15 @@ const AddFinancerPartnerAccount: React.FC = () => {
                       </Col>
                     </Row>
                   </Container>
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend">COCO Franchise Access</h4>
                     <Row className="gy-4"></Row>
                   </Container>
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend">FOFO Franchise Access</h4>
                     <Row className="gy-4"></Row>
                   </Container>
-                  <Container className="fieldset">
+                  <Container className="fieldset col-12">
                     <h4 className="legend"> Other Franchise Access</h4>
                     <Row className="gy-4"></Row>
                   </Container>

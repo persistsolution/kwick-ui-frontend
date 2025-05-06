@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useAddGodownStock from "../../../Hook/GoDown-Hook/GodownStock/useAddGodownStock";
 import Select from "react-select";
 import AddIcon from "@mui/icons-material/Add";
@@ -27,11 +27,11 @@ const AddGodownStock: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Add Godown Product Stock"
         homepage="Forms"
         activepage="Add Godown Stock"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

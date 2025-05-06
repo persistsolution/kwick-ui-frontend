@@ -10,7 +10,7 @@
 	flex-grow: 1;
 	position: relative;
 	+.selectgroup-item {
-		margin-inline-start: -1px;
+		//margin-inline-start: -1px;
 	}
 	&:not(:first-child) .selectgroup-button {
 		border-start-start-radius: 0;

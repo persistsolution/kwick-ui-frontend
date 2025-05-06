@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import useSetTarget from "../../Hook/TargetComplete-Hook/useSetTarget";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
 
 const SetTarget: React.FC = () => {
@@ -16,11 +16,11 @@ const SetTarget: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Set Target"
         homepage="Forms"
         activepage="Set Target"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

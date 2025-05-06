@@ -1656,14 +1656,14 @@ input {
   .btn + {
     .btn,
     .btn-group {
-      margin-inline-start: -1px;
+      //margin-inline-start: -1px;
     }
   }
 
   .btn-group + {
     .btn,
     .btn-group {
-      margin-inline-start: -1px;
+      //margin-inline-start: -1px;
     }
   }
 }
@@ -1672,14 +1672,14 @@ input {
   .btn + {
     .btn,
     .btn-group {
-      margin-inline-start: -1px;
+      //margin-inline-start: -1px;
     }
   }
 
   .btn-group + {
     .btn,
     .btn-group {
-      margin-inline-start: -1px;
+      //margin-inline-start: -1px;
     }
   }
 }
@@ -1700,7 +1700,7 @@ input {
 .btn-group > {
   .btn {
     &:first-child {
-      margin-inline-start: 0;
+      //margin-inline-start: 0;
     }
 
     &:not(:last-child):not(.dropdown-toggle) {
@@ -1720,13 +1720,13 @@ input {
   padding-inline-start: 0.5625rem;
 
   &::after {
-    margin-inline-start: 0;
+    //margin-inline-start: 0;
   }
 }
 
 .dropup .dropdown-toggle-split::after,
 .dropright .dropdown-toggle-split::after {
-  margin-inline-start: 0;
+  //margin-inline-start: 0;
 }
 
 .dropleft .dropdown-toggle-split::before {
@@ -1763,7 +1763,7 @@ input {
       .btn,
       .btn-group {
         margin-block-start: -1px;
-        margin-inline-start: 0;
+        //margin-inline-start: 0;
       }
     }
 
@@ -1771,7 +1771,7 @@ input {
       .btn,
       .btn-group {
         margin-block-start: -1px;
-        margin-inline-start: 0;
+        //margin-inline-start: 0;
       }
     }
 

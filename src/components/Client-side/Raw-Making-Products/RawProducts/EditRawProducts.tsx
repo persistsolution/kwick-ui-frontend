@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Select from "react-select";
@@ -44,11 +44,11 @@ const EditRawProducts: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Add Product"
         homepage="Forms"
         activepage="Add Product"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

@@ -165,7 +165,7 @@
     }
 
     .media-body {
-        margin-inline-start: 15px;
+        //margin-inline-start: 15px;
 
         p {
             font-size: 13px;
@@ -223,7 +223,7 @@
     border-block-end: 1px solid $border;
 
     .nav {
-        margin-inline-start: auto;
+        //margin-inline-start: auto;
         align-items: center;
     }
 
@@ -248,7 +248,7 @@
         }
 
         +.nav-link {
-            margin-inline-start: 15px;
+            //margin-inline-start: 15px;
         }
     }
 }
@@ -260,7 +260,7 @@
 }
 
 .main-chat-msg-name {
-    margin-inline-start: 15px;
+    //margin-inline-start: 15px;
 
     h6 {
         margin-block-end: 0px;
@@ -284,12 +284,12 @@
 
 @media (min-width: 576px) {
     .main-chat-body .media.flex-row-reverse .media-body {
-        margin-inline-start: 55px;
+        //margin-inline-start: 55px;
     }
 }
 
 .main-chat-body .media-body {
-    margin-inline-start: 20px;
+    //margin-inline-start: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -385,7 +385,7 @@
 
 // @media (min-width: 576px) {
 //     .main-chat-footer .form-control {
-//         margin-inline-start: 20px;
+//         //margin-inline-start: 20px;
 //     }
 // }
 
@@ -478,7 +478,7 @@
 
         &.flex-row-reverse {
             .media-body {
-                margin-inline-start: 0;
+                //margin-inline-start: 0;
                 margin-inline-end: 20px;
                 align-items: flex-end;
             }
@@ -538,7 +538,7 @@
 
 @media (max-width: 499px) {
     .main-chat-header .main-chat-msg-name {
-        margin-inline-start: 0;
+        //margin-inline-start: 0;
     }
 }
 

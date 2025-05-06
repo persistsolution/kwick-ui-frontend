@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Form } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useCommisionNote from "../../../Hook/FinancerPatner-Hook/CommisionNote/useCommisionNote";
 
 const ViewCommisionNote: FC = () => {
@@ -22,11 +22,11 @@ const ViewCommisionNote: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Commission Note"
         homepage="Dashboard"
         activepage="Commission Note"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useAddRetailer from "../../../Hook/Retailer-Hook/AddRetailer/useAddRetailer";
 
 const AddRetailer: React.FC = () => {
@@ -9,11 +9,11 @@ const AddRetailer: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Create Retailer Account"
         homepage="Forms"
         activepage="Add Retailer"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

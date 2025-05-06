@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useCreateInvoiceProductStock from "../../../Hook/GoDown-Hook/CreateInvoiceProductStock/useCreateInvoiceProductStock";
 import Select from "react-select";
 
@@ -18,11 +18,11 @@ const CreateInvoiceProductStock: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Create Product Stock Invoice"
         homepage="Forms"
         activepage="Product Stock Invoice"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

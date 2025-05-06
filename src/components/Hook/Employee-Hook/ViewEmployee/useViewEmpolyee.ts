@@ -87,7 +87,7 @@ const useViewEmployee = () => {
       );
       if (!confirmDelete) return;
       const response = await deleteEmploye(id);
-      if (response.status === 201) {
+      if (response.status === 200) {
         handleFetchEmployee();
       } else {
         console.error("Failed to delete the Employee:", response.statusText);
@@ -99,7 +99,7 @@ const useViewEmployee = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/Employee/EditRawEmployeeFrom/${id}`);
+    navigate(`/Employee/EditEmployee/${id}`);
   };
 
   const indexOfLastEmployee = currentPage * EmployeePerPage;

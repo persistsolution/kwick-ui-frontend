@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { createEmployeCreate } from "../../../api/Employe-Api/EmployeApi";
+import { useEffect, useState } from "react";
+import { fetchByIdEmployeeApi ,updateEmployeeApi } from "../../../api/Employe-Api/EmployeApi";
+import { useParams } from "react-router-dom";
 
-const useAddEmployee = () => {
+const useEditEmployee = () => {
   const [formData, setFormData] = useState({
     employeeName: "",
     permanentAddress: "",
@@ -48,6 +49,11 @@ const useAddEmployee = () => {
 
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { id } = useParams();
+
+  useEffect(()=>{
+    fetchEmployeeById();
+  },[])
 
   const AdminAccess = [
     { value: 48, label: "Selling Product Category" },
@@ -112,92 +118,55 @@ const useAddEmployee = () => {
     }));
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setMessage(null);
-  //   setIsLoading(true);
+ const fetchEmployeeById =async ()=>{
+    const response : any = await fetchByIdEmployeeApi(Number(id));
+    const data = response?.data
+    console.log(data , "data")
+    setFormData({
+        employeeName: data?.Fname,
+        permanentAddress: "",
+        password: data?.Password,
+        designation: "",
+        dateOfJoining: "",
+        perDaySalary: data?.PerDaySalary,
+        resign: "",
+        resignDate: "",
+        resignComment: "",
+        mobileNo: data?.Phone,
+        emailId: data?.EmailId,
+        address: "",
+        bankHolderName: "",
+        bankName: "",
+        accountNo: "",
+        branch: "",
+        ifscCode: "",
+        upiId: "",
+        anotherMobileNo: data?.Phone2,
+        Designation: "",
+        AdharNo: "",
+        dateOfJoning: "",
+        details: data?.Address,
+        status: data?.Status,
+        BankName: "",
+        AccountNo: 0,
+        Branch: "",
+        IFSCCode: "",
+        UPIID: "",
+        BankAccountStatus: "",
+        photo: data?.Photo,
+        roll: 63,
+        photo2: "",
+        photo3: "",
+        CustomerId:data?.CustomerId,
+        ColgId:data?.ColgId,
+        pincode:data?.Address,
+        areaId:data?.AreaId,
+        shopName:data?.shopName,
+        lastName:data?.Lname,
+        middleName:data?.Mname,
+      });
+ }
 
-  //   try {
-  //     const Payload = {
-  //       CustomerId: "",
-  //       ColgId: "",
-  //       ShopName: "",
-  //       Fname:  formData.employeeName,
-  //       Mname: "",
-  //       Lname: "",
-  //       Phone: formData.mobileNo,
-  //       Phone2: formData.anotherMobileNo,
-  //       EmailId: formData.emailId,
-  //       Password: formData.password,
-  //       CountryId: 0,
-  //       StateId: 0,
-  //       CityId: 0,
-  //       AreaId: "",
-  //       Address: formData.details,
-  //       Pincode: "",
-  //       Photo: formData.photo,
-  //       Photo2: "",
-  //       Photo3: "",
-  //       GstNo: "",
-  //       PanNo: "",
-  //       Roll: formData.roll,
-  //       Status: formData.status,
-  //       CreatedBy: 0,
-  //       ModifiedBy: 0,
-  //       CreatedDate: new Date(),
-  //       ModifiedDate:new Date(),
-
-        
-  //     };
-      
-  //     const response = await createEmployeCreate(Payload);
-  //     if (response.status === 201) {
-  //       setMessage("Employee added successfully!");
-  //       setFormData({
-  //         employeeName: "",
-  //         permanentAddress: "",
-  //         password: "",
-  //         designation: "",
-  //         dateOfJoining: "",
-  //         perDaySalary: "",
-  //         resign: "",
-  //         resignDate: "",
-  //         resignComment: "",
-  //         mobileNo: "",
-  //         emailId: "",
-  //         address: "",
-  //         bankHolderName: "",
-  //         bankName: "",
-  //         accountNo: "",
-  //         branch: "",
-  //         ifscCode: "",
-  //         upiId: "",
-  //         anotherMobileNo:"",
-  //         Designation:"",
-  //         AdharNo:"",
-  //         dateOfJoning:"",
-  //         details:"",
-  //         status:"",
-  //         BankName:"",
-  //         AccountNo:0,
-  //         Branch:"",
-  //         IFSCCode:"",
-  //         UPIID:"",
-  //         BankAccountStatus:"",
-  //         photo:"",
-  //         roll:63
-
-  //       });
-  //     } else {
-  //       setMessage("Error: Failed to add Employee.");
-  //     }
-  //   } catch (err: any) {
-  //     console.error("Error during Add Employee creation:", err);
-  //     setMessage("Network error. Please try again later.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -210,7 +179,7 @@ const useAddEmployee = () => {
           formDataObj.append(key, value);
         }
       };
-        safeAppend("CustomerId", formData.CustomerId || "0");
+      safeAppend("CustomerId", formData.CustomerId || "0");
       safeAppend("ColgId", formData.ColgId || "0");
       safeAppend("ShopName", formData.shopName);
       safeAppend("Fname", formData.employeeName);
@@ -233,17 +202,15 @@ const useAddEmployee = () => {
       safeAppend("ModifiedBy", "0");
       safeAppend("CreatedDate", new Date().toISOString());
       safeAppend("ModifiedDate", new Date().toISOString());
-  
-      // File uploads (only if files are selected)
-      if (formData.photo) formDataObj.append("Photo", formData.photo);
+        if (formData.photo) formDataObj.append("Photo", formData.photo);
       if (formData.photo2) formDataObj.append("Photo2", formData.photo2);
       if (formData.photo3) formDataObj.append("Photo3", formData.photo3);
   
-      const response = await createEmployeCreate(formDataObj);
+      const response : any = updateEmployeeApi(Number(id) ,formDataObj )
   
       if (response.status === 200) {
-        setMessage("Employee added successfully!");
-  
+        setMessage("Employee Edit successfully!");
+
         // Reset form data
         setFormData({
           employeeName: "",
@@ -292,7 +259,7 @@ const useAddEmployee = () => {
         setMessage("Error: Failed to add Employee.");
       }
     } catch (err) {
-      console.error("Error during Add Employee creation:", err);
+      console.error("Error during Edit Employee creation:", err);
       setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
@@ -314,4 +281,4 @@ const useAddEmployee = () => {
   };
 };
 
-export default useAddEmployee;
+export default useEditEmployee;

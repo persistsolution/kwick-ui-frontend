@@ -171,7 +171,7 @@
     padding: 0.25rem;
     border-radius: 0.25rem;
     font-size: 0.85rem;
-    margin-inline-start: 0.75rem;
+    //margin-inline-start: 0.75rem;
     color: $danger;
   }
 
@@ -335,7 +335,7 @@
 }
 @media (max-width: 991px) {
   .header-brand-img {
-    margin-inline-start: 1.5rem;
+    //margin-inline-start: 1.5rem;
     margin: 3px auto;
   }
   .side-header {
@@ -439,7 +439,7 @@
     text-decoration: none;
     background: $light;
     margin-inline-end: -0.4rem;
-    margin-inline-start: 0.5rem;
+    //margin-inline-start: 0.5rem;
     text-align: center;
     min-width: 1.5rem;
     i {

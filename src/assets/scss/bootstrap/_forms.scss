@@ -243,7 +243,7 @@ select.form-control-sm:not([size]):not([multiple]) {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-inline-end: -5px;
-  margin-inline-start: -5px;
+  //margin-inline-start: -5px;
   > {
     .col,
     [class*="col-"] {
@@ -274,7 +274,7 @@ select.form-control-sm:not([size]):not([multiple]) {
     position: static;
     margin-block-start: 0;
     margin-inline-end: 0.3125rem;
-    margin-inline-start: 0;
+    //margin-inline-start: 0;
   }
 }
 
@@ -600,7 +600,7 @@ select.form-control-sm:not([size]):not([multiple]) {
       position: relative;
       margin-block-start: 0;
       margin-inline-end: 0.25rem;
-      margin-inline-start: 0;
+      //margin-inline-start: 0;
     }
     .custom-control {
       -ms-flex-align: center;
@@ -831,7 +831,7 @@ ul {
   }
 
   label {
-    margin-inline-start: 0.5rem;
+    //margin-inline-start: 0.5rem;
     font-size: 0.95rem;
     margin-block-start: 3px;
   }
@@ -844,7 +844,7 @@ ul {
   }
 
   label {
-    margin-inline-start: 0.5rem;
+    //margin-inline-start: 0.5rem;
     font-size: 1rem;
     margin-block-start: 3px;
   }
@@ -980,7 +980,7 @@ ul {
   height: 1.563rem;
   background-color: $black-2;
   -webkit-margin-start: 0.625rem;
-  margin-inline-start: 0.625rem;
+  //margin-inline-start: 0.625rem;
   -webkit-margin-after: 0.313rem;
   margin-block-end: 0.313rem;
   padding: 0.125rem;

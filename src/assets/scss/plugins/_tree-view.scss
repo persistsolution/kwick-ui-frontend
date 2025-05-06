@@ -9,7 +9,7 @@
   color: $primary;
 }
 .tree-leaf .tree-leaf-text{
-  margin-inline-start: 10px !important;
+  //margin-inline-start: 10px !important;
     font-size: 15px;
     float: $float-left !important;
 }
@@ -23,6 +23,6 @@
   float: $float-left !important;
 }
 .tree-leaf .tree-child-leaves {
-  margin-inline-start: 15px !important;
+  //margin-inline-start: 15px !important;
 }
 /* End::tree-view */

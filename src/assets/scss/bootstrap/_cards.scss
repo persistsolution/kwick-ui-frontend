@@ -18,7 +18,7 @@
     > {
         hr {
             margin-inline-end: 0;
-            margin-inline-start: 0;
+            //margin-inline-start: 0;
         }
 
         .list-group {
@@ -53,7 +53,7 @@
     }
 
     +.card-link {
-        margin-inline-start: 1.5rem;
+        //margin-inline-start: 1.5rem;
     }
 }
 
@@ -196,7 +196,7 @@
     > {
         hr {
             margin-inline-end: 0;
-            margin-inline-start: 0;
+            //margin-inline-start: 0;
         }
 
         .list-group {
@@ -236,7 +236,7 @@
             margin-block-end: 0;
 
             +.card {
-                margin-inline-start: 0;
+                //margin-inline-start: 0;
                 border-inline-start: 0;
             }
 
@@ -435,7 +435,7 @@
 }
 
 .card-link+.card-link {
-    margin-inline-start: 1rem;
+    //margin-inline-start: 1rem;
 }
 
 .card-body+.card-list-group {
@@ -461,7 +461,7 @@
 .card-header-pills {
     margin: -.75rem 0;
     margin-inline-end: -0.75rem;
-    margin-inline-start: -0.75rem;
+    //margin-inline-start: -0.75rem;
 }
 
 .card-aside {
@@ -494,7 +494,7 @@
 }
 
 .card-options {
-    margin-inline-start: auto;
+    //margin-inline-start: auto;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-order: 100;
@@ -505,7 +505,7 @@
     align-self: center;
 
     a:not(.btn) {
-        margin-inline-start: .5rem;
+        //margin-inline-start: .5rem;
         color: $default-color;
         display: inline-block;
         min-width: 1rem;
@@ -532,14 +532,14 @@
     inset-block-start: 0;
     height: 100%;
     width: 100%;
-    margin-inline-start: -28px;
+    //margin-inline-start: -28px;
 }
 
 .card-image {
     position: absolute;
     inset-block-start: 0;
     height: 100%;
-    margin-inline-start: -126px;
+    //margin-inline-start: -126px;
 }
 
 

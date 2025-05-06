@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import useViewSetTarget from "../../Hook/TargetComplete-Hook/useViewSetTarget";
 import Select from "react-select";
 
@@ -24,11 +24,11 @@ const ViewSetTarget: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Set Target List"
         homepage="Dashboard"
         activepage="Set Target List"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

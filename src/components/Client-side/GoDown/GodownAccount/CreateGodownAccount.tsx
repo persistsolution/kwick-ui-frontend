@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useCreateGodownAccount from "../../../Hook/GoDown-Hook/CreateGodownAccount/useCreateGodownAccount";
 
 const CreateGodownAccount: React.FC = () => {
@@ -9,11 +9,11 @@ const CreateGodownAccount: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Create Godown Account"
         homepage="Forms"
         activepage="Godown Account"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>
@@ -21,7 +21,7 @@ const CreateGodownAccount: React.FC = () => {
             <Card className="custom-card">
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Col className="fieldset">
+                  <Col className="fieldset col-12">
                     <h4 className="legend">Godown Detail</h4>
                     <Row className="gy-4">
                       <Col xl={8}>

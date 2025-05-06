@@ -29,6 +29,7 @@ import EditRawProducts from "../components/Client-side/Raw-Making-Products/RawPr
 // Employee
 import AddEmployee from "../components/Client-side/Employee/AddEmployee/AddEmployee";
 import ViewEmployee from "../components/Client-side/Employee/ViewEmployee/ViewEmployee";
+import EditEmployee from "../components/Client-side/Employee/EditEmployee/EditEmployee";
 
 // Financer
 import ViewFinancer from "../components/Client-side/Financer/ViewFinancer/ViewFinancer";
@@ -215,7 +216,12 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Employee/ViewEmployee`,
     element: <ViewEmployee />,
   },
-
+  {
+    id: 20,
+    path: `${import.meta.env.BASE_URL}Employee/EditEmployee/:id`,
+    element: <EditEmployee />,
+  },
+  
   // Financer
   {
     id: 21,

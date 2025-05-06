@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
 import useTragetCompletion from "../../Hook/TargetComplete-Hook/useTragetCompletion";
 
@@ -32,11 +32,11 @@ const TragetCompletion: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Target Completion"
         homepage="Forms"
         activepage="Target Completion"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

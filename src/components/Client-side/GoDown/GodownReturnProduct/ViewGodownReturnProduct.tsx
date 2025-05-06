@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGoDownReturnProduct from "../../../Hook/GoDown-Hook/GoDownReturnProduct/useGoDownReturnProduct";
 
@@ -22,11 +22,11 @@ const ViewGodownReturnProduct: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Return Product Product Stocks"
         homepage="Products"
         activepage="Return Product Product"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

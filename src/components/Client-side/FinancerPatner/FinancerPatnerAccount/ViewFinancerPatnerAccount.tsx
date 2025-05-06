@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Form } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useFinancerPatnerAccount from "../../../Hook/FinancerPatner-Hook/FinancerPatnerAccount/useFinancerPatnerAccount";
 
 const ViewFinancerPatnerAccount: FC = () => {
@@ -22,11 +22,11 @@ const ViewFinancerPatnerAccount: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="View Financer Account ist"
         homepage="Dashboard"
         activepage="View Financer Account List"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

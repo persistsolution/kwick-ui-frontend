@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useEditProductForm from "../../../Hook/Selling-Products-Hook/ProductTS/useEditProductForm";
 import Select from "react-select";
 
@@ -34,11 +34,11 @@ const EditProductForm: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Edit Product"
         homepage="Forms"
         activepage="Edit Product"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

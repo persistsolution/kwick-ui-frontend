@@ -121,7 +121,7 @@ dt {
 
 dd {
     margin-block-end: .5rem;
-    margin-inline-start: 0;
+    //margin-inline-start: 0;
 }
 
 dfn {
@@ -383,7 +383,7 @@ pre {
 .container {
     width: 100%;
     margin-inline-end: auto;
-    margin-inline-start: auto;
+    //margin-inline-start: auto;
     padding-inline-end: 0.75rem;
     padding-inline-start: 0.75rem;
 }
@@ -424,7 +424,7 @@ pre {
     padding-inline-end: 0.75rem;
     padding-inline-start: 0.75rem;
     margin-inline-end: auto;
-    margin-inline-start: auto;
+    //margin-inline-start: auto;
 }
 
 .row {
@@ -433,7 +433,7 @@ pre {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-inline-end: -0.75rem;
-    margin-inline-start: -0.75rem;
+    //margin-inline-start: -0.75rem;
 }
 
 .fixed-top {

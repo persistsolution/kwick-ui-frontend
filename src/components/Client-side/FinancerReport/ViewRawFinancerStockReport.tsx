@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useRawproductstockReport from "../../Hook/FinancerReport-Hook/useRawproductstockReport";
@@ -29,11 +29,11 @@ const ViewRawFinancerstockReport: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Raw Product Stock Report"
         homepage="Products"
         activepage="Raw Stock Report"
-      />
+      /> */}
       <div className="main-container container-fluid">
         <Row>
           <Col xl={12}>

@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGodownApproveRequest from "../../../Hook/GoDown-Hook/GodownApproveAccount/useGodownApproveRequest";
 
@@ -22,11 +22,11 @@ const ViewGodownApproveRequest: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Approve Request Product Stocks"
         homepage="Products"
         activepage="Approve Request Product"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 // import Select from "react-select";
 import useTargetCompletionReport from "../../Hook/TargetComplete-Hook/useTargetCompletionReport";
 
@@ -32,11 +32,11 @@ const ViewTargetCompletionReport: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Target Completion Report"
         homepage="Forms"
         activepage="Target Completion Report"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

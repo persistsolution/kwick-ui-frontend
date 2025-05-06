@@ -60,7 +60,7 @@ const AddRawCategoryForm: React.FC<AddRawCategoryFromProps> = ({
                       </Form.Group>
                     </Col>
                     <Col xl={6}>
-                      <Form.Group controlId="name">
+                      <Form.Group controlId="categoryImage">
                         <Form.Label>Category Image</Form.Label>
                         <Form.Control
                           type="file"

@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewSellToRetailer from "../../../Hook/Retailer-Hook/ViewSellToRetailer/useViewSellToRetailer";
 
@@ -24,11 +24,11 @@ const ViewSellToRetailer: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Sell To Retailer"
         homepage="Products"
         activepage="Sell To Retailer"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

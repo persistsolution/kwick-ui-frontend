@@ -14,7 +14,7 @@ const useRawSubCategory = ({
   const [formData, setFormData] = useState({
     catid: 0,
     subCatname: "",
-    photo: null,
+    photo: "",
     status: "",
     createdby: 1,
     createddate: new Date().toISOString(),
@@ -23,6 +23,7 @@ const useRawSubCategory = ({
     productType: "",
     frId: 0,
     category: "",
+    categoryImage:""
   });
   const [message, setMessage] = useState<string | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<object[]>([]);
@@ -68,31 +69,82 @@ const useRawSubCategory = ({
     }
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setMessage(null);
+  //   setIsLoading(true);
+  //   const raw = {
+  //     CatId: formData.catid,
+  //     Name: formData.subCatname,
+  //     Photo: formData.photo,
+  //     Status: formData.status,
+  //     FrId: formData.frId,
+  //     ProdType: formData.productType,
+  //     CreatedBy: formData.createdby,
+  //     CreatedDate: formData.createddate,
+  //     ModifiedBy: formData.modifiedby,
+  //     ModifiedDate: formData.modifieddate,
+  //   };
+  //   try {
+  //     const response: any = await createRawSubCategory(Object(raw));
+
+  //     if (response.status === 200) {
+  //       // setMessage("Sub Category Added successfully!");
+  //       setFormData({
+  //         catid: 0,
+  //         subCatname: "",
+  //         photo: null,
+  //         status: "",
+  //         createdby: 1,
+  //         createddate: new Date().toISOString(),
+  //         modifiedby: 1,
+  //         modifieddate: new Date().toISOString(),
+  //         productType: "",
+  //         frId: 0,
+  //         category: "",
+  //       });
+  //       modalAddRawSubCategory();
+  //       handelfetchSubCategories();
+  //     } else {
+  //       // setMessage(
+  //       //   `Error: ${response.data?.message || "Failed to add category."}`
+  //       // );
+  //     }
+  //   } catch (err) {
+  //     console.error("Network error:", err);
+  //     // setMessage("Network error. Please try again later.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-    const raw = {
-      CatId: formData.catid,
-      Name: formData.subCatname,
-      Photo: formData.photo,
-      Status: formData.status,
-      FrId: formData.frId,
-      ProdType: formData.productType,
-      CreatedBy: formData.createdby,
-      CreatedDate: formData.createddate,
-      ModifiedBy: formData.modifiedby,
-      ModifiedDate: formData.modifieddate,
-    };
+    
+    const formDataObj :any = new FormData();
+    formDataObj.append("CatId", formData.catid.toString());
+    formDataObj.append("Name", formData.subCatname);
+    formDataObj.append("Photo", formData.photo); 
+    formDataObj.append("Status", formData.status);
+    formDataObj.append("FrId", formData.frId.toString());
+    formDataObj.append("ProdType", formData.productType);
+    formDataObj.append("CreatedBy", formData.createdby.toString());
+    formDataObj.append("CreatedDate", formData.createddate);
+    formDataObj.append("ModifiedBy", formData.modifiedby.toString());
+    formDataObj.append("ModifiedDate", formData.modifieddate);
+  
     try {
-      const response: any = await createRawSubCategory(Object(raw));
-
+      const response: any = await createRawSubCategory(formDataObj);
+  
       if (response.status === 200) {
-        // setMessage("Sub Category Added successfully!");
+        setMessage("Sub Category Added successfully!");
         setFormData({
           catid: 0,
           subCatname: "",
-          photo: null,
+          photo: "",
           status: "",
           createdby: 1,
           createddate: new Date().toISOString(),
@@ -101,21 +153,23 @@ const useRawSubCategory = ({
           productType: "",
           frId: 0,
           category: "",
+          categoryImage:""
         });
         modalAddRawSubCategory();
         handelfetchSubCategories();
       } else {
-        // setMessage(
-        //   `Error: ${response.data?.message || "Failed to add category."}`
-        // );
+        setMessage(
+          `Error: ${response.data?.message || "Failed to add category."}`
+        );
       }
     } catch (err) {
       console.error("Network error:", err);
-      // setMessage("Network error. Please try again later.");
+      setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return {
     categoryOptions,

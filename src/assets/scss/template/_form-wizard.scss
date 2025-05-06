@@ -23,7 +23,7 @@
                     }
 
                     .title {
-                        margin-inline-start: 5px;
+                        //margin-inline-start: 5px;
                         white-space: nowrap;
                         transition: all 0.2s ease-in-out;
                         margin: 0;
@@ -31,7 +31,7 @@
                     }
 
                     +li {
-                        margin-inline-start: 5px;
+                        //margin-inline-start: 5px;
                     }
                 }
             }
@@ -220,7 +220,7 @@
 
             ul li {
                 +li {
-                    margin-inline-start: 10px;
+                    //margin-inline-start: 10px;
                 }
 
                 .title {
@@ -271,7 +271,7 @@
 @media (min-width: 576px) {
     .wizard>.steps>ul li .title {
         display: none;
-        margin-inline-start: 10px;
+        //margin-inline-start: 10px;
     }
 }
 
@@ -283,13 +283,13 @@
 
 @media (min-width: 576px) {
     .wizard>.steps>ul li+li {
-        margin-inline-start: 20px;
+        //margin-inline-start: 20px;
     }
 }
 
 @media (min-width: 992px) {
     .wizard>.steps>ul li+li {
-        margin-inline-start: 30px;
+        //margin-inline-start: 30px;
     }
 }
 
@@ -412,7 +412,7 @@
 @media (min-width: 576px) {
     .wizard.vertical>.steps ul li+li {
         margin-block-start: 10px;
-        margin-inline-start: 0;
+        //margin-inline-start: 0;
     }
 }
 
@@ -539,7 +539,7 @@
         &:hover .title,
         &:active .title {
             margin-inline-end: 20px;
-            margin-inline-start: 20px;
+            //margin-inline-start: 20px;
         }
     }
 

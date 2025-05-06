@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
 import useAddVendorPayment from "../../Hook/VendorPayment-Hook/useAddVendorPayment";
 
@@ -17,11 +17,11 @@ const AddVendorPayment: React.FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Pay Vendor Amount"
         homepage="Forms"
         activepage="Pay Vendor Amount"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

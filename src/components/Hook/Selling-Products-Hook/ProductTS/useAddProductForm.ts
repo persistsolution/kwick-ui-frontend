@@ -118,10 +118,10 @@ const useAddProductForm = () => {
         ...prevValues,
         [name]: files && files[0] ? files[0] : null,
       }));
-      const url = URL.createObjectURL(files[0]);
+      // const url = URL.createObjectURL(files[0]);
       setFormValues((prev) => ({
         ...prev,
-        photo: url,
+        photo: files[0],
       }));
     } else {
       const updatedValues = {
@@ -142,6 +142,9 @@ const useAddProductForm = () => {
       setFormValues(updatedValues);
     }
   };
+
+  
+  
 
   const handelAddProduct = async () => {
     if (

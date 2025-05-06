@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useUpdateBarCode from "../../Hook/UpdateBarCode-Hook/useUpdateBarCode";
@@ -19,11 +19,11 @@ const ViewUpdateBarcode: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Update Barcode No"
         homepage="Products"
         activepage="Update Barcode No"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

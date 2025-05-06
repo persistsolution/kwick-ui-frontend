@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useAddProductForm from "../../../Hook/Selling-Products-Hook/ProductTS/useAddProductForm";
 import Select from "react-select";
 
@@ -33,11 +33,11 @@ const AddProductForm: FC = () => {
     useAddProductForm();
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Add Product"
         homepage="Forms"
         activepage="Add Product"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

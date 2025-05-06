@@ -8,7 +8,7 @@ import {
   Container,
   Table,
 } from "react-bootstrap";
-import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
 import AddIcon from "@mui/icons-material/Add";
 import useTransferStockGodownToOtherFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockOther/useTransferStockGodownToOtherFr";
@@ -29,21 +29,21 @@ const TransferStockGodownToOtherFr: React.FC = () => {
     handleSubmit,
     handelAddGodown,
     handleRemoveGodownStock,
-    handelChangeAddedGodownPoduct,
+    // handelChangeAddedGodownPoduct,
     setselectGodown,
     setselectFranchise,
     // setselectGodownStockProduct,
-    setFormValues,
+    // setFormValues,
     handlSelectGodownProductList,
   } = useTransferStockGodownToOtherFr();
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="Transfer Stock Godown To COCO Franchise"
         homepage="Forms"
         activepage="Transfer Stock Godown To COCO Franchise"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>

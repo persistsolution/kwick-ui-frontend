@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGodownPendingRequest from "../../../Hook/GoDown-Hook/GodownPendingRequest/useGodownPendingRequest";
 
@@ -22,11 +22,11 @@ const ViewGodownPendingRequest: FC = () => {
 
   return (
     <Fragment>
-      <Pageheader
+      {/* <Pageheader 
         heading="View Request Product Stocks"
         homepage="Products"
         activepage="Request Product"
-      />
+      /> */}
 
       <div className="main-container container-fluid">
         <Row>
