@@ -84,6 +84,19 @@ import AllocatedProducts from "../components/Client-side/Selling-Products/Alloca
 import RawAllocatedProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocatedProducts";
 import TransferStockGodownToFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockCoco/TransferStockGodownToFr";
 
+// Request Product Stock
+import ViewRequestSellingProductStock from "../components/Client-side/RequestProductStock/RequestSellingProductStock/ViewRequestSellingProductStock";
+
+// Production
+import ViewProductionAccount from "../components/Client-side/Production/ProductionAccount/ViewProductionAccount";
+import AddProductionAccount from "../components/Client-side/Production/AddProductionAccount/AddProductionAccount";
+import ViewProductionProducts from "../components/Client-side/Production/ProductionProducts/ViewProductionProducts";
+import AddProductionProduct from "../components/Client-side/Production/AddProductionProduct/AddProductionProduct";
+import ViewProductionRawProduct from "../components/Client-side/Production/ProductionRawProduct/ViewProductionRawProduct";
+import ViewRawProductionStock from "../components/Client-side/Production/RawProductionStockList/ViewRawProductionStockList";
+import AddRawProductionStock from "../components/Client-side/Production/AddRawProductionStock/AddRawProductionStock";
+import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
+
 export interface routeType {
   id: number;
   path: string;
@@ -156,9 +169,14 @@ export const RouteData: routeType[] = [
     element: <AddFranchise />,
   },
   {
-    id: 10,
+    id: 11,
     path: `${import.meta.env.BASE_URL}Franchise/EditFranchise/:id`,
     element: <EditFranchise />,
+  },
+  {
+    id: 12,
+    path: `${import.meta.env.BASE_URL}Franchise/frDashboard/:id`,
+    element: <FranchiseDashboard />,
   },
 
   // Bar Code
@@ -419,4 +437,49 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Report/ViewDailySellReport`,
     element: <ViewDailySellReport />,
   },
+  // Request Product Stock
+  {
+    id:52,
+    path: `${import.meta.env.BASE_URL}RequestProductStock/RequestSellingProductStock`,
+    element: <ViewRequestSellingProductStock/>,
+
+  },
+  // Production
+  {
+    id:53,
+    path: `${import.meta.env.BASE_URL}Production/ViewProductionAccount`,
+    element: <ViewProductionAccount/>,
+
+  },
+  {
+    id:54,
+    path: `${import.meta.env.BASE_URL}Production/AddProductionAccount`,
+    element: <AddProductionAccount/>,
+  },
+    {
+    id:55,
+    path: `${import.meta.env.BASE_URL}Production/ViewProductionProducts`,
+    element: <ViewProductionProducts/>,
+  },
+  {
+    id:56,
+    path: `${import.meta.env.BASE_URL}Production/AddProductionProduct`,
+    element: <AddProductionProduct/>,
+  },
+    {
+    id:57,
+    path: `${import.meta.env.BASE_URL}Production/ViewProductionRawProduct`,
+    element: <ViewProductionRawProduct/>,
+  },
+  {
+    id:58,
+    path: `${import.meta.env.BASE_URL}Production/ViewRawProductionStock`,
+    element: <ViewRawProductionStock/>,
+  },
+    {
+    id:59,
+    path: `${import.meta.env.BASE_URL}Production/AddRawProductionStock`,
+    element: <AddRawProductionStock/>,
+  }
+
 ];

@@ -1,12 +1,12 @@
 import { FC, Fragment, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, CardHeader, CardBody, ProgressBar  , Table} from "react-bootstrap";
 import useFranchiseDashboard from "../../../Hook/Dashboard-Hook/FranchiseDashboard/useFranchiseDashboard";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { ApexOptions } from "apexcharts";
 import Graph from "../../Graph/Graph";
 
 const FranchiseDashboard: FC = () => {
-  const { dashboardHeadersData } = useFranchiseDashboard();
+  const { dashboardHeadersData , progressData , productSalesData} = useFranchiseDashboard();
   // const [chartState, setChartState] = useState({
   const [chartState] = useState({
     series: [
@@ -108,7 +108,7 @@ const FranchiseDashboard: FC = () => {
 
       <div className="main-container container-fluid">
         <Row>
-          <Col xxl={9}>
+          <Col xxl={12}>
             <Row>
               <Col xxl={5} xl={12}>
                 <Row>
@@ -152,6 +152,80 @@ const FranchiseDashboard: FC = () => {
                   ))}
                 </Row>
               </Col>
+
+         <Col xl={6} sm={12}>
+        <Card>
+          <CardHeader>
+            <h3 className="card-title">Stock Level</h3>
+          </CardHeader>
+          <Card.Body>
+            {progressData.map((item, index) => (
+              <div className="mb-3" key={index}>
+                   <div className="d-flex justify-content-between">
+                  <div className="fs-13">
+                    City: <span className={`text-${item.color}`}>{item.City}</span>
+                  </div>
+                  <div className="fs-13">
+                    Days: <span className={`text-${item.color}`}>{item.days}</span>
+                  </div>
+                </div>
+                <ProgressBar
+                  now={item.value}
+                  // label={`${item.value}%`}
+                  variant={item.color}
+                  style={{ height: "10px" }}
+                  className="mb-2"
+                  
+                />
+                <div className="d-flex justify-content-between">
+                  {/* <div className="fs-13">
+                    Raised: <span className={`text-${item.color}`}>{item.raised}</span>
+                  </div> */}
+                  {/* <div className="fs-13">
+                    Goal: <span className={`text-${item.color}`}>{item.goal}</span>
+                  </div> */}
+                </div>
+              </div>
+            ))}
+          </Card.Body>
+        </Card>
+        </Col>
+
+         <Col xl={6} sm={12}>
+      <Card>
+        <Card.Header>
+          <h3 className="card-title">Product Sales Summary</h3>
+        </Card.Header>
+        <Card.Body>
+          <div className="table-responsive">
+            <Table className="table table-hover mb-0">
+              <thead className="table-success">
+                <tr>
+                  <th>#</th>
+                  <th>Product</th>
+                  <th>Total Sell</th>
+                  <th>Purchase Amount</th>
+                  <th>Sell Amount</th>
+                  <th>Profit Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productSalesData.map((item :any) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.product}</td>
+                    <td>{item.totalSell}</td>
+                    <td>{item.purchaseAmount}</td>
+                    <td>{item.sellAmount}</td>
+                    <td>{item.profitAmount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
             </Row>
           </Col>
           <Col xl={6} lg={6} md={6} sm={6} xxl={6} className="mb-3">

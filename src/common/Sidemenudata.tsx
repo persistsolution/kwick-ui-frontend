@@ -68,6 +68,31 @@ export const defaultMenu: MenuItemtype[] = [
     dirchange: false,
   },*/
 
+  // Request Selling Product Stock
+  {
+    // title: "Request Selling Product Stock",
+    title:"Request Product Stock",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}RequestProductStock/RequestSellingProductStock`,
+        title: "Request Selling Product Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+   
+    ],
+  },
+
+
+
   // Selling Product
   {
     title: "Selling-Products",
@@ -128,9 +153,9 @@ export const defaultMenu: MenuItemtype[] = [
     ],
   },
 
-  // Raw Product
+  // Making Products
   {
-    title: "Raw/Making-Products",
+    title: "Making-Products",
     icon: pagesSvg,
     type: "sub",
     active: false,
@@ -565,6 +590,74 @@ export const defaultMenu: MenuItemtype[] = [
     ],
   },
 
+
+    // Production
+    {
+      title: "Production",
+      icon: pagesSvg,
+      type: "sub",
+      active: false,
+      selected: false,
+      dirchange: false,
+      children: [
+        {
+          path: `${import.meta.env.BASE_URL}Production/ViewProductionAccount`,
+          title: "Production Account",
+          //icon: dashboardsvg,
+          type: "link",
+          active: false,
+          selected: false,
+          dirchange: false,
+        },
+        {
+          path: `${import.meta.env.BASE_URL}Production/AddProductionProduct`,
+          title: "Add Production Products",
+          //icon: dashboardsvg,
+          type: "link",
+          active: false,
+          selected: false,
+          dirchange: false,
+        },
+        {
+          path: `${import.meta.env.BASE_URL}Production/ViewProductionProducts`,
+          title: "View Production Products",
+          //icon: dashboardsvg,
+          type: "link",
+          active: false,
+          selected: false,
+          dirchange: false,
+        },
+        {
+          path: `${import.meta.env.BASE_URL}Production/AddProductionProduct`,
+          title: "Add Production Raw Product",
+          //icon: dashboardsvg,
+          type: "link",
+          active: false,
+          selected: false,
+          dirchange: false,
+        },
+        {
+          path: `${import.meta.env.BASE_URL}Production/ViewProductionRawProduct`,
+          title: "View Production Raw Product",
+          //icon: dashboardsvg,
+          type: "link",
+          active: false,
+          selected: false,
+          dirchange: false,
+        },
+        {
+          path: `${import.meta.env.BASE_URL}Production/ViewRawProductionStock`,
+          title: "Manage Raw Production Stocks",
+          //icon: dashboardsvg,
+          type: "link",
+          active: false,
+          selected: false,
+          dirchange: false,
+        },
+
+      ],
+    },
+
   // Financer Patner
   {
     title: "Financer Patner",
@@ -671,39 +764,39 @@ export const defaultMenu: MenuItemtype[] = [
   },
 ];
 
-// const frDashboardMenu: MenuItemtype[] = [
-//   {
-//     menutitle: "Franchise",
-//   },
+const frDashboardMenu: MenuItemtype[] = [
+  {
+    menutitle: "Franchise",
+  },
 
-//   // Dashboard
-//   {
-//     title: "Franchise",
-//     icon: pagesSvg,
-//     type: "sub",
-//     active: false,
-//     selected: false,
-//     dirchange: false,
-//     children: [
-//       {
-//         path: `${import.meta.env.BASE_URL}Franchise/ViewFranchise`,
-//         title: "View Franchise",
-//         type: "link",
-//         active: false,
-//         selected: false,
-//         dirchange: false,
-//       },
-//     ],
-//   },
-// ];
+  // Dashboard
+  {
+    title: "Franchise",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewFranchise`,
+        title: "View Franchise",
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+];
 
-export const MENUITEMS = window.location.pathname.includes("/Franchise/")
-  ? defaultMenu
-  : defaultMenu;
+// export const MENUITEMS = window.location.pathname.includes("/Franchise/")
+//   ? defaultMenu
+//   : defaultMenu;
 
-// export const MENUITEMS = location.pathname.includes("/Franchise/")
-// ? frDashboardMenu
-// : defaultMenu;
+export const MENUITEMS = location.pathname.includes("/Franchise/")
+? frDashboardMenu
+: defaultMenu;
 
 export interface MenuItem {
   label: string;

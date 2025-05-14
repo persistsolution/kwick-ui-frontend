@@ -14,12 +14,12 @@ const Indexpage: FC = () => {
 
       <div className="main-container container-fluid">
         <Row>
-          <Col xxl={9}>
+          <Col xxl={12}>
             <Row>
-              <Col xxl={6} xl={12}>
+              <Col xxl={12} xl={12}>
                 <Row>
                   {/* Total Employees */}
-                  <Col xl={3} lg={6} md={6} sm={6} xxl={6}>
+                  <Col xl={3} lg={4} md={4} sm={4} xxl={4}>
                     <Card>
                       <Card.Body>
                         <div className="d-flex align-items-start">
@@ -44,7 +44,7 @@ const Indexpage: FC = () => {
                   </Col>
 
                   {/* Total Franchises */}
-                  <Col xl={3} lg={6} md={6} sm={6} xxl={6}>
+                  <Col xl={3} lg={4} md={4} sm={4} xxl={4}>
                     <Card>
                       <Card.Body>
                         <div className="d-flex align-items-start">
@@ -69,7 +69,7 @@ const Indexpage: FC = () => {
                   </Col>
 
                   {/* Total Products */}
-                  <Col xl={3} lg={6} md={6} sm={6} xxl={6}>
+                  <Col xl={3} lg={4} md={4} sm={4} xxl={4}>
                     <Card>
                       <Card.Body>
                         <div className="d-flex align-items-start">
