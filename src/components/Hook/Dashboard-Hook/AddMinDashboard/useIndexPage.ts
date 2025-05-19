@@ -4,7 +4,7 @@ import { ApexOptions } from "apexcharts";
 
 const useIndexPage = () => {
   // const [totalEmployees, setTotalEmployees] = useState<any>(0);
-  // const [totalFranchises, setTotalFranchises] = useState<any>(0);
+  const [selectReport, setSelectReport] = useState<string>("");
   const [totalEmployees] = useState<any>(0);
   const [totalFranchises] = useState<any>(0);
   const [totalProducts, setTotalProducts] = useState<any>(0);
@@ -115,11 +115,18 @@ const useIndexPage = () => {
       console.error("Error fetching categories:", error);
     }
   };
+
+  const handleSearch = ()=>{
+
+  }
   return {
     totalEmployees,
     totalFranchises,
     totalProducts,
     chartState,
+    selectReport,
+    setSelectReport,
+    handleSearch
   };
 };
 

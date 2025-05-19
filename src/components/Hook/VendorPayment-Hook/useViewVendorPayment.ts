@@ -20,6 +20,10 @@ const useViewVendorPayments = () => {
     handleFetchVendorPaymentss();
   }, []);
 
+  const handleAddNewVendorPayment = ()=>{
+    navigate("/VendorPayment/AddVendorPayment")
+  }
+
   const handleFetchVendorPaymentss = async () => {
     try {
       const response: any = await fetchVendorPaymentsApi();
@@ -130,6 +134,7 @@ const useViewVendorPayments = () => {
     handleEdit,
     getVisiblePages,
     setVendorPaymentssPerPage,
+    handleAddNewVendorPayment
   };
 };
 

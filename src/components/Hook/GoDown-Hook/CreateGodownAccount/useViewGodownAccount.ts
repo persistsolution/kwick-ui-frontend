@@ -4,6 +4,7 @@ import {
   fetchGodownApi,
   deleteGodownAccount,
 } from "../../../api/GoDown-Api/CreateGoDown/CreateGoDownApi";
+import { useNavigate } from "react-router-dom";
 
 const useViewGodownAccount = () => {
   const [viewGodownAccount, setviewGodownAccount] = useState([]);
@@ -17,7 +18,7 @@ const useViewGodownAccount = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-
+const navigate = useNavigate()
   useEffect(() => {
     handleFetchviewGodownAccount();
   }, []);
@@ -31,6 +32,10 @@ const useViewGodownAccount = () => {
       console.error("Error fetching viewGodownAccount:", error);
     }
   };
+
+  const handleAddGodownAccount = ()=>{
+    navigate("/GoDown/CreateGodownAccount")
+  }
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -140,6 +145,7 @@ const useViewGodownAccount = () => {
     handleEdit,
     getVisiblePages,
     setviewGodownAccountPerPage,
+    handleAddGodownAccount
   };
 };
 

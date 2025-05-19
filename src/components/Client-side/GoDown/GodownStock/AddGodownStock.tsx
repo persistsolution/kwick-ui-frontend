@@ -69,10 +69,10 @@ const AddGodownStock: React.FC = () => {
                       </Form.Group>
                     </Col>
 
-                    <Container className="fieldset border  mt-3">
+                    <Container   className="fieldset border  mt-3 col-12">
                       {/* <h4 className="legend">Godown Detail</h4> */}
                       <Row>
-                        <Col xl={6}>
+                        <Col xl={12}>
                           <Form.Group controlId="goDownProductlist">
                             <Form.Label>
                               Product<span className="text-danger">*</span>

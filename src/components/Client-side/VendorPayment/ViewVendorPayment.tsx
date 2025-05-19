@@ -20,6 +20,7 @@ const ViewVendorPayment: FC = () => {
     handleEdit,
     getVisiblePages,
     setVendorPaymentssPerPage,
+    handleAddNewVendorPayment
   } = useViewVendorPayments();
 
   return (
@@ -61,6 +62,8 @@ const ViewVendorPayment: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                     <Button variant="success" onClick={handleAddNewVendorPayment}>
+Add New                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>

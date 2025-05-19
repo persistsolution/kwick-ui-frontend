@@ -9,6 +9,7 @@ import ViewCategory from "../components/Client-side/Selling-Products/Category/Vi
 import EditProductForm from "../components/Client-side/Selling-Products/Products/EditProductForm";
 import AllocateProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocateProducts";
 import ViewBrand from "../components/Client-side/Selling-Products/Brand/ViewBrand";
+import ViewAllocateProductsToVendor from "../components/Client-side/Selling-Products/ViewAllocateProductsToVendors/ViewAllocateProductsToVendors"
 
 // Franchise
 import ViewFranchise from "../components/Client-side/Franchise/ViewFranchise";
@@ -25,6 +26,7 @@ import ViewRawProduct from "../components/Client-side/Raw-Making-Products/RawPro
 import RawAllocateProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocateProducts";
 import AddRawProducts from "../components/Client-side/Raw-Making-Products/RawProducts/AddRawProducts";
 import EditRawProducts from "../components/Client-side/Raw-Making-Products/RawProducts/EditRawProducts";
+import ViewRawAllocateProductsToVendor from "../components/Client-side/Raw-Making-Products/ViewRawAllocateProductsToVendor/ViewRawAllocateProductsToVendor";
 
 // Employee
 import AddEmployee from "../components/Client-side/Employee/AddEmployee/AddEmployee";
@@ -96,6 +98,9 @@ import ViewProductionRawProduct from "../components/Client-side/Production/Produ
 import ViewRawProductionStock from "../components/Client-side/Production/RawProductionStockList/ViewRawProductionStockList";
 import AddRawProductionStock from "../components/Client-side/Production/AddRawProductionStock/AddRawProductionStock";
 import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
+import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
+import AddGodownReturnProduct from "../components/Client-side/GoDown/GodownReturnProduct/AddGodownReturnProduct";
+import AddRawProductionProducts from "../components/Client-side/Production/AddRawProductionProducts/AddRawProductionProducts";
 
 export interface routeType {
   id: number;
@@ -157,6 +162,17 @@ export const RouteData: routeType[] = [
     element: <AllocatedProducts />,
   },
 
+  {
+    id: 9,
+    path: `${import.meta.env.BASE_URL}SellingProduct/ViewAllocateProductsToVendor`,
+    element: <ViewAllocateProductsToVendor />,
+  },
+  {
+    id: 10,
+    path: `${import.meta.env.BASE_URL}SellingProduct/ViewMakingProducts`,
+    element: <ViewMakingProducts />,
+  },
+  
   // Franchise
   {
     id: 9,
@@ -221,6 +237,11 @@ export const RouteData: routeType[] = [
     id: 18,
     path: `${import.meta.env.BASE_URL}RawProducts/EditRawProducts/:id`,
     element: <EditRawProducts />,
+  },
+  {
+    id:19,
+     path: `${import.meta.env.BASE_URL}RawProducts/ViewRawAllocateProductsToVendor`,
+    element: <ViewRawAllocateProductsToVendor />,
   },
 
   // Employee
@@ -360,6 +381,11 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownReturnProduct`,
     element: <ViewGodownReturnProduct />,
   },
+  {
+    id: 39,
+    path: `${import.meta.env.BASE_URL}GoDown/GodownReturnProduct`,
+    element: <AddGodownReturnProduct />,
+  },
 
   // Target
   {
@@ -466,6 +492,11 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Production/AddProductionProduct`,
     element: <AddProductionProduct/>,
   },
+ {
+    id:57,
+    path: `${import.meta.env.BASE_URL}Production/AddRawProductionProducts`,
+    element: <AddRawProductionProducts/>,
+  },
     {
     id:57,
     path: `${import.meta.env.BASE_URL}Production/ViewProductionRawProduct`,
@@ -476,7 +507,7 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Production/ViewRawProductionStock`,
     element: <ViewRawProductionStock/>,
   },
-    {
+  {
     id:59,
     path: `${import.meta.env.BASE_URL}Production/AddRawProductionStock`,
     element: <AddRawProductionStock/>,

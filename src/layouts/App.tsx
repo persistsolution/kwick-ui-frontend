@@ -40,7 +40,7 @@ const App: FC<ComponentProps> = () => {
               <Outlet />
             </div>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
         <Backtotop />
       </Provider>

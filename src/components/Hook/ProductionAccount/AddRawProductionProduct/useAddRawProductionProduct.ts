@@ -19,13 +19,6 @@ interface ProductionProductFormValues {
   pricewogst:string;
   productType:string;
   makingQty:string
-  selectedprodctionProduct:string
-}
-
-interface Product {
-  id: number;
-  name: string;
-  // add other properties
 }
 
 const useAddProductionProduct = () => {
@@ -47,11 +40,8 @@ const useAddProductionProduct = () => {
     totalgst:"",
     pricewogst:"",
     productType:"",
-    makingQty:"",
-    selectedprodctionProduct:"",
+    makingQty:""
   });
-const [ProductionProductList, setProductionProduct] = useState<Product[]>([]);
-const [ProductionProductArray, setProductionProductArray] = useState<Product[]>([]);
 
   const [message, setMessage] = useState("");
   const [isLoading, setisLoading] = useState(false);
@@ -79,10 +69,6 @@ const [ProductionProductArray, setProductionProductArray] = useState<Product[]>(
       setFormValues(updatedValues);
     }
   };
-
-  const handleAddProductionProduct = (data :any)=>{
-setProductionProduct([...ProductionProductList , data])
-  }
 
   const handelAddProductionProduct = async () => {
     const ProductionProductData = {
@@ -116,8 +102,7 @@ setProductionProduct([...ProductionProductList , data])
           totalgst:"",
           pricewogst:"",
           productType:"",
-          makingQty:"",
-          selectedprodctionProduct:""
+          makingQty:""
         });
       }
     } catch (error) {
@@ -130,17 +115,17 @@ setProductionProduct([...ProductionProductList , data])
     handelAddProductionProduct();
   };
 
+const handleAddProductionProduct = ()=>{
+
+}
   return {
     formValues,
     handleSubmit,
     handleChange,
     message,
     isLoading,
-    ProductionProductList,
-    ProductionProductArray,
     setisLoading,
-    handleAddProductionProduct,
-    setFormValues
+    handleAddProductionProduct
   };
 };
 

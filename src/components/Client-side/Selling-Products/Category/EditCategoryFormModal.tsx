@@ -33,7 +33,7 @@ const EditCategoryFormModal: React.FC<EditCategoryFormModalProps> = ({
       <Fragment>
         <Form onSubmit={handleSubmit} className="p-0">
           <div className="modal-body text-start">
-            <div className="main-container container-fluid">
+            <div className="main-container ">
               <Row className="gy-4 p-0">
                 <Col xl={6}>
                   <Form.Group controlId="categoryName">

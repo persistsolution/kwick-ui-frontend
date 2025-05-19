@@ -50,10 +50,10 @@ const EditSubCategoryFormModal: React.FC<EditSubCategoryFormModalProps> = ({
       <div className="modal-header">Edit Sub Category</div>
 
       <Fragment>
-        <div className="main-container container-fluid">
+        <div className="main-container ">
           <Form onSubmit={handleFormSubmit}>
             <div className="modal-body text-start">
-              <div className="main-container container-fluid">
+              <div className="main-container ">
                 <Row className="gy-4">
                   <Col xl={6}>
                     <Form.Label>

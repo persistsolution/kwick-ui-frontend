@@ -21,7 +21,9 @@ const Login: FC = () => {
   } = useLogin();
   return (
     <Fragment>
-      <div className="container-lg">
+      <div 
+      // className="container-lg"
+      >
         <Row className="justify-content-center mt-4 mx-0">
           <Col xl={4} lg={6}>
             <Card className="shadow-none">

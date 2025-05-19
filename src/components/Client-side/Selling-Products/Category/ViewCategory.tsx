@@ -38,9 +38,9 @@ const ViewCategory: FC = () => {
         activepage="Category List"
       /> */}
 
-      <div className="main-container container-fluid">
-        <Row>
-          <Col xl={12}>
+      <div className="main-container ">
+        {/* <Row>
+          <Col xl={12}> */}
             <Card>
               <Card.Body>
                 <div className="row align-items-center g-2 mb-3">
@@ -229,8 +229,8 @@ const ViewCategory: FC = () => {
                 </div>
               </Card.Body>
             </Card>
-          </Col>
-        </Row>
+          {/* </Col>
+        </Row> */}
       </div>
 
       {/* Edit Modal */}

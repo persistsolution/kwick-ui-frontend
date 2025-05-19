@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchGodownReturnProductApi } from "../../../api/GoDown-Api/GodownRetunProductApi/GodownRetunProductApi";
+import { useNavigate } from "react-router-dom";
+
 const useGoDownReturnProduct = () => {
   const [viewGodownReturnProduct, setviewGodownReturnProduct] = useState([]);
   const [filteredviewGodownReturnProduct, setFilteredviewGodownReturnProduct] =
@@ -13,10 +15,15 @@ const useGoDownReturnProduct = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+  const navigate = useNavigate()
 
   useEffect(() => {
     handleFetchviewGodownReturnProduct();
   }, []);
+
+  const handleAddReturnProduct= ()=>{
+    navigate("/GoDown/GodownReturnProduct")
+  }
 
   const handleFetchviewGodownReturnProduct = async () => {
     try {
@@ -111,6 +118,7 @@ const useGoDownReturnProduct = () => {
     exportToExcel,
     getVisiblePages,
     setviewGodownReturnProductPerPage,
+    handleAddReturnProduct
   };
 };
 

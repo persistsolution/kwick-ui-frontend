@@ -38,10 +38,10 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
     >
       <div className="modal-header">Add Category</div>
 
-      <div className="main-container container-fluid">
+      <div className="main-container ">
         <Form onSubmit={handleSubmit}>
           <div className="modal-body text-start">
-            <div className="main-container container-fluid">
+            <div className="main-container ">
               <Row className="gy-4">
                 <Col xl={6}>
                   <Form.Group controlId="name">

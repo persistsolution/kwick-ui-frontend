@@ -67,12 +67,12 @@ const ViewRequestSellingProductStock: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
-                    <Button
+                    {/* <Button
                       variant="success"
                       onClick={() => modalAddRequestSellingProdStockForm()}
                     >
                       Add More
-                    </Button>
+                    </Button> */}
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>

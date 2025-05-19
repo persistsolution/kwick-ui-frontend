@@ -28,6 +28,7 @@ const ViewFranchise: FC = () => {
     setFranchisesPerPage,
     setfromDate,
     settodate,
+    exportToExcel
   } = useViewFranchise();
 
   return (
@@ -110,9 +111,9 @@ const ViewFranchise: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
-                    {/* <Button variant="success" onClick={exportToExcel}>
+                    <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
-                    </Button> */}
+                    </Button>
                   </div>
                 </div>
 

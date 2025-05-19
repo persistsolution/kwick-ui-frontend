@@ -48,7 +48,7 @@ const ViewRawProduct: FC = () => {
                     />
                   </div>
 
-                  <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
+                  <div className="col-md-6 col-12 d-flex justify-content-md-end  gap-2">
                     <Form.Select
                       value={categoriesPerPage}
                       onChange={(e) =>
@@ -85,6 +85,9 @@ const ViewRawProduct: FC = () => {
                         {/* <th onClick={() => handleSort("name")}>Barcode No</th> */}
                         <th onClick={() => handleSort("name")}>Category</th>
                         <th onClick={() => handleSort("name")}>Sub Category</th>
+                        <th onClick={() => handleSort("name")}>Purchase Price</th>
+                        <th onClick={() => handleSort("name")}>Min Qty</th>
+                        <th onClick={() => handleSort("name")}>Unit</th>
                         {/* <th onClick={() => handleSort("name")}>Product Type</th> */}
                         {/* <th onClick={() => handleSort("name")}>Price</th> */}
                         <th onClick={() => handleSort("name")}>Status</th>
@@ -108,6 +111,9 @@ const ViewRawProduct: FC = () => {
                             {/* <td>{category.BarcodeNo}</td> */}
                             <td>{category.CatName}</td>
                             <td>{category.SubCatName}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             {/* <td className="text-success">
                               {category.ProdType === 1
                                 ? "Raw / Making Product"

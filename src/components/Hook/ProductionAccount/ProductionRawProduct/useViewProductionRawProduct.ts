@@ -125,11 +125,11 @@ const useViewProductionRawProduct = () => {
   };
 
   const handelEditProductionRawProduct = (id: any) => {
-    navigate(`/Production/AddProductionProduct${id}`);
+    navigate(`/Production/AddRawProductionProducts${id}`);
   };
 
   const handelAddProductionRawProduct = () => {
-    navigate(`/Production/AddProductionProduct`);
+    navigate(`/Production/AddRawProductionProducts`);
   };
 
   const indexOfLastProductionRawProduct = ProductionRawProductPage * ProductionRawProductPerPage;

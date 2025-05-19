@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { createSetTarget } from "../../api/SetTarget-Api/SetTargetApi";
+import { useNavigate } from "react-router-dom";
+
 
 interface SetTargetFormValues {
   month: string;
@@ -16,6 +18,7 @@ const useSetTarget = () => {
   const [franchise, setFranchise] = useState([]);
   const [message, setMessage] = useState("");
   const [isLoading, setisLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleChange = (e: any) => {
     const { name, value, type } = e.target;
@@ -40,6 +43,9 @@ const useSetTarget = () => {
       setFormValues(updatedValues);
     }
   };
+
+const handelSetTarget = ()=>{
+}
 
   const handelAddSetTarget = async () => {
     const SetTargetData = {};
@@ -72,6 +78,7 @@ const useSetTarget = () => {
     franchise,
     setFranchise,
     setisLoading,
+    handelSetTarget
   };
 };
 

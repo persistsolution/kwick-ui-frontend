@@ -22,7 +22,7 @@ const CreateGodownAccount: React.FC = () => {
               <Card.Body>
                 <Form onSubmit={handleSubmit}>
                   <Col className="fieldset col-12">
-                    <h4 className="legend">Godown Detail</h4>
+                    <h4 className="legend">Personal Detail</h4>
                     <Row className="gy-4">
                       <Col xl={8}>
                         <Form.Group controlId="createGodownAccountName">

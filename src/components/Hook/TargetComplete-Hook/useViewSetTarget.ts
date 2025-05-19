@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchSetTarget } from "../../api/SetTarget-Api/SetTargetApi";
+import { useNavigate } from "react-router-dom";
+
 const useViewSetTarget = () => {
   const [SetTarget, setSetTarget] = useState([]);
   const [filteredSetTarget, setFilteredSetTarget] = useState([]);
@@ -12,6 +14,7 @@ const useViewSetTarget = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+  const navigate = useNavigate()
 
   useEffect(() => {
     handleFetchSetTarget();
@@ -37,6 +40,10 @@ const useViewSetTarget = () => {
       )
     );
   };
+
+  const handelSetTarget = ()=>{
+  navigate("/Target/SetTarget")
+}
 
   const handleSort = (key: string) => {
     let direction = "asc";
@@ -105,6 +112,7 @@ const useViewSetTarget = () => {
     getVisiblePages,
     setSetTargetPerPage,
     setaccountList,
+    handelSetTarget
   };
 };
 

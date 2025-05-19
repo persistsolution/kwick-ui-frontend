@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   AppBar,
   Toolbar,
-  Button,
-  Menu,
-  MenuItem,
   IconButton,
   Drawer,
   List,
@@ -12,159 +9,174 @@ import {
   ListItemText,
   useMediaQuery,
   Box,
+  Button as MUIButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
 import { defaultMenu } from '../../../common/Sidemenudata';
-import Logo from '../../../assets/images/brand/desktop-dark.png';
+import Logo from '../../../assets/images/brand/toggle-dark.png';
 
 const NewSidebar = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [menuItems, setMenuItems] = useState<any[]>([]);
+  const [dropdownOpenIndex, setDropdownOpenIndex] = useState<number | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>, children: any[]) => {
-    setAnchorEl(event.currentTarget);
-    setMenuItems(children);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setMenuItems([]);
+  const toggleDropdown = (index: number) => {
+    setDropdownOpenIndex(dropdownOpenIndex === index ? null : index);
   };
 
   const navigateTo = (path: string) => {
     navigate(path);
-    handleClose();
+    setDropdownOpenIndex(null);
     setDrawerOpen(false);
   };
 
-  const renderMenuItems = (items: any[]) =>
-    items.map((item: any, index: number) => {
-      if (item.type === 'sub' && item.children) {
-        return item.children.map((subChild: any, subIdx: number) => (
-          <MenuItem key={subIdx} onClick={() => navigateTo(subChild.path)}>
-            {subChild.title}
-          </MenuItem>
-        ));
-      }
-      return (
-        <MenuItem key={index} onClick={() => navigateTo(item.path)}>
-          {item.title}
-        </MenuItem>
-      );
-    });
+  const scrollMenu = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -200 : 200;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
-   <AppBar position="static" sx={{ backgroundColor: 'rgba(4, 47, 72, 0.98)', marginBottom: "1.5rem" }}>
-   <Toolbar
-  sx={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-    whiteSpace: 'nowrap',
-    paddingLeft: 2,
-    paddingRight: 2,
-    '&::-webkit-scrollbar': {
-      height: '4px',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#888',
-      borderRadius: '2px',
-    },
-  }}
->
-  {/* Logo on the left */}
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 'fit-content', flexShrink: 0 }}>
-    <img src={Logo} alt="Logo" style={{ height: 40 }} />
-  </Box>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: 'rgba(4, 47, 72, 0.98)', marginBottom: '1.5rem' }}
+      >
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'nowrap',
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',
+            paddingLeft: 2,
+            paddingRight: 2,
+            '&::-webkit-scrollbar': {
+              height: '4px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgb(0 71 112)',
+              borderRadius: '2px',
+            },
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 'fit-content' }}>
+            <img src={Logo} alt="Logo" style={{ height: 40 }} />
+          </Box>
 
-  {/* Desktop Navigation Buttons - force scrollable */}
-  {!isMobile && (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: 2,
-        whiteSpace: 'nowrap',
-        overflowX: 'auto',
-        ml: 2,
-        flexGrow: 1,
-        flexShrink: 1,
-        '& > *': {
-          flexShrink: 0,
-        },
-      }}
-    >
-      {defaultMenu
-        .filter((item: any) => item.type && item.title)
-        .map((item: any, index: number) => {
-          if (item.type === 'sub' && item.children) {
-            return (
-              <Button
-                key={index}
-                sx={{ color: '#fff', textTransform: 'capitalize' }}
-                onClick={(e) => handleOpenMenu(e, item.children)}
+          {!isMobile && (
+            <>
+              <IconButton onClick={() => scrollMenu('left')} sx={{ color: '#fff' }}>
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+
+              <Box
+                ref={scrollRef}
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                  whiteSpace: 'nowrap',
+                  overflowX: 'auto',
+                  ml: 1,
+                  mr: 1,
+                  flexGrow: 1,
+                  flexShrink: 1,
+                  '& > *': {
+                    flexShrink: 0,
+                  },
+                  '&::-webkit-scrollbar': { display: 'none' },
+                  scrollbarWidth: 'none',
+                }}
               >
-                {item.title}
-              </Button>
-            );
-          } else if (item.type === 'link') {
-            return (
-              <Button
-                key={index}
-                sx={{ color: '#fff', textTransform: 'capitalize' }}
-                onClick={() => navigateTo(item.path)}
-              >
-                {item.title}
-              </Button>
-            );
-          }
-          return null;
-        })}
-    </Box>
-  )}
+                {defaultMenu.map((item: any, index: number) => {
+                  if (item.type === 'sub' && item.children) {
+                    return (
+                      <Dropdown
+                        key={index}
+                        isOpen={dropdownOpenIndex === index}
+                        toggle={() => toggleDropdown(index)}
+                        className='backgroundTransparent'
+                        style={{ display: 'inline-block' , background:"transparent" }}
+                      >
+                        <DropdownToggle
+                          style={{
+                            background: 'transparent',
+                            border: 'none',
+                            color: '#fff',
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {item.title} &nbsp;
+                           <ArrowDropDownIcon sx={{ fontSize: 20 }} />
+                        </DropdownToggle>
+                        <DropdownMenu dark container="body">
+                          {item.children.map((child: any, childIdx: number) => (
+                            <DropdownItem key={childIdx} onClick={() => navigateTo(child.path)}>
+                              {child.title}
+                            </DropdownItem>
+                          ))}
+                        </DropdownMenu>
+                      </Dropdown>
+                    );
+                  } else if (item.type === 'link') {
+                    return (
+                      <MUIButton
+                        key={index}
+                        sx={{
+                          color: '#fff',
+                          textTransform: 'capitalize',
+                          '&:hover': {
+                            backgroundColor: 'rgb(0 71 112)',
+                          },
+                        }}
+                        onClick={() => navigateTo(item.path)}
+                      >
+                        {item.title}
+                      </MUIButton>
+                    );
+                  }
+                  return null;
+                })}
+              </Box>
 
-  {/* Mobile Icon */}
-  {isMobile && (
-    <IconButton edge="end" color="inherit" onClick={() => setDrawerOpen(true)}>
-      <MenuIcon />
-    </IconButton>
-  )}
-</Toolbar>
+              <IconButton onClick={() => scrollMenu('right')} sx={{ color: '#fff' }}>
+                <KeyboardArrowRightIcon />
+              </IconButton>
+            </>
+          )}
 
-
-  {/* Submenu */}
-  <Menu
-    anchorEl={anchorEl}
-    open={Boolean(anchorEl)}
-    onClose={handleClose}
-    PaperProps={{
-      sx: { backgroundColor: 'rgba(4, 47, 72, 0.98)', color: 'white' },
-    }}
-  >
-    {renderMenuItems(menuItems)}
-  </Menu>
-</AppBar>
-
+          {isMobile && (
+            <IconButton edge="end" color="inherit" onClick={() => setDrawerOpen(true)}>
+              <MenuIcon />
+            </IconButton>
+          )}
+        </Toolbar>
+      </AppBar>
 
       {/* Mobile Drawer */}
       <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <Box sx={{ width: 250, backgroundColor: 'rgba(4, 47, 72, 0.98)', height: '100%', color: '#fff' }}>
+        <Box
+          sx={{ width: 250, backgroundColor: 'rgb(0 71 112)', height: '100%', color: '#fff' }}
+        >
           <List>
             {defaultMenu.map((item: any, index: number) => {
               if (item.type === 'sub' && item.children) {
                 return item.children.map((child: any, idx: number) => (
-                  <ListItem button key={`${index}-${idx}`} onClick={() => navigateTo(child.path)}>
+                  <List key={`${index}-${idx}`} onClick={() => navigateTo(child.path)}>
                     <ListItemText primary={child.title} />
-                  </ListItem>
+                  </List>
                 ));
               } else if (item.type === 'link') {
                 return (

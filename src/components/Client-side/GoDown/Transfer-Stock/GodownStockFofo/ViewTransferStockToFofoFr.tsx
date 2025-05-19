@@ -3,6 +3,8 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewTransferStockToFofoFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockFofo/useViewTransferStockToFofoFr";
+import { Link } from "react-router-dom";
+
 const ViewTransferStockToFofoFr: FC = () => {
   const {
     indexOfLastTransferStockToFofoFr,
@@ -149,7 +151,7 @@ const ViewTransferStockToFofoFr: FC = () => {
                           Invoice Print{" "}
                         </th>
                         <th onClick={() => handleSort("print")}>Print </th>
-                        <th>Edit</th>
+                        {/* <th>Edit</th> */}
                         <th>Delete</th>
                       </tr>
                     </thead>
@@ -166,16 +168,18 @@ const ViewTransferStockToFofoFr: FC = () => {
                               <td>{GodownAccount.TotalAmount}</td>
                               <td>{GodownAccount.Narration}</td>
                               <td>{GodownAccount.CreatedDate}</td>
-                              <td></td>
-                              <td></td>
-                              <td>
+                          <td >  <Link to="" target="_blank"
+                                                 ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
+                                                 <td><Link to="" target="_blank"
+                                                 ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
+                              {/* <td>
                                 <button
                                   className="avatar rounded-circle bg-azure cursor-pointer border-0"
                                   // onClick={() => handelEditProduct(product.id)}
                                 >
                                   <i className="bi bi-pen fs-15"></i>
                                 </button>
-                              </td>
+                              </td> */}
                               <td>
                                 <button
                                   className="avatar rounded-circle bg-pink cursor-pointer border-0"

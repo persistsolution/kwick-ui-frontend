@@ -18,6 +18,7 @@ const ViewGodownReturnProduct: FC = () => {
     exportToExcel,
     getVisiblePages,
     setviewGodownReturnProductPerPage,
+    handleAddReturnProduct
   } = useGoDownReturnProduct();
 
   return (
@@ -61,6 +62,9 @@ const ViewGodownReturnProduct: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                    <Button variant="success" onClick={handleAddReturnProduct}>
+                      Add New
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -120,9 +124,8 @@ const ViewGodownReturnProduct: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -133,9 +136,8 @@ const ViewGodownReturnProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -148,9 +150,8 @@ const ViewGodownReturnProduct: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -161,9 +162,8 @@ const ViewGodownReturnProduct: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -174,9 +174,8 @@ const ViewGodownReturnProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

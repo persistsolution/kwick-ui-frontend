@@ -40,10 +40,10 @@ const AddSubCategoryFormModal: React.FC<AddSubCategoryFormModalProps> = ({
         width={600}
       >
         <div className="modal-header">Add SubCategory</div>
-        <div className="main-container container-fluid">
+        <div className="main-container ">
           <Form onSubmit={handleSubmit}>
             <div className="modal-body text-start p-2">
-              <div className="main-container container-fluid p-2">
+              <div className="main-container  p-2">
                 <Row className="gy-4">
                   <Col xl={6}>
                     <Form.Label>

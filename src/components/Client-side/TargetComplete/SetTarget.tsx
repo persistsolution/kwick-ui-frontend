@@ -32,7 +32,7 @@ const SetTarget: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={12}>
                       <Form.Group controlId="franchise">
-                        <Form.Label>Franchise*</Form.Label>
+                        <Form.Label>Franchise    <span className="text-danger ms-1">*</span></Form.Label>
                         <Select
                           name="state"
                           options={franchise}

@@ -3265,7 +3265,7 @@ fieldset:disabled a.button-slide-out__above {
 
 .btn-secondary {
   color: #fff;
-  background: rgb(var(--secondary-rgb)) !important;
+  /* background: rgb(var(--secondary-rgb)) !important; */
   border-color: rgb(var(--secondary-rgb));
 }
 .btn-secondary:hover {
@@ -30034,10 +30034,22 @@ a.text-primary:hover, a.text-primary:focus {
   background-repeat: repeat;
 }
 
+
+.backgroundTransparent {
+  background: transparent !important;
+}
+
+.transparent-dropdown-menu {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
 .login-img::before {
   content: "";
   background: linear-gradient(to right, var(--primary07) 0%, var(--primary07) 100%);
-  height: 100%;
+  height: 140%;
   width: 100%;
   position: absolute;
 }
@@ -42950,6 +42962,10 @@ input[type=range]::-webkit-slider-runnable-track {
   font-weight: 400;
   width: auto !important;
   border: none !important;
+}
+
+body{
+  zoom:80%;
 }
 
 /* end:: quill editor */

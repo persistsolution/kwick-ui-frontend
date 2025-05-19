@@ -20,6 +20,8 @@ const ViewSetTarget: FC = () => {
     // exportToExcel,
     getVisiblePages,
     setSetTargetPerPage,
+    exportToExcel,
+    handelSetTarget,
   } = useViewSetTarget();
 
   return (
@@ -78,12 +80,19 @@ const ViewSetTarget: FC = () => {
                       <option value="20">20 Items</option>
                       <option value={SetTarget.length}>All Items</option>
                     </Form.Select>
+                    <Button variant="success" onClick={handelSetTarget}>
+                      Add New          
+                    </Button>
+
+                    <Button variant="success" onClick={exportToExcel}>
+                      <i className="fe fe-download me-2"></i>Export to Excel
+                    </Button>
                   </div>
                 </div>
 
                 <div className="table-responsive">
                   <Table
-                    id="franchise-table"
+                    id="SetTarget-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
                     <thead className="table-primary">
@@ -127,9 +136,8 @@ const ViewSetTarget: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -140,9 +148,8 @@ const ViewSetTarget: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -155,9 +162,8 @@ const ViewSetTarget: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -168,9 +174,8 @@ const ViewSetTarget: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -181,9 +186,8 @@ const ViewSetTarget: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

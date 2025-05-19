@@ -6,6 +6,7 @@ import {
   fetchGodownStockProduct,
   fetchGodownListApi,
 } from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
+import { useNavigate } from "react-router-dom";
 
 const useViewGodownStock = () => {
   const [viewGodownStock, setviewGodownStock] = useState([]);
@@ -25,6 +26,7 @@ const useViewGodownStock = () => {
   const [goDownProductlist, setgoDownProductlist] = useState([]);
   const [selectGodownStockProduct, setselectGodownStockProduct] = useState(0);
   const [selectGodown, setselectGodown] = useState(0);
+  const navigate = useNavigate()
 
   useEffect(() => {
     handleFetchviewGodownStock();
@@ -40,6 +42,10 @@ const useViewGodownStock = () => {
       console.error("Error fetching viewGodownStock:", error);
     }
   };
+
+  const handleAddNewStock = ()=>{
+    navigate("/GoDown/AddGodownStock")
+  }
 
   const handleFetchGodownPord = async () => {
     try {
@@ -182,6 +188,7 @@ const useViewGodownStock = () => {
     setgoDownProductlist,
     setselectGodownStockProduct,
     setselectGodown,
+    handleAddNewStock
   };
 };
 

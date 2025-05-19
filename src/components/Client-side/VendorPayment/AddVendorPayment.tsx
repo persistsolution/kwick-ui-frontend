@@ -35,7 +35,7 @@ const AddVendorPayment: React.FC = () => {
                       <Row className="gy-4">
                         <Col xl={12}>
                           <Form.Group controlId="vendorList">
-                            <Form.Label>Vendor*</Form.Label>
+                            <Form.Label>Vendor<span className="text-danger ms-1">*</span></Form.Label>
                             <Select
                               name="vendorList"
                               options={vendorList}
@@ -49,7 +49,7 @@ const AddVendorPayment: React.FC = () => {
                         </Col>
                         <Col xl={12}>
                           <Form.Group controlId="invoiceNoList">
-                            <Form.Label>Invoice No*</Form.Label>
+                            <Form.Label>Invoice No<span className="text-danger ms-1">*</span></Form.Label>
                             <Select
                               name="invoiceNoList"
                               options={invoiceNoList}
@@ -64,7 +64,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={3}>
                           <Form.Group controlId="totalAmount">
-                            <Form.Label>Total Amount*</Form.Label>
+                            <Form.Label>Total Amount<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Control
                               name="totalAmount"
                               value={formValues.totalAmount}
@@ -76,7 +76,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={4}>
                           <Form.Group controlId="totalPaidAmount">
-                            <Form.Label>Total Paid Amount*</Form.Label>
+                            <Form.Label>Total Paid Amount<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Control
                               type="number"
                               name="totalPaidAmount"
@@ -88,7 +88,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={4}>
                           <Form.Group controlId="balanceAmount">
-                            <Form.Label>Balance Amount*</Form.Label>
+                            <Form.Label>Balance Amount<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Control
                               type="number"
                               name="balanceAmount"
@@ -100,7 +100,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={4}>
                           <Form.Group controlId="paidAmount">
-                            <Form.Label>Paid Amount*</Form.Label>
+                            <Form.Label>Paid Amount<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Control
                               type="number"
                               name="paidAmount"
@@ -112,7 +112,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={4}>
                           <Form.Group controlId="paymentDate">
-                            <Form.Label>Payment Date*</Form.Label>
+                            <Form.Label>Payment Date<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Control
                               type="date"
                               name="paymentDate"
@@ -124,7 +124,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={4}>
                           <Form.Group controlId="paymentType">
-                            <Form.Label>Payment Type*</Form.Label>
+                            <Form.Label>Payment Type<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Select
                               name="paymentType"
                               value={formValues.paymentType}
@@ -142,7 +142,7 @@ const AddVendorPayment: React.FC = () => {
 
                         <Col xl={12}>
                           <Form.Group controlId="narration">
-                            <Form.Label>Narration*</Form.Label>
+                            <Form.Label>Narration<span className="text-danger ms-1">*</span></Form.Label>
                             <Form.Control
                               name="narration"
                               type="text"

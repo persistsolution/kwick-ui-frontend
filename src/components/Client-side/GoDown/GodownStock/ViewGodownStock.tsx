@@ -34,6 +34,7 @@ const ViewGodownStock: FC = () => {
     settodate,
     setselectGodownStockProduct,
     setselectGodown,
+    handleAddNewStock
   } = useViewGodownStock();
 
   return (
@@ -190,6 +191,8 @@ const ViewGodownStock: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                           <Button variant="success" onClick={handleAddNewStock}>
+Add New                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>

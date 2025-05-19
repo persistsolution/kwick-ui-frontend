@@ -41,9 +41,9 @@ const AddBrand: React.FC<EditBrandFormModalProps> = ({
         <div className="modal-header">Add Brands</div>
         <Form onSubmit={handleSubmit}>
           <div className="modal-body text-start">
-            <div className="main-container container-fluid">
-              <Row>
-                <Col xl={12}>
+            <div className="main-container ">
+              {/* <Row>
+                <Col xl={12}> */}
                   <Card style={{ boxShadow: "none" }}>
                     <Card.Body className="p-0">
                       <Row className="gy-4">
@@ -83,8 +83,8 @@ const AddBrand: React.FC<EditBrandFormModalProps> = ({
                       </Row>
                     </Card.Body>
                   </Card>
-                </Col>
-              </Row>
+                {/* </Col>
+              </Row> */}
             </div>
           </div>
 

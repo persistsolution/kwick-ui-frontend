@@ -25,7 +25,7 @@ const AddProductionAccount: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={6}>
                       <Form.Group controlId="Name">
-                        <Form.Label>Name*</Form.Label>
+                        <Form.Label>Name<span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="Name"
                           value={formValues.name}
@@ -37,7 +37,7 @@ const AddProductionAccount: React.FC = () => {
 
                     <Col xl={6}>
                       <Form.Group controlId="address">
-                        <Form.Label>Address*</Form.Label>
+                        <Form.Label>Address<span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="address"
                           type="text"
@@ -52,7 +52,7 @@ const AddProductionAccount: React.FC = () => {
 
                     <Col xl={4}>
                       <Form.Group controlId="mobileNo">
-                        <Form.Label>Mobile No*</Form.Label>
+                        <Form.Label>Mobile No<span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="mobileNo"
                           value={formValues.mobileNo}
@@ -100,7 +100,7 @@ const AddProductionAccount: React.FC = () => {
 
                     <Col xl={4}>
                       <Form.Group controlId="name">
-                        <Form.Label>Status*</Form.Label>
+                        <Form.Label>Status<span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Select
                           name="status"
                           value={formValues.status}

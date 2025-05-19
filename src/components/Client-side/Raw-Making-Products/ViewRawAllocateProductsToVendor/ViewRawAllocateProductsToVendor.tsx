@@ -1,35 +1,39 @@
 import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewGodownAccount from "../../../Hook/GoDown-Hook/CreateGodownAccount/useViewGodownAccount";
+import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
+import Select from "react-select";
+import useRawAllocateProductsToVendor from "../../../Hook/Raw-Making-products-Hook/AllocateProductsToVendor/useRawAllocateProductsToVendor";
 
-const ViewGodownAccount: FC = () => {
+const ViewRawAllocateProductsToVendor: FC = () => {
   const {
-    indexOfLastGodownAccount,
-    indexOfFirstGodownAccount,
-    filteredviewGodownAccount,
+    indexOfLastAllocateProducts,
+    indexOfFirstAllocateProducts,
+    filteredallocateProducts,
     searchTerm,
     currentPage,
-    viewGodownAccountPerPage,
-    currentviewGodownAccount,
+    allocateProductsPerPage,
     totalPages,
+    franchiseList,
+    fromDate,
+    toDate,
+    currentallocateProducts,
+    setfromDate,
+    settodate,
     handleSearch,
     handleSort,
     handlePageChange,
-    exportToExcel,
-    handleDeleteGodownAccount,
-    // handleEdit,
     getVisiblePages,
-    setviewGodownAccountPerPage,
-    handleAddGodownAccount,
-  } = useViewGodownAccount();
+    setallocateProductsPerPage,
+    // handelAllocatedProduct,
+    handelNavigateAllocatedProduct,
+  } = useRawAllocateProductsToVendor();
 
   return (
     <Fragment>
       {/* <Pageheader 
-        heading="View Godown Account"
+        heading="List Of Allocate Raw Products"
         homepage="Products"
-        activepage="View Godown Account"
+        activepage="Allocate Raw Products"
       /> */}
 
       <div className="main-container container-fluid">
@@ -38,6 +42,49 @@ const ViewGodownAccount: FC = () => {
             <Card>
               <Card.Body>
                 <div className="row align-items-center g-2 mb-3">
+                  <div className="col-md-3 col-12">
+                    <Form.Group controlId="goDownlist">
+                      <Form.Label>Franchise</Form.Label>
+                      <Select
+                        name="state"
+                        options={franchiseList}
+                        className="basic-multi-select "
+                        isSearchable
+                        menuPlacement="auto"
+                        classNamePrefix="Select2"
+                        defaultValue={[franchiseList[0]]}
+                        getOptionLabel={(e: any) => e.label}
+                        getOptionValue={(e: any) => String(e.id)}
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className="col-md-2 col-12">
+                    <Form.Group controlId="fromDate">
+                      <Form.Label> From Date</Form.Label>
+                      <Form.Control
+                        value={fromDate}
+                        type="date"
+                        onChange={(date: any) => setfromDate(date)}
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className="col-md-2 col-12">
+                    <Form.Group controlId="toDate">
+                      <Form.Label> To Date</Form.Label>
+                      <Form.Control
+                        value={toDate}
+                        type="date"
+                        onChange={(date: any) => settodate(date)}
+                      />
+                    </Form.Group>
+                  </div>
+
+                  <div className="col-md-2 col-12">
+                    <Button variant="success mt-4">Search </Button>
+                  </div>
+
                   <div className="col-md-6 col-12">
                     <Form.Control
                       type="text"
@@ -50,105 +97,83 @@ const ViewGodownAccount: FC = () => {
 
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={viewGodownAccountPerPage}
+                      value={allocateProductsPerPage}
                       onChange={(e) =>
-                        setviewGodownAccountPerPage(Number(e.target.value))
+                        setallocateProductsPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={filteredviewGodownAccount.length}>
+                      <option value={filteredallocateProducts.length}>
                         All Items
                       </option>
                     </Form.Select>
-                     <Button variant="success" onClick={handleAddGodownAccount}>
-Add New                   
- </Button>
-                    <Button variant="success" onClick={exportToExcel}>
-                      <i className="fe fe-download me-2"></i>Export to Excel
-                    </Button>
                   </div>
                 </div>
 
                 <div className="table-responsive">
                   <Table
-                    id="GodownAccount-table"
+                    id="AllocateProducts-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
                     <thead className="table-primary">
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("ShopName")}>
-                          Shop Name
+                        <th onClick={() => handleSort("name")}>
+                          Franchise Name
                         </th>
-                        <th onClick={() => handleSort("Fname")}>GoDown Name</th>
-                        <th onClick={() => handleSort("EmailId")}>Email</th>
-                        <th onClick={() => handleSort("Phone")}>Contact No</th>
-                        <th onClick={() => handleSort("Phone2")}>
-                          Another Contact No
+                        <th onClick={() => handleSort("name")}>Shop Name</th>
+                        <th onClick={() => handleSort("type")}>
+                          {" "}
+                          Franchise Type
                         </th>
-                        <th onClick={() => handleSort("Address")}>Address</th>
-                        <th onClick={() => handleSort("Status")}>Status</th>
-                        <th onClick={() => handleSort("CreatedDate")}>
-                          Register Date
+                        <th onClick={() => handleSort("contact")}>
+                          {" "}
+                          Contact No{" "}
                         </th>
-                        {/* <th>Edit</th>
-                        <th>Delete</th> */}
+                        <th onClick={() => handleSort("allocate")}>Allocate</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentviewGodownAccount.length > 0 ? (
-                        currentviewGodownAccount.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}>
-                            <td>{GodownAccount.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={GodownAccount.Photo}
-                                alt="Photo"
-                              />
-                            </td>
-                            <td>{GodownAccount.ShopName}</td>
-                            <td>{GodownAccount.Fname}</td>
-                            <td>{GodownAccount.EmailId}</td>
-                            <td>{GodownAccount.Phone}</td>
-                            <td>{GodownAccount.Phone2}</td>
-                            <td>{GodownAccount.Address}</td>
+                      {currentallocateProducts.length > 0 ? (
+                        currentallocateProducts.map((products: any) => (
+                          <tr key={products.id}>
+                            <td>{products.id}</td>
+                            <td>{products.Fname}</td>
+                            <td>{products.ShopName}</td>
                             <td
-                              className={`${
-                                GodownAccount.Status === 1
+                              className={
+                                products.Roll === 1
+                                  ? "text-warning"
+                                  : products.Roll === 2
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
+                              }
                             >
-                              {GodownAccount.Status === 1
-                                ? "Active"
-                                : "Inactive"}
+                              {products.Roll == 1
+                                ? "COCO Franchise"
+                                : products.Roll == 2
+                                ? "FOFO Franchise"
+                                : "Other Franchise"}
                             </td>
-                            <td>{GodownAccount.CreatedDate}</td>
-                            {/* <td>
-                              <button className="avatar rounded-circle bg-azure cursor-pointer border-0">
-                                <i className="bi bi-pen fs-15"></i>
-                              </button>
-                            </td>
+                            <td>{products.Phone}</td>
                             <td>
                               <button
                                 onClick={() =>
-                                  handleDeleteGodownAccount(GodownAccount.id)
+                                  handelNavigateAllocatedProduct(products.id)
                                 }
-                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
+                                className="rounded-pill btn btn-primary-light"
                               >
-                                <i className="bi bi-trash fs-15"></i>
+                                Allocated Product
                               </button>
-                            </td> */}
+                            </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={12} className="text-center">
+                          <td colSpan={3} className="text-center">
                             No records found.
                           </td>
                         </tr>
@@ -159,12 +184,12 @@ Add New
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstGodownAccount + 1} to{" "}
+                    Showing {indexOfFirstAllocateProducts + 1} to{" "}
                     {Math.min(
-                      indexOfLastGodownAccount,
-                      filteredviewGodownAccount.length
+                      indexOfLastAllocateProducts,
+                      filteredallocateProducts.length
                     )}{" "}
-                    of {filteredviewGodownAccount.length} entries
+                    of {filteredallocateProducts.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -245,4 +270,4 @@ Add New
   );
 };
 
-export default ViewGodownAccount;
+export default ViewRawAllocateProductsToVendor;

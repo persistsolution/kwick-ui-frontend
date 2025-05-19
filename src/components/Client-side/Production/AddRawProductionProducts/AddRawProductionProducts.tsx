@@ -1,11 +1,14 @@
 import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import useAddProductionProduct from "../../../Hook/ProductionAccount/AddProductionProduct/useAddProductionProduct";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import useAddRawProductionStock from "../../../Hook/ProductionAccount/AddProductionProduct/useAddProductionProduct";
+import AddIcon from "@mui/icons-material/Add";
+import Select from "react-select";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const AddProductionProduct: React.FC = () => {
-  const { formValues, message, isLoading, handleChange, handleSubmit } =
-  useAddProductionProduct();
+const AddRawProductionProducts: React.FC = () => {
+  const { formValues, message, isLoading, ProductionProductList, ProductionProductArray, handleChange, handleSubmit, handleAddProductionProduct, setFormValues } =
+    useAddRawProductionStock();
 
   return (
     <Fragment>
@@ -25,7 +28,7 @@ const AddProductionProduct: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={6}>
                       <Form.Group controlId="productName">
-                        <Form.Label>Product Name <span className="text-danger ms-1">*</span></Form.Label>
+                        <Form.Label>Raw Product Name <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="productName"
                           value={formValues.productName}
@@ -132,6 +135,125 @@ const AddProductionProduct: React.FC = () => {
                         />
                       </Form.Group>
                     </Col>
+                    <div>
+                      <Row>
+                        <Col xl={4}>
+                          <Form.Label>
+                            Production Product
+                          </Form.Label>
+                          <Form.Group>
+                            <Select
+                              id="selectedprodctionProduct"
+                              name="selectedprodctionProduct"
+                              value={
+                                ProductionProductArray.find(
+                                  (option: any) =>
+                                    option.id.toString() ==
+                                    formValues.selectedprodctionProduct.toString()
+                                ) || null
+                              }
+                              options={ProductionProductArray}
+                              getOptionLabel={(option: any) => option.label}
+                              getOptionValue={(option: any) => option.id}
+                              onChange={(selectedOption) => {
+                                setFormValues((prevValues) => ({
+                                  ...prevValues,
+                                  selectedZone: selectedOption
+                                    ? selectedOption.id.toString()
+                                    : "",
+                                }));
+                              }}
+                              required
+                              isSearchable
+                            />
+                          </Form.Group>
+                        </Col>
+
+                        <Col xl={2}>
+                          <Form.Group controlId="makingQty">
+                            <Form.Label>Making Qty</Form.Label>
+                            <Form.Control
+                              type="number"
+                              name="makingQty"
+                              value={formValues.makingQty}
+                              onChange={handleChange}
+                            />
+                          </Form.Group>
+                        </Col>
+
+                        <Col xl={1}>
+                          <Button
+                            className="btn btn-primary mt-4"
+                            onClick={handleAddProductionProduct}
+                          >
+                            <AddIcon />
+                          </Button>
+                        </Col>
+                      </Row>
+
+                    </div>
+
+                    {ProductionProductList?.map((item) => (
+                      <div>
+                        <Row>
+
+                            <Col xl={4}>
+                          <Form.Label>
+                            Production Product
+                          </Form.Label>
+                          <Form.Group>
+                            <Select
+                              id="selectedprodctionProduct"
+                              name="selectedprodctionProduct"
+                              value={
+                                ProductionProductArray.find(
+                                  (option: any) =>
+                                    option.id.toString() ==
+                                    formValues.selectedprodctionProduct.toString()
+                                ) || null
+                              }
+                              options={ProductionProductArray}
+                              getOptionLabel={(option: any) => option.label}
+                              getOptionValue={(option: any) => option.id}
+                              onChange={(selectedOption) => {
+                                setFormValues((prevValues) => ({
+                                  ...prevValues,
+                                  selectedZone: selectedOption
+                                    ? selectedOption.id.toString()
+                                    : "",
+                                }));
+                              }}
+                              required
+                              isSearchable
+                            />
+                          </Form.Group>
+                        </Col>
+
+                          <Col xl={2}>
+                            <Form.Group controlId="makingQty">
+                              <Form.Label>Making Qty</Form.Label>
+                              <Form.Control
+                                type="number"
+                                name="makingQty"
+                                value={formValues.makingQty}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                          </Col>
+
+                          <Col xl={1}>
+                            <Button
+                                                            variant="danger"
+                              className=" mt-4"
+                              onClick={handleAddProductionProduct}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </Col>
+                        </Row>
+                      </div>
+                    ))}
+
 
                     <Col xl={3}>
                       <Form.Group controlId="name">
@@ -150,22 +272,7 @@ const AddProductionProduct: React.FC = () => {
                       </Form.Group>
                     </Col>
 
-                    <Col xl={3}>
-                      <Form.Group controlId="name">
-                        <Form.Label>Product Type <span className="text-danger ms-1">*</span></Form.Label>
-                        <Form.Select
-                          name="productType"
-                          value={formValues.productType}
-                          onChange={handleChange}
-                          // onClick={handelMessage}
-                          required
-                        >
-                          <option value="">Select </option>
-                          <option value={0}>Billing/Customer Product</option>
-                          <option value={1}>Raw Product</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Col>
+
                   </Row>
 
                   <Row className="mt-4">
@@ -179,11 +286,10 @@ const AddProductionProduct: React.FC = () => {
                       </Button>
                       {message && (
                         <p
-                          className={`mt-3 ${
-                            message.includes("successfully")
-                              ? "text-success"
-                              : "text-danger"
-                          }`}
+                          className={`mt-3 ${message.includes("successfully")
+                            ? "text-success"
+                            : "text-danger"
+                            }`}
                         >
                           {message}
                         </p>
@@ -201,4 +307,4 @@ const AddProductionProduct: React.FC = () => {
   );
 };
 
-export default AddProductionProduct;
+export default AddRawProductionProducts;
