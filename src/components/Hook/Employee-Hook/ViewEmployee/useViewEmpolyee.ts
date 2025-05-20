@@ -65,6 +65,10 @@ const useViewEmployee = () => {
     writeFile(workbook, "Employee_data.xlsx");
   };
 
+  const handleAddEmployee = ()=>{
+    navigate("/Employee/AddEmployee")
+  }
+
   const getVisiblePages = () => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
@@ -129,6 +133,7 @@ const useViewEmployee = () => {
     handleEdit,
     getVisiblePages,
     setEmployeePerPage,
+    handleAddEmployee
   };
 };
 

@@ -78,6 +78,21 @@ const ViewCommisionNote: FC = () => {
                         <th onClick={() => handleSort("description")}>
                           Description{" "}
                         </th>
+                        <th onClick={() => handleSort("amount")}>
+                          Amount
+                        </th>
+                        <th onClick={() => handleSort("amount")}>
+                          Narration
+                        </th>
+                        <th onClick={() => handleSort("createdDate")}>
+                          Created Date
+                        </th>
+                        <th onClick={() => handleSort("invoicePrint")}>
+                          Invoice Print
+                        </th>
+                        <th >
+                          Action                        
+                          </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -104,9 +119,8 @@ const ViewCommisionNote: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -117,9 +131,8 @@ const ViewCommisionNote: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -132,9 +145,8 @@ const ViewCommisionNote: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -145,9 +157,8 @@ const ViewCommisionNote: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -158,9 +169,8 @@ const ViewCommisionNote: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

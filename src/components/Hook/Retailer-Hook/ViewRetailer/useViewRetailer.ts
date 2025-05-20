@@ -43,6 +43,10 @@ const useViewRetailer = () => {
     );
   };
 
+const handleAddRetailerAccount =()=>{
+  navigate("/Retailer/AddRetailer")
+}
+
   const handleSort = (key: string) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -132,6 +136,7 @@ const useViewRetailer = () => {
     handleEdit,
     getVisiblePages,
     setRetailersPerPage,
+    handleAddRetailerAccount
   };
 };
 

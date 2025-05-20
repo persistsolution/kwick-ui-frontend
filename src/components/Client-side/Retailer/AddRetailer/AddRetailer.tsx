@@ -25,7 +25,7 @@ const AddRetailer: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={6}>
                       <Form.Group controlId="retailerName">
-                        <Form.Label>Retailer Name*</Form.Label>
+                        <Form.Label>Retailer Name <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="retailerName"
                           value={formValues.retailerName}
@@ -37,7 +37,7 @@ const AddRetailer: React.FC = () => {
 
                     <Col xl={6}>
                       <Form.Group controlId="retailerAddress">
-                        <Form.Label>Retailer Address*</Form.Label>
+                        <Form.Label>Retailer Address <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="retailerAddress"
                           type="text"
@@ -52,7 +52,7 @@ const AddRetailer: React.FC = () => {
 
                     <Col xl={4}>
                       <Form.Group controlId="mobileNo">
-                        <Form.Label>Mobile No*</Form.Label>
+                        <Form.Label>Mobile No <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="mobileNo"
                           value={formValues.mobileNo}
@@ -88,7 +88,7 @@ const AddRetailer: React.FC = () => {
 
                     <Col xl={6}>
                       <Form.Group controlId="Photo">
-                        <Form.Label>Photo</Form.Label>
+                        <Form.Label>Photo <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           type="file"
                           name="Photo"
@@ -100,7 +100,7 @@ const AddRetailer: React.FC = () => {
 
                     <Col xl={4}>
                       <Form.Group controlId="name">
-                        <Form.Label>Status*</Form.Label>
+                        <Form.Label>Status <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Select
                           name="status"
                           value={formValues.status}

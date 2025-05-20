@@ -70,6 +70,10 @@ import ViewTargetCompletionReport from "../components/Client-side/TargetComplete
 import AddVendorPayment from "../components/Client-side/VendorPayment/AddVendorPayment";
 import ViewVendorPayment from "../components/Client-side/VendorPayment/ViewVendorPayment";
 
+// Vendors
+import AddVendor from "../components/Client-side/Vendors/AddVendors";
+import ViewVendor from "../components/Client-side/Vendors/ViewVendors";
+
 // Financer Patner
 import AddFinancerPartnerAccount from "../components/Client-side/FinancerPatner/FinancerPatnerAccount/AddFinancerPartnerAccount";
 import ViewFinancerPatnerAccount from "../components/Client-side/FinancerPatner/FinancerPatnerAccount/ViewFinancerPatnerAccount";
@@ -85,7 +89,10 @@ import ViewDailySellReport from "../components/Client-side/Report/ViewDailySellR
 import AllocatedProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocatedProducts";
 import RawAllocatedProducts from "../components/Client-side/Raw-Making-Products/RawAllocateProducts/RawAllocatedProducts";
 import TransferStockGodownToFr from "../components/Client-side/GoDown/Transfer-Stock/GodownStockCoco/TransferStockGodownToFr";
-
+import ViewDailySellReport2 from "../components/Client-side/Report/ViewDailySaleReport2";
+import ViewWeeklySaleReport from "../components/Client-side/Report/ViewWeeklySaleReport";
+import ViewWeeklySaleReport2 from "../components/Client-side/Report/ViewWeeklySaleReport2";
+import ViewGodownStockReport from "../components/Client-side/Report/ViewGodownStockReport";
 // Request Product Stock
 import ViewRequestSellingProductStock from "../components/Client-side/RequestProductStock/RequestSellingProductStock/ViewRequestSellingProductStock";
 
@@ -116,6 +123,7 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Dashboard/IndexPage`,
     element: <Indexpage />,
   },
+  
   // Selling Product
   {
     id: 2,
@@ -421,6 +429,18 @@ export const RouteData: routeType[] = [
     element: <ViewVendorPayment />,
   },
 
+   // Vendor Payments
+  {
+    id: 43,
+    path: `${import.meta.env.BASE_URL}Vendor/AddVendor`,
+    element: <AddVendor />,
+  },
+  {
+    id: 44,
+    path: `${import.meta.env.BASE_URL}Vendor/ViewVendor`,
+    element: <ViewVendor />,
+  },
+
   // Financer Patner
   {
     id: 45,
@@ -460,9 +480,31 @@ export const RouteData: routeType[] = [
   },
   {
     id: 51,
-    path: `${import.meta.env.BASE_URL}Report/ViewDailySellReport`,
+    path: `${import.meta.env.BASE_URL}Report/ViewDailySaleReport`,
     element: <ViewDailySellReport />,
   },
+  {
+    id: 51,
+    path: `${import.meta.env.BASE_URL}Report/ViewDailySaleReport2`,
+    element: <ViewDailySellReport2 />,
+  },
+  {
+    id: 51,
+    path: `${import.meta.env.BASE_URL}Report/ViewWeeklySaleReport`,
+    element: <ViewWeeklySaleReport />,
+  },
+  {
+    id: 51,
+    path: `${import.meta.env.BASE_URL}Report/ViewWeeklySaleReport2`,
+    element: <ViewWeeklySaleReport2 />,
+  },
+  {
+    id: 51,
+    path: `${import.meta.env.BASE_URL}Report/ViewGodownStockReport`,
+    element: <ViewGodownStockReport />,
+  },
+
+  
   // Request Product Stock
   {
     id:52,

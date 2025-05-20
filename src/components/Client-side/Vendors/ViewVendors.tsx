@@ -1,34 +1,34 @@
 import { FC, Fragment } from "react";
-//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewEmployee from "../../../Hook/Employee-Hook/ViewEmployee/useViewEmpolyee";
+import useViewVendors from "../../Hook/Vendors-Hook/useViewVendors";
 
-const ViewEmployee: FC = () => {
+const ViewVendor: FC = () => {
   const {
-    indexOfLastEmployee,
-    indexOfFirstEmployee,
-    filteredEmployee,
+    indexOfLastVendors,
+    indexOfFirstVendors,
+    filteredVendorss,
     searchTerm,
     currentPage,
-    EmployeePerPage,
-    currentEmployee,
+    VendorssPerPage,
     totalPages,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
-    handleDeleteEmployee,
+    handleDeleteVendors,
     handleEdit,
     getVisiblePages,
-    setEmployeePerPage,
-    handleAddEmployee
-  } = useViewEmployee();
+    setVendorssPerPage,
+    handleAddNewVendor
+  } = useViewVendors();
+
   return (
     <Fragment>
       {/* <Pageheader 
-        heading="View Employee"
+        heading="View Receive Amount"
         homepage="Products"
-        activepage="View Employee"
+        activepage="View Receive Amount"
       /> */}
 
       <div className="main-container container-fluid">
@@ -49,20 +49,21 @@ const ViewEmployee: FC = () => {
 
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={EmployeePerPage}
+                      value={VendorssPerPage}
                       onChange={(e) =>
-                        setEmployeePerPage(Number(e.target.value))
+                        setVendorssPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={filteredEmployee.length}>All Items</option>
+                      <option value={filteredVendorss.length}>
+                        All Items
+                      </option>
                     </Form.Select>
-                    <Button variant="success" onClick={handleAddEmployee}>
-                      Add New
-                    </Button>
+                    <Button variant="success" onClick={handleAddNewVendor}>
+                      Add New                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -71,97 +72,57 @@ const ViewEmployee: FC = () => {
 
                 <div className="table-responsive">
                   <Table
-                    id="Employee-table"
+                    id="Vendors-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
                     <thead className="table-primary">
                       <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("employee ID")}>
-                          Photo{" "}
+                        <th onClick={() => handleSort("id")}>Photo</th>
+                        <th onClick={() => handleSort("action")}>Vendor Name</th>
+                        <th onClick={() => handleSort("voucherNo")}>
+                          Contact                        
                         </th>
-                        <th onClick={() => handleSort("employee Name")}>
-                          Employee Name
+                        <th onClick={() => handleSort("invoiceNo")}>
+                          Email                        
                         </th>
-                        <th onClick={() => handleSort("Shop Name")}>
-                          Designation{" "}
+                        <th onClick={() => handleSort("paymentDate")}>
+                          Address                        
                         </th>
-                        <th onClick={() => handleSort("employee Type")}>
-                          Email Id{" "}
+                        <th onClick={() => handleSort("custometDate")}>
+                          Status                        
                         </th>
-                        <th onClick={() => handleSort("Contact No")}>
-                          Contact No
-                        </th>
-                        <th onClick={() => handleSort("Password")}>Password</th>
-                        <th onClick={() => handleSort("Status")}>
-                          Another Contact No
-                        </th>
-                        <th onClick={() => handleSort("Register Date")}>
-                          Address{" "}
-                        </th>
-                        <th>Status</th>
-                        <th>Register Date</th>
-                        <th onClick={() => handleSort("Lattitude")}>
-                          Adhar Card No
-                        </th>
-                        <th onClick={() => handleSort("Longitude")}>
-                          Blood Group
-                        </th>
-                        <th>Bank Holder Name</th>
-                        <th>Bank Name</th>
-                        <th>Account No</th>
-                        <th>Branch</th>
-                        <th>IFSC Code</th>
-                        <th>UPI Id</th>
-                  
-                        {/* <th>Date</th> */}
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th onClick={() => handleSort("Name")}>Edit</th>
+                        <th onClick={() => handleSort("Name")}>Delet</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentEmployee.length > 0 ? (
-                        currentEmployee.map((employee: any) => (
-                          <tr key={employee.id}>
-                            <td>{employee.id}</td>
+                      {filteredVendorss.length > 0 ? (
+                        filteredVendorss.map((category: any) => (
+                          <tr key={category.id}>
+                            <td>{category.id}</td>
                             <td>
                               <img
                                 className="avatar rounded-pill cover-image"
-                                src={employee.Photo}
-                                alt={employee.name || "employee Image"}
+                                src={category.Photo}
+                                alt={category.name || "Category Image"}
                               />
-                            </td>{" "}
-                            <td>{employee.Fname}</td>
-                            <td>{employee.designation}</td>
-                            <td>{employee.email}</td>
-                            <td>{employee.Phone}</td>
-                            <td>{employee.Password}</td>
-                            <td>{employee.anotherPassword}</td>
-                            <td>{employee.Address}</td>
-                             <td
-                              className={`${parseInt(employee.Status) === 1
+                            </td>
+                            <td>{category.Name}</td>
+                            <td>{category.srno}</td>
+                            <td
+                              className={`${parseInt(category.Status) === 1
                                   ? "text-success"
                                   : "text-danger"
                                 }`}
                             >
-                              {parseInt(employee.Status) === 1
+                              {parseInt(category.Status) === 1
                                 ? "Active"
-                                : "Inactive"}
+                                : "In Active"}
                             </td>
-                            <td>{employee.CreatedDate}</td>
-                            <td>{employee.addharNo}</td>
-                            <td>{employee.bloodgroup}</td>
-                            <td>{employee.bankholderName}</td>
-                            <td>{employee.bankname}</td>
-                            <td>{employee.accountnumber}</td>
-                            <td>{employee.branch}</td>
-                            <td>{employee.ifsccode}</td>
-                            <td>{employee.upiid}</td>
-                           
                             <td>
                               <span
                                 className="avatar rounded-circle bg-azure cursor-pointer"
-                                onClick={() => handleEdit(employee.id)}
+                                onClick={() => handleEdit(category.id)}
                               >
                                 <i className="bi bi-pen fs-15"></i>
                               </span>
@@ -170,7 +131,7 @@ const ViewEmployee: FC = () => {
                               <span
                                 className="avatar rounded-circle bg-pink cursor-pointer"
                                 onClick={() =>
-                                  handleDeleteEmployee(employee.id)
+                                  handleDeleteVendors(category.id)
                                 }
                               >
                                 <i className="bi bi-trash fs-15"></i>
@@ -191,9 +152,12 @@ const ViewEmployee: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstEmployee + 1} to{" "}
-                    {Math.min(indexOfLastEmployee, filteredEmployee.length)} of{" "}
-                    {filteredEmployee.length} entries
+                    Showing {indexOfFirstVendors + 1} to{" "}
+                    {Math.min(
+                      indexOfLastVendors,
+                      filteredVendorss.length
+                    )}{" "}
+                    of {filteredVendorss.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -269,4 +233,4 @@ const ViewEmployee: FC = () => {
   );
 };
 
-export default ViewEmployee;
+export default ViewVendor;

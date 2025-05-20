@@ -620,6 +620,37 @@ export const defaultMenu: MenuItemtype[] = [
   },
 
 
+  // Vendor
+  {
+    title: "Vendor",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Vendor/AddVendor`,
+        title: "Add Vendor",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Vendor/ViewVendor`,
+        title: "View Vendor",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+
     // Production
     {
       title: "Production",
@@ -773,7 +804,7 @@ export const defaultMenu: MenuItemtype[] = [
     children: [
       {
         path: `${import.meta.env.BASE_URL}Report/ViewCustomerSellReport`,
-        title: "Customer Sell Report",
+        title: "Customer Sale Report",
         //icon: dashboardsvg,
         type: "link",
         active: false,
@@ -781,14 +812,51 @@ export const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Report/ViewDailySellReport`,
-        title: "Daily Sell Report",
+        path: `${import.meta.env.BASE_URL}Report/ViewDailySaleReport`,
+        title: "Daily Sale Report",
         //icon: dashboardsvg,
         type: "link",
         active: false,
         selected: false,
         dirchange: false,
       },
+       {
+        path: `${import.meta.env.BASE_URL}Report/ViewDailySaleReport2`,
+        title: "Daily Sale Report 2 ",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Report/ViewWeeklySaleReport`,
+        title: "Weekly Sale Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Report/ViewWeeklySaleReport2`,
+        title: "Weekly Sale Report 2",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    {
+        path: `${import.meta.env.BASE_URL}Report/ViewGodownStockReport`,
+        title: "Godown Stock Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      
     ],
   },
 ];

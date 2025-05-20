@@ -36,6 +36,10 @@ const useViewFranchise = () => {
     }
   };
 
+  const handleAddFranchise = ()=>{
+    navigate("/Franchise/AddFranchise")
+  }
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setFilteredFranchises(
@@ -143,6 +147,7 @@ const useViewFranchise = () => {
     setFranchisesPerPage,
     setfromDate,
     settodate,
+    handleAddFranchise
   };
 };
 

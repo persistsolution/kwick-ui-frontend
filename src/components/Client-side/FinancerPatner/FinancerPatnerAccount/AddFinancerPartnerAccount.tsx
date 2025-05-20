@@ -34,7 +34,7 @@ const AddFinancerPartnerAccount: React.FC = () => {
                     <Row className="gy-4">
                       <Col xl={12}>
                         <Form.Group controlId="financerPatnerName">
-                          <Form.Label>Financer/Partner Name *</Form.Label>
+                          <Form.Label>Financer/Partner Name <span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="text"
                             name="financerPatnerName"
@@ -63,7 +63,7 @@ const AddFinancerPartnerAccount: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="mobileNo">
-                          <Form.Label>Mobile No*</Form.Label>
+                          <Form.Label>Mobile No<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             name="mobileNo"
@@ -115,7 +115,7 @@ const AddFinancerPartnerAccount: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="commisionPercentage">
-                          <Form.Label>Commision Percentage*</Form.Label>
+                          <Form.Label>Commision Percentage<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="text"
                             name="commisionPercentage"
@@ -128,7 +128,7 @@ const AddFinancerPartnerAccount: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="status ">
-                          <Form.Label>Status*</Form.Label>
+                          <Form.Label>Status<span className="text-danger">*</span></Form.Label>
                           <Form.Select
                             name="status"
                             value={formData.status}
@@ -161,7 +161,7 @@ const AddFinancerPartnerAccount: React.FC = () => {
                         className="btn btn-primary"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Submitting..." : "Submit"}
+                        {isLoading ? "Saving..." : "Save"}
                       </Button>
                       {message && (
                         <p

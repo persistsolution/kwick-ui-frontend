@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchFinancerPatnerAccountApi } from "../../../api/FinancerPatner-Api/FinancerPatnerApi";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const useFinancerPatnerAccount = () => {
   const [FinancerPatnerAccount, setFinancerPatnerAccount] = useState([]);
@@ -12,7 +13,7 @@ const useFinancerPatnerAccount = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-
+const navigate = useNavigate()
   useEffect(() => {
     handleFetchFinancerPatnerAccount();
   }, []);
@@ -58,10 +59,14 @@ const useFinancerPatnerAccount = () => {
   };
 
   const exportToExcel = () => {
-    const table = document.getElementById("FinancerPatnerAccount-table");
+    const table = document.getElementById("financer-table");
     const workbook = utils.table_to_book(table);
-    writeFile(workbook, "FinancerPatnerAccount_data.xlsx");
+    writeFile(workbook, "financer_excel.xlsx");
   };
+
+  const handleAddFinancerPatnerAccount = ()=>{
+    navigate("/FinancerPatner/AddFinancerPartnerAccount")
+  }
 
   const getVisiblePages = () => {
     const maxVisiblePages = 5;
@@ -104,6 +109,7 @@ const useFinancerPatnerAccount = () => {
     exportToExcel,
     getVisiblePages,
     setFinancerPatnerAccountPerPage,
+    handleAddFinancerPatnerAccount
   };
 };
 

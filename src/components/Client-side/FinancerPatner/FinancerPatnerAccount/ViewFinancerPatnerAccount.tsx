@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import { Card, Col, Row, Table, Form } from "react-bootstrap";
+import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useFinancerPatnerAccount from "../../../Hook/FinancerPatner-Hook/FinancerPatnerAccount/useFinancerPatnerAccount";
 
@@ -15,9 +15,10 @@ const ViewFinancerPatnerAccount: FC = () => {
     handleSearch,
     handleSort,
     handlePageChange,
-    // exportToExcel,
+    exportToExcel,
     getVisiblePages,
     setFinancerPatnerAccountPerPage,
+    handleAddFinancerPatnerAccount
   } = useFinancerPatnerAccount();
 
   return (
@@ -59,12 +60,17 @@ const ViewFinancerPatnerAccount: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                           <Button variant="success" onClick={handleAddFinancerPatnerAccount}>
+Add New                    </Button>
+                    <Button variant="success" onClick={exportToExcel}>
+                      <i className="fe fe-download me-2"></i>Export to Excel
+                    </Button>
                   </div>
                 </div>
 
                 <div className="table-responsive">
                   <Table
-                    id="franchise-table"
+                    id="financer-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
                     <thead className="table-primary">
@@ -87,8 +93,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                     </thead>
                     <tbody>
                       {FinancerPatnerAccount.length > 0 ? (
-                        FinancerPatnerAccount.map((franchise: any) => (
-                          <tr key={franchise.id}></tr>
+                        FinancerPatnerAccount.map((financer: any) => (
+                          <tr key={financer.id}></tr>
                         ))
                       ) : (
                         <tr>
@@ -112,9 +118,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -125,9 +130,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -140,9 +144,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -153,9 +156,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -166,9 +168,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

@@ -1,43 +1,47 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchdailySellReport } from "../../api/Report-Api/dailySellReport";
 
-const usedailySellReport = () => {
-  const [dailySellReport, setdailySellReport] = useState([]);
-  const [filtereddailySellReport, setFiltereddailySellReport] = useState([]);
+const useDailySaleReport2 = () => {
+  const [DailySaleReport2, setDailySaleReport2] = useState([]);
+  const [filteredDailySaleReport2, setFilteredDailySaleReport2] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [dailySellReportPerPage, setdailySellReportPerPage] = useState(5);
+  const [DailySaleReport2PerPage, setDailySaleReport2PerPage] = useState(5);
   const [franchiseList, setfranchiseList] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
+  const [zoneArray , setZoneArray] = useState([]);
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
+  const [selectState , setSelectState] = useState("");
+  const [selectZone , setSelectZone]= useState("");
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+const [countryArray , setcountryArray]= useState([]);
 
   useEffect(() => {
-    handleFetchdailySellReport();
+    handleFetchDailySaleReport2();
   }, []);
 
-  const handleFetchdailySellReport = async () => {
+  const handleFetchDailySaleReport2 = async () => {
     try {
-      const response: any = await fetchdailySellReport();
-      setdailySellReport(response.data);
-      setFiltereddailySellReport(response.data);
+      const response: any = await ""
+      const data = response.data || []
+      setDailySaleReport2(data);
+      setFilteredDailySaleReport2(data);
     } catch (error) {
-      console.error("Error fetching dailySellReport:", error);
+      console.error("Error fetching DailySaleReport2:", error);
     }
   };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFiltereddailySellReport(
-      dailySellReport.filter(
-        (dailySellReport: any) =>
-          dailySellReport?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          dailySellReport?.id?.toString().includes(term.toLowerCase())
+    setFilteredDailySaleReport2(
+      DailySaleReport2.filter(
+        (DailySaleReport2: any) =>
+          DailySaleReport2?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          DailySaleReport2?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
@@ -47,14 +51,14 @@ const usedailySellReport = () => {
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sorteddailySellReport = [...filtereddailySellReport].sort((a, b) => {
+    const sortedDailySaleReport2 = [...filteredDailySaleReport2].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFiltereddailySellReport(sorteddailySellReport);
+    setFilteredDailySaleReport2(sortedDailySaleReport2);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -62,9 +66,9 @@ const usedailySellReport = () => {
   };
 
   const exportToExcel = () => {
-    const table = document.getElementById("dailysellreport-table");
+    const table = document.getElementById("DailySaleReport-table");
     const workbook = utils.table_to_book(table);
-    writeFile(workbook, "dailySellReport_data.xlsx");
+    writeFile(workbook, "DailySaleReport2_data.xlsx");
   };
 
   const getVisiblePages = () => {
@@ -82,32 +86,36 @@ const usedailySellReport = () => {
     );
   };
 
-  const indexOfLastdailySellReport = currentPage * dailySellReportPerPage;
-  const indexOfFirstdailySellReport =
-    indexOfLastdailySellReport - dailySellReportPerPage;
-  const currentdailySellReport = filtereddailySellReport.slice(
-    indexOfFirstdailySellReport,
-    indexOfLastdailySellReport
+  const indexOfLastDailySaleReport2 = currentPage * DailySaleReport2PerPage;
+  const indexOfFirstDailySaleReport2 =
+    indexOfLastDailySaleReport2 - DailySaleReport2PerPage;
+  const currentDailySaleReport2 = filteredDailySaleReport2.slice(
+    indexOfFirstDailySaleReport2,
+    indexOfLastDailySaleReport2
   );
   const totalPages = Math.ceil(
-    filtereddailySellReport.length / dailySellReportPerPage
+    filteredDailySaleReport2.length / DailySaleReport2PerPage
   );
 
   return {
-    indexOfLastdailySellReport,
-    indexOfFirstdailySellReport,
-    dailySellReport,
-    filtereddailySellReport,
+    indexOfLastDailySaleReport2,
+    indexOfFirstDailySaleReport2,
+    DailySaleReport2,
+    filteredDailySaleReport2,
     searchTerm,
     currentPage,
-    dailySellReportPerPage,
+    DailySaleReport2PerPage,
     sortConfig,
-    currentdailySellReport,
+    currentDailySaleReport2,
     totalPages,
     franchiseList,
     categoryList,
     fromDate,
     toDate,
+    countryArray,
+    selectState,
+    zoneArray,
+    selectZone,
     handleSearch,
     settodate,
     setfromDate,
@@ -115,10 +123,12 @@ const usedailySellReport = () => {
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setdailySellReportPerPage,
+    setDailySaleReport2PerPage,
     setfranchiseList,
     setcategoryList,
+    setSelectState,
+    setSelectZone,
   };
 };
 
-export default usedailySellReport;
+export default useDailySaleReport2;

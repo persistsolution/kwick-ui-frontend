@@ -1,34 +1,31 @@
 import { FC, Fragment } from "react";
-//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+//import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewRetailer from "../../../Hook/Retailer-Hook/ViewRetailer/useViewRetailer";
+import useWeeklySaleReport from "../../Hook/Report-Hook/useWeeklySaleReport";
 
-const ViewRetailer: FC = () => {
+const ViewWeeklySaleReport: FC = () => {
   const {
-    indexOfLastRetailer,
-    indexOfFirstRetailer,
-    filteredRetailers,
+    indexOfLastweeklySaleReport,
+    indexOfFirstweeklySaleReport,
+    weeklySaleReport,
     searchTerm,
     currentPage,
-    RetailersPerPage,
+    weeklySaleReportPerPage,
     totalPages,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
-    handleDeleteRetailer,
-    handleEdit,
     getVisiblePages,
-    setRetailersPerPage,
-    handleAddRetailerAccount
-  } = useViewRetailer();
+    setweeklySaleReportPerPage,
+  } = useWeeklySaleReport();
 
   return (
     <Fragment>
       {/* <Pageheader 
-        heading="View Retailer"
+        heading="weekly sale Report"
         homepage="Products"
-        activepage="View Retailer"
+        activepage="weekly sale Report"
       /> */}
 
       <div className="main-container container-fluid">
@@ -49,22 +46,17 @@ const ViewRetailer: FC = () => {
 
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
-                      value={RetailersPerPage}
+                      value={weeklySaleReportPerPage}
                       onChange={(e) =>
-                        setRetailersPerPage(Number(e.target.value))
+                        setweeklySaleReportPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={filteredRetailers.length}>
-                        All Items
-                      </option>
+                      <option value={weeklySaleReport.length}>All Items</option>
                     </Form.Select>
-                    <Button variant="success" onClick={handleAddRetailerAccount}>
-                      Add New
-                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -73,68 +65,53 @@ const ViewRetailer: FC = () => {
 
                 <div className="table-responsive">
                   <Table
-                    id="retailer-table"
+                    id="weeklySaleReport-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
                     <thead className="table-primary">
                       <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>
-                          Retailer Name
+                        <th onClick={() => handleSort("outletID")}>
+                          Outlet ID
                         </th>
-                        <th onClick={() => handleSort("email")}>Email Id</th>
-                        <th onClick={() => handleSort("srno")}>Contact No</th>
-                        <th onClick={() => handleSort("anotherContactNo")}>
-                          Another Contact No
+                        <th onClick={() => handleSort("outletName")}>
+                          Outlet Name
                         </th>
-                        <th onClick={() => handleSort("address")}>Address</th>
-                        <th onClick={() => handleSort("status")}>Status</th>
-                        <th onClick={() => handleSort("registerDate")}>
-                          Register Date
+                        <th onClick={() => handleSort("location")}>Location</th>
+                        <th onClick={() => handleSort("outletopeningdate")}>
+                          Outlet Opening Date{" "}
                         </th>
-                        <th>
-                          Action                       
+                        <th onClick={() => handleSort("outletvintageinmonth")}>
+                          {" "}
+                          Outlet Vintage in Months{" "}
                         </th>
+                        <th onClick={() => handleSort("outlateManager")}>
+                          Outlet Manager                        </th>
+                        <th onClick={() => handleSort("ftdAmount")}>
+                          Week 1 No of Invoices                         </th>
+                        <th onClick={() => handleSort("mtdInvoice")}>
+                          Week 1 Amount                        </th>
+                        <th onClick={() => handleSort("mtdAmount")}>
+                          Week 2 No of Invoices                        </th>
+                        <th onClick={() => handleSort("mtdInvoice")}>
+                          Week 2 Amount                        </th>
+                        <th onClick={() => handleSort("ptdAmount")}>
+                          Week 3 No of Invoices                         </th>{" "}
+                        <th onClick={() => handleSort("ptdAmount")}>
+                          Week 3 Amount                        </th>
+                        <th>Week 4 No of Invoices</th>
+                        <th onClick={() => handleSort("ptdAmount")}>
+                          Week 4 Amount                        </th>
+                        <th onClick={() => handleSort("ptdAmount")}>
+                          Week 5 No of Invoices                        </th>
+                        <th onClick={() => handleSort("ptdAmount")}>
+                          Week 5 Amount                        </th>
+
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredRetailers.length > 0 ? (
-                        filteredRetailers.map((category: any) => (
-                          <tr key={category.id}>
-                            <td>{category.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={category.Photo}
-                                alt={category.name || "Category Image"}
-                              />
-                            </td>
-                            <td>{category.Name}</td>
-                            <td>{category.email}</td>
-                            <td>{category.contactNo}</td>
-                            <td>{category.anothercontactNo}</td>
-                            <td>{category.address}</td>
-                            <td
-                              className={`${parseInt(category.Status) === 1
-                                ? "text-success"
-                                : "text-danger"
-                                }`}
-                            >
-                              {parseInt(category.Status) === 1
-                                ? "Active"
-                                : "In Active"}
-                            </td>
-                            <td>{category.registerDate}</td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                onClick={() => handleEdit(category.id)}
-                              >
-                                <i className="bi bi-pen fs-15"></i>
-                              </button>
-                            </td>
-                          </tr>
+                      {weeklySaleReport.length > 0 ? (
+                        weeklySaleReport.map((weeklySaleReport: any) => (
+                          <tr key={weeklySaleReport.id}></tr>
                         ))
                       ) : (
                         <tr>
@@ -149,9 +126,12 @@ const ViewRetailer: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstRetailer + 1} to{" "}
-                    {Math.min(indexOfLastRetailer, filteredRetailers.length)} of{" "}
-                    {filteredRetailers.length} entries
+                    Showing {indexOfFirstweeklySaleReport + 1} to{" "}
+                    {Math.min(
+                      indexOfLastweeklySaleReport,
+                      weeklySaleReport.length
+                    )}{" "}
+                    of {weeklySaleReport.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
@@ -227,4 +207,4 @@ const ViewRetailer: FC = () => {
   );
 };
 
-export default ViewRetailer;
+export default ViewWeeklySaleReport;

@@ -21,14 +21,14 @@ const ViewFranchise: FC = () => {
     handleSearch,
     handleSort,
     handlePageChange,
-    // exportToExcel,
+    exportToExcel,
     handleDeleteFranchise,
     handleEdit,
     getVisiblePages,
     setFranchisesPerPage,
     setfromDate,
     settodate,
-    exportToExcel
+    handleAddFranchise
   } = useViewFranchise();
 
   return (
@@ -111,6 +111,9 @@ const ViewFranchise: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
+                    <Button variant="success" onClick={handleAddFranchise}>
+                    Add New
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -144,12 +147,14 @@ const ViewFranchise: FC = () => {
                         <th onClick={() => handleSort("Register Date")}>
                           Register Date
                         </th>
-                        <th onClick={() => handleSort("Lattitude")}>
+                        {/* <th onClick={() => handleSort("Lattitude")}>
                           Lattitude
                         </th>
                         <th onClick={() => handleSort("Longitude")}>
                           Longitude
-                        </th>
+                        </th> */}
+                        <th>Register Date</th>
+
                         <th>Edit</th>
                         <th>Delete</th>
                       </tr>
@@ -184,8 +189,9 @@ const ViewFranchise: FC = () => {
                                 : "Inactive"}
                             </td>
                             <td>{franchise.CreatedDate}</td>
-                            <td>{franchise.Lattitude}</td>
-                            <td>{franchise.Longitude}</td>
+                            <td>{franchise.registerDate}</td>
+                            {/* <td>{franchise.Lattitude}</td>
+                            <td>{franchise.Longitude}</td> */}
                             <td>
                               <span
                                 className="avatar rounded-circle bg-azure cursor-pointer"
