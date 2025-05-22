@@ -38,7 +38,7 @@ const Indexpage: FC = () => {
                   <Button variant="success mt-1" onClick={handleSearch}>
                     Search                 
                   </Button>
-                  </div>
+                </div>
                 </div>
             </Card.Body>
             </Card>

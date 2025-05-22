@@ -33,8 +33,8 @@ const App: FC<ComponentProps> = () => {
         <Switcher />
         <div className='page'>
           <div className="page-main">
-            {/* <Header />
-            <Sidebar /> */}
+         {/* <Header /> */}
+               {/* <Sidebar /> */}
             <NewSidebar/>
             <div className="main-content app-content mt-0">
               <Outlet />

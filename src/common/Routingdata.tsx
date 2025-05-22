@@ -10,6 +10,11 @@ import EditProductForm from "../components/Client-side/Selling-Products/Products
 import AllocateProducts from "../components/Client-side/Selling-Products/AllocateProducts/AllocateProducts";
 import ViewBrand from "../components/Client-side/Selling-Products/Brand/ViewBrand";
 import ViewAllocateProductsToVendor from "../components/Client-side/Selling-Products/ViewAllocateProductsToVendors/ViewAllocateProductsToVendors"
+import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
+
+
+// Franchise Dashboard
+import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
 
 // Franchise
 import ViewFranchise from "../components/Client-side/Franchise/ViewFranchise";
@@ -59,6 +64,7 @@ import ViewGodownApproveRequest from "../components/Client-side/GoDown/GodownApp
 import CreateInvoiceProductStock from "../components/Client-side/GoDown/CreateInvoiceProductStock/CreateInvoiceProductStock";
 import ViewGodownPendingRequest from "../components/Client-side/GoDown/GodownPendingRequest/ViewGodownPendingRequest";
 import ViewGodownReturnProduct from "../components/Client-side/GoDown/GodownReturnProduct/ViewGodownReturnProduct";
+import AddGodownReturnProduct from "../components/Client-side/GoDown/GodownReturnProduct/AddGodownReturnProduct";
 
 // Target Complete
 import ViewSetTarget from "../components/Client-side/TargetComplete/ViewSetTarget";
@@ -93,6 +99,28 @@ import ViewDailySellReport2 from "../components/Client-side/Report/ViewDailySale
 import ViewWeeklySaleReport from "../components/Client-side/Report/ViewWeeklySaleReport";
 import ViewWeeklySaleReport2 from "../components/Client-side/Report/ViewWeeklySaleReport2";
 import ViewGodownStockReport from "../components/Client-side/Report/ViewGodownStockReport";
+import ViewGodownProductStockReport from "../components/Client-side/Report/ViewGodownProductStockReport";
+import ViewTransferPrdToCocoFr from "../components/Client-side/Report/ViewTransferStockToCocoFranchise";
+import ViewTransferPrdToCocoFr2 from "../components/Client-side/Report/TansferStockToCoco2/ViewTansferStockToCoco2";
+import AddPrdToCocoFr2 from "../components/Client-side/Report/TansferStockToCoco2/AddPrdToCocoFr2";
+
+// Franchise Report 2024
+import ViewProductStockReport2024 from "../components/Client-side/FranchiseReport2024/ViewProductStockReport2024";
+import ViewRawProductStockReport2024 from "../components/Client-side/FranchiseReport2024/ViewRawProductStockReport2024";
+import ViewCategoryWiseSaleReport2024 from "../components/Client-side/FranchiseReport2024/ViewCategoryWiseSaleReport2024";
+import ViewProductWiseSaleReport2024 from "../components/Client-side/FranchiseReport2024/ViewProductWiseSaleReport";
+import ViewDiscountInvoiceReport2024 from "../components/Client-side/FranchiseReport2024/ViewDiscountInvoiceReport";
+
+// Franchise Report 2025
+import ViewProductStockReport2025 from "../components/Client-side/FranchiseReport2025/ViewProductStockReport2025";
+import ViewAccountProductStockReport2025 from "../components/Client-side/FranchiseReport2025/ViewAcountProductStockReport2025";
+import ViewRawProductStockReport2025 from "../components/Client-side/FranchiseReport2025/ViewRawProductStockReport2025";
+import ViewCategoryWiseSaleReport2025 from "../components/Client-side/FranchiseReport2025/ViewCategoryWiseSaleReport2025";
+import ViewProductWiseSaleReport2025 from "../components/Client-side/FranchiseReport2025/ViewProductWiseSaleReport2025";
+import ViewMRPProductWiseSaleReport2025 from "../components/Client-side/FranchiseReport2025/ViewMRPProductWiseSaleReport2025";
+import ViewSellReport2025 from "../components/Client-side/FranchiseReport2025/ViewSellReport2025";
+import ViewDiscountInvoiceReport2025 from "../components/Client-side/FranchiseReport2025/ViewDiscountInvoiceReport2025";
+
 // Request Product Stock
 import ViewRequestSellingProductStock from "../components/Client-side/RequestProductStock/RequestSellingProductStock/ViewRequestSellingProductStock";
 
@@ -104,10 +132,15 @@ import AddProductionProduct from "../components/Client-side/Production/AddProduc
 import ViewProductionRawProduct from "../components/Client-side/Production/ProductionRawProduct/ViewProductionRawProduct";
 import ViewRawProductionStock from "../components/Client-side/Production/RawProductionStockList/ViewRawProductionStockList";
 import AddRawProductionStock from "../components/Client-side/Production/AddRawProductionStock/AddRawProductionStock";
-import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
-import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
-import AddGodownReturnProduct from "../components/Client-side/GoDown/GodownReturnProduct/AddGodownReturnProduct";
 import AddRawProductionProducts from "../components/Client-side/Production/AddRawProductionProducts/AddRawProductionProducts";
+
+// Discount Percentage
+import ViewDiscountPercentage from "../components/Client-side/DiscountPercentage/ViewDiscountPercentage";
+
+// Admin Approval Request Product Stock
+import ViewAdminPendingRequest from "../components/Client-side/AdminApprovalRequestProductStock/ViewAdminPendingRequest";
+import ViewAdminApprovalRequest from "../components/Client-side/AdminApprovalRequestProductStock/ViewAdminApprovalRequest";
+import ViewAdminRejectRequest from "../components/Client-side/AdminApprovalRequestProductStock/ViewAdminRejectRequest";
 
 export interface routeType {
   id: number;
@@ -503,8 +536,97 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Report/ViewGodownStockReport`,
     element: <ViewGodownStockReport />,
   },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report/ViewGodownProductStockReport`,
+    element: <ViewGodownProductStockReport />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report/ViewTransferPrdToCocoFr`,
+    element: <ViewTransferPrdToCocoFr />,
+  },
+    {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report/ViewTransferPrdToCocoFr2`,
+    element: <ViewTransferPrdToCocoFr2 />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report/AddPrdToCocoFr2`,
+    element: <AddPrdToCocoFr2 />,
+  },
 
+  // Feanchise Report 2024
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report2024/ViewProductStockReport2024`,
+    element: <ViewProductStockReport2024 />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report2024/ViewRawProductStockReport2024`,
+    element: <ViewRawProductStockReport2024 />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report2024/ViewCategoryWiseSaleReport2024`,
+    element: <ViewCategoryWiseSaleReport2024 />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report2024/ViewProductWiseSaleReport2024`,
+    element: <ViewProductWiseSaleReport2024 />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report2024/ViewDiscountInvoiceReport2024`,
+    element: <ViewDiscountInvoiceReport2024 />,
+  },
+
+  // Feanchise Report 2025
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewProductStockReport2025`,
+    element: <ViewProductStockReport2025 />,
+  },
+  {
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewAccountProductStockReport2025`,
+    element: <ViewAccountProductStockReport2025 />,
+  },
+{
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewRawProductStockReport2025`,
+    element: <ViewRawProductStockReport2025 />,
+  },
+  {
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewCategoryWiseSaleReport2025`,
+    element: <ViewCategoryWiseSaleReport2025 />,
+  },
+  {
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewProductWiseSaleReport2025`,
+    element: <ViewProductWiseSaleReport2025 />,
+  },
+  {
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewMRPProductWiseSaleReport2025`,
+    element: <ViewMRPProductWiseSaleReport2025 />,
+  },
+  {
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewSellReport2025`,
+    element: <ViewSellReport2025 />,
+  },
+  {
+    id: 53,
+    path: `${import.meta.env.BASE_URL}Report2025/ViewDiscountInvoiceReport2025`,
+    element: <ViewDiscountInvoiceReport2025 />,
+  },
   
+
   // Request Product Stock
   {
     id:52,
@@ -553,6 +675,29 @@ export const RouteData: routeType[] = [
     id:59,
     path: `${import.meta.env.BASE_URL}Production/AddRawProductionStock`,
     element: <AddRawProductionStock/>,
-  }
+  },
 
+// Discount Percentage
+  {
+    id:59,
+    path: `${import.meta.env.BASE_URL}Discount/ViewDiscountPercentage`,
+    element: <ViewDiscountPercentage/>,
+  },
+
+// Admin Approval Request Product Stock
+ {
+    id:59,
+    path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminPendingRequest`,
+    element: <ViewAdminPendingRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminApprovalRequest`,
+    element: <ViewAdminApprovalRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminRejectRequest`,
+    element: <ViewAdminRejectRequest/>,
+}
 ];

@@ -216,15 +216,23 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTheme } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
+import { DropdownDivider, Navbar } from 'react-bootstrap';
 import { defaultMenu } from '../../../common/Sidemenudata';
 import Logo from '../../../assets/images/brand/toggle-dark.png';
+import ALLImages from '../../../common/ImageData';
 
 const NewSidebar = () => {
   const [dropdownOpenIndex, setDropdownOpenIndex] = useState<number | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -316,8 +324,7 @@ const NewSidebar = () => {
                             textTransform: 'capitalize',
                           }}
                         >
-                          {item.title} &nbsp;
-                          <ArrowDropDownIcon sx={{ fontSize: 20 }} />
+                          {item.title} <ArrowDropDownIcon sx={{ fontSize: 20 }} />
                         </DropdownToggle>
                         <DropdownMenu dark container="body">
                           {item.children.map((child: any, childIdx: number) => (
@@ -360,21 +367,65 @@ const NewSidebar = () => {
               <MenuIcon />
             </IconButton>
           )}
+
+          {/* Admin Profile Dropdown */}
+    {/* <Dropdown
+  isOpen={profileDropdownOpen}
+  toggle={() => setProfileDropdownOpen(!profileDropdownOpen)}
+  className="header-element main-profile-user"
+  align="end"
+  autoClose="outside"
+>
+  <DropdownToggle
+    className="header-link d-flex align-items-center"
+    variant=""
+    id="mainHeaderProfile"
+  >
+    <span className="me-2">
+      <img
+        src={ALLImages('user21')}
+        alt="img"
+        width="30"
+        height="30"
+        className="rounded-circle"
+      />
+    </span>
+    <div className="d-xl-block d-none lh-1">
+      <h6 className="fs-13 font-weight-semibold mb-0">Admin</h6>
+      <span className="op-8 fs-10">Super Admin</span>
+    </div>
+  </DropdownToggle>
+  <DropdownMenu className="pt-0 overflow-hidden dropdown-menu-end mt-1">
+    <Link className="dropdown-item" to={`${import.meta.env.BASE_URL}Dashboard/IndexPage`}>
+      <i className="ti ti-user-circle fs-18 me-2 op-7"></i>Profile
+    </Link>
+    <DropdownDivider className="my-0" />
+    <Link className="dropdown-item" to={`${import.meta.env.BASE_URL}`}>
+      <i className="ti ti-power fs-18 me-2 op-7"></i>Sign Out
+    </Link>
+  </DropdownMenu>
+</Dropdown> */}
+
         </Toolbar>
       </AppBar>
 
       {/* Mobile Drawer */}
       <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box
-          sx={{ width: 250, backgroundColor: 'rgb(0 71 112)', height: '100%', color: '#fff' }}
+          sx={{
+            width: 250,
+            backgroundColor: 'rgb(0 71 112)',
+            height: '100%',
+            color: '#fff',
+          }}
         >
           <List>
             {defaultMenu.map((item: any, index: number) => {
               if (item.type === 'sub' && item.children) {
                 return item.children.map((child: any, idx: number) => (
-                  <List key={`${index}-${idx}`} onClick={() => navigateTo(child.path)}>
+                  <ListItem button key={`${index}-${idx}`} onClick={() => navigateTo(child.path)}>
                     <ListItemText primary={child.title} />
-                  </List>
+                  </ListItem>
                 ));
               } else if (item.type === 'link') {
                 return (
