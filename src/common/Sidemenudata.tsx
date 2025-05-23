@@ -15,6 +15,7 @@ let dashboardsvg = (
     <path d="M12 5.69l5 4.5V18h-2v-6H9v6H7v-7.81l5-4.5M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z" />
   </svg>
 );
+
 let pagesSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -57,17 +58,6 @@ export const defaultMenu: MenuItemtype[] = [
     dirchange: false,
   },
 
-  // Bar Code
-  /* {
-    path: `${import.meta.env.BASE_URL}BarCode/ViewUpdateBarcode`,
-    title: "Update Barcode",
-    icon: dashboardsvg,
-    type: "link",
-    active: false,
-    selected: false,
-    dirchange: false,
-  },*/
-
   // Request Selling Product Stock
   {
     // title: "Request Selling Product Stock",
@@ -90,8 +80,6 @@ export const defaultMenu: MenuItemtype[] = [
    
     ],
   },
-
-
 
   // Selling Product
   {
@@ -619,7 +607,6 @@ export const defaultMenu: MenuItemtype[] = [
     ],
   },
 
-
   // Vendor
   {
     title: "Vendor",
@@ -650,9 +637,8 @@ export const defaultMenu: MenuItemtype[] = [
     ],
   },
 
-
-    // Production
-    {
+  // Production
+  {
       title: "Production",
       icon: pagesSvg,
       type: "sub",
@@ -716,7 +702,7 @@ export const defaultMenu: MenuItemtype[] = [
         },
 
       ],
-    },
+  },
 
   // Financer Patner
   {
@@ -1129,7 +1115,7 @@ export const defaultMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}AdminApprovalVedRequest/VAdminantPendingVedRequest`,
+        path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminApprovalVedOrdRequest`,
         title: "Admin Pending Request",
         //icon: dashboardsvg,
         type: "link",
@@ -1138,7 +1124,7 @@ export const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
         {
-        path: `${import.meta.env.BASE_URL}AdminApprovalVedRequest/ViewAdminApprovalVedRequest`,
+        path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminPendingVedOrdRequest`,
         title: "Admin Approval Request",
         //icon: dashboardsvg,
         type: "link",
@@ -1147,7 +1133,7 @@ export const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}AdminApprovalVedRequest/ViewAdminRejectVedRequest`,
+        path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminRejectVedOrdRequest`,
         title: "Admin Reject Request",
         //icon: dashboardsvg,
         type: "link",
@@ -1168,7 +1154,7 @@ export const defaultMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}AccountantApprovalVedRequest/ViewAccountantPendingVedRequest`,
+        path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantAppVedOrdRequest`,
         title: "Accountant Pending Request",
         //icon: dashboardsvg,
         type: "link",
@@ -1177,7 +1163,7 @@ export const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
         {
-        path: `${import.meta.env.BASE_URL}AccountantApprovalVedRequest/ViewAccountantApprovalVedRequest`,
+        path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantPenVedOrdRequest`,
         title: "Accountant Approval Request",
         //icon: dashboardsvg,
         type: "link",
@@ -1186,7 +1172,7 @@ export const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}AccountantApprovalVedRequest/ViewAccountantRejectVedRequest`,
+        path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantRejVedOrdRequest`,
         title: "Accountant Reject Request",
         //icon: dashboardsvg,
         type: "link",
@@ -1226,6 +1212,7 @@ export const defaultMenu: MenuItemtype[] = [
       },
     ],
   },
+
 ];
 
 const frDashboardMenu: MenuItemtype[] = [

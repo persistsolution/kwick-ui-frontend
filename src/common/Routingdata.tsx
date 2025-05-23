@@ -12,7 +12,6 @@ import ViewBrand from "../components/Client-side/Selling-Products/Brand/ViewBran
 import ViewAllocateProductsToVendor from "../components/Client-side/Selling-Products/ViewAllocateProductsToVendors/ViewAllocateProductsToVendors"
 import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
 
-
 // Franchise Dashboard
 import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
 
@@ -141,6 +140,21 @@ import ViewDiscountPercentage from "../components/Client-side/DiscountPercentage
 import ViewAdminPendingRequest from "../components/Client-side/AdminApprovalRequestProductStock/ViewAdminPendingRequest";
 import ViewAdminApprovalRequest from "../components/Client-side/AdminApprovalRequestProductStock/ViewAdminApprovalRequest";
 import ViewAdminRejectRequest from "../components/Client-side/AdminApprovalRequestProductStock/ViewAdminRejectRequest";
+
+// Accountant Approval Request Product Stock
+import ViewAccountantRejectRequest from "../components/Client-side/AccountantApprovalRequestProductStock/ViewAccountantRejectRequest";
+import ViewAccountantPendingRequest from "../components/Client-side/AccountantApprovalRequestProductStock/ViewAccountantPendingRequest";
+import ViewAccountantApprovalRequest from "../components/Client-side/AccountantApprovalRequestProductStock/ViewAccountantApprovalRequest";
+
+// Admin Vendor Pending Order Request
+import ViewAdminApprovalVedOrdRequest from "../components/Client-side/AdminApprovalVedorOrderReq/ViewAdminApprovalVedOrdRequest";
+import ViewAdminPendingVedOrdRequest from "../components/Client-side/AdminApprovalVedorOrderReq/ViewAdminPendingVedOrdRequest";
+import ViewAdminRejectVedOrdRequest from "../components/Client-side/AdminApprovalVedorOrderReq/ViewAdminRejectVedOrdRequest";
+
+// Accountant Vendor Pending Order Request
+import ViewAccountantAppVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantApprovalVedOrdRequest";
+import ViewAccountantPenVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantPendingVedOrdRequest";
+import ViewAccountantRejVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantRejectVedOrdRequest";
 
 export interface routeType {
   id: number;
@@ -699,5 +713,57 @@ export const RouteData: routeType[] = [
     id:59,
     path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminRejectRequest`,
     element: <ViewAdminRejectRequest/>,
-}
+},
+
+// Accountant Approval Request Product Stock
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AccountantApprovalRequest/ViewAccountantRejectRequest`,
+    element: <ViewAccountantRejectRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AccountantApprovalRequest/ViewAccountantPendingRequest`,
+    element: <ViewAccountantPendingRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AccountantApprovalRequest/ViewAccountantApprovalRequest`,
+    element: <ViewAccountantApprovalRequest/>,
+},
+
+// Admin Vendor Pending Order Request
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminApprovalVedOrdRequest`,
+    element: <ViewAdminApprovalVedOrdRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminPendingVedOrdRequest`,
+    element: <ViewAdminPendingVedOrdRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminRejectVedOrdRequest`,
+    element: <ViewAdminRejectVedOrdRequest/>,
+},
+
+// Accountant Vendor Pending Order Request
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantAppVedOrdRequest`,
+    element: <ViewAccountantAppVedOrdRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantPenVedOrdRequest`,
+    element: <ViewAccountantPenVedOrdRequest/>,
+},
+{
+    id:59,
+    path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantRejVedOrdRequest`,
+    element: <ViewAccountantRejVedOrdRequest/>,
+},
+
 ];
