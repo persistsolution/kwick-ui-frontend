@@ -11,6 +11,7 @@ import AllocateProducts from "../components/Client-side/Selling-Products/Allocat
 import ViewBrand from "../components/Client-side/Selling-Products/Brand/ViewBrand";
 import ViewAllocateProductsToVendor from "../components/Client-side/Selling-Products/ViewAllocateProductsToVendors/ViewAllocateProductsToVendors"
 import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
+import ViewOtherProduct from "../components/Client-side/Selling-Products/OtherProducts/ViewOtherProducts";
 
 // Franchise Dashboard
 import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
@@ -226,6 +227,11 @@ export const RouteData: routeType[] = [
     id: 10,
     path: `${import.meta.env.BASE_URL}SellingProduct/ViewMakingProducts`,
     element: <ViewMakingProducts />,
+  },
+  {
+    id: 10,
+    path: `${import.meta.env.BASE_URL}SellingProduct/ViewOtherProduct`,
+    element: <ViewOtherProduct />,
   },
   
   // Franchise

@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import {
+  fetchEditProducts,
+  updateProducts,
+} from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
-import { createProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
-import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
-interface ProductFormValues {
-  productName: string;
+interface OtherProductFormValues {
+  OtherProductName: string;
   categoryId: number;
   subCategoryId: number;
   purchasePrice: number;
@@ -19,33 +23,24 @@ interface ProductFormValues {
   barcodeNo: string;
   minStockQty: string;
   status: string;
-  productType: number;
-  transferProduct: number;
+  OtherProductType: number;
+  transferOtherProduct: number;
   qrDisplay: string;
   srNo: number;
-  productImage: File | null;
+  OtherProductImage: File | null;
   getcategory: string[];
   getSubCategory: string[];
   photo: string;
   getBrandList: string[];
   brandId: number;
   unitList: string[];
-  brandList: string[];
   unitId: string;
   code: string;
-  finalPrice: string;
-  selectedRawProduct: string;
-  makingQty: string;
-  unit: string;
 }
-type ProductItem = {
-  makingProduct: string;
-  makingQty: string;
-  unit: string;
-};
-const useAddProductForm = () => {
-  const [formValues, setFormValues] = useState<ProductFormValues>({
-    productName: "",
+
+const useEditOtherProductForm = () => {
+  const [formValues, setFormValues] = useState<OtherProductFormValues>({
+    OtherProductName: "",
     categoryId: 0,
     subCategoryId: 0,
     purchasePrice: 0,
@@ -58,53 +53,30 @@ const useAddProductForm = () => {
     barcodeNo: "",
     minStockQty: "",
     status: "",
-    productType: 0,
-    transferProduct: 1,
+    OtherProductType: 0,
+    transferOtherProduct: 1,
     qrDisplay: "",
     srNo: 1,
-    productImage: null,
+    OtherProductImage: null,
     getcategory: [],
     getSubCategory: [],
     photo: "",
     getBrandList: [],
     brandId: 0,
     unitList: [],
-    brandList: [],
     unitId: "",
     code: "",
-    finalPrice: "",
-    selectedRawProduct: "",
-    makingQty: "",
-    unit: "",
   });
-  const [rawProductArray, setRawProductArray] = useState<string[]>([]);
-  const [makingProductArray, setMakingProductArray] = useState<ProductItem[]>(
-    []
-  );
+  const [message, setMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     handelGetCategories();
     handelGetSubCategories();
+    handleFetchEditOtherProductData();
     fetchUnit();
-    handelfetchBrand();
   }, []);
-
-  const handelfetchBrand = async () => {
-    try {
-      const response: any = await fetchBrandApi();
-      const data = response.data;
-
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        getBrandList: data.map((unit: { name: string; id: number }) => ({
-          name: unit.name,
-          id: unit.id,
-        })),
-      }));
-    } catch (error) {
-      console.error("Error fetching Brand:", error);
-    }
-  };
 
   const fetchUnit = async () => {
     try {
@@ -122,42 +94,81 @@ const useAddProductForm = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFetchEditOtherProductData = async () => {
+    try {
+      const response: any = await fetchEditProducts(Number(id));
+      if (response.status === 200 && response.data) {
+        const responseData = response.data;
+        // Calculate WithoutGstAmount
+        const totalGstPercent =
+          Number(responseData.CgstPer || 0) +
+          Number(responseData.SgstPer || 0) +
+          Number(responseData.IgstPer || 0);
+        const withoutGstAmount = totalGstPercent
+          ? responseData.ProdPrice -
+            (responseData.ProdPrice * totalGstPercent) / 100
+          : responseData.ProdPrice;
+
+        setFormValues((prev) => ({
+          ...prev,
+          OtherProductName: responseData?.OtherProductName,
+          categoryId: responseData?.CatId,
+          subCategoryId: responseData?.SubCatId,
+          purchasePrice: responseData?.PurchasePrice,
+          totalPrice: responseData?.ProdPrice,
+          cgst: responseData?.CgstPer,
+          sgst: responseData?.SgstPer,
+          igst: responseData?.IgstPer,
+          totalGst: responseData?.GstAmt,
+          priceWoGst: withoutGstAmount,
+          barcodeNo: responseData?.BarcodeNo,
+          minStockQty: responseData?.MinQty,
+          status: responseData?.Status,
+          OtherProductType: responseData?.ProdType,
+          transferOtherProduct: responseData?.Transfer,
+          qrDisplay: responseData?.QrDisplay,
+          srNo: responseData?.SrNo,
+          OtherProductImage: responseData?.Photo,
+        }));
+      } else {
+        setMessage(
+          `Error: ${
+            response.data?.message || "Failed to Fetch Edit OtherProduct Data."
+          }`
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching OtherProduct data:", error);
+      setMessage(
+        "An error occurred while fetching OtherProduct data. Please try again later."
+      );
+    }
+  };
+
+  const handleChange = (e: any) => {
     const { name, value, type } = e.target;
+
     if (type === "file") {
-      const files = e.target.files;
-      const file = files && files[0] ? files[0] : null;
-      setFormValues((prevValues: any) => ({
+      const target = e.target as HTMLInputElement;
+      const files = target.files;
+      setFormValues((prevValues) => ({
         ...prevValues,
-        [name]: file,
-        photo: file,
+        [name]: files && files[0] ? files[0] : null,
       }));
     } else {
-      const updatedValues: any = {
+      const updatedValues = {
         ...formValues,
         [name]: value,
       };
 
-      if (name === "discount" && updatedValues.priceWoGst) {
-        const discount = parseFloat(value) || 0;
-        const originalPrice = parseFloat(formValues.totalPrice) || 0;
-        const discountAmt = (originalPrice * discount) / 100;
-        const discountedPrice = originalPrice - discountAmt;
-        updatedValues.discountAmt = discountAmt.toFixed(2);
-        updatedValues.finalPrice = discountedPrice.toFixed(2);
-      }
-      if (name === "totalPrice" && !updatedValues.discount) {
-        updatedValues.finalPrice = parseFloat(value) || 0;
-      }
-      if (["cgst", "sgst", "igst", "discount", "totalPrice"].includes(name)) {
-        const finalPrice =
-          parseFloat(updatedValues.finalPrice || formValues.finalPrice) || 0;
-        const cgst = parseFloat(updatedValues.cgst || formValues.cgst) || 0;
-        const sgst = parseFloat(updatedValues.sgst || formValues.sgst) || 0;
-        const igst = parseFloat(updatedValues.igst || formValues.igst) || 0;
+      if (["cgst", "sgst", "igst", "totalPrice"].includes(name)) {
+        const totalPrice = parseFloat(updatedValues.totalPrice) || 0;
+        const cgst = Number(updatedValues.cgst) || 0;
+        const sgst = Number(updatedValues.sgst) || 0;
+        const igst = Number(updatedValues.igst) || 0;
         const totalGst = cgst + sgst + igst;
-        const priceWoGst = finalPrice / (1 + totalGst / 100);
-        const totalGstAmt = (finalPrice * totalGst) / 105;
+        const priceWoGst = totalPrice / (1 + totalGst / 100);
+        const totalGstAmt = (totalPrice * totalGst) / 105;
         updatedValues.totalGst = totalGstAmt.toFixed(2);
         updatedValues.priceWoGst = priceWoGst.toFixed(2);
       }
@@ -165,7 +176,7 @@ const useAddProductForm = () => {
     }
   };
 
-  const handelAddProduct = async () => {
+  const handelAddOtherProduct = async () => {
     if (
       typeof formValues.totalGst === "number" &&
       !isNaN(formValues.totalGst)
@@ -175,8 +186,8 @@ const useAddProductForm = () => {
       var igstAmount: any = formValues.totalGst / 3;
     }
 
-    const productData = {
-      ProductName: formValues.productName,
+    const OtherProductData = {
+      OtherProductName: formValues.OtherProductName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
       CgstPer: formValues.cgst,
@@ -191,8 +202,8 @@ const useAddProductForm = () => {
       SrNo: formValues.srNo,
       Photo: formValues.photo,
       BarcodeNo: formValues.barcodeNo,
-      ProdType: formValues.productType,
-      Transfer: formValues.transferProduct,
+      ProdType: formValues.OtherProductType,
+      Transfer: formValues.transferOtherProduct,
       QrDisplay: formValues.qrDisplay,
       MinQty: formValues.minStockQty,
       PurchasePrice: formValues.purchasePrice,
@@ -219,13 +230,15 @@ const useAddProductForm = () => {
     };
 
     try {
-      const response: any = await createProducts(productData);
-
+      const response: any = await updateProducts(
+        Number(id),
+        Object(OtherProductData)
+      );
       if (response.status === 200) {
-        // alert("Product added successfully!");
-        setFormValues((prevValues) => ({
-          ...prevValues,
-          productName: "",
+        // alert("OtherProduct Edit successfully!");
+        navigate("/SellingOtherProduct/ViewOtherProducts");
+        setFormValues({
+          OtherProductName: "",
           categoryId: 0,
           subCategoryId: 0,
           purchasePrice: 0,
@@ -238,40 +251,41 @@ const useAddProductForm = () => {
           barcodeNo: "",
           minStockQty: "",
           status: "",
-          productType: 0,
-          transferProduct: 1,
+          OtherProductType: 0,
+          transferOtherProduct: 1,
           qrDisplay: "",
           srNo: 1,
-          productImage: null,
-          getcategory: prevValues.getcategory,
-          getSubCategory: prevValues.getSubCategory,
+          OtherProductImage: null,
+          getcategory: [],
+          getSubCategory: [],
           photo: "",
-          getBrandList: prevValues.getBrandList,
+          getBrandList: [],
           brandId: 0,
-          unitList: prevValues.unitList,
+          unitList: [],
           unitId: "",
           code: "",
-          brandList: prevValues.brandList,
-        }));
+        });
+        setMessage(`"OtherProduct Edit Successfully!.`);
       }
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error adding OtherProduct:", error);
+      setMessage(`Error: ${"OtherProduct Edit Failed!."}`);
     }
   };
 
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response.data;
+      const data = response.data;
       setFormValues((prevValues) => ({
         ...prevValues,
-        getcategory: data.map((category: { Name: string; id: number }) => ({
+        getcategory: data?.map((category: { Name: string; id: number }) => ({
           name: category.Name,
           id: category.id,
         })),
       }));
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error adding OtherProduct:", error);
     }
   };
 
@@ -289,41 +303,22 @@ const useAddProductForm = () => {
         ),
       }));
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error adding OtherProduct:", error);
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handelAddProduct();
-  };
-
-  const handelAddMakingProduct = () => {
-    const addmakingProductArray = {
-      makingProduct: formValues?.selectedRawProduct,
-      makingQty: formValues?.makingQty,
-      unit: formValues?.unit,
-    };
-    setMakingProductArray([...makingProductArray, addmakingProductArray]);
-  };
-
-  const handelDeleteMakingProduct = (index: number) => {
-    const deletemakingProductArray = makingProductArray?.filter(
-      (_, idx) => idx !== index
-    );
-    setMakingProductArray(deletemakingProductArray);
+    handelAddOtherProduct();
   };
 
   return {
-    formValues,
-    rawProductArray,
-    makingProductArray,
     handleSubmit,
     handleChange,
     setFormValues,
-    handelAddMakingProduct,
-    handelDeleteMakingProduct,
+    message,
+    formValues,
   };
 };
 
-export default useAddProductForm;
+export default useEditOtherProductForm;

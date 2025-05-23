@@ -34,7 +34,7 @@ const EditEmployee: React.FC = () => {
                     <Row className="gy-4">
                       <Col xl={6}>
                         <Form.Group controlId="employeeName">
-                          <Form.Label>Employee Name*</Form.Label>
+                          <Form.Label>Employee Name<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="text"
                             name="employeeName"
@@ -61,7 +61,7 @@ const EditEmployee: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="password">
-                          <Form.Label>Password*</Form.Label>
+                          <Form.Label>Password<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="text"
                             name="password"
@@ -75,7 +75,7 @@ const EditEmployee: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="mobileNo">
-                          <Form.Label>Mobile No*</Form.Label>
+                          <Form.Label>Mobile No<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             name="mobileNo"
@@ -115,7 +115,7 @@ const EditEmployee: React.FC = () => {
 
                       <Col xl={6}>
                         <Form.Group controlId="Designation">
-                          <Form.Label>Designation*</Form.Label>
+                          <Form.Label>Designation<span className="text-danger">*</span></Form.Label>
                           <Form.Select
                             name="Designation"
                             value={formData.Designation}
@@ -158,7 +158,7 @@ const EditEmployee: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="perDaySalary">
-                          <Form.Label>Per Day Salary*</Form.Label>
+                          <Form.Label>Per Day Salary<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             name="perDaySalary"
@@ -198,7 +198,7 @@ const EditEmployee: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="status ">
-                          <Form.Label>Status*</Form.Label>
+                          <Form.Label>Status<span className="text-danger">*</span></Form.Label>
                           <Form.Select
                             name="status"
                             value={formData.status}

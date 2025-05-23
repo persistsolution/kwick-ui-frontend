@@ -1,8 +1,10 @@
 import { FC, Fragment } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useAddProductForm from "../../../Hook/Selling-Products-Hook/ProductTS/useAddProductForm";
 import Select from "react-select";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface ProductFormValues {
   productName: string;
@@ -26,10 +28,12 @@ interface ProductFormValues {
   getcategory: string[];
   getSubCategory: string[];
   getBrandList: string[];
+  selectedRawProduct: string;
 }
 
+
 const AddProductForm: FC = () => {
-  const { formValues, handleSubmit, handleChange, setFormValues } =
+  const { formValues, makingProductArray , rawProductArray, handleSubmit, handleChange, setFormValues , handelAddMakingProduct , handelDeleteMakingProduct} =
     useAddProductForm();
   return (
     <Fragment>
@@ -55,12 +59,15 @@ const AddProductForm: FC = () => {
                         label: "Product Name",
                         type: "text",
                         required: "*",
+                        col: 3
                       },
                       {
                         name: "brandId",
                         label: "Select Brand",
                         type: "select",
                         options: formValues.getBrandList,
+                        col: 3
+
                       },
                       {
                         name: "categoryId",
@@ -68,67 +75,107 @@ const AddProductForm: FC = () => {
                         type: "select",
                         options: formValues.getcategory,
                         required: "*",
+                        col: 3
+
                       },
                       {
                         name: "subCategoryId",
                         label: "Sub Category",
                         type: "select",
                         options: formValues.getSubCategory,
+                        col: 3
+
                       },
                       {
                         name: "unitId",
                         label: "Unit",
                         type: "select",
                         options: formValues.unitList,
+                        col: 2
+
                       },
                       {
                         name: "purchasePrice",
                         label: "Purchase Price",
                         type: "number",
                         required: "*",
+                        col: 2
+
                       },
                       {
                         name: "totalPrice",
                         label: "Total Price",
                         type: "number",
                         required: "*",
+                        col: 2
+
+                      },
+                      {
+                        name: "discount",
+                        label: "Discount %",
+                        type: "number",
+                        required: "*",
+                        col: 2
+
+                      },
+                      {
+                        name: "finalPrice",
+                        label: "Final Price",
+                        type: "number",
+                        required: "*",
+                        col: 2
+
                       },
                       {
                         name: "cgst",
                         label: "CGST%",
                         type: "number",
                         required: "*",
+                        col: 1
+
                       },
                       {
                         name: "sgst",
                         label: "SGST%",
                         type: "number",
                         required: "*",
+                        col: 1
+
                       },
                       {
                         name: "igst",
                         label: "IGST%",
                         type: "number",
                         required: "*",
+                        col: 1
+
                       },
                       {
                         name: "totalGst",
                         label: "Total GST",
                         type: "number",
                         required: "*",
+                        col: 2
+
                       },
                       {
                         name: "priceWoGst",
                         label: "Price Wo GST",
                         type: "number",
                         required: "*",
+                        col: 2
+
                       },
-                      { name: "barcodeNo", label: "Barcode No", type: "text" },
+                      {
+                        name: "barcodeNo", label: "Barcode No", type: "text", col: 2
+                      },
                       {
                         name: "minStockQty",
                         label: "Min Stock Qty",
                         type: "number",
                         required: "*",
+                        col: 2
+
                       },
                       {
                         name: "status",
@@ -139,6 +186,8 @@ const AddProductForm: FC = () => {
                           { name: "Publish", id: 1 },
                           { name: "Not Publish", id: 0 },
                         ],
+                        col: 2
+
                       },
                       {
                         name: "productType",
@@ -150,6 +199,8 @@ const AddProductForm: FC = () => {
                           { name: "Making Product", id: 1 },
                           { name: "Other Product", id: 2 },
                         ],
+                        col: 3
+
                       },
                       {
                         name: "transferProduct",
@@ -159,6 +210,8 @@ const AddProductForm: FC = () => {
                           { name: "Yes", id: 1 },
                           { name: "No", id: 0 },
                         ],
+                        col: 2
+
                       },
                       {
                         name: "qrDisplay",
@@ -169,41 +222,48 @@ const AddProductForm: FC = () => {
                           { name: "Yes", id: 1 },
                           { name: "No", id: 0 },
                         ],
+                        col: 2
+
                       },
                       {
                         name: "srNo",
                         label: "Sr No",
                         type: "number",
                         required: "*",
+                        col: 2
+
                       },
                       {
                         name: "productImage",
                         label: "Product Image",
                         type: "file",
+                        col: 2
+
                       },
                     ].map((field, index) => (
                       <Col
-                        xl={
-                          [
-                            "cgst",
-                            "sgst",
-                            "igst",
-                            "totalGst",
-                            "purchasePrice",
-                            "totalPrice",
-                            "priceWoGst",
-                            "srNo",
-                            "minStockQty",
-                            "qrDisplay",
-                            "status",
-                            "transferProduct",
-                            "unitId",
-                          ].includes(field.name)
-                            ? 2
-                            : ["productName"].includes(field.name)
-                            ? 5
-                            : 3
-                        }
+                        // xl={
+                        //   [
+                        //     "cgst",
+                        //     "sgst",
+                        //     "igst",
+                        //     "totalGst",
+                        //     "purchasePrice",
+                        //     "totalPrice",
+                        //     "priceWoGst",
+                        //     "srNo",
+                        //     "minStockQty",
+                        //     "qrDisplay",
+                        //     "status",
+                        //     "transferProduct",
+                        //     "unitId",
+                        //   ].includes(field.name)
+                        //     ? 2
+                        //     : ["productName"].includes(field.name)
+                        //       ? 5
+                        //       : 3
+                        // }
+                        xl={field?.col}
                         lg={3}
                         md={6}
                         sm={12}
@@ -228,7 +288,7 @@ const AddProductForm: FC = () => {
                                   (option) =>
                                     option.value ===
                                     formValues[
-                                      field.name as keyof ProductFormValues
+                                    field.name as keyof ProductFormValues
                                     ]
                                 ) || null
                             }
@@ -258,18 +318,18 @@ const AddProductForm: FC = () => {
                             onChange={handleChange}
                             disabled={
                               field.name === "priceWoGst" ||
-                              field.name === "totalGst" ||
-                              field.name === "sgst" ||
-                              field.name === "cgst" ||
-                              field.name === "igst"
+                                field.name === "totalGst" ||
+                                field.name === "sgst" ||
+                                field.name === "cgst" ||
+                                field.name === "igst"
                                 ? true
                                 : false
                             }
                             value={
                               field.type !== "file"
                                 ? formValues[
-                                    field.name as keyof ProductFormValues
-                                  ]?.toString() || ""
+                                  field.name as keyof ProductFormValues
+                                ]?.toString() || ""
                                 : undefined
                             }
                             required={field.required ? true : false}
@@ -278,6 +338,152 @@ const AddProductForm: FC = () => {
                       </Col>
                     ))}
                   </Row>
+                  <Container className="fieldset border  mt-3 col-12">
+                    <Row>
+                      <Col xl={4}>
+                        <Form.Label>
+                          Raw Product <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Group>
+                          <Select
+                            id="rawProduct"
+                            name="rawProduct"
+                            value={
+                              rawProductArray.find(
+                                (option: any) =>
+                                  option.id.toString() ==
+                                  formValues.selectedRawProduct.toString()
+                              ) || null
+                            }
+                            options={rawProductArray}
+                            getOptionLabel={(option: any) => option.label}
+                            getOptionValue={(option: any) => option.id}
+                            onChange={(selectedOption :any) => {
+                              setFormValues((prevValues) => ({
+                                ...prevValues,
+                                selectedZone: selectedOption
+                                  ? selectedOption.id.toString()
+                                  : "",
+                              }));
+                            }}
+                            required
+                            isSearchable
+                          />
+                        </Form.Group>
+                      </Col>
+
+
+                      <Col xl={2}>
+                        <Form.Group controlId="makingQty">
+                          <Form.Label>Making Qty</Form.Label>
+                          <Form.Control
+                            name="makingQty"
+                            type="number"
+                            value={formValues.makingQty}
+                            onChange={handleChange}
+                            required
+                          />
+                        </Form.Group>
+                      </Col>
+
+                      <Col xl={2}>
+                        <Form.Group controlId="unit">
+                          <Form.Label>Unit</Form.Label>
+                          <Form.Control
+                            name="unit"
+                            type="number"
+                            value={formValues.unit}
+                            onChange={handleChange}
+                            required
+                          />
+                        </Form.Group>
+                      </Col>
+
+
+                      <Col xl={1} className="mt-1">
+                        <Button
+                          className="btn btn-primary mt-4"
+                          onClick={handelAddMakingProduct}
+                        >
+                          <AddIcon />
+                        </Button>
+                      </Col>
+                    </Row>
+
+                    {makingProductArray.map((item : any , index: number)=>(
+                          <Row>
+                      <Col xl={4}>
+                        <Form.Label>
+                          Raw Product <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Group>
+                          <Select
+                            id="rawProduct"
+                            name="rawProduct"
+                            value={
+                              rawProductArray.find(
+                                (option: any) =>
+                                  option.id.toString() ==
+                                  item.selectedRawProduct.toString()
+                              ) || null
+                            }
+                            options={rawProductArray}
+                            getOptionLabel={(option: any) => option.label}
+                            getOptionValue={(option: any) => option.id}
+                            onChange={(selectedOption :any) => {
+                              setFormValues((prevValues) => ({
+                                ...prevValues,
+                                selectedZone: selectedOption
+                                  ? selectedOption.id.toString()
+                                  : "",
+                              }));
+                            }}
+                            required
+                            isSearchable
+                          />
+                        </Form.Group>
+                      </Col>
+
+
+                      <Col xl={2}>
+                        <Form.Group controlId="makingQty">
+                          <Form.Label>Making Qty</Form.Label>
+                          <Form.Control
+                            name="makingQty"
+                            type="number"
+                            value={item.makingQty}
+                            onChange={handleChange}
+                            required
+                          />
+                        </Form.Group>
+                      </Col>
+
+                      <Col xl={2}>
+                        <Form.Group controlId="unit">
+                          <Form.Label>Unit</Form.Label>
+                          <Form.Control
+                            name="unit"
+                            type="number"
+                            value={item.unit}
+                            onChange={handleChange}
+                            required
+                          />
+                        </Form.Group>
+                      </Col>
+
+
+                      <Col xl={1} className="mt-2">
+                        <Button
+                          variant="danger"
+                              className="d-flex align-items-center mt-3"
+                          onClick={()=>handelDeleteMakingProduct(index)}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </Col>
+                    </Row>
+                    ))}
+                  </Container>
                   <Row className="mt-4">
                     <Col>
                       <Button type="submit" className="btn btn-primary">

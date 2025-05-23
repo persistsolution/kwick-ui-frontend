@@ -5,8 +5,8 @@ import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategor
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
-interface ProductFormValues {
-  productName: string;
+interface OtherProductFormValues {
+  OtherProductName: string;
   categoryId: number;
   subCategoryId: number;
   purchasePrice: number;
@@ -19,11 +19,11 @@ interface ProductFormValues {
   barcodeNo: string;
   minStockQty: string;
   status: string;
-  productType: number;
-  transferProduct: number;
+  OtherProductType: number;
+  transferOtherProduct: number;
   qrDisplay: string;
   srNo: number;
-  productImage: File | null;
+  OtherProductImage: File | null;
   getcategory: string[];
   getSubCategory: string[];
   photo: string;
@@ -33,19 +33,11 @@ interface ProductFormValues {
   brandList: string[];
   unitId: string;
   code: string;
-  finalPrice: string;
-  selectedRawProduct: string;
-  makingQty: string;
-  unit: string;
 }
-type ProductItem = {
-  makingProduct: string;
-  makingQty: string;
-  unit: string;
-};
-const useAddProductForm = () => {
-  const [formValues, setFormValues] = useState<ProductFormValues>({
-    productName: "",
+
+const useAddOtherProductForm = () => {
+  const [formValues, setFormValues] = useState<OtherProductFormValues>({
+    OtherProductName: "",
     categoryId: 0,
     subCategoryId: 0,
     purchasePrice: 0,
@@ -58,11 +50,11 @@ const useAddProductForm = () => {
     barcodeNo: "",
     minStockQty: "",
     status: "",
-    productType: 0,
-    transferProduct: 1,
+    OtherProductType: 0,
+    transferOtherProduct: 1,
     qrDisplay: "",
     srNo: 1,
-    productImage: null,
+    OtherProductImage: null,
     getcategory: [],
     getSubCategory: [],
     photo: "",
@@ -72,15 +64,7 @@ const useAddProductForm = () => {
     brandList: [],
     unitId: "",
     code: "",
-    finalPrice: "",
-    selectedRawProduct: "",
-    makingQty: "",
-    unit: "",
   });
-  const [rawProductArray, setRawProductArray] = useState<string[]>([]);
-  const [makingProductArray, setMakingProductArray] = useState<ProductItem[]>(
-    []
-  );
 
   useEffect(() => {
     handelGetCategories();
@@ -88,6 +72,8 @@ const useAddProductForm = () => {
     fetchUnit();
     handelfetchBrand();
   }, []);
+
+  console.log(formValues, "formValues");
 
   const handelfetchBrand = async () => {
     try {
@@ -122,50 +108,45 @@ const useAddProductForm = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: any) => {
     const { name, value, type } = e.target;
+    console.log(name, value, type);
     if (type === "file") {
-      const files = e.target.files;
-      const file = files && files[0] ? files[0] : null;
-      setFormValues((prevValues: any) => ({
+      const target = e.target as HTMLInputElement;
+      const files: any = target.files;
+      setFormValues((prevValues) => ({
         ...prevValues,
-        [name]: file,
-        photo: file,
+        [name]: files && files[0] ? files[0] : null,
+      }));
+      // const url = URL.createObjectURL(files[0]);
+      setFormValues((prev) => ({
+        ...prev,
+        photo: files[0],
       }));
     } else {
-      const updatedValues: any = {
+      const updatedValues = {
         ...formValues,
         [name]: value,
       };
-
-      if (name === "discount" && updatedValues.priceWoGst) {
-        const discount = parseFloat(value) || 0;
-        const originalPrice = parseFloat(formValues.totalPrice) || 0;
-        const discountAmt = (originalPrice * discount) / 100;
-        const discountedPrice = originalPrice - discountAmt;
-        updatedValues.discountAmt = discountAmt.toFixed(2);
-        updatedValues.finalPrice = discountedPrice.toFixed(2);
-      }
-      if (name === "totalPrice" && !updatedValues.discount) {
-        updatedValues.finalPrice = parseFloat(value) || 0;
-      }
-      if (["cgst", "sgst", "igst", "discount", "totalPrice"].includes(name)) {
-        const finalPrice =
-          parseFloat(updatedValues.finalPrice || formValues.finalPrice) || 0;
-        const cgst = parseFloat(updatedValues.cgst || formValues.cgst) || 0;
-        const sgst = parseFloat(updatedValues.sgst || formValues.sgst) || 0;
-        const igst = parseFloat(updatedValues.igst || formValues.igst) || 0;
+      if (["cgst", "sgst", "igst", "totalPrice"].includes(name)) {
+        const totalPrice = parseFloat(updatedValues.totalPrice) || 0;
+        const cgst = Number(updatedValues.cgst) || 0;
+        const sgst = Number(updatedValues.sgst) || 0;
+        const igst = Number(updatedValues.igst) || 0;
         const totalGst = cgst + sgst + igst;
-        const priceWoGst = finalPrice / (1 + totalGst / 100);
-        const totalGstAmt = (finalPrice * totalGst) / 105;
-        updatedValues.totalGst = totalGstAmt.toFixed(2);
-        updatedValues.priceWoGst = priceWoGst.toFixed(2);
+        const priceWoGst = totalPrice / (1 + totalGst / 100);
+        const totalGstAmt = (totalPrice * totalGst) / 105;
+        updatedValues.totalGst = Number(totalGstAmt).toFixed(2);
+        updatedValues.priceWoGst = Number(priceWoGst).toFixed(2);
       }
       setFormValues(updatedValues);
     }
   };
 
-  const handelAddProduct = async () => {
+  
+  
+
+  const handelAddOtherProduct = async () => {
     if (
       typeof formValues.totalGst === "number" &&
       !isNaN(formValues.totalGst)
@@ -175,8 +156,8 @@ const useAddProductForm = () => {
       var igstAmount: any = formValues.totalGst / 3;
     }
 
-    const productData = {
-      ProductName: formValues.productName,
+    const OtherProductData = {
+      OtherProductName: formValues.OtherProductName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
       CgstPer: formValues.cgst,
@@ -191,8 +172,8 @@ const useAddProductForm = () => {
       SrNo: formValues.srNo,
       Photo: formValues.photo,
       BarcodeNo: formValues.barcodeNo,
-      ProdType: formValues.productType,
-      Transfer: formValues.transferProduct,
+      ProdType: formValues.OtherProductType,
+      Transfer: formValues.transferOtherProduct,
       QrDisplay: formValues.qrDisplay,
       MinQty: formValues.minStockQty,
       PurchasePrice: formValues.purchasePrice,
@@ -219,13 +200,13 @@ const useAddProductForm = () => {
     };
 
     try {
-      const response: any = await createProducts(productData);
+      const response: any = await createProducts(OtherProductData);
 
       if (response.status === 200) {
-        // alert("Product added successfully!");
+        // alert("OtherProduct added successfully!");
         setFormValues((prevValues) => ({
           ...prevValues,
-          productName: "",
+          OtherProductName: "",
           categoryId: 0,
           subCategoryId: 0,
           purchasePrice: 0,
@@ -238,11 +219,11 @@ const useAddProductForm = () => {
           barcodeNo: "",
           minStockQty: "",
           status: "",
-          productType: 0,
-          transferProduct: 1,
+          OtherProductType: 0,
+          transferOtherProduct: 1,
           qrDisplay: "",
           srNo: 1,
-          productImage: null,
+          OtherProductImage: null,
           getcategory: prevValues.getcategory,
           getSubCategory: prevValues.getSubCategory,
           photo: "",
@@ -255,7 +236,7 @@ const useAddProductForm = () => {
         }));
       }
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error adding OtherProduct:", error);
     }
   };
 
@@ -271,7 +252,7 @@ const useAddProductForm = () => {
         })),
       }));
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error adding OtherProduct:", error);
     }
   };
 
@@ -289,41 +270,21 @@ const useAddProductForm = () => {
         ),
       }));
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error adding OtherProduct:", error);
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handelAddProduct();
-  };
-
-  const handelAddMakingProduct = () => {
-    const addmakingProductArray = {
-      makingProduct: formValues?.selectedRawProduct,
-      makingQty: formValues?.makingQty,
-      unit: formValues?.unit,
-    };
-    setMakingProductArray([...makingProductArray, addmakingProductArray]);
-  };
-
-  const handelDeleteMakingProduct = (index: number) => {
-    const deletemakingProductArray = makingProductArray?.filter(
-      (_, idx) => idx !== index
-    );
-    setMakingProductArray(deletemakingProductArray);
+    handelAddOtherProduct();
   };
 
   return {
     formValues,
-    rawProductArray,
-    makingProductArray,
     handleSubmit,
     handleChange,
     setFormValues,
-    handelAddMakingProduct,
-    handelDeleteMakingProduct,
   };
 };
 
-export default useAddProductForm;
+export default useAddOtherProductForm;
