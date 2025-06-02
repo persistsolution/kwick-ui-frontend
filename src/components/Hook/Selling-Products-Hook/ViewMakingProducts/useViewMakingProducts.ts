@@ -126,11 +126,11 @@ const useViewMakingProducts = () => {
   };
 
   const handelEditProduct = (id: any) => {
-    navigate(`/SellingProduct/EditProductFrom/${id}`);
+    navigate(`/SellingProduct/EditMakingProductForm/${id}`);
   };
 
   const handelAddProduct = () => {
-    navigate(`/SellingProduct/AddProductForm`);
+    navigate(`/SellingProduct/AddMakingProductForm`);
   };
 
   const indexOfLastproduct = productPage * productPerPage;

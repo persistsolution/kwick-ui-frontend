@@ -12,6 +12,7 @@ import ViewBrand from "../components/Client-side/Selling-Products/Brand/ViewBran
 import ViewAllocateProductsToVendor from "../components/Client-side/Selling-Products/ViewAllocateProductsToVendors/ViewAllocateProductsToVendors"
 import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
 import ViewOtherProduct from "../components/Client-side/Selling-Products/OtherProducts/ViewOtherProducts";
+import AddMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/AddMakingProducts";
 
 // Franchise Dashboard
 import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
@@ -156,6 +157,7 @@ import ViewAdminRejectVedOrdRequest from "../components/Client-side/AdminApprova
 import ViewAccountantAppVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantApprovalVedOrdRequest";
 import ViewAccountantPenVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantPendingVedOrdRequest";
 import ViewAccountantRejVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantRejectVedOrdRequest";
+import EditMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/EditMakingProduct";
 
 export interface routeType {
   id: number;
@@ -233,7 +235,18 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}SellingProduct/ViewOtherProduct`,
     element: <ViewOtherProduct />,
   },
+
+  {
+    id:11,
+    path: `${import.meta.env.BASE_URL}SellingProduct/AddMakingProductForm`,
+    element: <AddMakingProductForm />,  
+  },
   
+  {
+    id:11,
+    path: `${import.meta.env.BASE_URL}SellingProduct/EditMakingProductForm/:id`,
+    element: <EditMakingProductForm />,  
+  },
   // Franchise
   {
     id: 9,
