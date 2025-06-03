@@ -19,7 +19,7 @@
 // import { useNavigate } from 'react-router-dom';
 // import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-// import { defaultMenu } from '../../../common/Sidemenudata';
+// import { MENUITEMS } from '../../../common/Sidemenudata';
 // import Logo from '../../../assets/images/brand/toggle-dark.png';
 
 // const NewSidebar = () => {
@@ -100,7 +100,7 @@
 //                   scrollbarWidth: 'none',
 //                 }}
 //               >
-//                 {defaultMenu.map((item: any, index: number) => {
+//                 {MENUITEMS.map((item: any, index: number) => {
 //                   if (item.type === 'sub' && item.children) {
 //                     return (
 //                       <Dropdown
@@ -171,7 +171,7 @@
 //           sx={{ width: 250, backgroundColor: 'rgb(0 71 112)', height: '100%', color: '#fff' }}
 //         >
 //           <List>
-//             {defaultMenu.map((item: any, index: number) => {
+//             {MENUITEMS.map((item: any, index: number) => {
 //               if (item.type === 'sub' && item.children) {
 //                 return item.children.map((child: any, idx: number) => (
 //                   <List key={`${index}-${idx}`} onClick={() => navigateTo(child.path)}>
@@ -223,10 +223,8 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { DropdownDivider, Navbar } from 'react-bootstrap';
-import { defaultMenu } from '../../../common/Sidemenudata';
+import { MENUITEMS } from '../../../common/Sidemenudata';
 import Logo from '../../../assets/images/brand/toggle-dark.png';
-import ALLImages from '../../../common/ImageData';
 
 const NewSidebar = () => {
   const [dropdownOpenIndex, setDropdownOpenIndex] = useState<number | null>(null);
@@ -304,7 +302,7 @@ const NewSidebar = () => {
                   scrollbarWidth: 'none',
                 }}
               >
-                {defaultMenu.map((item: any, index: number) => {
+                {MENUITEMS.map((item: any, index: number) => {
                   if (item.type === 'sub' && item.children) {
                     return (
                       <Dropdown
@@ -420,7 +418,7 @@ const NewSidebar = () => {
           }}
         >
           <List>
-            {defaultMenu.map((item: any, index: number) => {
+            {MENUITEMS.map((item: any, index: number) => {
               if (item.type === 'sub' && item.children) {
                 return item.children.map((child: any, idx: number) => (
                   <ListItem button key={`${index}-${idx}`} onClick={() => navigateTo(child.path)}>

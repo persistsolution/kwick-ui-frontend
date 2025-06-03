@@ -42,7 +42,7 @@ export interface MenuItemtype {
   menusub?: boolean;
 }
 
-export const defaultMenu: MenuItemtype[] = [
+const defaultMenu: MenuItemtype[] = [
   {
     menutitle: "MAIN",
   },
@@ -1224,14 +1224,145 @@ export const defaultMenu: MenuItemtype[] = [
 
 ];
 
+// const frDashboardMenu: MenuItemtype[] = [
+//   {
+//     menutitle: "Franchise",
+//   },
+  
+
+//   // Print Setting
+//   {
+//     path: `${import.meta.env.BASE_URL}Franchise/PrintSetting`,
+//     title: "Print Setting",
+//     icon: dashboardsvg,
+//     type: "link",
+//     active: false,
+//     selected: false,
+//     dirchange: false,
+//   },
+
+//     // Cash Book
+//   {
+//     path: `${import.meta.env.BASE_URL}Franchise/CashBook`,
+//     title: "Cash Book",
+//     icon: dashboardsvg,
+//     type: "link",
+//     active: false,
+//     selected: false,
+//     dirchange: false,
+//   },
+
+
+//   // Credit Order Accounts
+//   {
+//     path: `${import.meta.env.BASE_URL}Franchise/CreditOrderAccounts`,
+//     title: "Credit Order Accounts",
+//     icon: dashboardsvg,
+//     type: "link",
+//     active: false,
+//     selected: false,
+//     dirchange: false,
+//   },
+
+  
+
+//   // Orders
+//   {
+//     title:"Orders",
+//     icon: pagesSvg,
+//     type: "sub",
+//     active: false,
+//     selected: false,
+//     dirchange: false,
+//     children: [
+//       {
+//         path: `${import.meta.env.BASE_URL}Franchise/TodayOrders`,
+//         title: "Today Orders",
+//         //icon: dashboardsvg,
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//        {
+//         path: `${import.meta.env.BASE_URL}Franchise/TodayBarcodeOrders`,
+//         title: "  Today Barcode Orders",
+//         //icon: dashboardsvg,
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//       {
+//         path: `${import.meta.env.BASE_URL}Franchise/TodayOnlineOrders`,
+//         title: "Today Online Orders",
+//         //icon: dashboardsvg,
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//       {
+//         path: `${import.meta.env.BASE_URL}Franchise/TodayOnlineOrders`,
+//         title: "Today Online Orders",
+//         //icon: dashboardsvg,
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//       {
+//         path: `${import.meta.env.BASE_URL}Franchise/AllOrders`,
+//         title: "All Orders",
+//         //icon: dashboardsvg,
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//            {
+//         path: `${import.meta.env.BASE_URL}Franchise/TodayOnlineOrders`,
+//         title: "Today Online Orders",
+//         //icon: dashboardsvg,
+//         type: "link",
+//         active: false,
+//         selected: false,
+//         dirchange: false,
+//       },
+//     ], 
+//   },
+// ];
+
+
 const frDashboardMenu: MenuItemtype[] = [
   {
     menutitle: "Franchise",
   },
-
   // Dashboard
   {
-    title: "Franchise",
+    path: `${import.meta.env.BASE_URL}Franchise/frDashboard/:id`,
+    title: "Dashboard",
+    icon: dashboardsvg,
+    type: "link",
+    active: false,
+    selected: false,
+    dirchange: false,
+  },
+
+  // Print Setting
+  {
+    path: `${import.meta.env.BASE_URL}Franchise/Setting/PrintSetting`,
+    title: "Print Setting",
+    icon: dashboardsvg,
+    type: "link",
+    active: false,
+    selected: false,
+    dirchange: false,
+  },
+
+  // Cash Book
+  {
+    title: "Cash Book",
     icon: pagesSvg,
     type: "sub",
     active: false,
@@ -1239,8 +1370,240 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewFranchise`,
-        title: "View Franchise",
+        path: `${import.meta.env.BASE_URL}Franchise/CashBook/AddCashBook`,
+        title: "Add CashBook",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/CashBook/ViewCashBook`,
+        title: "View CashBook",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+  // Orders
+  {
+    title: "Orders",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOrder`,
+        title: "Todays Orders",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysPendingOrder`,
+        title: "Todays Pending Orders",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Orders/AllOrders`,
+        title: "All Orders",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysBarcodeOrder`,
+        title: "Todays Barcode Orders",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOnlineOrders`,
+        title: "Todays Online Orders",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+  // Selling Products
+  {
+    title: "Selling Products",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/SellingProducts/ViewProduct`,
+        title: "Products",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/SellingProducts/ViewManageProduct`,
+        title: "Manage Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+  // Raw Making Products
+  {
+    title: "Raw / Making Products",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/RawMakingProducts/ViewRawProducts`,
+        title: "Products",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/RawMakingProducts/ViewRawManageStock`,
+        title: "Manage Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+  // Request Product Stock
+  {
+    path: `${
+      import.meta.env.BASE_URL
+    }Franchise/RequestProductStock/ViewRequestProductStock`,
+    title: "Request Product Stock",
+    icon: dashboardsvg,
+    type: "link",
+    active: false,
+    selected: false,
+    dirchange: false,
+  },
+
+  // Employees
+  {
+    title: "Employees",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Employees/AddFrEmployee`,
+        title: "Add Employees",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Employees/ViewFrEmployee`,
+        title: "View Employees",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+  // Reports
+  {
+    title: "Reports",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/Reports/ProductStockReport`,
+        title: " Product Stock Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/Reports/RawProductStockReport`,
+        title: "Raw Product Stock Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/Reports/CategoryWiseSellReport`,
+        title: "Category Wise Sell Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchise/Reports/ViewProductWiseSellReport`,
+        title: "Product Wise Sell Report",
+        //icon: dashboardsvg,
         type: "link",
         active: false,
         selected: false,
@@ -1250,13 +1613,13 @@ const frDashboardMenu: MenuItemtype[] = [
   },
 ];
 
-// export const MENUITEMS = window.location.pathname.includes("/Franchise/")
-//   ? defaultMenu
-//   : defaultMenu;
+export const MENUITEMS = window.location.pathname.includes("/Franchise/")
+  ? frDashboardMenu
+  : defaultMenu;
 
-export const MENUITEMS = location.pathname.includes("/Franchise/")
-? frDashboardMenu
-: defaultMenu;
+// export const MENUITEMS = location.pathname.includes("/Franchise/")
+// ? frDashboardMenu
+// : defaultMenu;
 
 export interface MenuItem {
   label: string;

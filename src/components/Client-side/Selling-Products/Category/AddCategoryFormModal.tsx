@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Image } from "react-bootstrap";
 import useAddCategoryForm from "../../../Hook/Selling-Products-Hook/CategoryTS/useAddCategoryForm";
 import Rodal from "rodal";
 
@@ -53,7 +53,7 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       name="categoryName"
                       placeholder="Enter Category Name"
                       value={formData.categoryName}
-                      onChange={(e : any)=>handleChange(e)}
+                      onChange={(e: any) => handleChange(e)}
                       onClick={handelMessage}
                       required
                     />
@@ -67,13 +67,26 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       name="categoryImage"
                       placeholder="Enter Category Name"
                       // value={formData.categoryImage}
-                      onChange={(e : any)=>handleChange(e)}
+                      onChange={(e: any) => handleChange(e)}
                       onClick={handelMessage}
                       accept="image/*"
-                      // required
+                    // required
                     />
+{/* 
+                    {formData.preview && (
+                      <div className="mt-3">
+                        <Image
+                          src={formData.preview}
+                          alt="Selected"
+                          thumbnail
+                          width={150}
+                          height={150}
+                        />
+                      </div>
+                    )} */}
                   </Form.Group>
                 </Col>
+
                 <Col xl={6}>
                   <Form.Group controlId="name">
                     <Form.Label>
@@ -84,7 +97,7 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       name="categorySrno"
                       placeholder="Enter Category Name"
                       value={formData.categorySrno}
-                      onChange={(e : any)=>handleChange(e)}
+                      onChange={(e: any) => handleChange(e)}
                       onClick={handelMessage}
                       required
                     />
@@ -123,11 +136,10 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                 </Button>
                 {message && (
                   <p
-                    className={`${
-                      message.includes("successfully")
+                    className={`${message.includes("successfully")
                         ? "text-success"
                         : "text-danger"
-                    }`}
+                      }`}
                   >
                     {message}
                   </p>

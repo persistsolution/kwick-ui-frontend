@@ -31,6 +31,7 @@ const useAddCategoryForm = ({
     categoryImage: null as File | null,
     categorySrno: 0,
     categoryName: "",
+    preview:""
   });
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,6 +58,7 @@ const useAddCategoryForm = ({
       setFormData((prev) => ({
         ...prev,
         [name]: files[0],
+        preview : URL.createObjectURL(files[0])
       }));
     } else {
       setFormData((prev) => ({
@@ -183,6 +185,7 @@ console.log(formData , "kk")
           categoryImage: null,
           categorySrno: 0,
           categoryName: "",
+          preview:""
         });
       } else {
         setMessage("Error: Failed to add category.");

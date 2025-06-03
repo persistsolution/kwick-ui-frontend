@@ -159,6 +159,23 @@ import ViewAccountantPenVedOrdRequest from "../components/Client-side/Accountant
 import ViewAccountantRejVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantRejectVedOrdRequest";
 import EditMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/EditMakingProduct";
 
+// Sub Franchise
+import PrintSetting from "../components/Client-side/SubFranchise/PrintSetting/PrintSetting";
+import ViewCashBook from "../components/Client-side/SubFranchise/CashBook/ViewCashBook";
+import AddCashBook from "../components/Client-side/SubFranchise/CashBook/AddCashBook";
+import ViewTodaysOrder from "../components/Client-side/SubFranchise/Orders/TodaysOrder/ViewTodaysOrder";
+import ViewTodaysPendingOrder from "../components/Client-side/SubFranchise/Orders/TodaysPendingOrder/ViewTodaysPendingOrder";
+import ViewTodayBarcodeOrder from "../components/Client-side/SubFranchise/Orders/TodayBarcodeOrder/ViewTodayBarcodeOrder";
+import ViewTodayOnlineOrder from "../components/Client-side/SubFranchise/Orders/TodayOnlineOrder/ViewTodayOnlineOrder";
+import FranchiseViewProduct from "../components/Client-side/SubFranchise/Selling-Products/Product/FranchiseViewProduct";
+import ViewManageProduct from "../components/Client-side/SubFranchise/Selling-Products/ManageStock/ViewManageStock";
+import ViewRawProducts from "../components/Client-side/SubFranchise/RawMakingProducts/RawProducts/ViewRawProducts";
+import ViewRawManageStock from "../components/Client-side/SubFranchise/RawMakingProducts/RawManageStock/ViewRawManageStock";
+import ViewRequestProductStock from "../components/Client-side/SubFranchise/RequestedProductStock/ViewRequestProductStock";
+import AddFrEmployee from "../components/Client-side/SubFranchise/Employee/AddEmployee/AddFrEmployee";
+import ViewFrEmployee from "../components/Client-side/SubFranchise/Employee/ViewEmployee/ViewFrEmployee";
+import ViewProductWiseSellReport from "../components/Client-side/SubFranchise/Report/ProductWiseSellReport/ViewProductWiseSellReport";
+
 export interface routeType {
   id: number;
   path: string;
@@ -784,5 +801,92 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantRejVedOrdRequest`,
     element: <ViewAccountantRejVedOrdRequest/>,
 },
+
+// sub Francise
+{
+    id: 46,
+    path: `${import.meta.env.BASE_URL}Franchise/CashBook/ViewCashBook`,
+    element: <ViewCashBook />,
+  },
+  {
+    id: 47,
+    path: `${import.meta.env.BASE_URL}Franchise/CashBook/AddCashBook`,
+    element: <AddCashBook />,
+  },
+  {
+    id: 48,
+    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOrder`,
+    element: <ViewTodaysOrder />,
+  },
+  {
+    id: 49,
+    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysPendingOrder`,
+    element: <ViewTodaysPendingOrder />,
+  },
+  {
+    id: 50,
+    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysBarcodeOrder`,
+    element: <ViewTodayBarcodeOrder />,
+  },
+  {
+    id: 51,
+    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOnlineOrders`,
+    element: <ViewTodayOnlineOrder />,
+  },
+  {
+    id: 52,
+    path: `${import.meta.env.BASE_URL}Franchise/SellingProducts/ViewProduct`,
+    element: <FranchiseViewProduct />,
+  },
+  {
+    id: 53,
+    path: `${
+      import.meta.env.BASE_URL
+    }Franchise/SellingProducts/ViewManageProduct`,
+    element: <ViewManageProduct />,
+  },
+  {
+    id: 54,
+    path: `${
+      import.meta.env.BASE_URL
+    }Franchise/RawMakingProducts/ViewRawProducts`,
+    element: <ViewRawProducts />,
+  },
+  {
+    id: 55,
+    path: `${
+      import.meta.env.BASE_URL
+    }Franchise/RawMakingProducts/ViewRawManageStock`,
+    element: <ViewRawManageStock />,
+  },
+  {
+    id: 56,
+    path: `${
+      import.meta.env.BASE_URL
+    }Franchise/RequestProductStock/ViewRequestProductStock`,
+    element: <ViewRequestProductStock />,
+  },
+  {
+    id: 57,
+    path: `${import.meta.env.BASE_URL}Franchise/Employees/AddFrEmployee`,
+    element: <AddFrEmployee />,
+  },
+  {
+    id: 58,
+    path: `${import.meta.env.BASE_URL}Franchise/Employees/ViewFrEmployee`,
+    element: <ViewFrEmployee />,
+  },
+  {
+    id: 59,
+    path: `${
+      import.meta.env.BASE_URL
+    }Franchise/Reports/ViewProductWiseSellReport`,
+    element: <ViewProductWiseSellReport />,
+  },
+    {
+    id: 31,
+    path: `${import.meta.env.BASE_URL}Franchise/Setting/PrintSetting`,
+    element: <PrintSetting />,
+  },
 
 ];
