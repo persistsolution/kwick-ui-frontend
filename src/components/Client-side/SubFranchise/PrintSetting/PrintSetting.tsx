@@ -25,8 +25,8 @@ const PrintSetting: FC = () => {
   } = usePrintSetting();
 
   return (
-    <Row className="mt-4">
-      <Col xl={12} className="mt-5">
+    <Row >
+      <Col xl={12}>
         <Card>
           <Card.Header className="justify-content-between">
             <Card.Title as="h4">Print Setting</Card.Title>

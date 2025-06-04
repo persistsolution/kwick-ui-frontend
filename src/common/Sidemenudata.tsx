@@ -1360,6 +1360,115 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
   },
 
+  //  Credit Order Accounts
+  {
+    path: `${import.meta.env.BASE_URL}Franchise/ViewCreditOrderAccount`,
+    title: " Credit Order Accounts",
+    icon: dashboardsvg,
+    type: "link",
+    active: false,
+    selected: false,
+    dirchange: false,
+  },
+
+
+  // Inventory Reports
+  {
+    title: "Inventory Reports",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewMRPInvenotoryStockReport`,
+        title: "MRP Invenotory Stock Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewRawInventoryStockReport`,
+        title: " Raw Invenotory Stock Report ",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+       {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewAssetsInventoryStockReport`,
+        title: "  Assets Invenotory Stock Report ",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+       {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewMinMRPInventoryStockReport`,
+        title: "  Min MRP Invenotory Stock Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewTopSellingProduct`,
+        title: " Top Selling Product",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/ViewStockLevel`,
+        title: "Stock Level",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      }, 
+    ],
+  },
+
+  // GRN
+  {
+    title: "GRN",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/GRN/ViewMRPProductGRN`,
+        title: "MRP Product GRN",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchise/GRN/ViewRawProductGRN`,
+        title: "Raw Product GRN",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
+
   // Cash Book
   {
     title: "Cash Book",

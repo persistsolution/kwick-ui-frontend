@@ -1,16 +1,16 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-// import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
-import useProduct from "../../../../Hook/SubFranchise/Selling-Product/Product/useProduct";
+// import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
+import useViewCreditOrderAccount from "../../../Hook/SubFranchise/CreditOrderAccount/useViewCreditOrderAccount";
 
-const FranchiseViewProduct: FC = () => {
+const ViewCreditOrderAccount: FC = () => {
   const {
-    indexOfLastProduct,
-    indexOfFirstProduct,
-    Product,
+    indexOfLastcreditOrder,
+    indexOfFirstcreditOrder,
+    creditOrder,
     searchTerm,
     currentPage,
-    ProductPerPage,
+    creditOrderPerPage,
     totalPages,
     fromDate,
     toDate,
@@ -21,15 +21,15 @@ const FranchiseViewProduct: FC = () => {
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setProductPerPage,
-  } = useProduct();
+    setcreditOrderPerPage,
+  } = useViewCreditOrderAccount();
 
   return (
     <Fragment>
       {/* <Pageheader
-        heading="List of Product"
+        heading="View Cash Book List"
         homepage="Dashboard"
-        activepage="List of Product"
+        activepage="View Cash Book List"
       /> */}
 
       <div className="main-container container-fluid">
@@ -44,7 +44,7 @@ const FranchiseViewProduct: FC = () => {
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: any) => setfromDate(date)}
+                        onChange={(date: Date | any) => setfromDate(date)}
                       />
                     </Form.Group>
                   </div>
@@ -55,7 +55,8 @@ const FranchiseViewProduct: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: any) => settodate(date)}
+                        onChange={(date: Date | any) => settodate(date)}
+
                       />
                     </Form.Group>
                   </div>
@@ -75,18 +76,22 @@ const FranchiseViewProduct: FC = () => {
                   </div>
 
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
+
                     <Form.Select
-                      value={ProductPerPage}
+                      value={creditOrderPerPage}
                       onChange={(e) =>
-                        setProductPerPage(Number(e.target.value))
+                        setcreditOrderPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={Product.length}>All Items</option>
+                      <option value={creditOrder.length}>All Items</option>
                     </Form.Select>
+                    <Button variant="success" onClick={exportToExcel}>
+                      <i className="fe fe-download me-2"></i>Export to Excel
+                    </Button>
                   </div>
                 </div>
 
@@ -98,28 +103,30 @@ const FranchiseViewProduct: FC = () => {
                     <thead className="table-primary">
                       <tr>
                         <th onClick={() => handleSort("id")}>Sr No.</th>
-                        <th onClick={() => handleSort("item")}>Item </th>
-                        <th onClick={() => handleSort("orderNo")}>Order No </th>
-                        <th onClick={() => handleSort("invoiceNo")}>
-                          Invoice No{" "}
+                        <th onClick={() => handleSort("date")}>Voucher No </th>
+                        <th onClick={() => handleSort("cashAmount")}>
+                          Payment Date
                         </th>
-                        <th onClick={() => handleSort("invoiceDate")}>
-                          Invoice Date{" "}
+                        <th onClick={() => handleSort("transferAmount")}>
+                          Customer Name
                         </th>
-                        <th onClick={() => handleSort("customerName")}>
-                          Customer Name{" "}
+                        <th onClick={() => handleSort("balanceAmount")}>
+                          Amount
                         </th>
-                        <th onClick={() => handleSort("totalAmount")}>
-                          Total Amount{" "}
+                        <th onClick={() => handleSort("bankName")}>
+                          Payment Mode
                         </th>
-                        <th onClick={() => handleSort("paymentMode")}>
-                          Payment Mode{" "}
+                        <th onClick={() => handleSort("bankName")}>
+                          Edit
+                        </th>
+                        <th onClick={() => handleSort("bankName")}>
+                          Delete
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {Product.length > 0 ? (
-                        Product.map((franchise: any) => (
+                      {creditOrder.length > 0 ? (
+                        creditOrder.map((franchise: any) => (
                           <tr key={franchise.id}></tr>
                         ))
                       ) : (
@@ -135,15 +142,14 @@ const FranchiseViewProduct: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstProduct + 1} to{" "}
-                    {Math.min(indexOfLastProduct, Product.length)} of{" "}
-                    {Product.length} entries
+                    Showing {indexOfFirstcreditOrder + 1} to{" "}
+                    {Math.min(indexOfLastcreditOrder, creditOrder.length)} of{" "}
+                    {creditOrder.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -154,9 +160,8 @@ const FranchiseViewProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -169,9 +174,8 @@ const FranchiseViewProduct: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -182,9 +186,8 @@ const FranchiseViewProduct: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -195,9 +198,8 @@ const FranchiseViewProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -218,4 +220,4 @@ const FranchiseViewProduct: FC = () => {
   );
 };
 
-export default FranchiseViewProduct;
+export default ViewCreditOrderAccount;
