@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchProductApi } from "../../../../api/SubFranchise-API/Selling-ProductApi/Product/productApi";
+import { fetchProductApi } from "../../../../api/SubFranchise-API/Selling-ProductApi/Product/ProductApi";
 
 const useProduct = () => {
   const [Product, setProduct] = useState([]);
