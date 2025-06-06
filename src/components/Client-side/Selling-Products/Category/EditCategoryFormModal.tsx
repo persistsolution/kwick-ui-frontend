@@ -6,14 +6,12 @@ import Rodal from "rodal";
 interface EditCategoryFormModalProps {
   modalEdit: boolean;
   toggleEdit: any;
-  // categoriesEditId: number;
   handelfetchCategories: () => void;
 }
 
 const EditCategoryFormModal: React.FC<EditCategoryFormModalProps> = ({
   modalEdit,
   toggleEdit,
-  // categoriesEditId,
   handelfetchCategories,
 }) => {
   const { formData, message, isLoading, handleChange, handleSubmit } =

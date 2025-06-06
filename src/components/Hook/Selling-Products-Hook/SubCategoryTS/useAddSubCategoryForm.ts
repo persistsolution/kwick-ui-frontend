@@ -37,7 +37,7 @@ const useAddSubCategoryForm = ({
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = response.data;
+      const data = response?.data?.data || [];
       setCategoryOptions(data);
     } catch (error) {
       console.error("Error fetching categories:", error);

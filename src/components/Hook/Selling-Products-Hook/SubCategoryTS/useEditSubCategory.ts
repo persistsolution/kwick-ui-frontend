@@ -41,7 +41,7 @@ const useEditSubCategoryForm = ({
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response.data;
+      const data = await response?.data?.data || [];
       setCategoryOptions(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -54,7 +54,7 @@ const useEditSubCategoryForm = ({
     try {
       const response: any = await fetchSubCategoryById(Number(id));
       // const updateresponse = response?.data?.data;
-      const updateresponse = response?.data;
+      const updateresponse = response?.data?.data;
       // if (response.status === 200) {
       setFormData({
         catid: Number(updateresponse?.CatId),
@@ -69,10 +69,6 @@ const useEditSubCategoryForm = ({
         frId: 0,
         category: "",
       });
-      console.log(
-        Number(updateresponse?.Status),
-        "Number(updateresponse?.Status)"
-      );
       // }
     } catch (error) {
       console.error("Error fetching sub categories:", error);

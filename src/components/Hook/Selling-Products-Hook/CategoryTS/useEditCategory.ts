@@ -42,7 +42,8 @@ const useEditCategory = ({ toggleEdit, handelfetchCategories }: UseEditCategoryP
     if (!id) return;
     try {
       const response: any = await fetchByIdCategory(Number(id)); 
-      const responceData = response.data;
+      const responceData = response?.data?.data;
+      console.log(responceData , "responceData")
       if (response.status === 200) {
         setFormData((prev) => ({
           ...prev,

@@ -2,7 +2,8 @@
 var SERVER_STATUS;
 // SERVER_STATUS = "http://13.232.248.194:3000";
 // DEVELOPMENT URL
-SERVER_STATUS = "http://localhost:9090";
+// SERVER_STATUS = "http://localhost:9090";
+SERVER_STATUS = "https://kwickbill.com/kwickbill_api/"
 // BASE NAME OF APPLICATION
 export const BASE_NAME = "";
 // EXPORT URL

@@ -18,10 +18,11 @@ const useViewCategoryForm = () => {
 
 
   const toggleEdit = (id: number) => {
+    const catId = Number(id)
     setModalEdit(!modalEdit);
-    setcategoriesEditId(id)
-    if (typeof id === "number") {
-      localStorage.setItem("categoryId", id.toString());
+    setcategoriesEditId(catId)
+    if (typeof catId === "number") {
+      localStorage.setItem("categoryId", catId.toString());
     } else{
       localStorage.removeItem("categoryId");
     }
@@ -38,8 +39,9 @@ const useViewCategoryForm = () => {
   const handelfetchCategories = async () => {
     try {
       const response :any = await fetchCategories();
-      setCategories(response.data);
-      setFilteredCategories(response.data);
+      const data = response?.data?.data || []
+      setCategories(data);
+      setFilteredCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }

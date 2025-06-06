@@ -1,6 +1,6 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchSubCategories  , deleteSubCategory} from '../../../api/Selling-Products-Api/SubCategory/subCategoryApi';
+import { fetchSubCategories, deleteSubCategory } from '../../../api/Selling-Products-Api/SubCategory/subCategoryApi';
 
 const useViewSubCategory = () => {
   interface SubCategory {
@@ -19,20 +19,21 @@ const useViewSubCategory = () => {
     SubCategory[]
   >([]);
   const [modal, setModal] = useState(false);
-  const [subcategoriesEditId ,setsubcategoriesEditId]= useState(0)
-  const [toggleAddSubCategory , setToggleAddSubCategory] = useState(false)
+  const [subcategoriesEditId, setsubcategoriesEditId] = useState(0)
+  const [toggleAddSubCategory, setToggleAddSubCategory] = useState(false)
 
   const toggle = (id: any) => {
     setModal(!modal);
-    setsubcategoriesEditId(id)
-    if (typeof id === "number") {
-      localStorage.setItem("subCategoryId", id.toString());
-    } else{
+    const subCatId = Number(id)
+    setsubcategoriesEditId(subCatId)
+    if (typeof subCatId === "number") {
+      localStorage.setItem("subCategoryId", subCatId.toString());
+    } else {
       localStorage.removeItem("subCategoryId");
     }
   };
 
-  const modalAddSubCategory =()=>{
+  const modalAddSubCategory = () => {
     setToggleAddSubCategory(!toggleAddSubCategory)
   }
 
@@ -42,9 +43,10 @@ const useViewSubCategory = () => {
 
   const handelfetchSubCategories = async () => {
     try {
-      const response = await fetchSubCategories();
-      setSubCategories(response.data);
-      setFilteredSubCategories(response.data);
+      const response: any = await fetchSubCategories();
+      const data = response?.data?.data || []
+      setSubCategories(data);
+      setFilteredSubCategories(data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
     }
@@ -64,7 +66,7 @@ const useViewSubCategory = () => {
   const handleSort = (key: keyof SubCategory | string) => {
     const direction =
       sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    const sortedSubCategories = [...filteredSubCategories].sort((a:any, b:any) => {
+    const sortedSubCategories = [...filteredSubCategories].sort((a: any, b: any) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
@@ -78,7 +80,7 @@ const useViewSubCategory = () => {
       return;
     try {
       const response = await deleteSubCategory(id)
-            if (response) {
+      if (response) {
         handelfetchSubCategories();
       }
     } catch (error) {

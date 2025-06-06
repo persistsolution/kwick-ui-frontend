@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
+import { Card , Table, Button, Form } from "react-bootstrap";
 import useViewCategoryForm from "../../../Hook/Selling-Products-Hook/CategoryTS/useViewCategoryForm";
 import EditCategoryFormModal from "./EditCategoryFormModal";
 import AddCategoryFormModal from "./AddCategoryFormModal";
