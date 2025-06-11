@@ -4,8 +4,10 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewSubCategory from "../../../Hook/Selling-Products-Hook/SubCategoryTS/useViewSubCategory";
 import EditSubCategoryFormModal from "./EditSubCategoryFormModal";
 import AddSubCategoryFormModal from "./AddSubCategoryFormModal";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
+import DeleteAlert from "../../../../common/DeleteAlert";
 
-interface ComponentProps {}
+interface ComponentProps { }
 
 const ViewSubCategory: FC<ComponentProps> = () => {
   const {
@@ -24,7 +26,8 @@ const ViewSubCategory: FC<ComponentProps> = () => {
     currentPage,
     indexOfLastSubCategory,
     totalPages,
-    toggle,
+    loading,
+    toggleEdit,
     handelfetchSubCategories,
     modal,
     subcategoriesEditId,
@@ -81,73 +84,69 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="subcategory-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th>Photo</th>
-                        <th onClick={() => handleSort("Name")}> Category</th>
-                        <th onClick={() => handleSort("Name")}>Sub Category</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentSubCategories.length > 0 ? (
-                        currentSubCategories.map((subcategory: any) => (
-                          <tr key={subcategory.id}>
-                            <td>{subcategory.id}</td>
-                            <td>
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="subcategory-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th>Photo</th>
+                          <th onClick={() => handleSort("Name")}> Category</th>
+                          <th onClick={() => handleSort("Name")}>Sub Category</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentSubCategories.length > 0 ? (
+                          currentSubCategories.map((subcategory: any) => (
+                            <tr key={subcategory.id}>
+                              <td>{subcategory.id}</td>
+                              <td>
                                 <img
                                   className="avatar rounded-pill cover-image"
                                   src={subcategory.Photo}
                                   alt={subcategory.Name || "SubCategory Image"}
                                 />
-                            </td>
-                            <td>{subcategory.CatName}</td>
-                            <td>{subcategory.Name}</td>
-                            <td
-                              className={`${
-                                Boolean(subcategory.Status)
+                              </td>
+                              <td>{subcategory.CatName}</td>
+                              <td>{subcategory.Name}</td>
+                              <td
+                                className={`${Boolean(subcategory.Status)
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
-                            >
-                              {Boolean(subcategory.Status)
-                                ? "Active"
-                                : "In Active"}
-                            </td>{" "}
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-azure border-0"
-                                onClick={() => toggle(subcategory.id)}
+                                  }`}
                               >
-                                <i className="bi bi-pen fs-15"></i>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-pink border-0"
-                                onClick={() => handleDelete(subcategory.id)}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </button>
+                                {Boolean(subcategory.Status)
+                                  ? "Active"
+                                  : "In Active"}
+                              </td>{" "}
+
+                              <td>
+                                <button onClick={() => toggleEdit(subcategory.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() => handleDelete(subcategory.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={5} className="text-center">
+                              No records found.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={5} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -161,9 +160,8 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -174,9 +172,8 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -189,9 +186,8 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -202,9 +198,8 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -215,9 +210,8 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -237,7 +231,7 @@ const ViewSubCategory: FC<ComponentProps> = () => {
 
       {/* Edit Sub Category Modal */}
       <EditSubCategoryFormModal
-        toggleEditSubcategory={toggle}
+        toggleEditSubcategory={toggleEdit}
         modalEditSubcategory={modal}
         subcategoriesEditId={subcategoriesEditId}
         handelfetchSubCategories={handelfetchSubCategories}

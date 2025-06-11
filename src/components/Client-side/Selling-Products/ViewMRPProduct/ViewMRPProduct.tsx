@@ -1,18 +1,18 @@
 import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useViewMakingProducts from "../../../Hook/Selling-Products-Hook/ViewMakingProducts/useViewMakingProducts";
+import useViewMRPProducts from "../../../Hook/Selling-Products-Hook/ViewMRPProducts/useViewMRPProducts";
 import SkeletonLoader from "../../../../common/SkeletonLoader";
 import DeleteAlert from "../../../../common/DeleteAlert";
 
-const ViewMakingProducts: FC = () => {
+const ViewMRPProducts: FC = () => {
   const {
     searchTerm,
-    currentproduct,
+    currentProduct,
     productPerPage,
     filteredProductArray,
-    indexOfFirstproduct,
-    indexOfLastproduct,
+    indexOfFirstProduct,
+    indexOfLastProduct,
     productPage,
     totalPages,
     loading,
@@ -25,9 +25,9 @@ const ViewMakingProducts: FC = () => {
     exportToExcel,
     handleSort,
     handleSearch,
-    setproductPerPage,
+    setProductPerPage,
     handelAddProduct,
-  } = useViewMakingProducts();
+  } = useViewMRPProducts();
 
   return (
     <Fragment>
@@ -57,7 +57,7 @@ const ViewMakingProducts: FC = () => {
                     <Form.Select
                       value={productPerPage}
                       onChange={(e) =>
-                        setproductPerPage(Number(e.target.value))
+                        setProductPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
@@ -79,83 +79,79 @@ const ViewMakingProducts: FC = () => {
 
                 <div className="table-responsive">
                   {loading ? (
-                    <SkeletonLoader loading={loading} />
-                  ) : (
-                    <Table
-                      id="product-table"
-                      className="border text-nowrap text-md-nowrap table-hover mb-0"
-                    >
-                      <thead className="table-primary">
-                        <tr>
-                          <th onClick={() => handleSort("id")}>ID</th>
-                          <th onClick={() => handleSort("ProductName")}>Product name</th>
-                          <th onClick={() => handleSort("BarcodeNo")}>Barcode No</th>
-                          <th onClick={() => handleSort("Category")}>Category</th>
-                          <th onClick={() => handleSort("SubCatName")}>Sub Category</th>
-                          <th onClick={() => handleSort("ProdType")}>Product Type</th>
-                          <th onClick={() => handleSort("ProdPrice")}>Price</th>
-                          <th onClick={() => handleSort("Status")}>Status</th>
-                          <th onClick={() => handleSort("Name")}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {currentproduct.length !== 0 ? (
-                          currentproduct.map((product: any) => (
-                            <tr key={product.id}>
-                              <td>{product.id}</td>
-                              <td>{product.ProductName}</td>
-                              <td>{product.BarcodeNo}</td>
-                              <td>{product.Category}</td>
-                              <td>{product.SubCatName}</td>
+                    <SkeletonLoader loading={loading}/>
+                  ) :(
+                  <Table
+                    id="product-table"
+                    className="border text-nowrap text-md-nowrap table-hover mb-0"
+                  >
+                    <thead className="table-primary">
+                      <tr>
+                        <th onClick={() => handleSort("id")}>ID</th>
+                        <th onClick={() => handleSort("ProductName")}>Product name</th>
+                        <th onClick={() => handleSort("BarcodeNo")}>Barcode No</th>
+                        <th onClick={() => handleSort("Category")}>Category</th>
+                        <th onClick={() => handleSort("SubCatName")}>Sub Category</th>
+                        <th onClick={() => handleSort("ProdType")}>Product Type</th>
+                        <th onClick={() => handleSort("ProdPrice")}>Price</th>
+                        <th onClick={() => handleSort("Status")}>Status</th>
+                        <th onClick={() => handleSort("Name")}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentProduct.length !== 0 ? (
+                        currentProduct.map((product: any) => (
+                          <tr key={product.id}>
+                            <td>{product.id}</td>
+                            <td>{product.ProductName}</td>
+                            <td>{product.BarcodeNo}</td>
+                            <td>{product.Category}</td>
+                            <td>{product.SubCatName}</td>
 
-                              <td className="text-success">
-                                {product.ProdType == 1
-                                  ? "Raw / Making Product"
-                                  : "MRP Product"}
-                              </td>
-                              <td>
-                                <span>
-                                  <i className="bi bi-currency-rupee"></i>
-                                  {product.ProdPrice}
-                                </span>
-                              </td>
-                              <td
-                                className={`${product.Status == 1
-                                    ? "text-success"
-                                    : "text-danger"
-                                  }`}
-                              >
-                                {product.Status == 1 ? "Publish" : "Not Publish"}
-                              </td>
-
-                              <td>
-                                <button onClick={() => handelEditProduct(product.id)}
-                                  className="btn btn-md btn-icon btn-info-light rounded-circle" >
-                                  <i className="bi bi-pencil-square"></i>
-                                </button>
-                                &nbsp; &nbsp;
-                                <button onClick={() => handleDeleteProduct(product.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
-                                  <i className="bi bi-trash"></i>
-                                </button>
-                              </td>
-
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={10}>No product available</td>
+                            <td className="text-success">
+                              {product.ProdType == 1
+                                ? "Raw / MRP Product"
+                                : "MRP Product"}
+                            </td>
+                            <td>
+                              <span>
+                                <i className="bi bi-currency-rupee"></i>
+                                {product.ProdPrice}
+                              </span>
+                            </td>
+                            <td
+                              className={`${product.Status == 1
+                                  ? "text-success"
+                                  : "text-danger"
+                                }`}
+                            >
+                              {product.Status == 1 ? "Publish" : "Not Publish"}
+                            </td>
+                            <td>
+                              <button onClick={() => handelEditProduct(product.id)}
+                                className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <i className="bi bi-pencil-square"></i>
+                              </button>
+                              &nbsp; &nbsp;
+                              <button onClick={() => handleDeleteProduct(product.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </Table>
-                  )}
-
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={10}>No product available</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>)}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstproduct + 1} to{" "}
-                    {Math.min(indexOfLastproduct, filteredProductArray.length)}{" "}
+                    Showing {indexOfFirstProduct + 1} to{" "}
+                    {Math.min(indexOfLastProduct, filteredProductArray.length)}{" "}
                     of {filteredProductArray.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
@@ -232,4 +228,4 @@ const ViewMakingProducts: FC = () => {
   );
 };
 
-export default ViewMakingProducts;
+export default ViewMRPProducts;

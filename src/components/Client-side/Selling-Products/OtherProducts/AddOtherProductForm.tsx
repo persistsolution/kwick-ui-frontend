@@ -29,7 +29,7 @@ interface OtherProductFormValues {
 }
 
 const AddOtherProductForm: FC = () => {
-  const { formValues, handleSubmit, handleChange, setFormValues } =
+  const { formValues, loading, handleSubmit, handleChange, setFormValues } =
     useAddOtherProductForm();
   return (
     <Fragment>
@@ -201,8 +201,8 @@ const AddOtherProductForm: FC = () => {
                           ].includes(field.name)
                             ? 2
                             : ["OtherProductName"].includes(field.name)
-                            ? 5
-                            : 3
+                              ? 5
+                              : 3
                         }
                         lg={3}
                         md={6}
@@ -228,7 +228,7 @@ const AddOtherProductForm: FC = () => {
                                   (option) =>
                                     option.value ===
                                     formValues[
-                                      field.name as keyof OtherProductFormValues
+                                    field.name as keyof OtherProductFormValues
                                     ]
                                 ) || null
                             }
@@ -258,18 +258,18 @@ const AddOtherProductForm: FC = () => {
                             onChange={handleChange}
                             disabled={
                               field.name === "priceWoGst" ||
-                              field.name === "totalGst" ||
-                              field.name === "sgst" ||
-                              field.name === "cgst" ||
-                              field.name === "igst"
+                                field.name === "totalGst" ||
+                                field.name === "sgst" ||
+                                field.name === "cgst" ||
+                                field.name === "igst"
                                 ? true
                                 : false
                             }
                             value={
                               field.type !== "file"
                                 ? formValues[
-                                    field.name as keyof OtherProductFormValues
-                                  ]?.toString() || ""
+                                  field.name as keyof OtherProductFormValues
+                                ]?.toString() || ""
                                 : undefined
                             }
                             required={field.required ? true : false}
@@ -280,9 +280,14 @@ const AddOtherProductForm: FC = () => {
                   </Row>
                   <Row className="mt-4">
                     <Col>
-                      <Button type="submit" className="btn btn-primary">
-                        Submit
-                      </Button>
+                      <Button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}                     
+                        </Button>
                     </Col>
                   </Row>
                 </Form>

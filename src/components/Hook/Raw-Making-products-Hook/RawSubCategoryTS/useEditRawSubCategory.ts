@@ -40,7 +40,7 @@ const useEditRawSubCategory = ({
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response.data;
+      const data = await response?.data?.data ||[];
       setCategoryOptions(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -51,7 +51,7 @@ const useEditRawSubCategory = ({
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchRawSubCategoryById(Number(id));
-      const updateresponse = response?.data;
+      const updateresponse = response?.data?.data ||[];
       if (response.status === 200) {
         setFormData({
           catid: Number(updateresponse?.CatId),
@@ -95,54 +95,6 @@ const useEditRawSubCategory = ({
       }));
     }
   };
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setMessage(null);
-  //   setIsLoading(true);
-  //   const raw = {
-  //     CatId: formData.catid,
-  //     Name: formData.subCatname,
-  //     Photo: formData.photo,
-  //     Status: formData.status,
-  //     FrId: formData.frId,
-  //     ProdType: formData.productType,
-  //     CreatedBy: formData.createdby,
-  //     CreatedDate: formData.createddate,
-  //     ModifiedBy: formData.modifiedby,
-  //     ModifiedDate: formData.modifieddate,
-  //   };
-  //   try {
-  //     const response: any = await updateRawSubCategory(Number(id), Object(raw));
-  //     if (response.status === 200) {
-  //       setFormData({
-  //         catid: 0,
-  //         subCatname: "",
-  //         photo: null,
-  //         status: 1,
-  //         createdby: 1,
-  //         createddate: new Date().toISOString(),
-  //         modifiedby: 1,
-  //         modifieddate: new Date().toISOString(),
-  //         productType: 1,
-  //         frId: 0,
-  //         category: "",
-  //       });
-  //       handelfetchSubCategories();
-  //       modaltoggleEditRawSubCategory();
-  //       // navigate("/Products/ViewRawSubCategory/");
-  //     } else {
-  //       // setMessage(
-  //       //   `Error: ${response.data?.message || "Failed to edit category."}`
-  //       // );
-  //     }
-  //   } catch (err) {
-  //     console.error("Network error:", err);
-  //     // setMessage("Network error. Please try again later.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
 
   const handleSubmit = async (e: React.FormEvent) => {

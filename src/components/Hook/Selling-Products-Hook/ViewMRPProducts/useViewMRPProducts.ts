@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
-import { deleteMakingProductsApi, fetchMakingProductsApi } from "../../../api/Selling-Products-Api/MakingProducts-Api/MakingProductApi";
+import {
+  fetchMRPProductsApi,
+  deleteMRPProductsApi,
+} from "../../../api/Selling-Products-Api/MRPProduct-Api/MRPProductApi";
 
-// Define types
-interface ProductType {
+// Define product type
+interface Product {
   id: number;
   Name: string;
-  [key: string]: any;
+  [key: string]: any; // To allow dynamic key access for sorting
 }
 
 interface SortConfig {
@@ -15,16 +18,20 @@ interface SortConfig {
   direction: "asc" | "desc";
 }
 
-const useViewMakingProducts = () => {
-  const [ProductArray, setProductArray] = useState<ProductType[]>([]);
-  const [filteredProductArray, setFilteredProductArray] = useState<ProductType[]>([]);
+const useViewMRPProducts = () => {
+  const [ProductArray, setProductArray] = useState<Product[]>([]);
+  const [filteredProductArray, setFilteredProductArray] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [productPage, setproductPage] = useState<number>(1);
-  const [productPerPage, setproductPerPage] = useState<number>(5);
-  const [categoryList, setcategoryList] = useState<any[]>([]);
-  const [subcategoryList, setsubcategoryList] = useState<any[]>([]);
+  const [productPage, setProductPage] = useState<number>(1);
+  const [productPerPage, setProductPerPage] = useState<number>(5);
+  const [categoryList, setCategoryList] = useState<any[]>([]);
+  const [subcategoryList, setSubcategoryList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: "asc" });
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,31 +39,30 @@ const useViewMakingProducts = () => {
   }, []);
 
   const fetchGetMRPProduct = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response: any = await fetchMakingProductsApi();
-      const data: ProductType[] = response?.data?.data || [];
+      const response: any = await fetchMRPProductsApi();
+      const data: Product[] = response?.data?.data || [];
       setProductArray(data);
       setFilteredProductArray(data);
-      setLoading(!data)
+      setLoading(!data.length);
     } catch (error) {
       console.error("Error fetching product:", error);
-      setLoading(false)
-
+      setLoading(false);
     }
   };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
+    const lowerCaseTerm = term.toLowerCase();
     setFilteredProductArray(
       ProductArray.filter(
-        (product: ProductType) =>
-          product?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          product?.id?.toString().includes(term)
+        (product) =>
+          product?.Name?.toLowerCase().includes(lowerCaseTerm) ||
+          product?.id?.toString().includes(lowerCaseTerm)
       )
     );
   };
-
 
   const handleSort = (key: string) => {
     let direction: "asc" | "desc" = "asc";
@@ -64,18 +70,18 @@ const useViewMakingProducts = () => {
       direction = "desc";
     }
 
-    const sortedProduct = [...filteredProductArray].sort((a, b) => {
+    const sortedProducts = [...filteredProductArray].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFilteredProductArray(sortedProduct);
+    setFilteredProductArray(sortedProducts);
   };
 
   const handlePageChange = (pageNumber: number) => {
-    setproductPage(pageNumber);
+    setProductPage(pageNumber);
   };
 
   const exportToExcel = () => {
@@ -87,7 +93,7 @@ const useViewMakingProducts = () => {
 
   const totalPages = Math.ceil(filteredProductArray.length / productPerPage);
 
-  const getVisiblePages = (): number[] => {
+  const getVisiblePages = () => {
     const maxVisiblePages = 5;
     let startPage = Math.max(productPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -97,7 +103,7 @@ const useViewMakingProducts = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   };
 
   const handleDeleteProduct = async (id: number) => {
@@ -105,38 +111,38 @@ const useViewMakingProducts = () => {
       const confirmDelete = window.confirm("Are you sure you want to delete this product?");
       if (!confirmDelete) return;
 
-      const response: any = await deleteMakingProductsApi(id); // Replace with delete API call
+      const response: any = await deleteMRPProductsApi(id);
       if (response.status === 200) {
         console.log("Product deleted successfully:", response.data);
         fetchGetMRPProduct();
       } else {
-        console.error("Failed to delete product:", response.statusText);
+        console.error("Failed to delete the product:", response.statusText);
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error("Error deleting the product:", error);
       alert("An error occurred while deleting the product. Please try again.");
     }
   };
 
   const handelEditProduct = (id: number) => {
-    navigate(`/SellingProduct/EditMakingProductForm/${id}`);
+    navigate(`/SellingProduct/EditMRPProductForm/${id}`);
   };
 
   const handelAddProduct = () => {
-    navigate(`/SellingProduct/AddMakingProductForm`);
+    navigate(`/SellingProduct/AddMRPProductForm`);
   };
 
-  const indexOfLastproduct = productPage * productPerPage;
-  const indexOfFirstproduct = indexOfLastproduct - productPerPage;
-  const currentproduct = filteredProductArray.slice(indexOfFirstproduct, indexOfLastproduct);
+  const indexOfLastProduct = productPage * productPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productPerPage;
+  const currentProduct = filteredProductArray.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return {
     searchTerm,
-    currentproduct,
+    currentProduct,
     productPerPage,
     filteredProductArray,
-    indexOfFirstproduct,
-    indexOfLastproduct,
+    indexOfFirstProduct,
+    indexOfLastProduct,
     productPage,
     totalPages,
     categoryList,
@@ -149,9 +155,9 @@ const useViewMakingProducts = () => {
     exportToExcel,
     handleSort,
     handleSearch,
-    setproductPerPage,
+    setProductPerPage,
     handelAddProduct,
   };
 };
 
-export default useViewMakingProducts;
+export default useViewMRPProducts;

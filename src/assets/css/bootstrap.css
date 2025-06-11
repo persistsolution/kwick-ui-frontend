@@ -5897,8 +5897,8 @@ fieldset:disabled .btn {
   inset-block-start: 0;
   inset-inline-start: 0;
   z-index: var(--bs-backdrop-zindex);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: var(--bs-backdrop-bg);
 }
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
-import { createProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
+import { createMakingProductsAPI } from "../../../api/Selling-Products-Api/MakingProducts-Api/MakingProductApi";
 
 interface ProductFormValues {
   productName: string;
@@ -78,6 +78,7 @@ const useAddMakingProductForm = () => {
     unit: "",
   });
   const [rawProductArray, setRawProductArray] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [makingProductArray, setMakingProductArray] = useState<ProductItem[]>(
     []
   );
@@ -92,7 +93,7 @@ const useAddMakingProductForm = () => {
   const handelfetchBrand = async () => {
     try {
       const response: any = await fetchBrandApi();
-      const data = response.data;
+      const data = response.data || [];
 
       setFormValues((prevValues) => ({
         ...prevValues,
@@ -109,7 +110,7 @@ const useAddMakingProductForm = () => {
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response.data;
+      const data = await response.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         unitList: data.map((unit: { Name: string; id: number }) => ({
@@ -166,6 +167,7 @@ const useAddMakingProductForm = () => {
   };
 
   const handelAddProduct = async () => {
+    setLoading(true)
     if (
       typeof formValues.totalGst === "number" &&
       !isNaN(formValues.totalGst)
@@ -219,10 +221,8 @@ const useAddMakingProductForm = () => {
     };
 
     try {
-      const response: any = await createProducts(productData);
-
+      const response: any = await createMakingProductsAPI(productData);
       if (response.status === 200) {
-        // alert("Product added successfully!");
         setFormValues((prevValues) => ({
           ...prevValues,
           productName: "",
@@ -253,19 +253,22 @@ const useAddMakingProductForm = () => {
           code: "",
           brandList: prevValues.brandList,
         }));
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error adding product:", error);
+      setLoading(false)
+
     }
   };
 
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response.data;
+      const data = await response.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        getcategory: data.map((category: { Name: string; id: number }) => ({
+        getcategory: data.length > 0 && data?.map((category: { Name: string; id: number }) => ({
           name: category.Name,
           id: category.id,
         })),
@@ -278,10 +281,10 @@ const useAddMakingProductForm = () => {
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchSubCategories();
-      const data = response.data;
+      const data = response.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        getSubCategory: data.map(
+        getSubCategory: data.length > 0 && data?.map(
           (subcategory: { Name: string; id: number }) => ({
             name: subcategory.Name,
             id: subcategory.id,
@@ -318,6 +321,7 @@ const useAddMakingProductForm = () => {
     formValues,
     rawProductArray,
     makingProductArray,
+    loading,
     handleSubmit,
     handleChange,
     setFormValues,

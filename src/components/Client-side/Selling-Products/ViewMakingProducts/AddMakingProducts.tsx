@@ -33,7 +33,7 @@ interface ProductFormValues {
 
 
 const AddMakingProductForm: FC = () => {
-  const { formValues, makingProductArray , rawProductArray, handleSubmit, handleChange, setFormValues , handelAddMakingProduct , handelDeleteMakingProduct} =
+  const { formValues, makingProductArray , loading, rawProductArray, handleSubmit, handleChange, setFormValues, handelAddMakingProduct, handelDeleteMakingProduct } =
     useAddMakingProductForm();
   return (
     <Fragment>
@@ -65,7 +65,7 @@ const AddMakingProductForm: FC = () => {
                         name: "brandId",
                         label: "Select Brand",
                         type: "select",
-                        options: formValues.getBrandList,
+                        options: formValues.getBrandList || [],
                         col: 3
 
                       },
@@ -73,7 +73,7 @@ const AddMakingProductForm: FC = () => {
                         name: "categoryId",
                         label: "Category",
                         type: "select",
-                        options: formValues.getcategory,
+                        options: formValues.getcategory || [],
                         required: "*",
                         col: 3
 
@@ -82,7 +82,7 @@ const AddMakingProductForm: FC = () => {
                         name: "subCategoryId",
                         label: "Sub Category",
                         type: "select",
-                        options: formValues.getSubCategory,
+                        options: formValues.getSubCategory || [],
                         col: 3
 
                       },
@@ -90,7 +90,7 @@ const AddMakingProductForm: FC = () => {
                         name: "unitId",
                         label: "Unit",
                         type: "select",
-                        options: formValues.unitList,
+                        options: formValues.unitList || [],
                         col: 2
 
                       },
@@ -242,27 +242,7 @@ const AddMakingProductForm: FC = () => {
                       },
                     ].map((field, index) => (
                       <Col
-                        // xl={
-                        //   [
-                        //     "cgst",
-                        //     "sgst",
-                        //     "igst",
-                        //     "totalGst",
-                        //     "purchasePrice",
-                        //     "totalPrice",
-                        //     "priceWoGst",
-                        //     "srNo",
-                        //     "minStockQty",
-                        //     "qrDisplay",
-                        //     "status",
-                        //     "transferProduct",
-                        //     "unitId",
-                        //   ].includes(field.name)
-                        //     ? 2
-                        //     : ["productName"].includes(field.name)
-                        //       ? 5
-                        //       : 3
-                        // }
+
                         xl={field?.col}
                         lg={3}
                         md={6}
@@ -279,7 +259,7 @@ const AddMakingProductForm: FC = () => {
                             id={field.name}
                             name={field.name}
                             value={
-                              field.options
+                              field?.options
                                 ?.map((option: any) => ({
                                   label: option.name,
                                   value: option.id,
@@ -358,7 +338,7 @@ const AddMakingProductForm: FC = () => {
                             options={rawProductArray}
                             getOptionLabel={(option: any) => option.label}
                             getOptionValue={(option: any) => option.id}
-                            onChange={(selectedOption :any) => {
+                            onChange={(selectedOption: any) => {
                               setFormValues((prevValues) => ({
                                 ...prevValues,
                                 selectedZone: selectedOption
@@ -410,84 +390,90 @@ const AddMakingProductForm: FC = () => {
                       </Col>
                     </Row>
 
-                    {makingProductArray.map((item : any , index: number)=>(
-                          <Row>
-                      <Col xl={4}>
-                        <Form.Label>
-                          Raw Product <span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Group>
-                          <Select
-                            id="rawProduct"
-                            name="rawProduct"
-                            value={
-                              rawProductArray.find(
-                                (option: any) =>
-                                  option.id.toString() ==
-                                  item.selectedRawProduct.toString()
-                              ) || null
-                            }
-                            options={rawProductArray}
-                            getOptionLabel={(option: any) => option.label}
-                            getOptionValue={(option: any) => option.id}
-                            onChange={(selectedOption :any) => {
-                              setFormValues((prevValues) => ({
-                                ...prevValues,
-                                selectedZone: selectedOption
-                                  ? selectedOption.id.toString()
-                                  : "",
-                              }));
-                            }}
-                            required
-                            isSearchable
-                          />
-                        </Form.Group>
-                      </Col>
+                    {makingProductArray.map((item: any, index: number) => (
+                      <Row>
+                        <Col xl={4}>
+                          <Form.Label>
+                            Raw Product <span className="text-danger">*</span>
+                          </Form.Label>
+                          <Form.Group>
+                            <Select
+                              id="rawProduct"
+                              name="rawProduct"
+                              value={
+                                rawProductArray.find(
+                                  (option: any) =>
+                                    option.id.toString() ==
+                                    item.selectedRawProduct.toString()
+                                ) || null
+                              }
+                              options={rawProductArray}
+                              getOptionLabel={(option: any) => option.label}
+                              getOptionValue={(option: any) => option.id}
+                              onChange={(selectedOption: any) => {
+                                setFormValues((prevValues) => ({
+                                  ...prevValues,
+                                  selectedZone: selectedOption
+                                    ? selectedOption.id.toString()
+                                    : "",
+                                }));
+                              }}
+                              required
+                              isSearchable
+                            />
+                          </Form.Group>
+                        </Col>
 
 
-                      <Col xl={2}>
-                        <Form.Group controlId="makingQty">
-                          <Form.Label>Making Qty</Form.Label>
-                          <Form.Control
-                            name="makingQty"
-                            type="number"
-                            value={item.makingQty}
-                            onChange={handleChange}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
+                        <Col xl={2}>
+                          <Form.Group controlId="makingQty">
+                            <Form.Label>Making Qty</Form.Label>
+                            <Form.Control
+                              name="makingQty"
+                              type="number"
+                              value={item.makingQty}
+                              onChange={handleChange}
+                              required
+                            />
+                          </Form.Group>
+                        </Col>
 
-                      <Col xl={2}>
-                        <Form.Group controlId="unit">
-                          <Form.Label>Unit</Form.Label>
-                          <Form.Control
-                            name="unit"
-                            type="number"
-                            value={item.unit}
-                            onChange={handleChange}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
+                        <Col xl={2}>
+                          <Form.Group controlId="unit">
+                            <Form.Label>Unit</Form.Label>
+                            <Form.Control
+                              name="unit"
+                              type="number"
+                              value={item.unit}
+                              onChange={handleChange}
+                              required
+                            />
+                          </Form.Group>
+                        </Col>
 
 
-                      <Col xl={1} className="mt-2">
-                        <Button
-                          variant="danger"
-                              className="d-flex align-items-center mt-3"
-                          onClick={()=>handelDeleteMakingProduct(index)}
-                        >
-                          <DeleteIcon />
-                        </Button>
-                      </Col>
-                    </Row>
+                        <Col xl={1} className="mt-2">
+                          <Button
+                            variant="danger"
+                            className="d-flex align-items-center mt-3"
+                            onClick={() => handelDeleteMakingProduct(index)}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </Col>
+                      </Row>
                     ))}
                   </Container>
                   <Row className="mt-4">
                     <Col>
-                      <Button type="submit" className="btn btn-primary">
-                        Submit
+                      <Button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}
+
                       </Button>
                     </Col>
                   </Row>

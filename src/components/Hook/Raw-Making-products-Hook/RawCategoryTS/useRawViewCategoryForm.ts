@@ -5,25 +5,47 @@ import {
   deleteRawCategory,
 } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 
+// Define the expected structure of a category
+interface Category {
+  id: number;
+  Name: string;
+  [key: string]: any; // Optional: in case you have more fields
+}
+
 const useRawViewCategoryForm = () => {
-  const [categories, setCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [categoriesPerPage, setCategoriesPerPage] = useState(5);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [categoriesPerPage, setCategoriesPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
+    key: keyof Category | null;
+    direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
-  const [toggleAddRawCategory, settoggleAddRawCategory] = useState(false);
-  const [toggleEditRawCategory, settoggleEditRawCategory] = useState(false);
+  const [toggleAddRawCategory, settoggleAddRawCategory] = useState<boolean>(false);
+  const [toggleEditRawCategory, settoggleEditRawCategory] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handelfetchCategories = async () => {
+    setLoading(true);
+    try {
+      const response :any = await fetchRawCategories();
+      const data =  response?.data?.data || [];
+      setCategories(data);
+      setFilteredCategories(data);
+      setLoading(!data.length);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     handelfetchCategories();
   }, []);
 
   const handelToggleEditRawCategory = (id: number) => {
-    settoggleEditRawCategory(!toggleEditRawCategory);
+    settoggleEditRawCategory((prev) => !prev);
     if (typeof id === "number") {
       localStorage.setItem("rawCatId", id.toString());
     } else {
@@ -31,38 +53,30 @@ const useRawViewCategoryForm = () => {
     }
   };
 
-  const handelfetchCategories = async () => {
-    try {
-      const response: any = await fetchRawCategories();
-      setCategories(response.data);
-      setFilteredCategories(response.data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
+  const modalAddRawCategory = () => {
+    settoggleAddRawCategory((prev) => !prev);
   };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setFilteredCategories(
       categories.filter(
-        (category: any) =>
+        (category) =>
           category?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           category?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
-  const modalAddRawCategory = () => {
-    settoggleAddRawCategory(!toggleAddRawCategory);
-  };
 
-  const handleSort = (key: string) => {
-    let direction = "asc";
+  const handleSort = (key: keyof Category) => {
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
+
     const sortedCategories = [...filteredCategories].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      if (a[key]! < b[key]!) return direction === "asc" ? -1 : 1;
+      if (a[key]! > b[key]!) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
@@ -76,31 +90,17 @@ const useRawViewCategoryForm = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("category-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "category_data.xlsx");
-  };
-
-  const getVisiblePages = () => {
-    const maxVisiblePages = 5;
-    let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
-    let endPage = startPage + maxVisiblePages - 1;
-
-    if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "category_data.xlsx");
     }
-
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
   };
 
   const handleDeleteProduct = async (id: number) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this product?"
-      );
+      const confirmDelete = window.confirm("Are you sure you want to delete this product?");
       if (!confirmDelete) return;
+
       const response = await deleteRawCategory(id);
       if (response.status === 200) {
         handelfetchCategories();
@@ -119,11 +119,21 @@ const useRawViewCategoryForm = () => {
 
   const indexOfLastCategory = currentPage * categoriesPerPage;
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
-  const currentCategories = filteredCategories.slice(
-    indexOfFirstCategory,
-    indexOfLastCategory
-  );
+  const currentCategories = filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
   const totalPages = Math.ceil(filteredCategories.length / categoriesPerPage);
+
+  const getVisiblePages = (): number[] => {
+    const maxVisiblePages = 5;
+    let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+    let endPage = startPage + maxVisiblePages - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
+  };
 
   return {
     indexOfLastCategory,
@@ -149,6 +159,7 @@ const useRawViewCategoryForm = () => {
     modalAddRawCategory,
     handelToggleEditRawCategory,
     handelfetchCategories,
+    loading,
   };
 };
 

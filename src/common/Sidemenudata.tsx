@@ -120,7 +120,7 @@ const defaultMenu: MenuItemtype[] = [
       },
 
       {
-        path: `${import.meta.env.BASE_URL}SellingProduct/ViewProducts`,
+        path: `${import.meta.env.BASE_URL}SellingProduct/ViewMRPProducts`,
         title: "MRP Products",
         //icon: dashboardsvg,
         type: "link",

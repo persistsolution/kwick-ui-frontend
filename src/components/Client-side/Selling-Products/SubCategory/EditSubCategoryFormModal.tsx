@@ -129,9 +129,14 @@ const EditSubCategoryFormModal: React.FC<EditSubCategoryFormModalProps> = ({
                     className="btn btn-primary"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Submitting..." : "Submit"}
+                    {isLoading ? (
+                      <>
+                        <span className="me-2">Processing...</span>
+                        <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                      </>
+                    ) : "Submit"}
                   </Button>
-                  {message && (
+                  {/* {message && (
                     <p
                       className={` ${
                         message.includes("successfully")
@@ -141,7 +146,7 @@ const EditSubCategoryFormModal: React.FC<EditSubCategoryFormModalProps> = ({
                     >
                       {message}
                     </p>
-                  )}
+                  )} */}
                 </Col>
               </Row>
             </div>

@@ -9,7 +9,7 @@ export interface Category {
 // Fetch all categories
 export const fetchCategories = async (): Promise<AxiosResponse<Category[]>> => {
   return axios.get<Category[]>(
-    `${API_BASE_URL}selling-products/category/fetch-category-api.php`
+    `${API_BASE_URL}/selling-products/category/fetch-category-api.php`
   );
 };
 
@@ -19,7 +19,7 @@ export const fetchByIdCategory = async (
   id: number
 ): Promise<AxiosResponse<Category>> => {
   return axios.get<Category>(
-    `${API_BASE_URL}selling-products/category/get-category-details-api.php?id=${id}`
+    `${API_BASE_URL}/selling-products/category/get-category-details-api.php?id=${id}`
   );
 };
 
@@ -29,7 +29,7 @@ export const updateCategory = async (
   data: Partial<Category>
 ): Promise<AxiosResponse<Category>> => {
   return axios.put<Category>(
-    `${API_BASE_URL}selling-products/category/update-category-api.php?id=${id}`,
+    `${API_BASE_URL}/selling-products/category/update-category-api.php?id=${id}`,
     data
   );
 };
@@ -39,7 +39,7 @@ export const deleteCategory = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `${API_BASE_URL}selling-products/category/delete-category-api.php?id=${id}`
+    `${API_BASE_URL}/selling-products/category/delete-category-api.php?id=${id}`
   );
 };
 
@@ -48,7 +48,7 @@ export const createCategory = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
   return axios.post<void>(
-    `${API_BASE_URL}selling-products/category/save-category-api.php`,
+    `${API_BASE_URL}/selling-products/category/save-category-api.php`,
     data
   );
 };

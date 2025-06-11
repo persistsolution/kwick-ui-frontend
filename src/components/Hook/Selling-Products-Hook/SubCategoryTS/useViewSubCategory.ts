@@ -21,8 +21,9 @@ const useViewSubCategory = () => {
   const [modal, setModal] = useState(false);
   const [subcategoriesEditId, setsubcategoriesEditId] = useState(0)
   const [toggleAddSubCategory, setToggleAddSubCategory] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const toggle = (id: any) => {
+  const toggleEdit = (id: any) => {
     setModal(!modal);
     const subCatId = Number(id)
     setsubcategoriesEditId(subCatId)
@@ -42,13 +43,18 @@ const useViewSubCategory = () => {
   }, []);
 
   const handelfetchSubCategories = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchSubCategories();
       const data = response?.data?.data || []
       setSubCategories(data);
       setFilteredSubCategories(data);
+      setLoading(!data)
+
     } catch (error) {
       console.error("Error fetching subcategories:", error);
+      setLoading(false)
+
     }
   };
 
@@ -139,9 +145,10 @@ const useViewSubCategory = () => {
     currentPage,
     indexOfLastSubCategory,
     totalPages,
-    toggle,
+    toggleEdit,
     modal,
     subcategoriesEditId,
+    loading,
     handelfetchSubCategories,
     modalAddSubCategory,
     toggleAddSubCategory

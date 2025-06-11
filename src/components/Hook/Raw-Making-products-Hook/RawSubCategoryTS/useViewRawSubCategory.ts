@@ -31,9 +31,10 @@ const useViewRawSubCategory = () => {
 
   const handelfetchSubCategories = async () => {
     try {
-      const response = await fetchRawSubCategories();
-      setSubCategories(response.data);
-      setFilteredSubCategories(response.data);
+      const response :any = await fetchRawSubCategories();
+      const data = response?.data?.data || [] 
+      setSubCategories(data);
+      setFilteredSubCategories(data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
     }

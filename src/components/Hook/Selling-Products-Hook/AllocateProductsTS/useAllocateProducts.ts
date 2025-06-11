@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchFranchise } from "../../../api/Franchise-Api/FranchiseApi";
 import { useNavigate } from "react-router-dom";
+import { fetchAllocatedProductsApi } from "../../../api/Selling-Products-Api/AllocatedProducts-Api/AllocatedProductsApi";
 
 const useAllocateProducts = () => {
   const [allocateProducts, setallocateProducts] = useState([]);
@@ -17,8 +17,9 @@ const useAllocateProducts = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  // const [modal, setModal] = useState(false);
-  // const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
+const [loading , setLoading] = useState<boolean>(false);
+const [franchise , selectFranchise]= useState("");
+
   const navigate = useNavigate();
 
   const franchiseList = [
@@ -41,26 +42,20 @@ const useAllocateProducts = () => {
     },
   ];
 
-  // const toggle = (id: any) => {
-  //   setModal(!modal);
-  //   setallocateProductsEditId(id);
-  //   if (typeof id === "number") {
-  //     localStorage.setItem("AllocateProductsId", id.toString());
-  //   } else {
-  //     localStorage.removeItem("AllocateProductsId");
-  //   }
-  // };
-
   useEffect(() => {
     handelfetchallocateProducts();
   }, []);
 
   const handelfetchallocateProducts = async () => {
+    setLoading(true)
     try {
-      const response: any = await fetchFranchise();
-      setallocateProducts(response.data);
-      setFilteredallocateProducts(response.data);
+      const response: any = await fetchAllocatedProductsApi();
+      const data = response?.data?.data || [] 
+      setallocateProducts(data);
+      setFilteredallocateProducts(data);
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.error("Error fetching allocateProducts:", error);
     }
   };
@@ -160,6 +155,9 @@ const useAllocateProducts = () => {
     handelfetchallocateProducts,
     setfromDate,
     settodate,
+    selectFranchise,
+    franchise,
+    loading
   };
 };
 

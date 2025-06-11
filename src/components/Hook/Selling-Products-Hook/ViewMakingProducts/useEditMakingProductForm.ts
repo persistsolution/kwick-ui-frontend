@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
+import { fetchEditMakingProductsAPI, updateMakingProductsAPI } from "../../../api/Selling-Products-Api/MakingProducts-Api/MakingProductApi";
+
 
 interface ProductFormValues {
   productName: string;
@@ -64,6 +66,7 @@ const useEditMakingProductForm = () => {
     code: "",
   });
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -92,17 +95,16 @@ const useEditMakingProductForm = () => {
 
   const handleFetchEditMakingProductData = async () => {
     try {
-      const response: any = await ""
+      const response: any = await fetchEditMakingProductsAPI(Number(id))
       if (response.status === 200 && response.data) {
         const responseData = response.data;
-        // Calculate WithoutGstAmount
         const totalGstPercent =
           Number(responseData.CgstPer || 0) +
           Number(responseData.SgstPer || 0) +
           Number(responseData.IgstPer || 0);
         const withoutGstAmount = totalGstPercent
           ? responseData.ProdPrice -
-            (responseData.ProdPrice * totalGstPercent) / 100
+          (responseData.ProdPrice * totalGstPercent) / 100
           : responseData.ProdPrice;
 
         setFormValues((prev) => ({
@@ -128,8 +130,7 @@ const useEditMakingProductForm = () => {
         }));
       } else {
         setMessage(
-          `Error: ${
-            response.data?.message || "Failed to Fetch Edit Product Data."
+          `Error: ${response.data?.message || "Failed to Fetch Edit Product Data."
           }`
         );
       }
@@ -173,6 +174,7 @@ const useEditMakingProductForm = () => {
   };
 
   const handelAddProduct = async () => {
+    setLoading(true)
     if (
       typeof formValues.totalGst === "number" &&
       !isNaN(formValues.totalGst)
@@ -182,7 +184,7 @@ const useEditMakingProductForm = () => {
       var igstAmount: any = formValues.totalGst / 3;
     }
 
-    const productData = {
+    const productData: Object = {
       ProductName: formValues.productName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
@@ -226,7 +228,7 @@ const useEditMakingProductForm = () => {
     };
 
     try {
-      const response: any = await  ""
+      const response: any = await updateMakingProductsAPI(Number(id), productData)
       if (response.status === 200) {
         // alert("Product Edit successfully!");
         navigate("/SellingProduct/ViewMakingProducts");
@@ -259,17 +261,19 @@ const useEditMakingProductForm = () => {
           code: "",
         });
         setMessage(`"Product Edit Successfully!.`);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error adding product:", error);
       setMessage(`Error: ${"Product Edit Failed!."}`);
+      setLoading(false)
     }
   };
 
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = response.data;
+      const data = response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getcategory: data?.map((category: { Name: string; id: number }) => ({
@@ -285,7 +289,7 @@ const useEditMakingProductForm = () => {
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchSubCategories();
-      const data = response.data;
+      const data = response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
@@ -311,6 +315,7 @@ const useEditMakingProductForm = () => {
     setFormValues,
     message,
     formValues,
+    loading
   };
 };
 

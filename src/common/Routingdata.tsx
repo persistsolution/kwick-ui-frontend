@@ -13,6 +13,9 @@ import ViewAllocateProductsToVendor from "../components/Client-side/Selling-Prod
 import ViewMakingProducts from "../components/Client-side/Selling-Products/ViewMakingProducts/ViewMakingProducts";
 import ViewOtherProduct from "../components/Client-side/Selling-Products/OtherProducts/ViewOtherProducts";
 import AddMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/AddMakingProducts";
+import EditMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/EditMakingProduct";
+import ViewMRPProducts from "../components/Client-side/Selling-Products/ViewMRPProduct/ViewMRPProduct";
+import AddOtherProductForm from "../components/Client-side/Selling-Products/OtherProducts/AddOtherProductForm";
 
 // Franchise Dashboard
 import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
@@ -157,7 +160,6 @@ import ViewAdminRejectVedOrdRequest from "../components/Client-side/AdminApprova
 import ViewAccountantAppVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantApprovalVedOrdRequest";
 import ViewAccountantPenVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantPendingVedOrdRequest";
 import ViewAccountantRejVedOrdRequest from "../components/Client-side/AccountantApprovalVendorOrdRequest/ViewAccountantRejectVedOrdRequest";
-import EditMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/EditMakingProduct";
 
 // Sub Franchise
 import PrintSetting from "../components/Client-side/SubFranchise/PrintSetting/PrintSetting";
@@ -184,6 +186,7 @@ import ViewTopSellingProduct from "../components/Client-side/SubFranchise/Invent
 import ViewStockLevel from "../components/Client-side/SubFranchise/InventoryReports/ViewStockLevel";
 import ViewMRPProductGRN from "../components/Client-side/SubFranchise/GRN/ViewMRPProductGRN";
 import ViewRawProductGRN from "../components/Client-side/SubFranchise/GRN/ViewRawProductGRN";
+import EditOtherProductForm from "../components/Client-side/Selling-Products/OtherProducts/EditOtherProductForm";
 
 export interface routeType {
   id: number;
@@ -273,6 +276,25 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}SellingProduct/EditMakingProductForm/:id`,
     element: <EditMakingProductForm />,  
   },
+   {
+    id:12,
+    path: `${import.meta.env.BASE_URL}SellingProduct/ViewMRPProducts`,
+    element: <ViewMRPProducts />,  
+  },
+
+  {
+    id:12,
+    path: `${import.meta.env.BASE_URL}SellingProduct/AddOtherProductForm`,
+    element: <AddOtherProductForm />,  
+  },
+  {
+    id:12,
+    path: `${import.meta.env.BASE_URL}SellingProduct/EditOtherProductFrom/:id`,
+    element: <EditOtherProductForm />,  
+  },
+
+
+  
   // Franchise
   {
     id: 9,

@@ -72,18 +72,6 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                       accept="image/*"
                     // required
                     />
-{/* 
-                    {formData.preview && (
-                      <div className="mt-3">
-                        <Image
-                          src={formData.preview}
-                          alt="Selected"
-                          thumbnail
-                          width={150}
-                          height={150}
-                        />
-                      </div>
-                    )} */}
                   </Form.Group>
                 </Col>
 
@@ -132,18 +120,23 @@ const AddCategoryFormModal: React.FC<AddCategoryFormModalProps> = ({
                   className="btn btn-primary"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Submitting..." : "Submit"}
+                  {isLoading ? (
+                    <>
+                      <span className="me-2">Processing...</span>
+                      <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                    </>
+                  ) : "Submit"}
                 </Button>
-                {message && (
+                {/* {message && (
                   <p
                     className={`${message.includes("successfully")
-                        ? "text-success"
-                        : "text-danger"
+                      ? "text-success"
+                      : "text-danger"
                       }`}
                   >
                     {message}
                   </p>
-                )}
+                )} */}
               </Col>
             </Row>
           </div>

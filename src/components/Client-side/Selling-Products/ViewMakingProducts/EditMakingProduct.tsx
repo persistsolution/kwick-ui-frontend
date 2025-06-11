@@ -27,7 +27,7 @@ interface ProductFormValues {
   getSubCategory: string[];
 }
 const EditMakingProductForm: FC = () => {
-  const { handleSubmit, handleChange, formValues, setFormValues } =
+  const { handleSubmit, handleChange, formValues, loading, setFormValues } =
     useEditMakingProductForm();
 
   return (
@@ -200,8 +200,8 @@ const EditMakingProductForm: FC = () => {
                           ].includes(field.name)
                             ? 2
                             : ["productName"].includes(field.name)
-                            ? 5
-                            : 3
+                              ? 5
+                              : 3
                         }
                         lg={3}
                         md={6}
@@ -227,7 +227,7 @@ const EditMakingProductForm: FC = () => {
                                   (option) =>
                                     option.value ==
                                     formValues[
-                                      field.name as keyof ProductFormValues
+                                    field.name as keyof ProductFormValues
                                     ]
                                 ) || null
                             }
@@ -257,18 +257,18 @@ const EditMakingProductForm: FC = () => {
                             onChange={handleChange}
                             disabled={
                               field.name === "priceWoGst" ||
-                              field.name === "totalGst" ||
-                              field.name === "sgst" ||
-                              field.name === "cgst" ||
-                              field.name === "igst"
+                                field.name === "totalGst" ||
+                                field.name === "sgst" ||
+                                field.name === "cgst" ||
+                                field.name === "igst"
                                 ? true
                                 : false
                             }
                             value={
                               field.type !== "file"
                                 ? formValues[
-                                    field.name as keyof ProductFormValues
-                                  ]?.toString() || ""
+                                  field.name as keyof ProductFormValues
+                                ]?.toString() || ""
                                 : undefined
                             }
                             required={field.required ? true : false}
@@ -279,8 +279,14 @@ const EditMakingProductForm: FC = () => {
                   </Row>
                   <Row className="mt-4">
                     <Col>
-                      <Button type="submit" className="btn btn-primary">
-                        Submit
+                      <Button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}
+
                       </Button>
                     </Col>
                   </Row>

@@ -65,6 +65,7 @@ const useAddOtherProductForm = () => {
     unitId: "",
     code: "",
   });
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     handelGetCategories();
@@ -72,8 +73,6 @@ const useAddOtherProductForm = () => {
     fetchUnit();
     handelfetchBrand();
   }, []);
-
-  console.log(formValues, "formValues");
 
   const handelfetchBrand = async () => {
     try {
@@ -143,10 +142,8 @@ const useAddOtherProductForm = () => {
     }
   };
 
-  
-  
-
   const handelAddOtherProduct = async () => {
+    setLoading(true)
     if (
       typeof formValues.totalGst === "number" &&
       !isNaN(formValues.totalGst)
@@ -234,16 +231,18 @@ const useAddOtherProductForm = () => {
           code: "",
           brandList: prevValues.brandList,
         }));
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error adding OtherProduct:", error);
+      setLoading(false)
     }
   };
 
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response.data;
+      const data = await response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getcategory: data.map((category: { Name: string; id: number }) => ({
@@ -259,7 +258,7 @@ const useAddOtherProductForm = () => {
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchSubCategories();
-      const data = response.data;
+      const data = response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
@@ -280,6 +279,7 @@ const useAddOtherProductForm = () => {
   };
 
   return {
+    loading,
     formValues,
     handleSubmit,
     handleChange,

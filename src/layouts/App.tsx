@@ -2,7 +2,7 @@ import { FC, Fragment } from 'react';
 import { Provider } from 'react-redux';
 import store from '../common/redux/Store';
 import Switcher from './Component/Switcher/Switcher';
-// import Header from './Component/Header/Header';
+import Header from './Component/Header/Header';
 import Footer from './Component/Footer/Footer';
 import { Outlet } from 'react-router-dom';
 import Backtotop from './Component/BacktoTop/BacktoTop';
@@ -33,7 +33,7 @@ const App: FC<ComponentProps> = () => {
         <Switcher />
         <div className='page'>
           <div className="page-main">
-         {/* <Header /> */}
+         <Header />
                {/* <Sidebar /> */}
             <NewSidebar/>
             <div className="main-content app-content mt-0">

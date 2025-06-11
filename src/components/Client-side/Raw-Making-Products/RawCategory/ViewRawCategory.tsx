@@ -4,6 +4,8 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useRawViewCategoryForm from "../../../Hook/Raw-Making-products-Hook/RawCategoryTS/useRawViewCategoryForm";
 import EditRawCategoryFrom from "./EditRawCategoryForm";
 import AddRawCategoryForm from "./AddRawCategoryForm";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
+import DeleteAlert from "../../../../common/DeleteAlert";
 
 const ViewRawCategory: FC = () => {
   const {
@@ -17,6 +19,7 @@ const ViewRawCategory: FC = () => {
     toggleEditRawCategory,
     currentCategories,
     toggleAddRawCategory,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -82,73 +85,71 @@ const ViewRawCategory: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="category-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Category</th>
-                        <th onClick={() => handleSort("srno")}>Sr No</th>
-                        <th onClick={() => handleSort("status")}>Status</th>
-                        <th onClick={() => handleSort("Name")}>Edit</th>
-                        <th onClick={() => handleSort("Name")}>Delet</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentCategories.length > 0 ? (
-                        currentCategories.map((category: any) => (
-                          <tr key={category.id}>
-                            <td>{category.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={category.Photo}
-                                alt={category.name || "Category Image"}
-                              />
-                            </td>
-                            <td>{category.Name}</td>
-                            <td>{category.srno}</td>
-                            <td
-                              className={`${
-                                parseInt(category.Status) === 1
+
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="category-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("Photo")}>Photo</th>
+                          <th onClick={() => handleSort("name")}>Category</th>
+                          <th onClick={() => handleSort("srno")}>Sr No</th>
+                          <th onClick={() => handleSort("status")}>Status</th>
+                          <th onClick={() => handleSort("Name")}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentCategories.length > 0 ? (
+                          currentCategories.map((category: any) => (
+                            <tr key={category.id}>
+                              <td>{category.id}</td>
+                              <td>
+                                <img
+                                  className="avatar rounded-pill cover-image"
+                                  src={category.Photo}
+                                  alt={category.name || "Category Image"}
+                                />
+                              </td>
+                              <td>{category.Name}</td>
+                              <td>{category.srno}</td>
+                              <td
+                                className={`${parseInt(category.Status) === 1
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
-                            >
-                              {parseInt(category.Status) === 1
-                                ? "Active"
-                                : "In Active"}
-                            </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-azure cursor-pointer"
-                                onClick={() => handleEdit(category.id)}
+                                  }`}
                               >
-                                <i className="bi bi-pen fs-15"></i>
-                              </span>
-                            </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-pink cursor-pointer"
-                                onClick={() => handleDeleteProduct(category.id)}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </span>
+                                {parseInt(category.Status) === 1
+                                  ? "Active"
+                                  : "In Active"}
+                              </td>
+
+                              <td>
+                                <button onClick={() => handleEdit(category.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() => handleDeleteProduct(category.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -159,9 +160,8 @@ const ViewRawCategory: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -172,9 +172,8 @@ const ViewRawCategory: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -187,9 +186,8 @@ const ViewRawCategory: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -200,9 +198,8 @@ const ViewRawCategory: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -213,9 +210,8 @@ const ViewRawCategory: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

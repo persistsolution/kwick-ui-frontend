@@ -25715,9 +25715,9 @@ ul.timeline > li:before {
 /* Start::app-header */
 .app-header {
   max-width: 100%;
-  height: 3.75rem;
+  height: 3rem;
   z-index: 100;
-  position: fixed;
+  /* position: fixed; */
   inset-block-start: 0;
   inset-inline: 0;
   background: var(--header-bg);

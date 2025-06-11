@@ -68,6 +68,8 @@ const useEditOtherProductForm = () => {
     code: "",
   });
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false)
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -106,7 +108,7 @@ const useEditOtherProductForm = () => {
           Number(responseData.IgstPer || 0);
         const withoutGstAmount = totalGstPercent
           ? responseData.ProdPrice -
-            (responseData.ProdPrice * totalGstPercent) / 100
+          (responseData.ProdPrice * totalGstPercent) / 100
           : responseData.ProdPrice;
 
         setFormValues((prev) => ({
@@ -132,8 +134,7 @@ const useEditOtherProductForm = () => {
         }));
       } else {
         setMessage(
-          `Error: ${
-            response.data?.message || "Failed to Fetch Edit OtherProduct Data."
+          `Error: ${response.data?.message || "Failed to Fetch Edit OtherProduct Data."
           }`
         );
       }
@@ -177,6 +178,7 @@ const useEditOtherProductForm = () => {
   };
 
   const handelAddOtherProduct = async () => {
+    setLoading(true)
     if (
       typeof formValues.totalGst === "number" &&
       !isNaN(formValues.totalGst)
@@ -266,9 +268,11 @@ const useEditOtherProductForm = () => {
           code: "",
         });
         setMessage(`"OtherProduct Edit Successfully!.`);
+        setLoading(false)
       }
     } catch (error) {
       console.error("Error adding OtherProduct:", error);
+      setLoading(false)
       setMessage(`Error: ${"OtherProduct Edit Failed!."}`);
     }
   };
@@ -276,7 +280,7 @@ const useEditOtherProductForm = () => {
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = response.data;
+      const data = response?.data?.data ||[];
       setFormValues((prevValues) => ({
         ...prevValues,
         getcategory: data?.map((category: { Name: string; id: number }) => ({
@@ -292,7 +296,7 @@ const useEditOtherProductForm = () => {
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchSubCategories();
-      const data = response.data;
+      const data = response?.data?.data ||[];
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
@@ -318,6 +322,7 @@ const useEditOtherProductForm = () => {
     setFormValues,
     message,
     formValues,
+    loading
   };
 };
 

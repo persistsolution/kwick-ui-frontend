@@ -58,69 +58,6 @@ const useRawCategoryForm = ({
     setMessage(null);
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setMessage(null);
-  //   setIsLoading(true);
-
-  //   const payload = {
-  //     Name: formData.categoryName,
-  //     Icon: formData.icon,
-  //     Photo: formData.photo,
-  //     Photo2: formData.photo2,
-  //     Featured: formData.featured,
-  //     ProdType: Number(formData.prodtype),
-  //     Status: Number(formData.status),
-  //     srno: Number(formData.categorySrno),
-  //     CreatedDate: formData.createddate,
-  //     ModifiedDate: formData.modifieddate,
-  //     Roll: Number(formData.roll),
-  //     CreatedBy: formData.createdby,
-  //     push_flag: formData.push_flag ? 1 : 0,
-  //     delete_flag: formData.delete_flag ? 1 : 0,
-  //     modified_time: formData.modified_time,
-  //     ModifiedBy: 0,
-  //   };
-
-  //   try {
-  //     const response = await createRawCategory(payload);
-
-  //     if (response.status === 200) {
-  //       // setMessage("Category added successfully!");
-  //       setFormData({
-  //         name: "",
-  //         icon: null,
-  //         photo: "",
-  //         photo2: null,
-  //         featured: 0,
-  //         prodtype: 1,
-  //         status: 1,
-  //         srno: 1.0,
-  //         createddate: new Date().toISOString(),
-  //         modifieddate: null,
-  //         roll: 1,
-  //         createdby: 2091,
-  //         modifiedby: 0,
-  //         push_flag: false,
-  //         delete_flag: false,
-  //         modified_time: new Date().toISOString(),
-  //         categoryImage: "",
-  //         categorySrno: 0,
-  //         categoryName: "",
-  //       });
-  //       modalAddRawCategory();
-  //       handelfetchCategories();
-  //     } else {
-  //       // setMessage(`Error: Failed to add category.`);
-  //     }
-  //   } catch (err: any) {
-  //     console.error("Error during category creation:", err);
-  //     // setMessage("Network error. Please try again later.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(null);

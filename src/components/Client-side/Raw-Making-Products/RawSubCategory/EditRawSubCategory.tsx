@@ -27,8 +27,6 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
     modaltoggleEditRawSubCategory,
   });
 
-  console.log(formData, "formData");
-
   return (
     <Rodal
       onClose={() => {
@@ -92,7 +90,7 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                           type="file"
                           name="photo"
                           onChange={handleChange}
-                          // required
+                        // required
                         />
                       </Form.Group>
                     </Col>
@@ -105,7 +103,7 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                         <Form.Select
                           name="status"
                           onChange={handleChange}
-                          value={formData.status}
+                          value={formData?.status}
                           required
                         >
                           <option value="">Select Status</option>
@@ -124,9 +122,14 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                         className="btn btn-primary"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Submitting..." : "Submit"}
-                      </Button>
-                      {message && (
+                        {isLoading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}                         
+                        </Button>
+                      {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -136,7 +139,7 @@ const EditRawSubCategory: React.FC<EditRawSubCategoryProps> = ({
                         >
                           {message}
                         </p>
-                      )}
+                      )} */}
                     </Col>
                   </Row>
                 </div>

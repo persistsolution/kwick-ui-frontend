@@ -38,94 +38,97 @@ const AddRawCategoryForm: React.FC<AddRawCategoryFromProps> = ({
       <div className="modal-header">Add Raw Category</div>
       <Fragment>
         <div className="main-container container-fluid">
-          <Row>
-            <Col xl={12}>
-              <Form onSubmit={handleSubmit}>
-                <div className="modal-body text-start">
-                  <Row className="gy-4">
-                    <Col xl={6}>
-                      <Form.Group controlId="name">
-                        <Form.Label>
-                          Category Name<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="categoryName"
-                          placeholder="Enter Category Name"
-                          value={formData.categoryName}
-                          onChange={handleChange}
-                          onClick={handleMessage}
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col xl={6}>
-                      <Form.Group controlId="categoryImage">
-                        <Form.Label>Category Image</Form.Label>
-                        <Form.Control
-                          type="file"
-                          name="categoryImage"
-                          placeholder="Enter Category Name"
-                          // value={formData.categoryImage}
-                          onChange={handleChange}
-                          onClick={handleMessage}
-                          accept="image/*"
-                          // required
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col xl={6}>
-                      <Form.Group controlId="name">
-                        <Form.Label>
-                          Sr No<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="categorySrno"
-                          placeholder="Enter Category Name"
-                          value={formData.categorySrno}
-                          onChange={handleChange}
-                          onClick={handleMessage}
-                          required
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col xl={6}>
-                      <Form.Group controlId="name">
-                        <Form.Label>
-                          Status <span className="text-danger">*</span>
-                        </Form.Label>
-                        <Select
-                          name="status"
-                          value={statusOptions.find(
-                            (option) => option.value === formData.status
-                          )}
-                          onChange={(selectedOption) =>
-                            setFormData((prevData: any) => ({
-                              ...prevData,
-                              status: selectedOption
-                                ? selectedOption.value
-                                : "",
-                            }))
-                          }
-                          options={statusOptions}
-                          isClearable
-                        />
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                </div>
-                <div className="modal-footer">
-                  <Row>
-                    <Col>
-                      <Button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Submitting..." : "Submit"}
-                      </Button>
-                      {message && (
+          <Form onSubmit={handleSubmit}>
+            <div className="modal-body text-start">
+              <Row className="gy-4">
+                <Col xl={6}>
+                  <Form.Group controlId="name">
+                    <Form.Label>
+                      Category Name<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="categoryName"
+                      placeholder="Enter Category Name"
+                      value={formData.categoryName}
+                      onChange={handleChange}
+                      onClick={handleMessage}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xl={6}>
+                  <Form.Group controlId="categoryImage">
+                    <Form.Label>Category Image</Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="categoryImage"
+                      placeholder="Enter Category Name"
+                      // value={formData.categoryImage}
+                      onChange={handleChange}
+                      onClick={handleMessage}
+                      accept="image/*"
+                    // required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xl={6}>
+                  <Form.Group controlId="name">
+                    <Form.Label>
+                      Sr No<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="categorySrno"
+                      placeholder="Enter Category Name"
+                      value={formData.categorySrno}
+                      onChange={handleChange}
+                      onClick={handleMessage}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xl={6}>
+                  <Form.Group controlId="name">
+                    <Form.Label>
+                      Status <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Select
+                      name="status"
+                      value={statusOptions.find(
+                        (option) => option.value === formData.status
+                      )}
+                      onChange={(selectedOption) =>
+                        setFormData((prevData: any) => ({
+                          ...prevData,
+                          status: selectedOption
+                            ? selectedOption.value
+                            : "",
+                        }))
+                      }
+                      options={statusOptions}
+                      isClearable
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </div>
+            <div className="modal-footer">
+              <Row>
+                <Col>
+                  <Button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span className="me-2">Processing...</span>
+                        <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                      </>
+                    ) : "Submit"}                      
+                    </Button>
+                  {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -135,13 +138,11 @@ const AddRawCategoryForm: React.FC<AddRawCategoryFromProps> = ({
                         >
                           {message}
                         </p>
-                      )}
-                    </Col>
-                  </Row>
-                </div>
-              </Form>
-            </Col>
-          </Row>
+                      )} */}
+                </Col>
+              </Row>
+            </div>
+          </Form>
         </div>
       </Fragment>
     </Rodal>

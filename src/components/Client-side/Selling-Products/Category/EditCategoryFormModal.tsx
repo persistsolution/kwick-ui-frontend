@@ -56,7 +56,7 @@ const EditCategoryFormModal: React.FC<EditCategoryFormModalProps> = ({
                       name="categoryImage"
                       // value={formData.photo}
                       onChange={handleChange}
-                      // required
+                    // required
                     />
                   </Form.Group>
                 </Col>
@@ -103,9 +103,14 @@ const EditCategoryFormModal: React.FC<EditCategoryFormModalProps> = ({
                   className="btn btn-primary"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Submitting..." : "Submit"}
+                  {isLoading ? (
+                    <>
+                      <span className="me-2">Processing...</span>
+                      <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                    </>
+                  ) : "Submit"}
                 </Button>
-                {message && (
+                {/* {message && (
                   <p
                     className={` ${
                       message.includes("successfully")
@@ -115,7 +120,7 @@ const EditCategoryFormModal: React.FC<EditCategoryFormModalProps> = ({
                   >
                     {message}
                   </p>
-                )}
+                )} */}
               </Col>
             </Row>
           </div>

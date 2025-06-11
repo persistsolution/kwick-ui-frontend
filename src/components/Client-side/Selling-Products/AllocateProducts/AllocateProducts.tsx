@@ -3,6 +3,8 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
 import useAllocateProducts from "../../../Hook/Selling-Products-Hook/AllocateProductsTS/useAllocateProducts";
 import Select from "react-select";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
+import DeleteAlert from "../../../../common/DeleteAlert";
 
 const AllocateProducts: FC = () => {
   const {
@@ -17,6 +19,7 @@ const AllocateProducts: FC = () => {
     fromDate,
     toDate,
     currentallocateProducts,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -24,6 +27,8 @@ const AllocateProducts: FC = () => {
     setallocateProductsPerPage,
     setfromDate,
     settodate,
+    selectFranchise,
+    franchise,
     handelNavigateAllocatedProduct,
   } = useAllocateProducts();
 
@@ -44,16 +49,23 @@ const AllocateProducts: FC = () => {
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="goDownlist">
                       <Form.Label>Franchise</Form.Label>
+
                       <Select
-                        name="state"
+                        id="rawProduct"
+                        name="rawProduct"
+                        value={
+                          franchiseList.find(
+                            (option) => option.id.toString() === franchise
+                          ) || null
+                        }
                         options={franchiseList}
-                        className="basic-multi-select"
+                        getOptionLabel={(option) => option.label}
+                        getOptionValue={(option) => option.id.toString()}
+                        onChange={(selectedOption: any) => {
+                          selectFranchise(selectedOption ? selectedOption.id.toString() : "");
+                        }}
+                        required
                         isSearchable
-                        menuPlacement="auto"
-                        classNamePrefix="Select2"
-                        defaultValue={franchiseList[0]}
-                        getOptionLabel={(e: any) => e.label}
-                        getOptionValue={(e: any) => String(e.id)}
                       />
                     </Form.Group>
                   </div>
@@ -113,74 +125,79 @@ const AllocateProducts: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="AllocateProducts-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Fname")}>
-                          Franchise Name
-                        </th>
-                        <th onClick={() => handleSort("ShopName")}>
-                          Shop Name
-                        </th>
-                        <th onClick={() => handleSort("Roll")}>
-                          {" "}
-                          Franchise Type
-                        </th>
-                        <th onClick={() => handleSort("contact")}>
-                          {" "}
-                          Contact No{" "}
-                        </th>
-                        <th onClick={() => handleSort("id")}>Allocate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentallocateProducts.length > 0 ? (
-                        currentallocateProducts.map((products: any) => (
-                          <tr key={products.id}>
-                            <td>{products.id}</td>
-                            <td>{products.Fname}</td>
-                            <td>{products.ShopName}</td>
-                            <td
-                              className={
-                                products.Roll === 1
-                                  ? "text-warning"
-                                  : products.Roll === 2
-                                  ? "text-success"
-                                  : "text-danger"
-                              }
-                            >
-                              {products.Roll == 1
-                                ? "COCO Franchise"
-                                : products.Roll == 2
-                                ? "FOFO Franchise"
-                                : "Other Franchise"}
-                            </td>
-                            <td>{products.Phone}</td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  handelNavigateAllocatedProduct(products.id)
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="AllocateProducts-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("Fname")}>
+                            Franchise Name
+                          </th>
+                          <th onClick={() => handleSort("ShopName")}>
+                            Shop Name
+                          </th>
+                          <th onClick={() => handleSort("Roll")}>
+                            {" "}
+                            Franchise Type
+                          </th>
+                          <th onClick={() => handleSort("contact")}>
+                            {" "}
+                            Contact No{" "}
+                          </th>
+                          <th onClick={() => handleSort("id")}>Allocate</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentallocateProducts.length > 0 ? (
+                          currentallocateProducts.map((products: any) => (
+                            <tr key={products.id}>
+                              <td>{products.id}</td>
+                              <td>{products.Fname}</td>
+                              <td>{products.ShopName}</td>
+                              <td
+                                className={
+                                  products.Roll === 1
+                                    ? "text-warning"
+                                    : products.Roll === 2
+                                      ? "text-success"
+                                      : "text-danger"
                                 }
-                                className="rounded-pill btn btn-primary-light"
                               >
-                                Allocated Product
-                              </button>
+                                {products.Roll == 1
+                                  ? "COCO Franchise"
+                                  : products.Roll == 2
+                                    ? "FOFO Franchise"
+                                    : "Other Franchise"}
+                              </td>
+                              <td>{products.Phone}</td>
+                              <td>
+                                <button
+                                  onClick={() =>
+                                    handelNavigateAllocatedProduct(products.id)
+                                  }
+                                  className="rounded-pill btn btn-primary-light"
+                                >
+                                  Allocated Product
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -194,9 +211,8 @@ const AllocateProducts: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -207,9 +223,8 @@ const AllocateProducts: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -222,9 +237,8 @@ const AllocateProducts: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -235,9 +249,8 @@ const AllocateProducts: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -248,9 +261,8 @@ const AllocateProducts: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

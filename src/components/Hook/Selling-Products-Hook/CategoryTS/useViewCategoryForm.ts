@@ -1,6 +1,6 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchCategories , deleteCategory } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
+import { fetchCategories, deleteCategory } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 
 const useViewCategoryForm = () => {
   const [categories, setCategories] = useState([]);
@@ -13,9 +13,11 @@ const useViewCategoryForm = () => {
     direction: string;
   }>({ key: null, direction: "asc" });
   const [modalEdit, setModalEdit] = useState(false);
-  const [categoriesEditId ,setcategoriesEditId]= useState(0)
-  const[toggleAddCategory , settoggleAddCategory] = useState(false)
-
+  const [categoriesEditId, setcategoriesEditId] = useState(0)
+  const [toggleAddCategory, settoggleAddCategory] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [showDeleteAlert, setshowDeleteAlert] = useState(false)
+  const [deleteId, setDeleteId] = useState(0)
 
   const toggleEdit = (id: number) => {
     const catId = Number(id)
@@ -23,27 +25,30 @@ const useViewCategoryForm = () => {
     setcategoriesEditId(catId)
     if (typeof catId === "number") {
       localStorage.setItem("categoryId", catId.toString());
-    } else{
+    } else {
       localStorage.removeItem("categoryId");
     }
   };
 
-  const modalAddCategory = ()=>{
+  const modalAddCategory = () => {
     settoggleAddCategory(!toggleAddCategory)
-  }  
+  }
 
   useEffect(() => {
     handelfetchCategories();
   }, []);
 
   const handelfetchCategories = async () => {
+    setLoading(true)
     try {
-      const response :any = await fetchCategories();
+      const response: any = await fetchCategories();
       const data = response?.data?.data || []
       setCategories(data);
       setFilteredCategories(data);
+      setLoading(!data)
     } catch (error) {
       console.error("Error fetching categories:", error);
+      setLoading(false)
     }
   };
 
@@ -98,15 +103,13 @@ const useViewCategoryForm = () => {
     );
   };
 
-  const handleDeleteProduct = async (id: number) => {
+  const handleDeleteProduct = async () => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this product?"
-      );
-      if (!confirmDelete) return;
-      const response = await deleteCategory(id);
+      const response = await deleteCategory(deleteId);
       if (response.status === 200) {
         handelfetchCategories();
+        setshowDeleteAlert(false)
+
       } else {
         console.error("Failed to delete the product:", response.statusText);
       }
@@ -115,6 +118,11 @@ const useViewCategoryForm = () => {
       alert("An error occurred while deleting the product. Please try again.");
     }
   };
+
+  const handleOpenCloseDltAlrt = (id: number) => {
+    setshowDeleteAlert(!showDeleteAlert)
+    setDeleteId(id)
+  }
 
   const indexOfLastCategory = currentPage * categoriesPerPage;
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
@@ -135,6 +143,9 @@ const useViewCategoryForm = () => {
     sortConfig,
     currentCategories,
     totalPages,
+    loading,
+    showDeleteAlert,
+    deleteId,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -142,6 +153,7 @@ const useViewCategoryForm = () => {
     handleDeleteProduct,
     getVisiblePages,
     setCategoriesPerPage,
+    handleOpenCloseDltAlrt,
     toggleEdit,
     modalEdit,
     categoriesEditId,

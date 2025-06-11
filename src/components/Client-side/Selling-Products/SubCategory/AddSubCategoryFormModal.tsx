@@ -59,8 +59,8 @@ const AddSubCategoryFormModal: React.FC<AddSubCategoryFormModalProps> = ({
                     >
                       <option value={0}>Select Category</option>
                       {categoryOptions?.map((item: any, idx: number) => (
-                        
-                      <Fragment key={idx}>
+
+                        <Fragment key={idx}>
                           <option value={item.id}>{item.Name}</option>
                         </Fragment>
                       ))}
@@ -126,9 +126,14 @@ const AddSubCategoryFormModal: React.FC<AddSubCategoryFormModalProps> = ({
                     className="btn btn-primary"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Submitting..." : "Submit"}
+                    {isLoading ? (
+                      <>
+                        <span className="me-2">Processing...</span>
+                        <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                      </>
+                    ) : "Submit"}
                   </Button>
-                  {message && (
+                  {/* {message && (
                     <p
                       className={`mt-3 ${
                         message.includes("successfully")
@@ -138,7 +143,7 @@ const AddSubCategoryFormModal: React.FC<AddSubCategoryFormModalProps> = ({
                     >
                       {message}
                     </p>
-                  )}
+                  )} */}
                 </Col>
               </Row>
             </div>

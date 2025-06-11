@@ -13,7 +13,7 @@ export const fetchRawSubCategories = async (): Promise<
   AxiosResponse<SubCategory[]>
 > => {
   return axios.get<SubCategory[]>(
-    `${API_BASE_URL}/selling-product/subcategory/get/1`
+    `${API_BASE_URL}/raw-products/subcategory/get-all-sub-categories.php`
   );
 };
 
@@ -32,7 +32,7 @@ export const deleteRawSubCategory = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(
-    `${API_BASE_URL}/selling-product/subcategory/delete/${id}`
+    `${API_BASE_URL}/raw-products/subcategory/delete-sub-category.php?id=${id}`
   );
 };
 
@@ -42,7 +42,7 @@ export const updateRawSubCategory = async (
   data: Partial<SubCategory>
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.put<SubCategory>(
-    `${API_BASE_URL}/selling-product/subcategory/update/${id}`,
+    `${API_BASE_URL}/raw-products/category/update-category-api.php?id=${id}`,
     data
   );
 };
@@ -52,6 +52,6 @@ export const fetchRawSubCategoryById = async (
   id: number
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.get<SubCategory>(
-    `${API_BASE_URL}/selling-product/subcategory/edit/${id}`
+    `${API_BASE_URL}/raw-products/subcategory/get-sub-category.php?id=${id}`
   );
 };

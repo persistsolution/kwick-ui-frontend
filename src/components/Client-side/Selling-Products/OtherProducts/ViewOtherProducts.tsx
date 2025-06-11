@@ -2,6 +2,8 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewOtherProduct from "../../../Hook/Selling-Products-Hook/OtherProductsTS/useViewOtherProduct";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
+import DeleteAlert from "../../../../common/DeleteAlert";
 
 const ViewOtherProduct: FC = () => {
   const {
@@ -13,6 +15,7 @@ const ViewOtherProduct: FC = () => {
     indexOfLastOtherProduct,
     OtherProductPage,
     totalPages,
+    loading,
     // categoryList,
     // subcategoryList,
     handelEditOtherProduct,
@@ -75,87 +78,85 @@ const ViewOtherProduct: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="OtherProduct-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Name</th>
-                        <th onClick={() => handleSort("name")}>Barcode No</th>
-                        <th onClick={() => handleSort("name")}>Category</th>
-                        <th onClick={() => handleSort("name")}>Sub Category</th>
-                        <th onClick={() => handleSort("name")}>OtherProduct Type</th>
-                        <th onClick={() => handleSort("name")}>Price</th>
-                        <th onClick={() => handleSort("name")}>Status</th>
-                        <th onClick={() => handleSort("Name")}>Edit</th>
-                        <th onClick={() => handleSort("Name")}>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentOtherProduct.length !== 0 ? (
-                        currentOtherProduct.map((OtherProduct: any) => (
-                          <tr key={OtherProduct.id}>
-                            <td>{OtherProduct.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={OtherProduct.Photo}
-                                alt={OtherProduct.name || "OtherProduct Image"}
-                              />
-                            </td>
-                            <td>{OtherProduct.OtherProductName}</td>
-                            <td>{OtherProduct.BarcodeNo}</td>
-                            <td>{OtherProduct.CatName}</td>
-                            <td>{OtherProduct.SubCatName}</td>
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="OtherProduct-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("Photo")}>Photo</th>
+                          <th onClick={() => handleSort("ProductName")}>Name</th>
+                          <th onClick={() => handleSort("BarcodeNo")}>Barcode No</th>
+                          <th onClick={() => handleSort("Category")}>Category</th>
+                          <th onClick={() => handleSort("SubCatName")}>Sub Category</th>
+                          <th onClick={() => handleSort("ProdType")}>OtherProduct Type</th>
+                          <th onClick={() => handleSort("ProdPrice")}>Price</th>
+                          <th onClick={() => handleSort("Status")}>Status</th>
+                          <th onClick={() => handleSort("Name")}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentOtherProduct.length !== 0 ? (
+                          currentOtherProduct.map((OtherProduct: any) => (
+                            <tr key={OtherProduct.id}>
+                              <td>{OtherProduct.id}</td>
+                              <td>
+                                <img
+                                  className="avatar rounded-pill cover-image"
+                                  src={OtherProduct.Photo}
+                                  alt={OtherProduct.name || "OtherProduct Image"}
+                                />
+                              </td>
+                              <td>{OtherProduct.ProductName}</td>
+                              <td>{OtherProduct.BarcodeNo}</td>
+                              <td>{OtherProduct.Category}</td>
+                              <td>{OtherProduct.SubCatName}</td>
 
-                            <td className="text-success">
-                              {OtherProduct.ProdType === 1
-                                ? "Raw / Making OtherProduct"
-                                : "MRP OtherProduct"}
-                            </td>
-                            <td>
-                              <span>
-                                <i className="bi bi-currency-rupee"></i>
-                                {OtherProduct.ProdPrice}
-                              </span>
-                            </td>
-                            <td
-                              className={`${
-                                OtherProduct.Status === 1
+                              <td className="text-success">
+                                {OtherProduct.ProdType == 1
+                                  ? "Raw / Making OtherProduct"
+                                  : "MRP OtherProduct"}
+                              </td>
+                              <td>
+                                <span>
+                                  <i className="bi bi-currency-rupee"></i>
+                                  {OtherProduct.ProdPrice}
+                                </span>
+                              </td>
+                              <td
+                                className={`${OtherProduct.Status == 1
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
-                            >
-                              {OtherProduct.Status === 1 ? "Publish" : "Not Publish"}
-                            </td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                onClick={() => handelEditOtherProduct(OtherProduct.id)}
+                                  }`}
                               >
-                                <i className="bi bi-pen fs-15"></i>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                                onClick={() => handleDeleteOtherProduct(OtherProduct.id)}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </button>
-                            </td>
+                                {OtherProduct.Status == 1 ? "Publish" : "Not Publish"}
+                              </td>
+                              <td>
+                                <button onClick={() => handelEditOtherProduct(OtherProduct.id)}
+                                  className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() => handleDeleteOtherProduct(OtherProduct.id)}
+                                  className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={10}>No OtherProduct available</td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={10}>No OtherProduct available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -166,9 +167,8 @@ const ViewOtherProduct: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        OtherProductPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${OtherProductPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -179,9 +179,8 @@ const ViewOtherProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        OtherProductPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${OtherProductPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -194,9 +193,8 @@ const ViewOtherProduct: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          OtherProductPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${OtherProductPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -207,9 +205,8 @@ const ViewOtherProduct: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        OtherProductPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${OtherProductPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -220,9 +217,8 @@ const ViewOtherProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        OtherProductPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${OtherProductPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
