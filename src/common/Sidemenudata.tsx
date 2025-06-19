@@ -1722,7 +1722,7 @@ const frDashboardMenu: MenuItemtype[] = [
   },
 ];
 
-export const MENUITEMS = window.location.pathname.includes("/Franchise/")
+export const MENUITEMS = window.location.pathname.includes("/Franchises/")
   ? frDashboardMenu
   : defaultMenu;
 

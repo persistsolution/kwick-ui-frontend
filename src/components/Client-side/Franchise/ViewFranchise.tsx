@@ -112,7 +112,7 @@ const ViewFranchise: FC = () => {
                       </option>
                     </Form.Select>
                     <Button variant="success" onClick={handleAddFranchise}>
-                    Add New
+                      Add New
                     </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
@@ -154,9 +154,8 @@ const ViewFranchise: FC = () => {
                           Longitude
                         </th> */}
                         <th>Register Date</th>
+                        <th>Action</th>
 
-                        <th>Edit</th>
-                        <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -178,11 +177,10 @@ const ViewFranchise: FC = () => {
                             <td>{franchise.phone}</td>
                             <td>{franchise.password}</td>
                             <td
-                              className={`${
-                                franchise.status == "Approved"
+                              className={`${franchise.status == "Approved"
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
+                                }`}
                             >
                               {franchise.status == "Approved"
                                 ? "Active"
@@ -193,23 +191,17 @@ const ViewFranchise: FC = () => {
                             {/* <td>{franchise.Lattitude}</td>
                             <td>{franchise.Longitude}</td> */}
                             <td>
-                              <span
-                                className="avatar rounded-circle bg-azure cursor-pointer"
-                                onClick={() => handleEdit(franchise.id)}
-                              >
-                                <i className="bi bi-pen fs-15"></i>
-                              </span>
+                              <button onClick={() => handleEdit(franchise.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <i className="bi bi-pencil-square"></i>
+                              </button>
+                              &nbsp; &nbsp;
+                              <button onClick={() =>
+                                handleDeleteFranchise(franchise.id)
+                              } className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                <i className="bi bi-trash"></i>
+                              </button>
                             </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-pink cursor-pointer"
-                                onClick={() =>
-                                  handleDeleteFranchise(franchise.id)
-                                }
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </span>
-                            </td>
+
                           </tr>
                         ))
                       ) : (
@@ -231,9 +223,8 @@ const ViewFranchise: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -244,9 +235,8 @@ const ViewFranchise: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -259,9 +249,8 @@ const ViewFranchise: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -272,9 +261,8 @@ const ViewFranchise: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -285,9 +273,8 @@ const ViewFranchise: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
