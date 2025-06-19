@@ -127,9 +127,9 @@ const ViewFranchise: FC = () => {
                   >
                     <thead className="table-primary">
                       <tr>
-                        <th onClick={() => handleSort("qrorder")}>QR Order</th>
+                        {/* <th onClick={() => handleSort("qrorder")}>QR Order</th> */}
                         <th onClick={() => handleSort("id")}>Franchise ID</th>
-                        <th onClick={() => handleSort("zone")}>Zone</th>
+                        {/* <th onClick={() => handleSort("zone")}>Zone</th> */}
                         <th onClick={() => handleSort("franchiseName")}>
                           Franchise Name
                         </th>
@@ -153,7 +153,6 @@ const ViewFranchise: FC = () => {
                         <th onClick={() => handleSort("Longitude")}>
                           Longitude
                         </th> */}
-                        <th>Register Date</th>
                         <th>Action</th>
 
                       </tr>
@@ -162,16 +161,17 @@ const ViewFranchise: FC = () => {
                       {currentFranchises.length > 0 ? (
                         currentFranchises.map((franchise: any) => (
                           <tr key={franchise.id}>
-                            <td>{franchise.TableQrCode}</td>
-                            <td>{franchise.id}</td> <td></td>
-                            <td>
+                            {/* <td>{franchise.TableQrCode}</td> */}
+                            <td>{franchise.id}</td> 
+                            <td>{franchise.full_name}</td>
+                            {/* <td>
                               <Link
                                 to={`/Franchise/frDashboard/${franchise.id}`}
                                 target="_blank"
                               >
                                 {franchise.full_name}
                               </Link>
-                            </td>
+                            </td> */}
                             <td>{franchise.shop_name}</td>
                             <td>{franchise.franchise_type}</td>
                             <td>{franchise.phone}</td>
@@ -186,8 +186,7 @@ const ViewFranchise: FC = () => {
                                 ? "Active"
                                 : "Inactive"}
                             </td>
-                            <td>{franchise.CreatedDate}</td>
-                            <td>{franchise.registerDate}</td>
+                            <td>{franchise.created_date}</td>
                             {/* <td>{franchise.Lattitude}</td>
                             <td>{franchise.Longitude}</td> */}
                             <td>

@@ -93,7 +93,6 @@ const ViewGodownAccount: FC = () => {
                         <th onClick={() => handleSort("CreatedDate")}>
                           Register Date
                         </th>
-                        <th>Edit</th>
 
                       </tr>
                     </thead>
@@ -125,11 +124,7 @@ const ViewGodownAccount: FC = () => {
                                 : "Inactive"}
                             </td>
                             <td>{GodownAccount.created_date}</td>
-                            <td>
-                              <button onClick={() => handleEdit(Number(GodownAccount.id))} className="btn btn-md btn-icon btn-info-light rounded-circle" >
-                                <i className="bi bi-pencil-square"></i>
-                              </button>
-                            </td>
+                            
                           </tr>
                         ))
                       ) : (

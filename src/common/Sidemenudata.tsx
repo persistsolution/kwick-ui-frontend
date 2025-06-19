@@ -298,7 +298,7 @@ const defaultMenu: MenuItemtype[] = [
       },
 
       {
-        title: "Godown Stock",
+        title: "View Godown Stock",
         //icon: dashboardsvg,
         path: `${import.meta.env.BASE_URL}GoDown/ViewGodownStock`,
         type: "link",

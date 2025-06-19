@@ -162,7 +162,7 @@ const ViewTransferStockToFofoFr: FC = () => {
                               <td>{GodownAccount.sr_no}</td>
                               <td>{GodownAccount.godown_name}</td>
                               <td>{GodownAccount.franchise_name}</td>
-                              <td>{GodownAccount.StockDate}</td>
+                              <td>{GodownAccount.stock_date}</td>
                               <td>{GodownAccount.total_qty}</td>
                               <td>{GodownAccount.total_amount}</td>
                               <td>{GodownAccount.narration}</td>
