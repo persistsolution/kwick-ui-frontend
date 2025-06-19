@@ -37,8 +37,9 @@ const useViewTransferStockToFofoFr = () => {
   const handleFetchviewTransferStockToFofoFr = async () => {
     try {
       const response: any = await fetchTransferStockToFofoFrApi();
-      setviewTransferStockToFofoFr(response.data);
-      setFilteredviewTransferStockToFofoFr(response.data);
+      const data = response?.data?.data || []
+      setviewTransferStockToFofoFr(data);
+      setFilteredviewTransferStockToFofoFr(data);
     } catch (error) {
       console.error("Error fetching viewTransferStockToFofoFr:", error);
     }

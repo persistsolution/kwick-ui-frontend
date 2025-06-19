@@ -12,7 +12,7 @@ export const addTransferStockToCocoFrApi = async (
 export const fetchTransferStockToCocoFrApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godown/transferstock/get/1`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/view-transfer-godwon-raw-stock-coco.php`);
 };
 
 // Delete Coco Stock API
@@ -38,7 +38,7 @@ export const addTransferStockToOtherFrApi = async (
 export const fetchTransferStockToOtherFrApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godown/transferstock/get/0`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/view-transfer-godwon-raw-stock.php`);
 };
 
 // Delete Other Stock API
@@ -54,12 +54,12 @@ export const deleteTransferStockToOtherFr = async (
 export const fetchGodownPendingRequestApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godownaccountstock/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/approve-request-product-stock.php`);
 };
 
 // Pending Approve GoDown API
 export const fetchGodownApproveRequestApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godownaccountstock/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/approve-request-product-stock.php`);
 };

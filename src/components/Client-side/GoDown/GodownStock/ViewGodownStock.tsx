@@ -191,8 +191,8 @@ const ViewGodownStock: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
-                           <Button variant="success" onClick={handleAddNewStock}>
-Add New                    </Button>
+                    <Button variant="success" onClick={handleAddNewStock}>
+                      Add New                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -221,8 +221,8 @@ Add New                    </Button>
                         <th onClick={() => handleSort("totalPrice")}>
                           Total Price
                         </th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>Action</th>
+
                       </tr>
                     </thead>
                     <tbody>
@@ -231,26 +231,19 @@ Add New                    </Button>
                           (godowonStock: any, idx: number) => (
                             <tr key={godowonStock.id}>
                               <td>{idx + 1}</td>
-                              <td>{godowonStock.Fname}</td>
-                              <td>{godowonStock.ProductName}</td>
-                              <td>{godowonStock.StockDate}</td>
-                              <td>{godowonStock.Qty}</td>
-                              <td>{godowonStock.Price}</td>
-                              <td>{godowonStock.TotalPrice}</td>
+                              <td>{godowonStock.godown_name}</td>
+                              <td>{godowonStock.product_name}</td>
+                              <td>{godowonStock.stock_date}</td>
+                              <td>{godowonStock.qty_unit}</td>
+                              <td>{godowonStock.price}</td>
+                              <td>{godowonStock.total_price}</td>
                               <td>
-                                <button
-                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                  // onClick={() => handelEditProduct(product.id)}
-                                >
-                                  <i className="bi bi-pen fs-15"></i>
+                                <button className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
                                 </button>
-                              </td>
-                              <td>
-                                <button
-                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                                  // onClick={() => handleDeleteProduct(product.id)}
-                                >
-                                  <i className="bi bi-trash fs-15"></i>
+                                &nbsp; &nbsp;
+                                <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
                                 </button>
                               </td>
                             </tr>
@@ -278,9 +271,8 @@ Add New                    </Button>
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -291,9 +283,8 @@ Add New                    </Button>
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -306,9 +297,8 @@ Add New                    </Button>
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -319,9 +309,8 @@ Add New                    </Button>
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -332,9 +321,8 @@ Add New                    </Button>
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

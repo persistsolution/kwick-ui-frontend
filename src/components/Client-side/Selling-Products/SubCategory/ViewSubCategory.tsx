@@ -104,34 +104,34 @@ const ViewSubCategory: FC<ComponentProps> = () => {
                       <tbody>
                         {currentSubCategories.length > 0 ? (
                           currentSubCategories.map((subcategory: any) => (
-                            <tr key={subcategory.id}>
-                              <td>{subcategory.id}</td>
+                            <tr key={subcategory.sr_no}>
+                              <td>{subcategory.sr_no}</td>
                               <td>
                                 <img
                                   className="avatar rounded-pill cover-image"
                                   src={subcategory.Photo}
-                                  alt={subcategory.Name || "SubCategory Image"}
+                                  alt={subcategory.subcategory_name || "SubCategory Image"}
                                 />
                               </td>
-                              <td>{subcategory.CatName}</td>
-                              <td>{subcategory.Name}</td>
+                              <td>{subcategory.category_name}</td>
+                              <td>{subcategory.subcategory_name}</td>
                               <td
-                                className={`${Boolean(subcategory.Status)
+                                className={`${Boolean(subcategory.status)
                                   ? "text-success"
                                   : "text-danger"
                                   }`}
                               >
-                                {Boolean(subcategory.Status)
+                                {Boolean(subcategory.status)
                                   ? "Active"
                                   : "In Active"}
                               </td>{" "}
 
                               <td>
-                                <button onClick={() => toggleEdit(subcategory.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <button onClick={() => toggleEdit(subcategory.sr_no)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
                                   <i className="bi bi-pencil-square"></i>
                                 </button>
                                 &nbsp; &nbsp;
-                                <button onClick={() => handleDelete(subcategory.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                <button onClick={() => handleDelete(subcategory.sr_no)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
                                   <i className="bi bi-trash"></i>
                                 </button>
                               </td>

@@ -40,8 +40,9 @@ const useViewTransferStockToCocoFr = () => {
   const handleFetchviewTransferStockToCocoFr = async () => {
     try {
       const response: any = await fetchTransferStockToCocoFrApi();
-      setviewTransferStockToCocoFr(response.data);
-      setFilteredviewTransferStockToCocoFr(response.data);
+      const data = response?.data?.data ||[]
+      setviewTransferStockToCocoFr(data);
+      setFilteredviewTransferStockToCocoFr(data);
     } catch (error) {
       console.error("Error fetching viewTransferStockToCocoFr:", error);
     }

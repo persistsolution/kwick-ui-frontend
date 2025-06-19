@@ -5,5 +5,5 @@ import { API_BASE_URL } from "../../../../config";
 export const fetchGodownReturnProductApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godownaccountstock/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/return-godown-products.php`);
 };

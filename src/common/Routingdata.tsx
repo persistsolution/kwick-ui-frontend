@@ -15,7 +15,9 @@ import ViewOtherProduct from "../components/Client-side/Selling-Products/OtherPr
 import AddMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/AddMakingProducts";
 import EditMakingProductForm from "../components/Client-side/Selling-Products/ViewMakingProducts/EditMakingProduct";
 import ViewMRPProducts from "../components/Client-side/Selling-Products/ViewMRPProduct/ViewMRPProduct";
+import AddMRPProductForm from "../components/Client-side/Selling-Products/ViewMRPProduct/AddMRPProduct";
 import AddOtherProductForm from "../components/Client-side/Selling-Products/OtherProducts/AddOtherProductForm";
+import EditMrpProductForm from "../components/Client-side/Selling-Products/ViewMRPProduct/EditMRPProduct";
 
 // Franchise Dashboard
 import FranchiseDashboard from "../components/Client-side/Dashboard/FranchiseDashboard/FranchiseDashboard";
@@ -69,6 +71,8 @@ import CreateInvoiceProductStock from "../components/Client-side/GoDown/CreateIn
 import ViewGodownPendingRequest from "../components/Client-side/GoDown/GodownPendingRequest/ViewGodownPendingRequest";
 import ViewGodownReturnProduct from "../components/Client-side/GoDown/GodownReturnProduct/ViewGodownReturnProduct";
 import AddGodownReturnProduct from "../components/Client-side/GoDown/GodownReturnProduct/AddGodownReturnProduct";
+import EditGodownAccount from "../components/Client-side/GoDown/GodownAccount/EditGodownAccount";
+
 
 // Target Complete
 import ViewSetTarget from "../components/Client-side/TargetComplete/ViewSetTarget";
@@ -202,7 +206,7 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Dashboard/IndexPage`,
     element: <Indexpage />,
   },
-  
+
   // Selling Product
   {
     id: 2,
@@ -266,35 +270,45 @@ export const RouteData: routeType[] = [
   },
 
   {
-    id:11,
+    id: 11,
     path: `${import.meta.env.BASE_URL}SellingProduct/AddMakingProductForm`,
-    element: <AddMakingProductForm />,  
+    element: <AddMakingProductForm />,
   },
-  
+
   {
-    id:11,
+    id: 11,
     path: `${import.meta.env.BASE_URL}SellingProduct/EditMakingProductForm/:id`,
-    element: <EditMakingProductForm />,  
+    element: <EditMakingProductForm />,
   },
-   {
-    id:12,
+  {
+    id: 12,
     path: `${import.meta.env.BASE_URL}SellingProduct/ViewMRPProducts`,
-    element: <ViewMRPProducts />,  
+    element: <ViewMRPProducts />,
   },
-
   {
-    id:12,
+    id: 12,
+    path: `${import.meta.env.BASE_URL}SellingProduct/AddMRPProductForm`,
+    element: <AddMRPProductForm />,
+  },
+  {
+    id: 12,
+    path: `${import.meta.env.BASE_URL}SellingProduct/EditMRPProductForm/:id`,
+    element: <EditMrpProductForm />,
+  }
+  ,
+  {
+    id: 12,
     path: `${import.meta.env.BASE_URL}SellingProduct/AddOtherProductForm`,
-    element: <AddOtherProductForm />,  
+    element: <AddOtherProductForm />,
   },
   {
-    id:12,
+    id: 12,
     path: `${import.meta.env.BASE_URL}SellingProduct/EditOtherProductFrom/:id`,
-    element: <EditOtherProductForm />,  
+    element: <EditOtherProductForm />,
   },
 
 
-  
+
   // Franchise
   {
     id: 9,
@@ -361,8 +375,8 @@ export const RouteData: routeType[] = [
     element: <EditRawProducts />,
   },
   {
-    id:19,
-     path: `${import.meta.env.BASE_URL}RawProducts/ViewRawAllocateProductsToVendor`,
+    id: 19,
+    path: `${import.meta.env.BASE_URL}RawProducts/ViewRawAllocateProductsToVendor`,
     element: <ViewRawAllocateProductsToVendor />,
   },
 
@@ -382,7 +396,7 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Employee/EditEmployee/:id`,
     element: <EditEmployee />,
   },
-  
+
   // Financer
   {
     id: 21,
@@ -437,6 +451,11 @@ export const RouteData: routeType[] = [
     id: 30,
     path: `${import.meta.env.BASE_URL}GoDown/ViewGodownAccount`,
     element: <ViewGodownAccount />,
+  },
+  {
+    id: 30,
+    path: `${import.meta.env.BASE_URL}GoDown/EditGodownAccount/:id`,
+    element: <EditGodownAccount />,
   },
   {
     id: 31,
@@ -543,7 +562,7 @@ export const RouteData: routeType[] = [
     element: <ViewVendorPayment />,
   },
 
-   // Vendor Payments
+  // Vendor Payments
   {
     id: 43,
     path: `${import.meta.env.BASE_URL}Vendor/AddVendor`,
@@ -580,9 +599,8 @@ export const RouteData: routeType[] = [
   },
   {
     id: 49,
-    path: `${
-      import.meta.env.BASE_URL
-    }FranchiseReport/ViewRawFinancerstockReport`,
+    path: `${import.meta.env.BASE_URL
+      }FranchiseReport/ViewRawFinancerstockReport`,
     element: <ViewRawFinancerstockReport />,
   },
 
@@ -627,7 +645,7 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Report/ViewTransferPrdToCocoFr`,
     element: <ViewTransferPrdToCocoFr />,
   },
-    {
+  {
     id: 52,
     path: `${import.meta.env.BASE_URL}Report/ViewTransferPrdToCocoFr2`,
     element: <ViewTransferPrdToCocoFr2 />,
@@ -676,7 +694,7 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Report2025/ViewAccountProductStockReport2025`,
     element: <ViewAccountProductStockReport2025 />,
   },
-{
+  {
     id: 53,
     path: `${import.meta.env.BASE_URL}Report2025/ViewRawProductStockReport2025`,
     element: <ViewRawProductStockReport2025 />,
@@ -706,135 +724,135 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Report2025/ViewDiscountInvoiceReport2025`,
     element: <ViewDiscountInvoiceReport2025 />,
   },
-  
+
 
   // Request Product Stock
   {
-    id:52,
+    id: 52,
     path: `${import.meta.env.BASE_URL}RequestProductStock/RequestSellingProductStock`,
-    element: <ViewRequestSellingProductStock/>,
+    element: <ViewRequestSellingProductStock />,
 
   },
   // Production
   {
-    id:53,
+    id: 53,
     path: `${import.meta.env.BASE_URL}Production/ViewProductionAccount`,
-    element: <ViewProductionAccount/>,
+    element: <ViewProductionAccount />,
 
   },
   {
-    id:54,
+    id: 54,
     path: `${import.meta.env.BASE_URL}Production/AddProductionAccount`,
-    element: <AddProductionAccount/>,
+    element: <AddProductionAccount />,
   },
-    {
-    id:55,
+  {
+    id: 55,
     path: `${import.meta.env.BASE_URL}Production/ViewProductionProducts`,
-    element: <ViewProductionProducts/>,
+    element: <ViewProductionProducts />,
   },
   {
-    id:56,
+    id: 56,
     path: `${import.meta.env.BASE_URL}Production/AddProductionProduct`,
-    element: <AddProductionProduct/>,
+    element: <AddProductionProduct />,
   },
- {
-    id:57,
+  {
+    id: 57,
     path: `${import.meta.env.BASE_URL}Production/AddRawProductionProducts`,
-    element: <AddRawProductionProducts/>,
+    element: <AddRawProductionProducts />,
   },
-    {
-    id:57,
+  {
+    id: 57,
     path: `${import.meta.env.BASE_URL}Production/ViewProductionRawProduct`,
-    element: <ViewProductionRawProduct/>,
+    element: <ViewProductionRawProduct />,
   },
   {
-    id:58,
+    id: 58,
     path: `${import.meta.env.BASE_URL}Production/ViewRawProductionStock`,
-    element: <ViewRawProductionStock/>,
+    element: <ViewRawProductionStock />,
   },
   {
-    id:59,
+    id: 59,
     path: `${import.meta.env.BASE_URL}Production/AddRawProductionStock`,
-    element: <AddRawProductionStock/>,
+    element: <AddRawProductionStock />,
   },
 
-// Discount Percentage
+  // Discount Percentage
   {
-    id:59,
+    id: 59,
     path: `${import.meta.env.BASE_URL}Discount/ViewDiscountPercentage`,
-    element: <ViewDiscountPercentage/>,
+    element: <ViewDiscountPercentage />,
   },
 
-// Admin Approval Request Product Stock
- {
-    id:59,
+  // Admin Approval Request Product Stock
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminPendingRequest`,
-    element: <ViewAdminPendingRequest/>,
-},
-{
-    id:59,
+    element: <ViewAdminPendingRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminApprovalRequest`,
-    element: <ViewAdminApprovalRequest/>,
-},
-{
-    id:59,
+    element: <ViewAdminApprovalRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AdminApprovalRequest/ViewAdminRejectRequest`,
-    element: <ViewAdminRejectRequest/>,
-},
+    element: <ViewAdminRejectRequest />,
+  },
 
-// Accountant Approval Request Product Stock
-{
-    id:59,
+  // Accountant Approval Request Product Stock
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AccountantApprovalRequest/ViewAccountantRejectRequest`,
-    element: <ViewAccountantRejectRequest/>,
-},
-{
-    id:59,
+    element: <ViewAccountantRejectRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AccountantApprovalRequest/ViewAccountantPendingRequest`,
-    element: <ViewAccountantPendingRequest/>,
-},
-{
-    id:59,
+    element: <ViewAccountantPendingRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AccountantApprovalRequest/ViewAccountantApprovalRequest`,
-    element: <ViewAccountantApprovalRequest/>,
-},
+    element: <ViewAccountantApprovalRequest />,
+  },
 
-// Admin Vendor Pending Order Request
-{
-    id:59,
+  // Admin Vendor Pending Order Request
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminApprovalVedOrdRequest`,
-    element: <ViewAdminApprovalVedOrdRequest/>,
-},
-{
-    id:59,
+    element: <ViewAdminApprovalVedOrdRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminPendingVedOrdRequest`,
-    element: <ViewAdminPendingVedOrdRequest/>,
-},
-{
-    id:59,
+    element: <ViewAdminPendingVedOrdRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AdminVedOrdRequest/ViewAdminRejectVedOrdRequest`,
-    element: <ViewAdminRejectVedOrdRequest/>,
-},
+    element: <ViewAdminRejectVedOrdRequest />,
+  },
 
-// Accountant Vendor Pending Order Request
-{
-    id:59,
+  // Accountant Vendor Pending Order Request
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantAppVedOrdRequest`,
-    element: <ViewAccountantAppVedOrdRequest/>,
-},
-{
-    id:59,
+    element: <ViewAccountantAppVedOrdRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantPenVedOrdRequest`,
-    element: <ViewAccountantPenVedOrdRequest/>,
-},
-{
-    id:59,
+    element: <ViewAccountantPenVedOrdRequest />,
+  },
+  {
+    id: 59,
     path: `${import.meta.env.BASE_URL}AccountantVedOrdRequest/ViewAccountantRejVedOrdRequest`,
-    element: <ViewAccountantRejVedOrdRequest/>,
-},
+    element: <ViewAccountantRejVedOrdRequest />,
+  },
 
-// sub Francise
-{
+  // sub Francise
+  {
     id: 46,
     path: `${import.meta.env.BASE_URL}Franchise/CashBook/ViewCashBook`,
     element: <ViewCashBook />,
@@ -871,30 +889,26 @@ export const RouteData: routeType[] = [
   },
   {
     id: 53,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/SellingProducts/ViewManageProduct`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/SellingProducts/ViewManageProduct`,
     element: <ViewManageProduct />,
   },
   {
     id: 54,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/RawMakingProducts/ViewRawProducts`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/RawMakingProducts/ViewRawProducts`,
     element: <ViewRawProducts />,
   },
   {
     id: 55,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/RawMakingProducts/ViewRawManageStock`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/RawMakingProducts/ViewRawManageStock`,
     element: <ViewRawManageStock />,
   },
   {
     id: 56,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/RequestProductStock/ViewRequestProductStock`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/RequestProductStock/ViewRequestProductStock`,
     element: <ViewRequestProductStock />,
   },
   {
@@ -909,84 +923,74 @@ export const RouteData: routeType[] = [
   },
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/Reports/ViewProductWiseSellReport`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/Reports/ViewProductWiseSellReport`,
     element: <ViewProductWiseSellReport />,
   },
 
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewCreditOrderAccount`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewCreditOrderAccount`,
     element: <ViewCreditOrderAccount />,
   },
-  
+
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewMRPInvenotoryStockReport`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewMRPInvenotoryStockReport`,
     element: <ViewMRPInvenotoryStockReport />,
   },
 
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewRawInventoryStockReport`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewRawInventoryStockReport`,
     element: <ViewRawInventoryStockReport />,
   },
 
-   {
+  {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewAssetsInventoryStockReport`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewAssetsInventoryStockReport`,
     element: <ViewAssetsInventoryStockReport />,
   },
 
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewMinMRPInventoryStockReport`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewMinMRPInventoryStockReport`,
     element: <ViewMinMRPInventoryStockReport />,
   },
 
-    {
+  {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewTopSellingProduct`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewTopSellingProduct`,
     element: <ViewTopSellingProduct />,
   },
 
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/ViewStockLevel`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/ViewStockLevel`,
     element: <ViewStockLevel />,
   },
 
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/GRN/ViewMRPProductGRN`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/GRN/ViewMRPProductGRN`,
     element: <ViewMRPProductGRN />,
   },
 
   {
     id: 59,
-    path: `${
-      import.meta.env.BASE_URL
-    }Franchise/GRN/ViewRawProductGRN`,
+    path: `${import.meta.env.BASE_URL
+      }Franchise/GRN/ViewRawProductGRN`,
     element: <ViewRawProductGRN />,
   },
-  
+
   {
     id: 31,
     path: `${import.meta.env.BASE_URL}Franchise/Setting/PrintSetting`,

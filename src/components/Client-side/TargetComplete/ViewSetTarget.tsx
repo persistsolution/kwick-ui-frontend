@@ -81,7 +81,7 @@ const ViewSetTarget: FC = () => {
                       <option value={SetTarget.length}>All Items</option>
                     </Form.Select>
                     <Button variant="success" onClick={handelSetTarget}>
-                      Add New          
+                      Add New
                     </Button>
 
                     <Button variant="success" onClick={exportToExcel}>
@@ -108,14 +108,30 @@ const ViewSetTarget: FC = () => {
                         <th onClick={() => handleSort("createdDate")}>
                           Created Date{" "}
                         </th>
-                        <th onClick={() => handleSort("status")}>Edit </th>
-                        <th onClick={() => handleSort("status")}>Delete </th>
+                        <th onClick={() => handleSort("status")}>Action </th>
                       </tr>
                     </thead>
                     <tbody>
                       {SetTarget.length > 0 ? (
-                        SetTarget.map((franchise: any) => (
-                          <tr key={franchise.id}></tr>
+                        SetTarget.map((target: any) => (
+                          <tr key={target.id}>
+                            <td>{target?.sr_no}</td>
+                            <td>{target?.franchise_name}</td>
+                            <td>{target?.month}</td>
+                            <td>{target?.year}</td>
+                            <td>{target?.target}</td>
+                            <td>{target?.created_by}</td>
+                            <td>{target?.created_date}</td>
+                            <td>
+                              <button className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <i className="bi bi-pencil-square"></i>
+                              </button>
+                              &nbsp; &nbsp;
+                              <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
                         ))
                       ) : (
                         <tr>

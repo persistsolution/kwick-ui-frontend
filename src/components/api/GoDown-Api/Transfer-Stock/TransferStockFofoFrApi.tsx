@@ -12,7 +12,7 @@ export const addTransferStockToFofoFrApi = async (
 export const fetchTransferStockToFofoFrApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godown/transferstock/get/2`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/view-transfer-godwon-raw-stock-fofo.php`);
 };
 
 // Delete Fofo Stock API

@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGoDownReturnProduct from "../../../Hook/GoDown-Hook/GoDownReturnProduct/useGoDownReturnProduct";
+import { Link } from "react-router-dom";
 
 const ViewGodownReturnProduct: FC = () => {
   const {
@@ -95,12 +96,45 @@ const ViewGodownReturnProduct: FC = () => {
                         <th onClick={() => handleSort("returnState")}>
                           Return State{" "}
                         </th>
+                        <th onClick={() => handleSort("returnState")}>
+                          Created Date
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {viewGodownReturnProduct.length > 0 ? (
                         viewGodownReturnProduct.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
+                          <tr key={GodownAccount.id}>
+                            <td>{GodownAccount?.sr_no}</td>
+
+                            <td>
+                              {GodownAccount?.invoice_no}
+                            </td>
+                            <td>{GodownAccount?.return_date}</td>
+                            <td>{GodownAccount?.vendor_name}</td>
+                            <td>                            <Link
+                              // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                              to=""
+                              target="_blank"
+                            >
+                              {GodownAccount?.total_qty}
+                            </Link>
+                            </td>
+
+                            <td>
+                              {GodownAccount?.narration}
+                            </td>
+                            <td
+                              className={`${GodownAccount.return_status == "Approved"
+                                ? "text-success"
+                                : "text-danger"
+                                }`}
+                            >
+                              {GodownAccount.return_status}
+                            </td>
+                            <td>{GodownAccount?.created_at}</td>
+
+                          </tr>
                         ))
                       ) : (
                         <tr>

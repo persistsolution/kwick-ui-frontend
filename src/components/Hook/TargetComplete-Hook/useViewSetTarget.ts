@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchSetTarget } from "../../api/SetTarget-Api/SetTargetApi";
+import { fetchSetTargetAPI } from "../../api/SetTarget-Api/SetTargetApi";
 import { useNavigate } from "react-router-dom";
 
 const useViewSetTarget = () => {
@@ -22,9 +22,10 @@ const useViewSetTarget = () => {
 
   const handleFetchSetTarget = async () => {
     try {
-      const response: any = await fetchSetTarget();
-      setSetTarget(response.data);
-      setFilteredSetTarget(response.data);
+      const response: any = await fetchSetTargetAPI();
+      const data = response?.data?.data ||[]
+      setSetTarget(data);
+      setFilteredSetTarget(data);
     } catch (error) {
       console.error("Error fetching SetTarget:", error);
     }

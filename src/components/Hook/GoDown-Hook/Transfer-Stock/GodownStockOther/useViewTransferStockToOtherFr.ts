@@ -36,8 +36,9 @@ const useViewTransferStockToOtherFr = () => {
   const handleFetchviewTransferStockToOtherFr = async () => {
     try {
       const response: any = await fetchTransferStockToOtherFrApi();
-      setviewTransferStockToOtherFr(response.data);
-      setFilteredviewTransferStockToOtherFr(response.data);
+      const data = response?.data?.data || []
+      setviewTransferStockToOtherFr(data);
+      setFilteredviewTransferStockToOtherFr(data);
     } catch (error) {
       console.error("Error fetching viewTransferStockToOtherFr:", error);
     }

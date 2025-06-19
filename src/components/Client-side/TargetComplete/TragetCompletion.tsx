@@ -160,8 +160,14 @@ const TragetCompletion: React.FC = () => {
                         </thead>
                         <tbody>
                           {TargetCompletion.length > 0 ? (
-                            TargetCompletion.map((franchise: any) => (
-                              <tr key={franchise.id}></tr>
+                            TargetCompletion.map((targetComp: any) => (
+                              <tr key={targetComp.id}>
+                                <td>{targetComp?.sr_no}</td>
+                                <td>{targetComp?.shop_name}</td>
+                                <td>{targetComp?.shop_name}</td>
+                                <td>{targetComp?.shop_name}</td>
+                                <td>{targetComp?.shop_name}</td>
+                              </tr>
                             ))
                           ) : (
                             <tr>
@@ -185,9 +191,8 @@ const TragetCompletion: React.FC = () => {
                       </div>
                       <ul className="pagination pagination-sm mt-2 mt-md-0">
                         <li
-                          className={`page-item ${
-                            currentPage === 1 ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === 1 ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -198,9 +203,8 @@ const TragetCompletion: React.FC = () => {
                           </button>
                         </li>
                         <li
-                          className={`page-item ${
-                            currentPage === 1 ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === 1 ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -213,9 +217,8 @@ const TragetCompletion: React.FC = () => {
                         {getVisiblePages().map((pageNumber) => (
                           <li
                             key={pageNumber}
-                            className={`page-item ${
-                              currentPage === pageNumber ? "active" : ""
-                            }`}
+                            className={`page-item ${currentPage === pageNumber ? "active" : ""
+                              }`}
                           >
                             <button
                               className="page-link"
@@ -226,9 +229,8 @@ const TragetCompletion: React.FC = () => {
                           </li>
                         ))}
                         <li
-                          className={`page-item ${
-                            currentPage === totalPages ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -239,9 +241,8 @@ const TragetCompletion: React.FC = () => {
                           </button>
                         </li>
                         <li
-                          className={`page-item ${
-                            currentPage === totalPages ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { TragetCompletionApi } from "../../api/SetTarget-Api/SetTargetApi";
 
@@ -45,12 +45,18 @@ const useTragetCompletion = () => {
       setFormValues(updatedValues);
     }
   };
+
+useEffect(()=>{
+handleFetchTargetCompletion();
+},[])
+
   const handleFetchTargetCompletion = async () => {
     const raw = {};
     try {
       const response: any = await TragetCompletionApi(raw);
-      setTargetCompletion(response.data);
-      setFilteredTargetCompletion(response.data);
+      const data = response?.data?.data ||[] 
+      setTargetCompletion(data);
+      setFilteredTargetCompletion(data);
     } catch (error) {
       console.error("Error fetching TargetCompletion:", error);
     }

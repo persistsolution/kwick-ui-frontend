@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { API_BASE_URL } from "../../../config";
 
 // Fetch all SetTarget
-export const fetchSetTarget = async (): Promise<AxiosResponse<any[]>> => {
+export const fetchSetTargetAPI = async (): Promise<AxiosResponse<any[]>> => {
   return axios.get<any[]>(`${API_BASE_URL}/SetTarget/get`);
 };
 
@@ -39,7 +39,8 @@ export const createSetTarget = async (
 export const TragetCompletionApi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/TragetCompletion/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/target/target-completion-report.php
+`, data);
 };
 
 // API to Target Completion Report

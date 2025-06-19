@@ -24,8 +24,9 @@ const useGodownPendingRequest = () => {
   const handleFetchviewGodownPendingRequest = async () => {
     try {
       const response: any = await fetchGodownPendingRequestApi();
-      setviewGodownPendingRequest(response.data);
-      setFilteredviewGodownPendingRequest(response.data);
+      const data = response?.data?.data || []
+      setviewGodownPendingRequest(data);
+      setFilteredviewGodownPendingRequest(data);
     } catch (error) {
       console.error("Error fetching viewGodownPendingRequest:", error);
     }

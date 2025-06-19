@@ -33,7 +33,7 @@ export const fetchGodownListApi = async (): Promise<AxiosResponse<any[]>> => {
 
 // Fetch All Godown Stock
 export const fetchGodownStockApi = async (): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/godown/stock/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/view-godown-raw-prod-stock.php`);
 };
 
 // API to Delete Godown Stock

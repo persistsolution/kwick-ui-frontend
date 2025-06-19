@@ -18,7 +18,7 @@ const useViewGodownAccount = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-const navigate = useNavigate()
+  const navigate = useNavigate()
   useEffect(() => {
     handleFetchviewGodownAccount();
   }, []);
@@ -26,14 +26,15 @@ const navigate = useNavigate()
   const handleFetchviewGodownAccount = async () => {
     try {
       const response: any = await fetchGodownApi();
-      setviewGodownAccount(response.data);
-      setFilteredviewGodownAccount(response.data);
+      const data = response?.data?.data || []
+      setviewGodownAccount(data);
+      setFilteredviewGodownAccount(data);
     } catch (error) {
       console.error("Error fetching viewGodownAccount:", error);
     }
   };
 
-  const handleAddGodownAccount = ()=>{
+  const handleAddGodownAccount = () => {
     navigate("/GoDown/CreateGodownAccount")
   }
 
@@ -113,7 +114,9 @@ const navigate = useNavigate()
     }
   };
 
-  const handleEdit = () => {};
+  const handleEdit = (id: number) => {
+    navigate(`/GoDown/EditGodownAccount/${id}`)
+  };
 
   const indexOfLastGodownAccount = currentPage * viewGodownAccountPerPage;
   const indexOfFirstGodownAccount =

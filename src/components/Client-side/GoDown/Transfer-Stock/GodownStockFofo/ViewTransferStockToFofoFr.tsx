@@ -138,8 +138,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                         <th onClick={() => handleSort("totalQty")}>
                           Total Qty{" "}
                         </th>
-                        <th onClick={() => handleSort("totalContact")}>
-                          Total Contact{" "}
+                        <th onClick={() => handleSort("totalAmount")}>
+                          Total Amount{" "}
                         </th>
                         <th onClick={() => handleSort("narration")}>
                           Narration{" "}
@@ -151,7 +151,6 @@ const ViewTransferStockToFofoFr: FC = () => {
                           Invoice Print{" "}
                         </th>
                         <th onClick={() => handleSort("print")}>Print </th>
-                        {/* <th>Edit</th> */}
                         <th>Delete</th>
                       </tr>
                     </thead>
@@ -159,33 +158,22 @@ const ViewTransferStockToFofoFr: FC = () => {
                       {currentviewTransferStockToFofoFr.length > 0 ? (
                         currentviewTransferStockToFofoFr.map(
                           (GodownAccount: any) => (
-                            <tr key={GodownAccount.id}>
-                              <td>{GodownAccount.id}</td>
-                              <td>{GodownAccount.GodownName}</td>
-                              <td></td>
+                            <tr key={GodownAccount.sr_no}>
+                              <td>{GodownAccount.sr_no}</td>
+                              <td>{GodownAccount.godown_name}</td>
+                              <td>{GodownAccount.franchise_name}</td>
                               <td>{GodownAccount.StockDate}</td>
-                              <td>{GodownAccount.TotQty}</td>
-                              <td>{GodownAccount.TotalAmount}</td>
-                              <td>{GodownAccount.Narration}</td>
-                              <td>{GodownAccount.CreatedDate}</td>
-                          <td >  <Link to="" target="_blank"
-                                                 ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
-                                                 <td><Link to="" target="_blank"
-                                                 ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
-                              {/* <td>
-                                <button
-                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                  // onClick={() => handelEditProduct(product.id)}
-                                >
-                                  <i className="bi bi-pen fs-15"></i>
-                                </button>
-                              </td> */}
+                              <td>{GodownAccount.total_qty}</td>
+                              <td>{GodownAccount.total_amount}</td>
+                              <td>{GodownAccount.narration}</td>
+                              <td>{GodownAccount.created_date}</td>
+                              <td >  <Link to="" target="_blank"
+                              ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
+                              <td><Link to="" target="_blank"
+                              ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
                               <td>
-                                <button
-                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                                  // onClick={() => handleDeleteProduct(product.id)}
-                                >
-                                  <i className="bi bi-trash fs-15"></i>
+                                <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
                                 </button>
                               </td>
                             </tr>
@@ -213,9 +201,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -226,9 +213,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -241,9 +227,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -254,9 +239,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -267,9 +251,8 @@ const ViewTransferStockToFofoFr: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

@@ -24,8 +24,9 @@ const useGodownApproveRequest = () => {
   const handleFetchviewGodownApproveRequest = async () => {
     try {
       const response: any = await fetchGodownApproveRequestApi();
-      setviewGodownApproveRequest(response.data);
-      setFilteredviewGodownApproveRequest(response.data);
+      const data = response?.data?.data ||[]
+      setviewGodownApproveRequest(data);
+      setFilteredviewGodownApproveRequest(data);
     } catch (error) {
       console.error("Error fetching viewGodownApproveRequest:", error);
     }

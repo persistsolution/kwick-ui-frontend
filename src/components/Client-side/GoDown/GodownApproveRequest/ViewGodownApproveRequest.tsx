@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGodownApproveRequest from "../../../Hook/GoDown-Hook/GodownApproveAccount/useGodownApproveRequest";
+import { Link } from "react-router-dom";
 
 const ViewGodownApproveRequest: FC = () => {
   const {
@@ -93,13 +94,58 @@ const ViewGodownApproveRequest: FC = () => {
                         <th onClick={() => handleSort("narration")}>
                           Narration{" "}
                         </th>
+                        <th onClick={() => handleSort("CreatedDate")}>Created Date </th>
                         <th onClick={() => handleSort("status")}>Status </th>
                       </tr>
                     </thead>
                     <tbody>
                       {viewGodownApproveRequest.length > 0 ? (
                         viewGodownApproveRequest.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}></tr>
+
+                          <tr key={GodownAccount.id}>
+                            <td>{GodownAccount?.sr_no}</td>
+
+                            <td>
+                              <Link
+                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                to=""
+                                target="_blank"
+                              >
+                                #{GodownAccount?.request_id}
+                              </Link>
+                            </td>
+                            <td>{GodownAccount?.godown_name}</td>
+                            <td>{GodownAccount?.stock_date}</td>
+                            <td>                            <Link
+                              // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                              to=""
+                              target="_blank"
+                            >
+                              {GodownAccount?.item_count}
+                            </Link>
+                            </td>
+
+                            <td>
+                              <Link
+                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                to=""
+                                target="_blank"
+                              >
+                                Download
+                              </Link>
+                            </td>
+                            <td>{GodownAccount?.narration}</td>
+                            <td>{GodownAccount?.created_date}</td>
+                            <td
+                            className={`${GodownAccount.status == "Approved"
+                              ? "text-success"
+                              : "text-danger"
+                              }`}
+                          >
+                            {GodownAccount.status}
+                          </td>
+                          </tr>
+
                         ))
                       ) : (
                         <tr>
@@ -123,9 +169,8 @@ const ViewGodownApproveRequest: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -136,9 +181,8 @@ const ViewGodownApproveRequest: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -151,9 +195,8 @@ const ViewGodownApproveRequest: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -164,9 +207,8 @@ const ViewGodownApproveRequest: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -177,9 +219,8 @@ const ViewGodownApproveRequest: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

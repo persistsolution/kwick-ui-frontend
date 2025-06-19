@@ -18,7 +18,7 @@ const ViewGodownAccount: FC = () => {
     handlePageChange,
     exportToExcel,
     handleDeleteGodownAccount,
-    // handleEdit,
+    handleEdit,
     getVisiblePages,
     setviewGodownAccountPerPage,
     handleAddGodownAccount,
@@ -63,9 +63,9 @@ const ViewGodownAccount: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
-                     <Button variant="success" onClick={handleAddGodownAccount}>
-Add New                   
- </Button>
+                    <Button variant="success" onClick={handleAddGodownAccount}>
+                      Add New
+                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -81,9 +81,7 @@ Add New
                       <tr>
                         <th onClick={() => handleSort("id")}>ID</th>
                         <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("ShopName")}>
-                          Shop Name
-                        </th>
+
                         <th onClick={() => handleSort("Fname")}>GoDown Name</th>
                         <th onClick={() => handleSort("EmailId")}>Email</th>
                         <th onClick={() => handleSort("Phone")}>Contact No</th>
@@ -95,8 +93,8 @@ Add New
                         <th onClick={() => handleSort("CreatedDate")}>
                           Register Date
                         </th>
-                        {/* <th>Edit</th>
-                        <th>Delete</th> */}
+                        <th>Edit</th>
+
                       </tr>
                     </thead>
                     <tbody>
@@ -111,39 +109,27 @@ Add New
                                 alt="Photo"
                               />
                             </td>
-                            <td>{GodownAccount.ShopName}</td>
-                            <td>{GodownAccount.Fname}</td>
-                            <td>{GodownAccount.EmailId}</td>
-                            <td>{GodownAccount.Phone}</td>
-                            <td>{GodownAccount.Phone2}</td>
-                            <td>{GodownAccount.Address}</td>
+                            <td>{GodownAccount.full_name}</td>
+                            <td>{GodownAccount.email}</td>
+                            <td>{GodownAccount.phone}</td>
+                            <td>{GodownAccount.alt_phone}</td>
+                            <td>{GodownAccount.address}</td>
                             <td
-                              className={`${
-                                GodownAccount.Status === 1
-                                  ? "text-success"
-                                  : "text-danger"
-                              }`}
+                              className={`${GodownAccount.status == "Approved"
+                                ? "text-success"
+                                : "text-danger"
+                                }`}
                             >
-                              {GodownAccount.Status === 1
+                              {GodownAccount.status == "Approved"
                                 ? "Active"
                                 : "Inactive"}
                             </td>
-                            <td>{GodownAccount.CreatedDate}</td>
-                            {/* <td>
-                              <button className="avatar rounded-circle bg-azure cursor-pointer border-0">
-                                <i className="bi bi-pen fs-15"></i>
+                            <td>{GodownAccount.created_date}</td>
+                            <td>
+                              <button onClick={() => handleEdit(Number(GodownAccount.id))} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <i className="bi bi-pencil-square"></i>
                               </button>
                             </td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  handleDeleteGodownAccount(GodownAccount.id)
-                                }
-                                className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </button>
-                            </td> */}
                           </tr>
                         ))
                       ) : (
@@ -168,9 +154,8 @@ Add New
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -181,9 +166,8 @@ Add New
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -196,9 +180,8 @@ Add New
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -209,9 +192,8 @@ Add New
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -222,9 +204,8 @@ Add New
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

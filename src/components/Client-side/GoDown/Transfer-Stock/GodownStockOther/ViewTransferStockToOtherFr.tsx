@@ -140,8 +140,8 @@ const ViewTransferStockToOtherFr: FC = () => {
                         <th onClick={() => handleSort("totalQty")}>
                           Total Qty{" "}
                         </th>
-                        <th onClick={() => handleSort("totalContact")}>
-                          Total Contact{" "}
+                        <th onClick={() => handleSort("totalAmount")}>
+                          Total Amount{" "}
                         </th>
                         <th onClick={() => handleSort("narration")}>
                           Narration{" "}
@@ -161,33 +161,22 @@ const ViewTransferStockToOtherFr: FC = () => {
                       {currentviewTransferStockToOtherFr.length > 0 ? (
                         currentviewTransferStockToOtherFr.map(
                           (GodownAccount: any) => (
-                            <tr key={GodownAccount.id}>
-                              <td>{GodownAccount.id}</td>
-                              <td>{GodownAccount.GodownName}</td>
-                              <td></td>
-                              <td>{GodownAccount.StockDate}</td>
-                              <td>{GodownAccount.TotQty}</td>
-                              <td>{GodownAccount.TotalAmount}</td>
-                              <td>{GodownAccount.Narration}</td>
-                              <td>{GodownAccount.CreatedDate}</td>
+                            <tr key={GodownAccount.sr_no}>
+                              <td>{GodownAccount.sr_no}</td>
+                              <td>{GodownAccount.godown_name}</td>
+                              <td>{GodownAccount.franchise_name}</td>
+                              <td>{GodownAccount.stock_date}</td>
+                              <td>{GodownAccount.total_qty}</td>
+                              <td>{Number(GodownAccount.total_amount || 0).toFixed(2)}</td>
+                              <td>{GodownAccount.narration}</td>
+                              <td>{GodownAccount.created_date}</td>
                               <td > <Link to="" target="_blank"
                               ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
                               <td><Link to="" target="_blank"
                               ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
-                              {/* <td>
-                                <button
-                                  className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                  // onClick={() => handelEditProduct(product.id)}
-                                >
-                                  <i className="bi bi-pen fs-15"></i>
-                                </button>
-                              </td> */}
                               <td>
-                                <button
-                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                                // onClick={() => handleDeleteProduct(product.id)}
-                                >
-                                  <i className="bi bi-trash fs-15"></i>
+                                <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
                                 </button>
                               </td>
                             </tr>

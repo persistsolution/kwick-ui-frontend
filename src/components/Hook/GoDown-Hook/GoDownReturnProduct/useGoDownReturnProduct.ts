@@ -21,15 +21,16 @@ const useGoDownReturnProduct = () => {
     handleFetchviewGodownReturnProduct();
   }, []);
 
-  const handleAddReturnProduct= ()=>{
+  const handleAddReturnProduct = () => {
     navigate("/GoDown/GodownReturnProduct")
   }
 
   const handleFetchviewGodownReturnProduct = async () => {
-    try {
+    try { 
       const response: any = await fetchGodownReturnProductApi();
-      setviewGodownReturnProduct(response.data);
-      setFilteredviewGodownReturnProduct(response.data);
+      const data = response?.data?.data || []
+      setviewGodownReturnProduct(data);
+      setFilteredviewGodownReturnProduct(data);
     } catch (error) {
       console.error("Error fetching viewGodownReturnProduct:", error);
     }

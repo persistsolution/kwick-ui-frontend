@@ -7,6 +7,7 @@ import {
   fetchGodownListApi,
 } from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
 import { useNavigate } from "react-router-dom";
+import { fetchGodownApi } from "../../../api/GoDown-Api/CreateGoDown/CreateGoDownApi";
 
 const useViewGodownStock = () => {
   const [viewGodownStock, setviewGodownStock] = useState([]);
@@ -36,14 +37,15 @@ const useViewGodownStock = () => {
 
   const fetchGodownList = async () => {
     try {
-      const response: any = await fetchGodownListApi();
-      setgoDownList(response.data);
+      const response: any = await fetchGodownApi();
+      const data = response?.data?.data ||[]
+      setgoDownList(data);
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
     }
   };
 
-  const handleAddNewStock = ()=>{
+  const handleAddNewStock = () => {
     navigate("/GoDown/AddGodownStock")
   }
 
@@ -59,8 +61,9 @@ const useViewGodownStock = () => {
   const handleFetchviewGodownStock = async () => {
     try {
       const response: any = await fetchGodownStockApi();
-      setviewGodownStock(response.data);
-      setFilteredviewGodownStock(response.data);
+      const data = response?.data?.data || []
+      setviewGodownStock(data);
+      setFilteredviewGodownStock(data);
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
     }
@@ -140,7 +143,7 @@ const useViewGodownStock = () => {
     }
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => { };
 
   const indexOfLastGodownStock = currentPage * viewGodownStockPerPage;
   const indexOfFirstGodownStock =
