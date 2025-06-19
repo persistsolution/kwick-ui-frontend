@@ -2,6 +2,8 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewRawProduct from "../../../Hook/Raw-Making-products-Hook/RawProductsTS/useViewRawProduct";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
+import DeleteAlert from "../../../../common/DeleteAlert";
 
 const ViewRawProduct: FC = () => {
   const {
@@ -13,6 +15,7 @@ const ViewRawProduct: FC = () => {
     indexOfLastCategory,
     currentPage,
     totalPages,
+    loading,
     handelEditProduct,
     handleDeleteProduct,
     handlePageChange,
@@ -73,92 +76,77 @@ const ViewRawProduct: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="category-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Photo")}>Photo</th>
-                        <th onClick={() => handleSort("name")}>Product Name</th>
-                        {/* <th onClick={() => handleSort("name")}>Barcode No</th> */}
-                        <th onClick={() => handleSort("name")}>Category</th>
-                        <th onClick={() => handleSort("name")}>Sub Category</th>
-                        <th onClick={() => handleSort("name")}>Purchase Price</th>
-                        <th onClick={() => handleSort("name")}>Min Qty</th>
-                        <th onClick={() => handleSort("name")}>Unit</th>
-                        {/* <th onClick={() => handleSort("name")}>Product Type</th> */}
-                        {/* <th onClick={() => handleSort("name")}>Price</th> */}
-                        <th onClick={() => handleSort("name")}>Status</th>
-                        <th onClick={() => handleSort("Name")}>Edit</th>
-                        <th onClick={() => handleSort("Name")}>Delet</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentCategories.length > 0 ? (
-                        currentCategories.map((category: any) => (
-                          <tr key={category.id}>
-                            <td>{category.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={category.Photo}
-                                alt={category.name || "Category Image"}
-                              />
-                            </td>
-                            <td>{category.ProductName}</td>
-                            {/* <td>{category.BarcodeNo}</td> */}
-                            <td>{category.CatName}</td>
-                            <td>{category.SubCatName}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            {/* <td className="text-success">
-                              {category.ProdType === 1
-                                ? "Raw / Making Product"
-                                : "MRP Product"}
-                            </td> */}
-                            {/* <td>
-                              <span>
-                                <i className="bi bi-currency-rupee  fs-15"></i>{" "}
-                                {category.ProdPrice}
-                              </span>
-                            </td> */}
-                            <td
-                              className={`${
-                                category.Status === 1
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="category-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("Photo")}>Photo</th>
+                          <th onClick={() => handleSort("name")}>Product Name</th>
+                          <th onClick={() => handleSort("CatName")}>Category</th>
+                          <th onClick={() => handleSort("name")}>Sub Category</th>
+                          <th onClick={() => handleSort("name")}>Purchase Price</th>
+                          <th onClick={() => handleSort("name")}>Min Qty</th>
+                          <th onClick={() => handleSort("name")}>Unit</th>
+                          <th onClick={() => handleSort("name")}>Status</th>
+                          <th onClick={() => handleSort("Name")}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentCategories.length > 0 ? (
+                          currentCategories.map((product: any) => (
+                            <tr key={product.id}>
+                              <td>{product.id}</td>
+                              <td>
+                                <img
+                                  className="avatar rounded-pill cover-image"
+                                  src={product.Photo}
+                                  alt={product.name || "product Image"}
+                                />
+                              </td>
+                              <td>{product.ProductName}</td>
+                              <td>{product.CatName}</td>
+                              <td>{product.SubCatName}</td>
+                              <td>{product.PurchasePrice}</td>
+                              <td>{product.MinQty}</td>
+                              <td>{product.Unit}</td>
+                              <td
+                                className={`${product.Status == 1
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
-                            >
-                              {category.Status === 1 ? "Active" : "In Active"}
-                            </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-azure cursor-pointer"
-                                onClick={() => handelEditProduct(category.id)}
+                                  }`}
                               >
-                                <i className="bi bi-pen fs-15"></i>
-                              </span>
-                            </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-pink cursor-pointer"
-                                onClick={() => handleDeleteProduct(category.id)}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </span>
-                            </td>
+                                {product.Status === 1 ? "Active" : "In Active"}
+                              </td>
+
+                              <td>
+                                <button
+                                  onClick={() => handelEditProduct(product.id)}
+                                  className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() => handleDeleteProduct(product.id)}
+                                  className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={10}>No categories available</td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={10}>No categories available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -169,9 +157,8 @@ const ViewRawProduct: FC = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -182,9 +169,8 @@ const ViewRawProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -197,9 +183,8 @@ const ViewRawProduct: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -210,9 +195,8 @@ const ViewRawProduct: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -223,9 +207,8 @@ const ViewRawProduct: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

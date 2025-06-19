@@ -1,102 +1,117 @@
 import { useEffect, useState } from "react";
-import { utils, writeFile } from "xlsx";
+import { utils, writeFile, WorkBook } from "xlsx";
 import { useNavigate } from "react-router-dom";
 import {
-  deleteRawProducts,
   fetchRawProducts,
+  deleteRawProducts,
 } from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
 
+export interface RawProduct {
+  id: number;
+  name: string;
+  [key: string]: any;
+}
+
+type SortDirection = "asc" | "desc";
+
+interface SortConfig<T> {
+  key: keyof T | null;
+  direction: SortDirection;
+}
+
 const useViewRawProduct = () => {
-  const [ProductArray, setProductArray] = useState([]);
-  const [filteredProductArray, setFilteredProductArray] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [categoriesPerPage, setCategoriesPerPage] = useState(5);
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
+  const [ProductArray, setProductArray] = useState<RawProduct[]>([]);
+  const [filteredProductArray, setFilteredProductArray] = useState<RawProduct[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [categoriesPerPage, setCategoriesPerPage] = useState<number>(5);
+  const [sortConfig, setSortConfig] = useState<SortConfig<RawProduct>>({
+    key: null,
+    direction: "asc",
+  });
+  const [loading, setloading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchGetProduct();
   }, []);
 
-  const fetchGetProduct = async () => {
+  const fetchGetProduct = async (): Promise<void> => {
+    setloading(true)
     try {
       const response: any = await fetchRawProducts();
-      setProductArray(response.data);
-      setFilteredProductArray(response.data);
+      const data: RawProduct[] = response?.data?.data || [];
+      setProductArray(data);
+      setFilteredProductArray(data);
+      setloading(!data)
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching products:", error);
+      setloading(false)
     }
   };
 
-  const handleSearch = (term: string) => {
+  const handleSearch = (term: string): void => {
     setSearchTerm(term);
+    const lower = term.toLowerCase();
     setFilteredProductArray(
       ProductArray.filter(
-        (category: any) =>
-          category?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          category?.id?.toString().includes(term.toLowerCase())
+        (product) =>
+          product?.name?.toLowerCase().includes(lower) ||
+          product?.id?.toString().includes(lower)
       )
     );
   };
 
-  const handleSort = (key: string) => {
-    let direction = "asc";
+  const handleSort = (key: keyof RawProduct): void => {
+    let direction: SortDirection = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-
-    const sortedCategories = [...filteredProductArray].sort((a, b) => {
+    const sorted = [...filteredProductArray].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
-
     setSortConfig({ key, direction });
-    setFilteredProductArray(sortedCategories);
+    setFilteredProductArray(sorted);
   };
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (page: number): void => {
+    setCurrentPage(page);
   };
 
-  const handelNavigateAddMore = () => {
+  const handelNavigateAddMore = (): void => {
     navigate("/RawProducts/AddRawMakingProducts");
   };
 
-  const exportToExcel = () => {
-    const table = document.getElementById("category-table");
-    const workbook = utils.table_to_book(table);
+  const exportToExcel = (): void => {
+    const table = document.getElementById("category-table") as HTMLTableElement | null;
+    if (!table) return;
+    const workbook: WorkBook = utils.table_to_book(table);
     writeFile(workbook, "product_data.xlsx");
   };
 
-  const getVisiblePages = () => {
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
+
+    const totalPages = Math.ceil(filteredProductArray.length / categoriesPerPage);
 
     if (endPage > totalPages) {
       endPage = totalPages;
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
 
-  const handleDeleteProduct = async (id: number) => {
+  const handleDeleteProduct = async (id: number): Promise<void> => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this product?"
-      );
-      if (!confirmDelete) return;
       const response = await deleteRawProducts(id);
       if (response.status === 200) {
-        console.log("Product deleted successfully:", response.data);
         fetchGetProduct();
       } else {
         console.error("Failed to delete the product:", response.statusText);
@@ -107,7 +122,7 @@ const useViewRawProduct = () => {
     }
   };
 
-  const handelEditProduct = (id: any) => {
+  const handelEditProduct = (id: number): void => {
     navigate(`/RawProducts/EditRawProducts/${id}`);
   };
 
@@ -128,6 +143,7 @@ const useViewRawProduct = () => {
     indexOfLastCategory,
     currentPage,
     totalPages,
+    loading,
     handelEditProduct,
     handleDeleteProduct,
     handlePageChange,
@@ -137,7 +153,7 @@ const useViewRawProduct = () => {
     handleSearch,
     setCategoriesPerPage,
     handelNavigateAddMore,
-  };
+  } ;
 };
 
 export default useViewRawProduct;

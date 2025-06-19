@@ -32,6 +32,7 @@ interface ProductFormValues {
 const EditRawProducts: FC = () => {
   const {
     formValues,
+    loading,
     handleSubmit,
     handleChange,
     handelAddProductList,
@@ -132,8 +133,8 @@ const EditRawProducts: FC = () => {
                             ].includes(field.name)
                               ? 2
                               : ["productName"].includes(field.name)
-                              ? 5
-                              : 3
+                                ? 5
+                                : 3
                           }
                           key={index}
                         >
@@ -157,7 +158,7 @@ const EditRawProducts: FC = () => {
                                     (option) =>
                                       option.value ==
                                       formValues[
-                                        field.name as keyof ProductFormValues
+                                      field.name as keyof ProductFormValues
                                       ]
                                   ) || null
                               }
@@ -188,8 +189,8 @@ const EditRawProducts: FC = () => {
                               value={
                                 field.type !== "file"
                                   ? formValues[
-                                      field.name as keyof ProductFormValues
-                                    ]?.toString() || ""
+                                    field.name as keyof ProductFormValues
+                                  ]?.toString() || ""
                                   : undefined
                               }
                               required={
@@ -255,10 +256,10 @@ const EditRawProducts: FC = () => {
                                     prevProducts.map((p, index) =>
                                       index === idx
                                         ? {
-                                            ...p,
-                                            customerProductId:
-                                              selectedOption?.value || "",
-                                          }
+                                          ...p,
+                                          customerProductId:
+                                            selectedOption?.value || "",
+                                        }
                                         : p
                                     )
                                   );
@@ -269,7 +270,7 @@ const EditRawProducts: FC = () => {
                               <td>
                                 <Form.Control
                                   onChange={(e) =>
-                                    handleChangeProductList(e.target.value, idx)
+                                    handleChangeProductList(Number(e.target.value), idx)
                                   }
                                   value={product.makingQty}
                                 />
@@ -291,8 +292,13 @@ const EditRawProducts: FC = () => {
                   </Row>
                   <Row className="mt-4">
                     <Col>
-                      <Button type="submit" className="btn btn-primary">
-                        Submit
+                      <Button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}
                       </Button>
                     </Col>
                   </Row>

@@ -29,7 +29,7 @@ const useEditRawSubCategory = ({
   });
   const [message, setMessage] = useState<string | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<object[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const id = localStorage.getItem("subCatId");
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const useEditRawSubCategory = ({
     setIsLoading(true);
   
     const formDataObj :any= new FormData();
-      formDataObj.append("CatId", formData.catid.toString());
+    formDataObj.append("CatId", formData.catid.toString());
     formDataObj.append("Name", formData.subCatname);
     formDataObj.append("Photo", formData.photo || ""); 
     formDataObj.append("Status", formData.status.toString());
@@ -145,7 +145,6 @@ const useEditRawSubCategory = ({
     }
   };
   
-
   return {
     formData,
     categoryOptions,

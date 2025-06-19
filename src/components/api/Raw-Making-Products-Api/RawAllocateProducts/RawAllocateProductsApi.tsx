@@ -7,11 +7,11 @@ export interface AllocateProducts {
 }
 
 // Fetch all Raw Allocate Products
-export const fetchrawallocateProducts = async (): Promise<
+export const fetchRawAllocateProducts = async (): Promise<
   AxiosResponse<AllocateProducts[]>
 > => {
   return axios.get<AllocateProducts[]>(
-    `${API_BASE_URL}/selling-product/allocateProducts/get/1`
+    `${API_BASE_URL}/raw-products/other-products/view-allocate-products.php`
   );
 };
 

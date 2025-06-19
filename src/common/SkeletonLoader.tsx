@@ -27,6 +27,11 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ loading }) => {
       )}
       <Stack spacing={2} useFlexGap sx={{ mt: loading ? 4 : 0 }}>
         <Card variant="outlined">
+                  <Typography>
+            <Skeleton loading={loading}>
+              An aerial view of a road in the middle of a forest.
+            </Skeleton>
+          </Typography>
           <AspectRatio ratio="10/2">
             <Skeleton loading={loading} variant="overlay">
               <img

@@ -4,9 +4,9 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewRawSubCategory from "../../../Hook/Raw-Making-products-Hook/RawSubCategoryTS/useViewRawSubCategory";
 import RawAddSubCategory from "./RawAddSubCategory";
 import EditRawSubCategory from "./EditRawSubCategory";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
-interface ComponentProps {}
-
+interface ComponentProps { }
 const ViewRawSubCategory: FC<ComponentProps> = () => {
   const {
     searchTerm,
@@ -19,8 +19,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
     exportToExcel,
     getVisiblePages,
     modalAddRawSubCategory,
-    handelfetchSubCategories,
-    modaltoggleEditRawSubCategory,
+    handlefetchSubCategories,
+    modalToggleEditRawSubCategory,
     currentSubCategories,
     toggleEditRawSubCategory,
     subcategoriesPerPage,
@@ -29,16 +29,12 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
     currentPage,
     indexOfLastSubCategory,
     totalPages,
-    toggleaddRawSubCategory,
+    toggleAddRawSubCategory,
+    loading,
   } = useViewRawSubCategory();
 
   return (
     <Fragment>
-      {/* <Pageheader 
-        heading="SubCategory List"
-        homepage="Products"
-        activepage="SubCategory List"
-      /> */}
 
       <div className="main-container container-fluid">
         <Row>
@@ -84,83 +80,79 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="subcategory-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th>Photo</th>
-                        <th onClick={() => handleSort("Name")}> Category</th>
-                        <th onClick={() => handleSort("Name")}>Sub Category</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentSubCategories.length > 0 ? (
-                        currentSubCategories.map((subcategory: any) => (
-                          <tr key={subcategory.id}>
-                            <td>{subcategory.id}</td>
-                            <td>
-                              {subcategory.photo ? (
-                                <img
-                                  className="avatar rounded-pill cover-image"
-                                  src={`${subcategory.Photo}`}
-                                  alt={subcategory.Name || "SubCategory Image"}
-                                />
-                              ) : (
-                                <img
-                                  className="avatar rounded-pill cover-image"
-                                  src={`${subcategory.Photo}`}
-                                  alt={subcategory.Name || "SubCategory Image"}
-                                />
-                              )}
-                            </td>
-                            <td>{subcategory.CatName}</td>
-                            <td>{subcategory.Name}</td>
-                            <td
-                              className={`${
-                                parseInt(subcategory.Status) === 1
+
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="subcategory-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th>Photo</th>
+                          <th onClick={() => handleSort("CatName")}> Category</th>
+                          <th onClick={() => handleSort("Name")}>Sub Category</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentSubCategories.length > 0 ? (
+                          currentSubCategories.map((subcategory: any) => (
+                            <tr key={subcategory.id}>
+                              <td>{subcategory.id}</td>
+                              <td>
+                                {subcategory.photo ? (
+                                  <img
+                                    className="avatar rounded-pill cover-image"
+                                    src={`${subcategory.Photo}`}
+                                    alt={subcategory.Name || "SubCategory Image"}
+                                  />
+                                ) : (
+                                  <img
+                                    className="avatar rounded-pill cover-image"
+                                    src={`${subcategory.Photo}`}
+                                    alt={subcategory.Name || "SubCategory Image"}
+                                  />
+                                )}
+                              </td>
+                              <td>{subcategory.CatName}</td>
+                              <td>{subcategory.Name}</td>
+                              <td
+                                className={`${parseInt(subcategory.Status) === 1
                                   ? "text-success"
                                   : "text-danger"
-                              }`}
-                            >
-                              {parseInt(subcategory.Status) === 1
-                                ? "Active"
-                                : "In Active"}
-                            </td>{" "}
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-azure"
-                                onClick={() => handleEdit(subcategory.id)}
-                                style={{ cursor: "pointer" }}
+                                  }`}
                               >
-                                <i className="bi bi-pen fs-15"></i>
-                              </span>
-                            </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-pink"
-                                onClick={() => handleDelete(subcategory.id)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </span>
+                                {parseInt(subcategory.Status) === 1
+                                  ? "Active"
+                                  : "In Active"}
+                              </td>{" "}
+
+                              <td>
+                                <button onClick={() => handleEdit(subcategory.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() => handleDelete(subcategory.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={5} className="text-center">
+                              No records found.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={5} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -174,9 +166,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -187,9 +178,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -202,9 +192,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -215,9 +204,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -228,9 +216,8 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -250,15 +237,15 @@ const ViewRawSubCategory: FC<ComponentProps> = () => {
 
       {/* Add Raw SubCategory */}
       <RawAddSubCategory
-        toggleaddRawSubCategory={toggleaddRawSubCategory}
+        toggleaddRawSubCategory={toggleAddRawSubCategory}
         modalAddRawSubCategory={modalAddRawSubCategory}
-        handelfetchSubCategories={handelfetchSubCategories}
+        handelfetchSubCategories={handlefetchSubCategories}
       />
 
       {/* Edit Raw SubCategory */}
       <EditRawSubCategory
-        handelfetchSubCategories={handelfetchSubCategories}
-        modaltoggleEditRawSubCategory={modaltoggleEditRawSubCategory}
+        handelfetchSubCategories={handlefetchSubCategories}
+        modaltoggleEditRawSubCategory={modalToggleEditRawSubCategory}
         toggleEditRawSubCategory={toggleEditRawSubCategory}
       />
     </Fragment>

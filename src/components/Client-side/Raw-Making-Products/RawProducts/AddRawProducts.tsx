@@ -1,7 +1,7 @@
 import { FC, Fragment } from "react";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import useRawProducts from "../../../Hook/Raw-Making-products-Hook/RawProductsTS/useRawProducts";
+import useAddRawAdProducts from "../../../Hook/Raw-Making-products-Hook/RawProductsTS/useAddRawProducts";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Select from "react-select";
@@ -32,6 +32,7 @@ interface ProductFormValues {
 const AddRawProducts: FC = () => {
   const {
     formValues,
+    loading,
     handleSubmit,
     handleChange,
     handelAddProductList,
@@ -40,7 +41,7 @@ const AddRawProducts: FC = () => {
     handleChangeProductList,
     setFormValues,
     setAddedProducts,
-  } = useRawProducts();
+  } = useAddRawAdProducts();
 
   return (
     <Fragment>
@@ -288,8 +289,14 @@ const AddRawProducts: FC = () => {
                     <Button
                       onClick={() => handleSubmit()}
                       className="btn btn-primary"
+                      disabled={loading}
                     >
-                      Submit
+                      {loading ? (
+                    <>
+                      <span className="me-2">Processing...</span>
+                      <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                    </>
+                  ) : "Submit"}
                     </Button>
                   </Col>
                 </Row>

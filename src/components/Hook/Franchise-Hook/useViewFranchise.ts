@@ -3,7 +3,7 @@ import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
 import {
   deleteFranchise,
-  fetchFranchise,
+  fetchFranchiseApi,
 } from "../../api/Franchise-Api/FranchiseApi";
 
 const useViewFranchise = () => {
@@ -28,9 +28,10 @@ const useViewFranchise = () => {
 
   const handleFetchFranchises = async () => {
     try {
-      const response: any = await fetchFranchise();
-      setFranchises(response.data);
-      setFilteredFranchises(response.data);
+      const response: any = await fetchFranchiseApi();
+      const data =  response?.data?.data || []
+      setFranchises(data);
+      setFilteredFranchises(data);
     } catch (error) {
       console.error("Error fetching franchises:", error);
     }

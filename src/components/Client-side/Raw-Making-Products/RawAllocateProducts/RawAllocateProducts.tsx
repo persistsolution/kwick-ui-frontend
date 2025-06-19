@@ -1,14 +1,15 @@
-import { FC, Fragment } from "react";
-//import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
-import Select from "react-select";
-import useRawAllocatProducts from "../../../Hook/Raw-Making-products-Hook/RawAllocateProductTS/useRawAllocatProducts";
+import { FC, Fragment } from 'react';
+import { Card, Col, Row, Table, Form, Button } from 'react-bootstrap';
+import Select from 'react-select';
+import useRawAllocatProducts from '../../../Hook/Raw-Making-products-Hook/RawAllocateProductTS/useRawAllocatProducts';
+import SkeletonLoader from "../../../../common/SkeletonLoader";
+import DeleteAlert from "../../../../common/DeleteAlert";
 
 const RawAllocateProducts: FC = () => {
   const {
     indexOfLastAllocateProducts,
     indexOfFirstAllocateProducts,
-    filteredallocateProducts,
+    filteredAllocateProducts,
     searchTerm,
     currentPage,
     allocateProductsPerPage,
@@ -16,26 +17,20 @@ const RawAllocateProducts: FC = () => {
     franchiseList,
     fromDate,
     toDate,
-    currentallocateProducts,
-    setfromDate,
-    settodate,
+    currentAllocateProducts,
+    loading,
+    setFromDate,
+    setToDate,
     handleSearch,
     handleSort,
     handlePageChange,
     getVisiblePages,
-    setallocateProductsPerPage,
-    // handelAllocatedProduct,
-    handelNavigateAllocatedProduct,
+    setAllocateProductsPerPage,
+    handleNavigateAllocatedProduct,
   } = useRawAllocatProducts();
 
   return (
     <Fragment>
-      {/* <Pageheader 
-        heading="List Of Allocate Raw Products"
-        homepage="Products"
-        activepage="Allocate Raw Products"
-      /> */}
-
       <div className="main-container container-fluid">
         <Row>
           <Col xl={12}>
@@ -48,43 +43,38 @@ const RawAllocateProducts: FC = () => {
                       <Select
                         name="state"
                         options={franchiseList}
-                        className="basic-multi-select "
                         isSearchable
                         menuPlacement="auto"
                         classNamePrefix="Select2"
-                        defaultValue={[franchiseList[0]]}
-                        getOptionLabel={(e: any) => e.label}
-                        getOptionValue={(e: any) => String(e.id)}
+                        defaultValue={franchiseList[0]}
+                        getOptionLabel={(e) => e.label}
+                        getOptionValue={(e) => String(e.id)}
                       />
                     </Form.Group>
                   </div>
-
                   <div className="col-md-2 col-12">
                     <Form.Group controlId="fromDate">
-                      <Form.Label> From Date</Form.Label>
+                      <Form.Label>From Date</Form.Label>
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: any) => setfromDate(date)}
+                        onChange={(e) => setFromDate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
-
                   <div className="col-md-2 col-12">
                     <Form.Group controlId="toDate">
-                      <Form.Label> To Date</Form.Label>
+                      <Form.Label>To Date</Form.Label>
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: any) => settodate(date)}
+                        onChange={(e) => setToDate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
-
                   <div className="col-md-2 col-12">
-                    <Button variant="success mt-4">Search </Button>
+                    <Button variant="success mt-4">Search</Button>
                   </div>
-
                   <div className="col-md-6 col-12">
                     <Form.Control
                       type="text"
@@ -94,109 +84,92 @@ const RawAllocateProducts: FC = () => {
                       className="w-100"
                     />
                   </div>
-
                   <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                     <Form.Select
                       value={allocateProductsPerPage}
-                      onChange={(e) =>
-                        setallocateProductsPerPage(Number(e.target.value))
-                      }
+                      onChange={(e) => setAllocateProductsPerPage(Number(e.target.value))}
                       className="w-auto"
                     >
-                      <option value="5">5 Items</option>
-                      <option value="10">10 Items</option>
-                      <option value="20">20 Items</option>
-                      <option value={filteredallocateProducts.length}>
-                        All Items
-                      </option>
+                      <option value={5}>5 Items</option>
+                      <option value={10}>10 Items</option>
+                      <option value={20}>20 Items</option>
+                      <option value={filteredAllocateProducts.length}>All Items</option>
                     </Form.Select>
                   </div>
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="AllocateProducts-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("name")}>
-                          Franchise Name
-                        </th>
-                        <th onClick={() => handleSort("name")}>Shop Name</th>
-                        <th onClick={() => handleSort("type")}>
-                          {" "}
-                          Franchise Type
-                        </th>
-                        <th onClick={() => handleSort("contact")}>
-                          {" "}
-                          Contact No{" "}
-                        </th>
-                        <th onClick={() => handleSort("allocate")}>Allocate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentallocateProducts.length > 0 ? (
-                        currentallocateProducts.map((products: any) => (
-                          <tr key={products.id}>
-                            <td>{products.id}</td>
-                            <td>{products.Fname}</td>
-                            <td>{products.ShopName}</td>
-                            <td
-                              className={
-                                products.Roll === 1
-                                  ? "text-warning"
-                                  : products.Roll === 2
-                                  ? "text-success"
-                                  : "text-danger"
-                              }
-                            >
-                              {products.Roll == 1
-                                ? "COCO Franchise"
-                                : products.Roll == 2
-                                ? "FOFO Franchise"
-                                : "Other Franchise"}
-                            </td>
-                            <td>{products.Phone}</td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  handelNavigateAllocatedProduct(products.id)
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="AllocateProducts-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort('id')}>ID</th>
+                          <th onClick={() => handleSort('Name')}>Franchise Name</th>
+                          <th onClick={() => handleSort('ShopName')}>Shop Name</th>
+                          <th onClick={() => handleSort('Roll')}>Franchise Type</th>
+                          <th onClick={() => handleSort('Phone')}>Contact No</th>
+                          <th>Allocate</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentAllocateProducts.length > 0 ? (
+                          currentAllocateProducts.map((product) => (
+                            <tr key={product.id}>
+                              <td>{product.id}</td>
+                              <td>{product.Name}</td>
+                              <td>{product.ShopName}</td>
+                              <td
+                                className={
+                                  product.Roll === 1
+                                    ? 'text-warning'
+                                    : product.Roll === 2
+                                      ? 'text-success'
+                                      : 'text-danger'
                                 }
-                                className="rounded-pill btn btn-primary-light"
                               >
-                                Allocated Product
-                              </button>
+                                {product.Roll === 1
+                                  ? 'COCO Franchise'
+                                  : product.Roll === 2
+                                    ? 'FOFO Franchise'
+                                    : 'Other Franchise'}
+                              </td>
+                              <td>{product.Phone}</td>
+                              <td>
+                                <button
+                                  onClick={() => handleNavigateAllocatedProduct(product.id)}
+                                  className="rounded-pill btn btn-primary-light"
+                                >
+                                  Allocated Product
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={6} className="text-center">
+                              No records found.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstAllocateProducts + 1} to{" "}
-                    {Math.min(
-                      indexOfLastAllocateProducts,
-                      filteredallocateProducts.length
-                    )}{" "}
-                    of {filteredallocateProducts.length} entries
+                    Showing {indexOfFirstAllocateProducts + 1} to{' '}
+                    {Math.min(indexOfLastAllocateProducts, filteredAllocateProducts.length)} of{' '}
+                    {filteredAllocateProducts.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
-                    <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
-                    >
+                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                       <button
                         className="page-link"
                         onClick={() => handlePageChange(1)}
@@ -205,11 +178,7 @@ const RawAllocateProducts: FC = () => {
                         First
                       </button>
                     </li>
-                    <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
-                    >
+                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                       <button
                         className="page-link"
                         onClick={() => handlePageChange(currentPage - 1)}
@@ -218,26 +187,14 @@ const RawAllocateProducts: FC = () => {
                         Previous
                       </button>
                     </li>
-                    {getVisiblePages().map((pageNumber) => (
-                      <li
-                        key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(pageNumber)}
-                        >
-                          {pageNumber}
+                    {getVisiblePages().map((page) => (
+                      <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                        <button className="page-link" onClick={() => handlePageChange(page)}>
+                          {page}
                         </button>
                       </li>
                     ))}
-                    <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
-                    >
+                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                       <button
                         className="page-link"
                         onClick={() => handlePageChange(currentPage + 1)}
@@ -246,11 +203,7 @@ const RawAllocateProducts: FC = () => {
                         Next
                       </button>
                     </li>
-                    <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
-                    >
+                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                       <button
                         className="page-link"
                         onClick={() => handlePageChange(totalPages)}

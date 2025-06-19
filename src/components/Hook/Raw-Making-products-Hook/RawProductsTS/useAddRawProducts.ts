@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { fetchRawCategories } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 import {
   createRawProducts,
@@ -39,7 +38,7 @@ interface ProductFormValues {
   productType2: number;
 }
 
-const useRawProducts = () => {
+const useAddRawAdProducts = () => {
   const [formValues, setFormValues] = useState<ProductFormValues>({
     productName: "",
     categoryId: 0,
@@ -73,6 +72,7 @@ const useRawProducts = () => {
   const [addedProducts, setAddedProducts] = useState<
     { customerProductId: number; makingQty: number }[]
   >([]);
+  const [loading, setLoading] = useState<boolean>(false)
 
   // const navigate = useNavigate();
 
@@ -85,7 +85,7 @@ const useRawProducts = () => {
 
   const fetchRawCustomerProductList = async () => {
     const response: any = await fetchRawCustomerProductListApi();
-    const data = await response.data;
+    const data = await response?.data || [];
     setFormValues((prevValues) => ({
       ...prevValues,
       productList: data.map((prolist: { ProductName: string; id: number }) => ({
@@ -98,7 +98,7 @@ const useRawProducts = () => {
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response.data;
+      const data = await response?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         unitList: data.map((unit: { Name: string; id: number }) => ({
@@ -135,6 +135,7 @@ const useRawProducts = () => {
   };
 
   const handelAddProduct = async () => {
+    setLoading(true)
     const productData = {
       ProductName: formValues.productName,
       CatId: formValues.categoryId,
@@ -185,16 +186,19 @@ const useRawProducts = () => {
           productType2: 2,
         }));
         setAddedProducts([]);
+        setLoading(!response)
       }
     } catch (error) {
       console.error("Error adding product:", error);
+      setLoading(false)
+
     }
   };
 
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchRawCategories();
-      const data = await response.data;
+      const data = await response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getcategory: data.map((category: { Name: string; id: number }) => ({
@@ -210,7 +214,7 @@ const useRawProducts = () => {
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchRawSubCategories();
-      const data = response.data;
+      const data = response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
@@ -230,7 +234,6 @@ const useRawProducts = () => {
   };
 
   const handelAddProductList = (e: React.FormEvent<HTMLFormElement>) => {
-    // if (formValues.customerProductId && formValues.makingQty) {
     e.preventDefault();
     const newProduct = {
       customerProductId: formValues.customerProductId,
@@ -239,10 +242,6 @@ const useRawProducts = () => {
     setAddedProducts((prev) => [...prev, newProduct]);
     setFormValues((prevValues) => ({
       ...prevValues,
-      // productName: "",
-      // categoryId: 0,
-      // subCategoryId: 0,
-      // unit: "",
       purchasePrice: "",
       totalPrice: "",
       cgst: "",
@@ -252,7 +251,6 @@ const useRawProducts = () => {
       priceWoGst: "",
       barcodeNo: "",
       minStockQty: "",
-      // status: "",
       productType: 1,
       transferProduct: "",
       qrDisplay: "",
@@ -267,9 +265,6 @@ const useRawProducts = () => {
       unitList: prevValues.unitList,
       productList: prevValues.productList,
     }));
-    // } else {
-    //   alert("Please select a Customer Product and specify the Making Qty.");
-    // }
   };
 
   const handleDelete = (index: number) => {
@@ -286,6 +281,7 @@ const useRawProducts = () => {
 
   return {
     formValues,
+    loading,
     handleSubmit,
     handleChange,
     handelAddProductList,
@@ -297,4 +293,4 @@ const useRawProducts = () => {
   };
 };
 
-export default useRawProducts;
+export default useAddRawAdProducts;

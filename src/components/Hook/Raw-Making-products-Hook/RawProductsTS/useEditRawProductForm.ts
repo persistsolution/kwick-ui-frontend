@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchRawCategories } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
+import { fetchRawSubCategories } from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 import {
-  fetchRawEditProductsApi,
+  fetchRawProductsByIdApi,
   updateRawProductsApi,
 } from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
-import { fetchRawSubCategories } from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
-import { useParams } from "react-router-dom";
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface SubCategory {
+  id: number;
+  name: string;
+}
+
+interface Unit {
+  id: number;
+  name: string;
+}
 
 interface ProductFormValues {
   productName: string;
@@ -28,15 +42,20 @@ interface ProductFormValues {
   qrDisplay: string;
   srNo: string;
   productImage: File | null;
-  getcategory: string[];
-  getSubCategory: string[];
+  getcategory: Category[];
+  getSubCategory: SubCategory[];
   photo: string;
   Qty: number;
   unit: string;
   customerProductId: number;
   makingQty: number;
-  unitList: string[];
+  unitList: Unit[];
   productList: string[];
+}
+
+interface AddedProduct {
+  customerProductId: number;
+  makingQty: number;
 }
 
 const useEditRawProductForm = () => {
@@ -69,12 +88,10 @@ const useEditRawProductForm = () => {
     unitList: [],
     productList: [],
   });
-  const [addedProducts, setAddedProducts] = useState<
-    { customerProductId: number; makingQty: number }[]
-  >([]);
 
-  // const navigate = useNavigate();
-  const { id } = useParams();
+  const [addedProducts, setAddedProducts] = useState<AddedProduct[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     handelGetCategories();
@@ -87,29 +104,24 @@ const useEditRawProductForm = () => {
   }, [id]);
 
   const fetchRawproductData = async () => {
-    const response: any = await fetchRawEditProductsApi(Number(id));
-    const data = response.data;
-    setFormValues((prevValues) => ({
-      ...prevValues,
+    const response :any = await fetchRawProductsByIdApi(Number(id));
+    const data = response?.data?.data || {};
+    setFormValues((prev) => ({
+      ...prev,
       productName: data.ProductName,
       categoryId: data.CatId,
       subCategoryId: data.SubCatId,
       unit: data.Unit,
-      productdetails: addedProducts.map((item) => ({
-        id: item.customerProductId,
-        Qty: item.makingQty,
-        Unit: formValues.unit,
-      })),
     }));
   };
 
   const fetchUnit = async () => {
     try {
-      const response: any = await fetchUnitApi();
-      const data = await response.data;
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        unitList: data.map((unit: { Name: string; id: number }) => ({
+      const response = await fetchUnitApi();
+      const data = response?.data || [];
+      setFormValues((prev) => ({
+        ...prev,
+        unitList: data.map((unit: any) => ({
           name: unit.Name,
           id: unit.id,
         })),
@@ -119,31 +131,32 @@ const useEditRawProductForm = () => {
     }
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
+
     if (type === "file") {
       const target = e.target as HTMLInputElement;
-      const files: any = target.files;
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        [name]: files && files[0] ? files[0] : null,
-      }));
-      const url = URL.createObjectURL(files[0]);
+      const files = target.files;
+      if (files && files[0]) {
+        const file = files[0];
+        const url = URL.createObjectURL(file);
+        setFormValues((prev) => ({
+          ...prev,
+          [name]: file,
+          photo: url,
+        }));
+      }
+    } else {
       setFormValues((prev) => ({
         ...prev,
-        photo: url,
-      }));
-    } else {
-      const updatedValues = {
-        ...formValues,
         [name]: value,
-      };
-      setFormValues(updatedValues);
+      }));
     }
   };
 
   const handelAddProduct = async () => {
-    const productData = {
+    setLoading(true);
+    const productData : object= {
       ProductName: formValues.productName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
@@ -156,13 +169,11 @@ const useEditRawProductForm = () => {
     };
 
     try {
-      const response: any = await updateRawProductsApi(
-        Number(id),
-        Object(productData)
-      );
+      const response = await updateRawProductsApi(Number(id), productData);
       if (response.status === 200) {
-        alert("Product Update successfully!");
+        alert("Product updated successfully!");
         setFormValues((prevValues) => ({
+          ...prevValues,
           productName: "",
           categoryId: 0,
           subCategoryId: 0,
@@ -182,53 +193,49 @@ const useEditRawProductForm = () => {
           qrDisplay: "",
           srNo: "",
           productImage: null,
-          getcategory: prevValues.getcategory,
-          getSubCategory: prevValues.getSubCategory,
           photo: "",
           Qty: 0,
           customerProductId: 0,
           makingQty: 0,
-          unitList: prevValues.unitList,
-          productList: prevValues.productList,
         }));
         setAddedProducts([]);
       }
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error updating product:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handelGetCategories = async () => {
     try {
-      const response: any = await fetchRawCategories();
-      const data = await response.data;
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        getcategory: data.map((category: { Name: string; id: number }) => ({
-          name: category.Name,
-          id: category.id,
+      const response :any = await fetchRawCategories();
+      const data = response?.data?.data || [];
+      setFormValues((prev) => ({
+        ...prev,
+        getcategory: data.map((cat: any) => ({
+          id: cat.id,
+          name: cat.Name,
         })),
       }));
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error fetching categories:", error);
     }
   };
 
   const handelGetSubCategories = async () => {
     try {
-      const response: any = await fetchRawSubCategories();
-      const data = response.data;
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        getSubCategory: data.map(
-          (subcategory: { Name: string; id: number }) => ({
-            name: subcategory.Name,
-            id: subcategory.id,
-          })
-        ),
+      const response :any = await fetchRawSubCategories();
+      const data = response?.data?.data || [];
+      setFormValues((prev) => ({
+        ...prev,
+        getSubCategory: data.map((sub: any) => ({
+          id: sub.id,
+          name: sub.Name,
+        })),
       }));
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error fetching subcategories:", error);
     }
   };
 
@@ -238,40 +245,37 @@ const useEditRawProductForm = () => {
   };
 
   const handelAddProductList = () => {
-    // if (formValues.customerProductId && formValues.makingQty) {
-    const newProduct = {
-      customerProductId: formValues.customerProductId,
-      makingQty: formValues.makingQty,
-    };
-    setAddedProducts((prev) => [...prev, newProduct]);
+    setAddedProducts((prev) => [
+      ...prev,
+      {
+        customerProductId: formValues.customerProductId,
+        makingQty: formValues.makingQty,
+      },
+    ]);
     setFormValues((prev) => ({
       ...prev,
       customerProductId: 0,
       makingQty: 0,
     }));
-    // } else {
-    //   alert("Please select a Customer Product and specify the Making Qty.");
-    // }
   };
 
   const handleDelete = (index: number) => {
-    setAddedProducts((prev) => prev.filter((_, idx) => idx !== index));
+    setAddedProducts((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleChangeProductList = (value: any, index: number) => {
+  const handleChangeProductList = (value: number, index: number) => {
     setAddedProducts((prev) =>
-      prev.map((product, idx) =>
-        idx === index ? { ...product, makingQty: value } : product
-      )
+      prev.map((item, i) => (i === index ? { ...item, makingQty: value } : item))
     );
   };
 
   return {
     formValues,
+    loading,
+    addedProducts,
     handleSubmit,
     handleChange,
     handelAddProductList,
-    addedProducts,
     handleDelete,
     handleChangeProductList,
     setFormValues,

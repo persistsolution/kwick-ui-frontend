@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchRawProductApi } from "../../../../api/SubFranchise-API/RawMakingProduct/RawProductApi/RawProductApi";
+
 const useRawProducts = () => {
   const [rawProduct, setrawProduct] = useState([]);
   const [filteredrawProduct, setFilteredrawProduct] = useState([]);
@@ -19,8 +20,9 @@ const useRawProducts = () => {
   const handleFetchrawProduct = async () => {
     try {
       const response: any = await fetchRawProductApi();
-      setrawProduct(response.data);
-      setFilteredrawProduct(response.data);
+      const data : any = response?.data?.data || []
+      setrawProduct(data);
+      setFilteredrawProduct(data);
     } catch (error) {
       console.error("Error fetching rawProduct:", error);
     }

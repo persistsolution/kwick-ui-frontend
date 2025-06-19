@@ -8,7 +8,7 @@ export interface Product {
 
 // API to raw Fetch all products
 export const fetchRawProducts = async (): Promise<AxiosResponse<Product[]>> => {
-  return axios.get<Product[]>(`${API_BASE_URL}/raw-product/product/get/1`);
+  return axios.get<Product[]>(`${API_BASE_URL}/raw-products/products/get-all-products.php`);
 };
 
 // API to raw Fetch all Customer products List
@@ -21,10 +21,10 @@ export const fetchRawCustomerProductListApi = async (): Promise<
 };
 
 // API to raw fetch a Product by ID
-export const fetchRawEditProductsApi = async (
+export const fetchRawProductsByIdApi = async (
   id: number
 ): Promise<AxiosResponse<Product>> => {
-  return axios.get<Product>(`${API_BASE_URL}/raw-product/product/edit/${id}`);
+  return axios.get<Product>(`${API_BASE_URL}/raw-products/products/get-product.php?id=${id}`);
 };
 
 // API to raw update a product
@@ -33,7 +33,7 @@ export const updateRawProductsApi = async (
   data: Partial<Product>
 ): Promise<AxiosResponse<Product>> => {
   return axios.put<Product>(
-    `${API_BASE_URL}/raw-product/product/update/${id}`,
+    `${API_BASE_URL}/raw-products/products/update-product.php`,
     data
   );
 };
@@ -42,12 +42,13 @@ export const updateRawProductsApi = async (
 export const deleteRawProducts = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
-  return axios.delete<void>(`${API_BASE_URL}/raw-product/product/delete/${id}`);
+  return axios.delete<void>(`${API_BASE_URL}/raw-products/products/delete-product.php?id=${id}`);
 };
+
 
 // API to raw create a products
 export const createRawProducts = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/raw-product/product/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/raw-products/products/add-product.php`, data);
 };

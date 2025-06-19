@@ -5,7 +5,7 @@ import {
   fetchGodownStockProduct,
   fetchProductDetailsApi,
 } from "../../../../api/GoDown-Api/GodownStock/GodownStockApi";
-import { fetchFranchise } from "../../../../api/Franchise-Api/FranchiseApi";
+import { fetchFranchiseApi } from "../../../../api/Franchise-Api/FranchiseApi";
 
 interface retailerFormValues {
   productName: string;
@@ -95,7 +95,7 @@ const useTransferStockGodownToOtherFr = () => {
 
   const fetchFranchiseList = async () => {
     try {
-      const response: any = await fetchFranchise();
+      const response: any = await fetchFranchiseApi();
       setFranchisesList(response.data);
     } catch (error) {
       console.error("Error fetching franchises:", error);
