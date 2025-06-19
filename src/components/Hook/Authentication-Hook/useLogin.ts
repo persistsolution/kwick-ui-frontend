@@ -114,7 +114,7 @@ const useLogin = () => {
     // }
     setOtp("1234")
     setIsOtpSent(true)
-    handleOffLogin();
+    // handleOffLogin();
     // const otpResponse: any = await sendOtpApi(mobileNumber);
     // if (otpResponse.response.status === 200) {
     //   setOtp(otpResponse);

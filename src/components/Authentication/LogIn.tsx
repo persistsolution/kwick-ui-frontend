@@ -80,7 +80,7 @@ const Login: FC = () => {
                           <span className="text-danger ms-1">*</span>
                         </Form.Label>
                         <Form.Control
-                          type="text"
+                          type="password"
                           placeholder="Enter OTP"
                           value={enteredOtp}
                           onChange={(e) => setEnteredOtp(e.target.value)}

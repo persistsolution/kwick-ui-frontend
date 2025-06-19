@@ -101,7 +101,7 @@ const ViewEmployee: FC = () => {
                         </th>
                         <th>Status</th>
                         <th>Register Date</th>
-                        <th onClick={() => handleSort("Lattitude")}>
+                        {/* <th onClick={() => handleSort("Lattitude")}>
                           Adhar Card No
                         </th>
                         <th onClick={() => handleSort("Longitude")}>
@@ -113,10 +113,9 @@ const ViewEmployee: FC = () => {
                         <th>Branch</th>
                         <th>IFSC Code</th>
                         <th>UPI Id</th>
-                  
+                   */}
                         {/* <th>Date</th> */}
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -135,46 +134,37 @@ const ViewEmployee: FC = () => {
                             <td>{employee.designation}</td>
                             <td>{employee.email}</td>
                             <td>{employee.phone}</td>
-                            <td>{employee.Password}</td>
+                            <td>{employee.password}</td>
                             <td>{employee.anotherPassword}</td>
-                            <td>{employee.Address}</td>
-                             <td
+                            <td>{employee.address}</td>
+                            <td
                               className={`${employee.status === "Approved"
-                                  ? "text-success"
-                                  : "text-danger"
+                                ? "text-success"
+                                : "text-danger"
                                 }`}
                             >
-                              {employee.status === "Approved"
-                                ? "Active"
-                                : "Inactive"}
+                              {employee.status}
                             </td>
-                            <td>{employee.CreatedDate}</td>
-                            <td>{employee.addharNo}</td>
+                            <td>{employee.created_date}</td>
+                            {/*<td>{employee.addharNo}</td>
                             <td>{employee.bloodgroup}</td>
                             <td>{employee.bankholderName}</td>
                             <td>{employee.bankname}</td>
                             <td>{employee.accountnumber}</td>
                             <td>{employee.branch}</td>
                             <td>{employee.ifsccode}</td>
-                            <td>{employee.upiid}</td>
-                           
+                            <td>{employee.upiid}</td> */}
                             <td>
-                              <span
-                                className="avatar rounded-circle bg-azure cursor-pointer"
-                                onClick={() => handleEdit(employee.id)}
-                              >
-                                <i className="bi bi-pen fs-15"></i>
-                              </span>
-                            </td>
-                            <td>
-                              <span
-                                className="avatar rounded-circle bg-pink cursor-pointer"
-                                onClick={() =>
-                                  handleDeleteEmployee(employee.id)
-                                }
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </span>
+                              <button onClick={() => handleEdit(employee.id)}
+                                className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <i className="bi bi-pencil-square"></i>
+                              </button>
+                              &nbsp; &nbsp;
+                              <button onClick={() =>
+                                handleDeleteEmployee(employee.id)
+                              } className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                <i className="bi bi-trash"></i>
+                              </button>
                             </td>
                           </tr>
                         ))
