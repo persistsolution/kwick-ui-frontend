@@ -131,20 +131,20 @@ const ViewEmployee: FC = () => {
                                 alt={employee.name || "employee Image"}
                               />
                             </td>{" "}
-                            <td>{employee.Fname}</td>
+                            <td>{employee.full_name}</td>
                             <td>{employee.designation}</td>
                             <td>{employee.email}</td>
-                            <td>{employee.Phone}</td>
+                            <td>{employee.phone}</td>
                             <td>{employee.Password}</td>
                             <td>{employee.anotherPassword}</td>
                             <td>{employee.Address}</td>
                              <td
-                              className={`${parseInt(employee.Status) === 1
+                              className={`${employee.status === "Approved"
                                   ? "text-success"
                                   : "text-danger"
                                 }`}
                             >
-                              {parseInt(employee.Status) === 1
+                              {employee.status === "Approved"
                                 ? "Active"
                                 : "Inactive"}
                             </td>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
-import { deleteEmploye , fetchEmploye } from "../../../api/Employe-Api/EmployeApi";
+import { deleteEmploye , fetchEmployeApi } from "../../../api/Employe-Api/EmployeApi";
 
 const useViewEmployee = () => {
   const [Employee, setEmployee] = useState([]);
@@ -21,9 +21,10 @@ const useViewEmployee = () => {
 
   const handleFetchEmployee = async () => {
     try {
-      const response: any = await fetchEmploye();
-      setEmployee(response.data);
-      setFilteredEmployee(response.data);
+      const response: any = await fetchEmployeApi();
+      const data = response?.data?.data || []
+      setEmployee(data);
+      setFilteredEmployee(data);
     } catch (error) {
       console.error("Error fetching Employee:", error);
     }

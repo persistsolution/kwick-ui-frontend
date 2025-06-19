@@ -97,7 +97,7 @@ const useEditMakingProductForm = () => {
     try {
       const response: any = await fetchEditMakingProductsAPI(Number(id))
       if (response.status === 200 && response.data) {
-        const responseData = response.data;
+        const responseData = response?.data?.data;
         const totalGstPercent =
           Number(responseData.CgstPer || 0) +
           Number(responseData.SgstPer || 0) +

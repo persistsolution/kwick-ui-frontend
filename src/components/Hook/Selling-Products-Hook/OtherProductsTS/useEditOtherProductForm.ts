@@ -100,8 +100,7 @@ const useEditOtherProductForm = () => {
     try {
       const response: any = await fetchEditProducts(Number(id));
       if (response.status === 200 && response.data) {
-        const responseData = response.data;
-        // Calculate WithoutGstAmount
+        const responseData = response?.data?.data;
         const totalGstPercent =
           Number(responseData.CgstPer || 0) +
           Number(responseData.SgstPer || 0) +

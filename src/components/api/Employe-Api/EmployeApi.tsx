@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { API_BASE_URL } from "../../../config";
 
 // Fetch all Employe
-export const fetchEmploye = async (): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/employee/get/63`);
+export const fetchEmployeApi = async (): Promise<AxiosResponse<any[]>> => {
+  return axios.get<any[]>(`${API_BASE_URL}/employee/view-employee.php`);
 };
 
 // API to fetch a Employe by ID

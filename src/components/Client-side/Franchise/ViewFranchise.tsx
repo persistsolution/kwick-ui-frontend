@@ -170,21 +170,21 @@ const ViewFranchise: FC = () => {
                                 to={`/Franchise/frDashboard/${franchise.id}`}
                                 target="_blank"
                               >
-                                {franchise.Fname}
+                                {franchise.full_name}
                               </Link>
                             </td>
-                            <td>{franchise.ShopName}</td>
-                            <td>{franchise.franchiseType}</td>
-                            <td>{franchise.Phone}</td>
-                            <td>{franchise.Password}</td>
+                            <td>{franchise.shop_name}</td>
+                            <td>{franchise.franchise_type}</td>
+                            <td>{franchise.phone}</td>
+                            <td>{franchise.password}</td>
                             <td
                               className={`${
-                                parseInt(franchise.Status) === 1
+                                franchise.status == "Approved"
                                   ? "text-success"
                                   : "text-danger"
                               }`}
                             >
-                              {parseInt(franchise.Status) === 1
+                              {franchise.status == "Approved"
                                 ? "Active"
                                 : "Inactive"}
                             </td>
