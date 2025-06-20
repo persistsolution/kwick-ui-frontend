@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useSellReport2025 from "../../Hook/FranchiseReports2025/useSellReport2025";
 import Select from "react-select";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewSellReport2025: FC = () => {
   const {
@@ -17,6 +18,8 @@ const ViewSellReport2025: FC = () => {
     franchiseArray,
     fromDate,
     toDate,
+    loading,
+    currentSellReport2025,
     setSelectFranchise,
     setfromDate,
     settoDate,
@@ -128,39 +131,54 @@ const ViewSellReport2025: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="SellReport2025-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("")}>
-                          Sr No
-                        </th>
-                        <th onClick={() => handleSort("")}>Franchise Name</th>
-                        <th onClick={() => handleSort("")}>Zone</th>
-                        <th onClick={() => handleSort("")}>Sub Zone</th>
-                        <th onClick={() => handleSort("")}>Category</th>
-                        <th onClick={() => handleSort("")}>Total Sell</th>
-                        <th onClick={() => handleSort("")}>Amount</th>
-                        <th onClick={() => handleSort("")}>Percentage</th>
-                        <th onClick={() => handleSort("")}> APC</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {SellReport2025.length > 0 ? (
-                        SellReport2025.map((SellReport2025: any) => (
-                          <tr key={SellReport2025.id}></tr>
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="SellReport2025-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("")}>
+                            Sr No
+                          </th>
+                          <th onClick={() => handleSort("")}>Franchise Name</th>
+                          <th onClick={() => handleSort("")}>Zone</th>
+                          <th onClick={() => handleSort("")}>Sub Zone</th>
+                          <th onClick={() => handleSort("")}>Category</th>
+                          <th onClick={() => handleSort("")}>Total Sell</th>
+                          <th onClick={() => handleSort("")}>Amount</th>
+                          <th onClick={() => handleSort("")}>Percentage</th>
+                          <th onClick={() => handleSort("")}> APC</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentSellReport2025.length > 0 ? (
+                          currentSellReport2025.map((SellReport2025: any) => (
+                            <tr key={SellReport2025.id}>
+                              <td>{SellReport2025?.sr_no}</td>
+                              <td>{SellReport2025?.shop_name}</td>
+                              <td>{SellReport2025?.zone}</td>
+                              <td>{SellReport2025?.sub_zone}</td>
+                              <td>{SellReport2025?.type}</td>
+                              <td>{Number(SellReport2025?.amount || 0).toFixed(2)}</td>
+                              <td>{Number(SellReport2025?.percentage || 0).toFixed(2)}</td>
+                              <td>{SellReport2025?.percentage}%</td>
+                              <td>{SellReport2025?.average_rate}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

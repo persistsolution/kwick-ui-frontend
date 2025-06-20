@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewMRPProductWiseSaleReport2025 from "../../Hook/FranchiseReports2025/useViewMRPProductWiseSaleReport2025";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewMRPProductWiseSaleReport2025: FC = () => {
     const {
@@ -25,8 +26,11 @@ const ViewMRPProductWiseSaleReport2025: FC = () => {
         productArray,
         selectPaymentType,
         paymentTypeArray,
-        setSelectPaymentType,
+        loading,
+        currentMRPProductWiseSaleReport2025,
         setSelectProduct,
+        handleFetchMRPProductWiseSaleReport2025,
+        setSelectPaymentType,
         handleSearch,
         handleSort,
         handlePageChange,
@@ -142,6 +146,12 @@ const ViewMRPProductWiseSaleReport2025: FC = () => {
                                             />
                                         </Form.Group>
                                     </div>
+
+                                    <div className="col-md-2">
+                                        <Button variant="success mt-4" onClick={handleFetchMRPProductWiseSaleReport2025}>
+                                            Search                                       
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div className="row align-items-center g-2 mb-3">
@@ -175,54 +185,72 @@ const ViewMRPProductWiseSaleReport2025: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="MRPProductWiseSaleReport2025-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("")}>
-                                                    Sr No
-                                                </th>
-                                                <th onClick={() => handleSort("franchise")}>
-                                                    Franchise Name
-                                                </th>
-                                                <th onClick={() => handleSort("Zone")}>
-                                                    Zone                                                </th>
-                                                <th onClick={() => handleSort("subZone ")}>
-                                                    Sub Zone                                               </th>
-                                                <th onClick={() => handleSort("Product")}>
-                                                    Product
-                                                </th>
-                                                <th onClick={() => handleSort("totalSell")}>
-                                                    Total Sell
-                                                </th>
-                                                <th onClick={() => handleSort("purchaseAmount")}>
-                                                    Purchase Amount
-                                                </th>
-                                                <th onClick={() => handleSort("sellAmount")}>
-                                                    Sell Amount
-                                                </th>
-                                                <th onClick={() => handleSort("profitAmount")}>
-                                                    Profit Amount
-                                                </th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {MRPProductWiseSaleReport2025.length > 0 ? (
-                                                MRPProductWiseSaleReport2025.map((MRPProductWiseSaleReport2025: any) => (
-                                                    <tr key={MRPProductWiseSaleReport2025.id}></tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="MRPProductWiseSaleReport2025-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("")}>
+                                                        Sr No
+                                                    </th>
+                                                    <th onClick={() => handleSort("franchise")}>
+                                                        Franchise Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("Zone")}>
+                                                        Zone
+                                                    </th>
+                                                    <th onClick={() => handleSort("subZone ")}>
+                                                        Sub Zone
+                                                    </th>
+                                                    <th onClick={() => handleSort("Product")}>
+                                                        Product
+                                                    </th>
+                                                    <th onClick={() => handleSort("totalSell")}>
+                                                        Total Sell
+                                                    </th>
+                                                    <th onClick={() => handleSort("purchaseAmount")}>
+                                                        Purchase Amount
+                                                    </th>
+                                                    <th onClick={() => handleSort("sellAmount")}>
+                                                        Sell Amount
+                                                    </th>
+                                                    <th onClick={() => handleSort("profitAmount")}>
+                                                        Profit Amount
+                                                    </th>
+
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                            </thead>
+                                            <tbody>
+                                                {currentMRPProductWiseSaleReport2025.length > 0 ? (
+                                                    currentMRPProductWiseSaleReport2025.map((mrpData: any) => (
+                                                        <tr key={mrpData?.sr_no}>
+                                                            <td>{mrpData?.sr_no}</td>
+                                                            <td>{mrpData?.shop_name}</td>
+                                                            <td>{mrpData?.zone}</td>
+                                                            <td>{mrpData?.sub_zone}</td>
+                                                            <td>{mrpData?.product_name}</td>
+                                                            <td>{mrpData?.total_quantity_sold}</td>
+                                                            <td>{mrpData?.total_purchase_cost}</td>
+                                                            <td>{mrpData?.total_sales}</td>
+                                                            <td>{mrpData?.profit}</td>
+
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

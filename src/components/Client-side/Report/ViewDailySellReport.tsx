@@ -2,22 +2,25 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import usedailySellReport from "../../Hook/Report-Hook/usedailySellReport";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewDailySellReport: FC = () => {
   const {
-    indexOfLastdailySellReport,
-    indexOfFirstdailySellReport,
+    indexOfLastDailySellReport,
+    indexOfFirstDailySellReport,
     dailySellReport,
     searchTerm,
     currentPage,
     dailySellReportPerPage,
+    currentDailySellReport,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setdailySellReportPerPage,
+    setDailySellReportPerPage,
   } = usedailySellReport();
 
   return (
@@ -48,7 +51,7 @@ const ViewDailySellReport: FC = () => {
                     <Form.Select
                       value={dailySellReportPerPage}
                       onChange={(e) =>
-                        setdailySellReportPerPage(Number(e.target.value))
+                        setDailySellReportPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
@@ -64,95 +67,116 @@ const ViewDailySellReport: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="dailysellreport-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("outletID")}>
-                          Outlet ID
-                        </th>
-                        <th onClick={() => handleSort("outletName")}>
-                          Outlet Name
-                        </th>
-                        <th onClick={() => handleSort("location")}>Location</th>
-                        <th onClick={() => handleSort("outletopeningdate")}>
-                          Outlet Opening Date{" "}
-                        </th>
-                        <th onClick={() => handleSort("outletvintageinmonth")}>
-                          {" "}
-                          Outlet Vintage in Months{" "}
-                        </th>
-                        <th onClick={() => handleSort("ftdInvoice")}>
-                          FTD No of Invoice{" "}
-                        </th>
-                        <th onClick={() => handleSort("ftdAmount")}>
-                          FTD Amount{" "}
-                        </th>
-                        <th onClick={() => handleSort("mtdInvoice")}>
-                          MTD No of Invoice{" "}
-                        </th>
-                        <th onClick={() => handleSort("mtdAmount")}>
-                          MTD Amount{" "}
-                        </th>
-                        <th onClick={() => handleSort("mtdInvoice")}>
-                          MTD No of Invoice{" "}
-                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          PTD Amount{" "}
-                        </th>{" "}
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          PSMD No of{" "}
-                        </th>
-                        <th>% Growth No of Invoice</th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Growth Amount{" "}
-                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Cash No of Invoice{" "}
-                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Cash Value{" "}
-                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          UPI No of Invoice{" "}
-                        </th>{" "}
-                        <th onClick={() => handleSort("upivalue")}>
-                          UPI Value{" "}
-                        </th>{" "}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dailySellReport.length > 0 ? (
-                        dailySellReport.map((dailysellreport: any) => (
-                          <tr key={dailysellreport.id}></tr>
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="dailysellreport-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("outletID")}>
+                            Outlet ID
+                          </th>
+                          <th onClick={() => handleSort("outletName")}>
+                            Outlet Name
+                          </th>
+                          <th onClick={() => handleSort("location")}>Location</th>
+                          <th onClick={() => handleSort("outletopeningdate")}>
+                            Outlet Opening Date{" "}
+                          </th>
+                          <th onClick={() => handleSort("outletvintageinmonth")}>
+                            {" "}
+                            Outlet Vintage in Months{" "}
+                          </th>
+                          <th onClick={() => handleSort("ftdInvoice")}>
+                            FTD No of Invoice{" "}
+                          </th>
+                          <th onClick={() => handleSort("ftdAmount")}>
+                            FTD Amount{" "}
+                          </th>
+                          <th onClick={() => handleSort("mtdInvoice")}>
+                            MTD No of Invoice{" "}
+                          </th>
+                          <th onClick={() => handleSort("mtdAmount")}>
+                            MTD Amount{" "}
+                          </th>
+
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            PTD Amount{" "}
+                          </th>{" "}
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            PSMD No of{" "}
+                          </th>
+                          <th>% Growth No of Invoice</th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Growth Amount{" "}
+                          </th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Cash No of Invoice{" "}
+                          </th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Cash Value{" "}
+                          </th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            UPI No of Invoice{" "}
+                          </th>{" "}
+                          <th onClick={() => handleSort("upivalue")}>
+                            UPI Value{" "}
+                          </th>{" "}
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentDailySellReport?.length > 0 ? (
+                          currentDailySellReport?.map((dailyData: any) => (
+                            <tr key={dailyData?.outlet_id}>
+                              <td>{dailyData?.outlet_id}</td>
+                              <td>{dailyData?.outlet_name}</td>
+                              <td>{dailyData?.location}</td>
+                              <td>{dailyData?.opening_date}</td>
+                              <td>{dailyData?.vintage_months}</td>
+                              <td>{dailyData?.ftd_invoices}</td>
+                              <td>{dailyData?.ftd_amount}</td>
+                              <td>{dailyData?.mtd_invoices}</td>
+                              <td>{dailyData?.mtd_amount}</td>
+                              <td></td>
+                              <td></td>
+                              <td>{Number(dailyData?.growth_invoices_percent || 0).toFixed(2)}</td>
+                              <td>{Number(dailyData?.growth_amount_percent || 0).toFixed(2)}</td>
+                              <td>{dailyData?.cash_invoices}</td>
+                              <td>{dailyData?.cash_amount}</td>
+                              <td>{dailyData?.pmsd_invoices}</td>
+                              <td>{dailyData?.upi_invoices}</td>
+                              <td>{dailyData?.upi_amount}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstdailySellReport + 1} to{" "}
+                    Showing {indexOfFirstDailySellReport + 1} to{" "}
                     {Math.min(
-                      indexOfLastdailySellReport,
+                      indexOfLastDailySellReport,
                       dailySellReport.length
                     )}{" "}
                     of {dailySellReport.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -163,9 +187,8 @@ const ViewDailySellReport: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === 1 ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -178,9 +201,8 @@ const ViewDailySellReport: FC = () => {
                     {getVisiblePages().map((pageNumber) => (
                       <li
                         key={pageNumber}
-                        className={`page-item ${
-                          currentPage === pageNumber ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -191,9 +213,8 @@ const ViewDailySellReport: FC = () => {
                       </li>
                     ))}
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"
@@ -204,9 +225,8 @@ const ViewDailySellReport: FC = () => {
                       </button>
                     </li>
                     <li
-                      className={`page-item ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
+                      className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                        }`}
                     >
                       <button
                         className="page-link"

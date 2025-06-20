@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewCategoryWiseSaleReport2025 from "../../Hook/FranchiseReports2025/useViewCategoryWiseSaleReport2025";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewCategoryWiseSaleReport2025: FC = () => {
     const {
@@ -23,6 +24,8 @@ const ViewCategoryWiseSaleReport2025: FC = () => {
         selectFranchiseProduct,
         selectCategory,
         categoryArray,
+        currentCategoryWiseSaleReport2025,
+        loading,
         setSelectCategory,
         handleSearch,
         handleSort,
@@ -51,8 +54,6 @@ const ViewCategoryWiseSaleReport2025: FC = () => {
                         <Card>
                             <Card.Body>
                                 <div className="row align-items-center g-2 mb-3">
-
-
                                     <div className="col-md-3 col-12">
                                         <Form.Label>Select Franchise<span className="text-danger ms-1">*</span></Form.Label>
                                         <Form.Group>
@@ -151,43 +152,55 @@ const ViewCategoryWiseSaleReport2025: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="CategoryWiseSaleReport2025-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("")}>
-                                                    Sr No
-                                                </th>
-                                                <th onClick={() => handleSort("franchise")}>
-                                                    Franchise Name
-                                                </th>
-                                                <th onClick={() => handleSort("Category")}>
-                                                    Category                                                
-                                                </th>
-                                                <th onClick={() => handleSort("totalSell")}>
-                                                    Total Sell                                                
-                                                </th>
-                                                <th onClick={() => handleSort("Amount")}>
-                                                    Amount                                                
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {CategoryWiseSaleReport2025.length > 0 ? (
-                                                CategoryWiseSaleReport2025.map((CategoryWiseSaleReport2025: any) => (
-                                                    <tr key={CategoryWiseSaleReport2025.id}></tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="CategoryWiseSaleReport2025-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("srNo")}>
+                                                        Sr No
+                                                    </th>
+                                                    <th onClick={() => handleSort("franchise")}>
+                                                        Franchise Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("Category")}>
+                                                        Category
+                                                    </th>
+                                                    <th onClick={() => handleSort("totalSell")}>
+                                                        Total Sell
+                                                    </th>
+                                                    <th onClick={() => handleSort("Amount")}>
+                                                        Amount
+                                                    </th>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                            </thead>
+                                            <tbody>
+                                                {currentCategoryWiseSaleReport2025?.length > 0 ? (
+                                                    currentCategoryWiseSaleReport2025?.map((catData: any) => (
+                                                        <tr key={catData?.sr_no}>
+                                                            <td>{catData?.sr_no}</td>
+                                                            <td>{catData?.created_by}</td>
+                                                            <td>{catData?.category_name}</td>
+                                                            <td>{catData?.total_products_sold}</td>
+                                                            <td>{catData?.total_sales_amount}</td>
+
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

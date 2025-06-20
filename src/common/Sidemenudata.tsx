@@ -968,7 +968,7 @@ const defaultMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Report2025/ViewRawCategoryWiseSaleReport2025`,
+        path: `${import.meta.env.BASE_URL}Report2025/ViewRawProductStockReport2025`,
         title: "Raw Product Stock Report",
         //icon: dashboardsvg,
         type: "link",

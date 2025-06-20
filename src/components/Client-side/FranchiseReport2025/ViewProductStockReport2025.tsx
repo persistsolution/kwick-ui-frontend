@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewProductStockReport2025 from "../../Hook/FranchiseReports2025/useViewProductStockReport2025";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewProductStockReport2025: FC = () => {
     const {
@@ -21,6 +22,8 @@ const ViewProductStockReport2025: FC = () => {
         selectFranchise,
         godownProductArray,
         selectFranchiseProduct,
+        loading,
+        currentProductStockReport2025,
         handleSearch,
         handleSort,
         handlePageChange,
@@ -126,13 +129,16 @@ const ViewProductStockReport2025: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
+                                        {loading ? (
+                                                    <SkeletonLoader loading={loading} />
+                                                  ) : (
                                     <Table
                                         id="ProductStockReport2025-table"
                                         className="border text-nowrap text-md-nowrap table-hover mb-0"
                                     >
                                         <thead className="table-primary">
                                               <tr>
-                                                <th onClick={() => handleSort("")}>
+                                                <th onClick={() => handleSort("srno")}>
                                                     Sr No
                                                 </th>
                                                 <th onClick={() => handleSort("franchise")}>
@@ -161,9 +167,18 @@ const ViewProductStockReport2025: FC = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {ProductStockReport2025.length > 0 ? (
-                                                ProductStockReport2025.map((ProductStockReport2025: any) => (
-                                                    <tr key={ProductStockReport2025.id}></tr>
+                                            {currentProductStockReport2025.length > 0 ? (
+                                                currentProductStockReport2025.map((ProductStockReport2025: any) => (
+                                                    <tr key={ProductStockReport2025.sr_no}>
+                                                        <td>{ProductStockReport2025?.sr_no}</td>
+                                                        <td>{ProductStockReport2025?.franchise_name}</td>
+                                                        <td>{ProductStockReport2025?.product_name}</td>
+                                                        <td>{ProductStockReport2025?.category_name}</td>
+                                                        <td>{ProductStockReport2025?.min_qty}</td>
+                                                        <td>{ProductStockReport2025?.credit}</td>
+                                                        <td>{ProductStockReport2025?.debit}</td>
+                                                        <td>{ProductStockReport2025?.balance}</td>
+                                                    </tr>
                                                 ))
                                             ) : (
                                                 <tr>
@@ -173,7 +188,7 @@ const ViewProductStockReport2025: FC = () => {
                                                 </tr>
                                             )}
                                         </tbody>
-                                    </Table>
+                                    </Table>)}
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

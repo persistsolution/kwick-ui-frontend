@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchSellReportApi } from "../../api/FranchiseReport2025/FranchiseReport2025Api";
 
 const useSellReport2025 = () => {
   const [SellReport2025, setSellReport2025] = useState([]);
@@ -17,18 +18,22 @@ const useSellReport2025 = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+const [ loading , setloading] = useState(false)
 
   useEffect(() => {
     handleFetchSellReport2025();
   }, []);
 
   const handleFetchSellReport2025 = async () => {
+    setloading(true)
     try {
-      const response: any = await ""
-      const data =  response.data || []
+      const response: any = await fetchSellReportApi();
+      const data =  response?.data?.data || []
       setSellReport2025(data);
       setFilteredSellReport2025(data);
+      setloading(!data)
     } catch (error) {
+      setloading(false)
       console.error("Error fetching SellReport2025:", error);
     }
   };
@@ -112,6 +117,7 @@ const useSellReport2025 = () => {
     toDate,
     selectFranchise,
     franchiseArray,
+    loading,
     setSelectFranchise,
     setfromDate,
     handleSearch,

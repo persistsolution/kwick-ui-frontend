@@ -3,11 +3,12 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewRawProductStockReport2025 from "../../Hook/FranchiseReports2025/useRawViewProductStockReport2025";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewRawProductStockReport2025: FC = () => {
     const {
-        indexOfLastRawProductStockReport2025,
-        indexOfFirstRawProductStockReport2025,
+        indexOfLast,
+        indexOfFirst,
         RawProductStockReport2025,
         searchTerm,
         currentPage,
@@ -21,6 +22,8 @@ const ViewRawProductStockReport2025: FC = () => {
         selectFranchise,
         godownProductArray,
         selectFranchiseProduct,
+        loading,
+        currentData,
         handleSearch,
         handleSort,
         handlePageChange,
@@ -31,7 +34,8 @@ const ViewRawProductStockReport2025: FC = () => {
         setfromDate,
         settodate,
         setSelectFranchise,
-        setSelectFranchiseProduct
+        setSelectFranchiseProduct,
+        
     } = useViewRawProductStockReport2025();
 
     return (
@@ -126,37 +130,46 @@ const ViewRawProductStockReport2025: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
+                                       {loading ? (
+                                                    <SkeletonLoader loading={loading} />
+                                                  ) : (
                                     <Table
                                         id="RawProductStockReport2025-table"
                                         className="border text-nowrap text-md-nowrap table-hover mb-0"
                                     >
                                         <thead className="table-primary">
-                                              <tr>
-                                                <th onClick={() => handleSort("")}>
+                                            <tr>
+                                                <th onClick={() => handleSort("SrNo")}>
                                                     Sr No
                                                 </th>
                                                 <th onClick={() => handleSort("franchise")}>
-                                                    Franchise Name                                                
+                                                    Franchise Name
                                                 </th>
                                                 <th onClick={() => handleSort("productName")}>
-                                                   Raw Product Name                                                
+                                                    Raw Product Name
                                                 </th>
                                                 <th onClick={() => handleSort("credit")}>
-                                                    Credit                                                
+                                                    Credit
                                                 </th>
                                                 <th onClick={() => handleSort("debit")}>
-                                                    Debit                                                
+                                                    Debit
                                                 </th>
                                                 <th onClick={() => handleSort("balance")}>
-                                                    Balance                                                
+                                                    Balance
                                                 </th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {RawProductStockReport2025.length > 0 ? (
-                                                RawProductStockReport2025.map((RawProductStockReport2025: any) => (
-                                                    <tr key={RawProductStockReport2025.id}></tr>
+                                            {currentData?.length > 0 ? (
+                                                currentData?.map((RawPrdData: any) => (
+                                                    <tr key={RawPrdData?.sr_no}>
+                                                        <td>{RawPrdData?.sr_no}</td>
+                                                        <td>{RawPrdData?.franchise_name}</td>
+                                                        <td>{RawPrdData?.product_name}</td>
+                                                        <td>{RawPrdData?.credit_qty}</td>
+                                                        <td>{RawPrdData?.debit_qty}</td>
+                                                        <td>{RawPrdData?.balance_qty}</td>
+                                                    </tr>
                                                 ))
                                             ) : (
                                                 <tr>
@@ -166,14 +179,14 @@ const ViewRawProductStockReport2025: FC = () => {
                                                 </tr>
                                             )}
                                         </tbody>
-                                    </Table>
+                                    </Table>)}
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                                     <div>
-                                        Showing {indexOfFirstRawProductStockReport2025 + 1} to{" "}
+                                        Showing {indexOfFirst + 1} to{" "}
                                         {Math.min(
-                                            indexOfLastRawProductStockReport2025,
+                                            indexOfLast,
                                             RawProductStockReport2025.length
                                         )}{" "}
                                         of {RawProductStockReport2025.length} entries

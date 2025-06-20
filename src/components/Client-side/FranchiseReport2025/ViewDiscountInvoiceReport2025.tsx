@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewDiscountInvoiceReport2025 from "../../Hook/FranchiseReports2025/useViewDiscountInvoiceReport2025";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewDiscountInvoiceReport2025: FC = () => {
     const {
@@ -25,6 +26,8 @@ const ViewDiscountInvoiceReport2025: FC = () => {
         reportTypeArray,
         selectPaymentType,
         paymentTypeArray,
+        currentDiscountInvoiceReport2025,
+        loading,
         setSelectPaymentType,
         setSelectReport,
         handleSearch,
@@ -233,6 +236,9 @@ const ViewDiscountInvoiceReport2025: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
+                                      {loading ? (
+                                                    <SkeletonLoader loading={loading} />
+                                                  ) : (
                                     <Table
                                         id="DiscountInvoiceReport2025-table"
                                         className="border text-nowrap text-md-nowrap table-hover mb-0"
@@ -271,9 +277,20 @@ const ViewDiscountInvoiceReport2025: FC = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {DiscountInvoiceReport2025.length > 0 ? (
-                                                DiscountInvoiceReport2025.map((DiscountInvoiceReport2025: any) => (
-                                                    <tr key={DiscountInvoiceReport2025.id}></tr>
+                                            {currentDiscountInvoiceReport2025.length > 0 ? (
+                                                currentDiscountInvoiceReport2025.map((disData: any) => (
+                                                    <tr key={disData.id}>
+                                                        <td>{disData?.shop_name}</td>
+                                                        <td>{disData?.invoice_no}</td>
+                                                        <td>{disData?.invoice_date}</td>
+                                                        <td>{disData?.customer_name}</td>
+                                                        <td>{disData?.mobile}</td>
+                                                        <td>{disData?.subtotal}</td>
+                                                        <td>{disData?.discount_per}</td>
+                                                        <td>{disData?.net_amount}</td>
+                                                        <td>{disData?.pay_type}</td>
+
+                                                    </tr>
                                                 ))
                                             ) : (
                                                 <tr>
@@ -284,6 +301,7 @@ const ViewDiscountInvoiceReport2025: FC = () => {
                                             )}
                                         </tbody>
                                     </Table>
+                                                  )}
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
