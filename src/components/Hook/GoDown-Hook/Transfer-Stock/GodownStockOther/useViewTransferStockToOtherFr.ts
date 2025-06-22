@@ -27,6 +27,7 @@ const useViewTransferStockToOtherFr = () => {
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
   const [FranchiseList, setFranchiseList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,13 +35,16 @@ const useViewTransferStockToOtherFr = () => {
   }, []);
 
   const handleFetchviewTransferStockToOtherFr = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchTransferStockToOtherFrApi();
       const data = response?.data?.data || []
       setviewTransferStockToOtherFr(data);
       setFilteredviewTransferStockToOtherFr(data);
+      setLoading(!data)
     } catch (error) {
       console.error("Error fetching viewTransferStockToOtherFr:", error);
+      setLoading(false)
     }
   };
 
@@ -126,7 +130,7 @@ const useViewTransferStockToOtherFr = () => {
     navigate("/GoDown/TransferStockGodownToOtherFr");
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => { };
 
   const indexOfLastTransferStockToOtherFr =
     currentPage * viewTransferStockToOtherFrPerPage;
@@ -139,7 +143,7 @@ const useViewTransferStockToOtherFr = () => {
     );
   const totalPages = Math.ceil(
     filteredviewTransferStockToOtherFr.length /
-      viewTransferStockToOtherFrPerPage
+    viewTransferStockToOtherFrPerPage
   );
 
   return {
@@ -156,6 +160,7 @@ const useViewTransferStockToOtherFr = () => {
     fromDate,
     toDate,
     FranchiseList,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

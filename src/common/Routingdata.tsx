@@ -108,7 +108,7 @@ import ViewWeeklySaleReport from "../components/Client-side/Report/ViewWeeklySal
 import ViewWeeklySaleReport2 from "../components/Client-side/Report/ViewWeeklySaleReport2";
 import ViewGodownStockReport from "../components/Client-side/Report/ViewGodownStockReport";
 import ViewGodownProductStockReport from "../components/Client-side/Report/ViewGodownProductStockReport";
-import ViewTransferPrdToCocoFr from "../components/Client-side/Report/ViewTransferStockToCocoFranchise";
+import ViewTransferPrdToCocoFr from "../components/Client-side/Report/ViewTransferStockToCocoFr";
 import ViewTransferPrdToCocoFr2 from "../components/Client-side/Report/TansferStockToCoco2/ViewTansferStockToCoco2";
 import AddPrdToCocoFr2 from "../components/Client-side/Report/TansferStockToCoco2/AddPrdToCocoFr2";
 
@@ -183,14 +183,17 @@ import ViewFrEmployee from "../components/Client-side/SubFranchise/Employee/View
 import ViewProductWiseSellReport from "../components/Client-side/SubFranchise/Report/ProductWiseSellReport/ViewProductWiseSellReport";
 import ViewCreditOrderAccount from "../components/Client-side/SubFranchise/CreditOrderAccount/ViewCreditOrderAccount";
 import ViewMRPInvenotoryStockReport from "../components/Client-side/SubFranchise/InventoryReports/ViewMRPInvenotoryStockReport";
-import ViewRawInventoryStockReport from "../components/Client-side/SubFranchise/InventoryReports/ViewRawInvenotoryStockReport";
+import ViewRawInventoryStockReport from "../components/Client-side/SubFranchise/InventoryReports/ViewRawInventoryStockReport";
 import ViewAssetsInventoryStockReport from "../components/Client-side/SubFranchise/InventoryReports/ViewAssetsInventoryStockReport";
-import ViewMinMRPInventoryStockReport from "../components/Client-side/SubFranchise/InventoryReports/MinMRPInventoryStockReport";
+import ViewMinMRPInventoryStockReport from "../components/Client-side/SubFranchise/InventoryReports/ViewMinMRPInventoryStockReport";
 import ViewTopSellingProduct from "../components/Client-side/SubFranchise/InventoryReports/ViewTopSellingProduct";
 import ViewStockLevel from "../components/Client-side/SubFranchise/InventoryReports/ViewStockLevel";
 import ViewMRPProductGRN from "../components/Client-side/SubFranchise/GRN/ViewMRPProductGRN";
 import ViewRawProductGRN from "../components/Client-side/SubFranchise/GRN/ViewRawProductGRN";
 import EditOtherProductForm from "../components/Client-side/Selling-Products/OtherProducts/EditOtherProductForm";
+
+// Request Selling Product
+import ViewRequestSellingProduct from "../components/Client-side/RequestSellingProduct/ViewRequestSellingProduct";
 
 export interface routeType {
   id: number;
@@ -317,17 +320,17 @@ export const RouteData: routeType[] = [
   },
   {
     id: 10,
-    path: `${import.meta.env.BASE_URL}Franchise/AddFranchise`,
+    path: `${import.meta.env.BASE_URL}Franchises/AddFranchise`,
     element: <AddFranchise />,
   },
   {
     id: 11,
-    path: `${import.meta.env.BASE_URL}Franchise/EditFranchise/:id`,
+    path: `${import.meta.env.BASE_URL}Franchises/EditFranchise/:id`,
     element: <EditFranchise />,
   },
   {
     id: 12,
-    path: `${import.meta.env.BASE_URL}Franchise/frDashboard/:id`,
+    path: `${import.meta.env.BASE_URL}Franchises/frDashboard/:id`,
     element: <FranchiseDashboard />,
   },
 
@@ -854,147 +857,155 @@ export const RouteData: routeType[] = [
   // sub Francise
   {
     id: 46,
-    path: `${import.meta.env.BASE_URL}Franchise/CashBook/ViewCashBook`,
+    path: `${import.meta.env.BASE_URL}Franchises/CashBook/ViewCashBook`,
     element: <ViewCashBook />,
   },
   {
     id: 47,
-    path: `${import.meta.env.BASE_URL}Franchise/CashBook/AddCashBook`,
+    path: `${import.meta.env.BASE_URL}Franchises/CashBook/AddCashBook`,
     element: <AddCashBook />,
   },
   {
     id: 48,
-    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOrder`,
+    path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysOrder`,
     element: <ViewTodaysOrder />,
   },
   {
     id: 49,
-    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysPendingOrder`,
+    path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysPendingOrder`,
     element: <ViewTodaysPendingOrder />,
   },
   {
     id: 50,
-    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysBarcodeOrder`,
+    path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysBarcodeOrder`,
     element: <ViewTodayBarcodeOrder />,
   },
   {
     id: 51,
-    path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOnlineOrders`,
+    path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysOnlineOrders`,
     element: <ViewTodayOnlineOrder />,
   },
   {
     id: 52,
-    path: `${import.meta.env.BASE_URL}Franchise/SellingProducts/ViewProduct`,
+    path: `${import.meta.env.BASE_URL}Franchises/SellingProducts/ViewProduct`,
     element: <FranchiseViewProduct />,
   },
   {
     id: 53,
     path: `${import.meta.env.BASE_URL
-      }Franchise/SellingProducts/ViewManageProduct`,
+      }Franchises/SellingProducts/ViewManageProduct`,
     element: <ViewManageProduct />,
   },
   {
     id: 54,
     path: `${import.meta.env.BASE_URL
-      }Franchise/RawMakingProducts/ViewRawProducts`,
+      }Franchises/RawMakingProducts/ViewRawProducts`,
     element: <ViewRawProducts />,
   },
   {
     id: 55,
     path: `${import.meta.env.BASE_URL
-      }Franchise/RawMakingProducts/ViewRawManageStock`,
+      }Franchises/RawMakingProducts/ViewRawManageStock`,
     element: <ViewRawManageStock />,
   },
   {
     id: 56,
     path: `${import.meta.env.BASE_URL
-      }Franchise/RequestProductStock/ViewRequestProductStock`,
+      }Franchises/RequestProductStock/ViewRequestProductStock`,
     element: <ViewRequestProductStock />,
   },
   {
     id: 57,
-    path: `${import.meta.env.BASE_URL}Franchise/Employees/AddFrEmployee`,
+    path: `${import.meta.env.BASE_URL}Franchises/Employees/AddFrEmployee`,
     element: <AddFrEmployee />,
   },
   {
     id: 58,
-    path: `${import.meta.env.BASE_URL}Franchise/Employees/ViewFrEmployee`,
+    path: `${import.meta.env.BASE_URL}Franchises/Employees/ViewFrEmployee`,
     element: <ViewFrEmployee />,
   },
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/Reports/ViewProductWiseSellReport`,
+      }Franchises/Reports/ViewProductWiseSellReport`,
     element: <ViewProductWiseSellReport />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewCreditOrderAccount`,
+      }Franchises/ViewCreditOrderAccount`,
     element: <ViewCreditOrderAccount />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewMRPInvenotoryStockReport`,
+      }Franchises/ViewMRPInvenotoryStockReport`,
     element: <ViewMRPInvenotoryStockReport />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewRawInventoryStockReport`,
+      }Franchises/ViewRawInventoryStockReport`,
     element: <ViewRawInventoryStockReport />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewAssetsInventoryStockReport`,
+      }Franchises/ViewAssetsInventoryStockReport`,
     element: <ViewAssetsInventoryStockReport />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewMinMRPInventoryStockReport`,
+      }Franchises/ViewMinMRPInventoryStockReport`,
     element: <ViewMinMRPInventoryStockReport />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewTopSellingProduct`,
+      }Franchises/ViewTopSellingProduct`,
     element: <ViewTopSellingProduct />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/ViewStockLevel`,
+      }Franchises/ViewStockLevel`,
     element: <ViewStockLevel />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/GRN/ViewMRPProductGRN`,
+      }Franchises/GRN/ViewMRPProductGRN`,
     element: <ViewMRPProductGRN />,
   },
 
   {
     id: 59,
     path: `${import.meta.env.BASE_URL
-      }Franchise/GRN/ViewRawProductGRN`,
+      }Franchises/GRN/ViewRawProductGRN`,
     element: <ViewRawProductGRN />,
   },
 
   {
     id: 31,
-    path: `${import.meta.env.BASE_URL}Franchise/Setting/PrintSetting`,
+    path: `${import.meta.env.BASE_URL}Franchises/Setting/PrintSetting`,
     element: <PrintSetting />,
   },
+
+  // 
+
+  {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}RequestSellingProduct/ViewRequestSellingProduct`,
+    element: <ViewRequestSellingProduct />,
+  }
 
 ];

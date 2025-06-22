@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewGodownStock from "../../../Hook/GoDown-Hook/GodownStock/useViewGodownStock";
 import Select from "react-select";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewGodownStock: FC = () => {
   const {
@@ -20,6 +21,7 @@ const ViewGodownStock: FC = () => {
     subcategoryList,
     goDownProductlist,
     currentviewGodownStock,
+    loading,
     // selectGodownStockProduct,
     // selectGodown,
     handleSearch,
@@ -200,7 +202,10 @@ const ViewGodownStock: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
+                  {loading ? (
+<SkeletonLoader loading={loading}/>
+                  ) : (
+           <Table
                     id="GodownAccount-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
@@ -258,6 +263,8 @@ const ViewGodownStock: FC = () => {
                       )}
                     </tbody>
                   </Table>
+                  )}
+       
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

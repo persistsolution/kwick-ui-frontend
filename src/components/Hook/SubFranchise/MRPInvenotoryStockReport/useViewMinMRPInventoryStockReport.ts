@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchInventoryMinMRPStockReportApi } from "../../../api/SubFranchise-API/InventoryStockReport/InventoryStockReportApi";
 
 const useViewMinMRPInventoryStockReport = () => {
   const [MinMRPInventoryStockReport, setMinMRPInventoryStockReport] = useState([]);
@@ -19,9 +20,10 @@ const useViewMinMRPInventoryStockReport = () => {
   }, []);
 
   const handleFetchMinMRPInventoryStockReport = async () => {
+    const frId = localStorage.getItem("frId")
     try {
-      const response: any = await "";
-      const data = response.data ||[]
+      const response: any = await fetchInventoryMinMRPStockReportApi(Number(frId));
+      const data = response?.data?.data || []
       setMinMRPInventoryStockReport(data);
       setFilteredMinMRPInventoryStockReport(data);
     } catch (error) {

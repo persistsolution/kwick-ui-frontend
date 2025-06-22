@@ -4,6 +4,7 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewFranchise from "../../Hook/Franchise-Hook/useViewFranchise";
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewFranchise: FC = () => {
   const {
@@ -18,6 +19,7 @@ const ViewFranchise: FC = () => {
     fromDate,
     toDate,
     currentFranchises,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -28,7 +30,8 @@ const ViewFranchise: FC = () => {
     setFranchisesPerPage,
     setfromDate,
     settodate,
-    handleAddFranchise
+    handleAddFranchise,
+    handleFranchiseId
   } = useViewFranchise();
 
   return (
@@ -121,97 +124,102 @@ const ViewFranchise: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="franchise-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        {/* <th onClick={() => handleSort("qrorder")}>QR Order</th> */}
-                        <th onClick={() => handleSort("id")}>Franchise ID</th>
-                        {/* <th onClick={() => handleSort("zone")}>Zone</th> */}
-                        <th onClick={() => handleSort("franchiseName")}>
-                          Franchise Name
-                        </th>
-                        <th onClick={() => handleSort("ShopName")}>
-                          Shop Name
-                        </th>
-                        <th onClick={() => handleSort("Franchise Type")}>
-                          Franchise Type
-                        </th>
-                        <th onClick={() => handleSort("Contact No")}>
-                          Contact No
-                        </th>
-                        <th onClick={() => handleSort("Password")}>Password</th>
-                        <th onClick={() => handleSort("Status")}>Status</th>
-                        <th onClick={() => handleSort("Register Date")}>
-                          Register Date
-                        </th>
-                        {/* <th onClick={() => handleSort("Lattitude")}>
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="franchise-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          {/* <th onClick={() => handleSort("qrorder")}>QR Order</th> */}
+                          <th onClick={() => handleSort("id")}>Franchise ID</th>
+                          {/* <th onClick={() => handleSort("zone")}>Zone</th> */}
+                          <th onClick={() => handleSort("franchiseName")}>
+                            Franchise Name
+                          </th>
+                          <th onClick={() => handleSort("ShopName")}>
+                            Shop Name
+                          </th>
+                          <th onClick={() => handleSort("Franchise Type")}>
+                            Franchise Type
+                          </th>
+                          <th onClick={() => handleSort("Contact No")}>
+                            Contact No
+                          </th>
+                          <th onClick={() => handleSort("Password")}>Password</th>
+                          <th onClick={() => handleSort("Status")}>Status</th>
+                          <th onClick={() => handleSort("Register Date")}>
+                            Register Date
+                          </th>
+                          {/* <th onClick={() => handleSort("Lattitude")}>
                           Lattitude
                         </th>
                         <th onClick={() => handleSort("Longitude")}>
                           Longitude
                         </th> */}
-                        <th>Action</th>
+                          <th>Action</th>
 
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentFranchises.length > 0 ? (
-                        currentFranchises.map((franchise: any) => (
-                          <tr key={franchise.id}>
-                            {/* <td>{franchise.TableQrCode}</td> */}
-                            <td>{franchise.id}</td> 
-                            <td>{franchise.full_name}</td>
-                            {/* <td>
-                              <Link
-                                to={`/Franchise/frDashboard/${franchise.id}`}
-                                target="_blank"
-                              >
-                                {franchise.full_name}
-                              </Link>
-                            </td> */}
-                            <td>{franchise.shop_name}</td>
-                            <td>{franchise.franchise_type}</td>
-                            <td>{franchise.phone}</td>
-                            <td>{franchise.password}</td>
-                            <td
-                              className={`${franchise.status == "Approved"
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentFranchises.length > 0 ? (
+                          currentFranchises.map((franchise: any) => (
+                            <tr key={franchise.id}>
+                              {/* <td>{franchise.TableQrCode}</td> */}
+                              <td>{franchise.id}</td>
+                              <td>
+                                <Link
+                                onClick={()=>handleFranchiseId(franchise.id)}
+                                  to={`/Franchises/frDashboard/${franchise.id}`}
+                                  target="_blank"
+                                >
+                                  {franchise.full_name}
+                                </Link>
+                              </td>
+                              <td>{franchise.shop_name}</td>
+                              <td>{franchise.franchise_type}</td>
+                              <td>{franchise.phone}</td>
+                              <td>{franchise.password}</td>
+                              <td
+                                className={`${franchise.status == "Approved"
                                   ? "text-success"
                                   : "text-danger"
-                                }`}
-                            >
-                              {franchise.status == "Approved"
-                                ? "Active"
-                                : "Inactive"}
-                            </td>
-                            <td>{franchise.created_date}</td>
-                            {/* <td>{franchise.Lattitude}</td>
+                                  }`}
+                              >
+                                {franchise.status == "Approved"
+                                  ? "Active"
+                                  : "Inactive"}
+                              </td>
+                              <td>{franchise.created_date}</td>
+                              {/* <td>{franchise.Lattitude}</td>
                             <td>{franchise.Longitude}</td> */}
-                            <td>
-                              <button onClick={() => handleEdit(franchise.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
-                                <i className="bi bi-pencil-square"></i>
-                              </button>
-                              &nbsp; &nbsp;
-                              <button onClick={() =>
-                                handleDeleteFranchise(franchise.id)
-                              } className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
-                                <i className="bi bi-trash"></i>
-                              </button>
-                            </td>
+                              <td>
+                                <button onClick={() => handleEdit(franchise.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() =>
+                                  handleDeleteFranchise(franchise.id)
+                                } className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
 
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={6} className="text-center">
+                              No records found.
+                            </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={6} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

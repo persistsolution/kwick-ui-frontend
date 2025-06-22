@@ -4,10 +4,15 @@ import useFranchiseDashboard from "../../../Hook/Dashboard-Hook/FranchiseDashboa
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { ApexOptions } from "apexcharts";
 import Graph from "../../Graph/Graph";
+// import { useSelector  } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 
 const FranchiseDashboard: FC = () => {
   const { dashboardHeadersData , progressData , productSalesData} = useFranchiseDashboard();
-  // const [chartState, setChartState] = useState({
+
+  const frId = useSelector((state: any) => state.frId);
+
+
   const [chartState] = useState({
     series: [
       {

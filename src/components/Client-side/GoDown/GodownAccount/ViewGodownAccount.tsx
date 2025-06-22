@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewGodownAccount from "../../../Hook/GoDown-Hook/CreateGodownAccount/useViewGodownAccount";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewGodownAccount: FC = () => {
   const {
@@ -13,6 +14,7 @@ const ViewGodownAccount: FC = () => {
     viewGodownAccountPerPage,
     currentviewGodownAccount,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -73,69 +75,74 @@ const ViewGodownAccount: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="GodownAccount-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("Photo")}>Photo</th>
-
-                        <th onClick={() => handleSort("Fname")}>GoDown Name</th>
-                        <th onClick={() => handleSort("EmailId")}>Email</th>
-                        <th onClick={() => handleSort("Phone")}>Contact No</th>
-                        <th onClick={() => handleSort("Phone2")}>
-                          Another Contact No
-                        </th>
-                        <th onClick={() => handleSort("Address")}>Address</th>
-                        <th onClick={() => handleSort("Status")}>Status</th>
-                        <th onClick={() => handleSort("CreatedDate")}>
-                          Register Date
-                        </th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentviewGodownAccount.length > 0 ? (
-                        currentviewGodownAccount.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}>
-                            <td>{GodownAccount.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={GodownAccount.Photo}
-                                alt="Photo"
-                              />
-                            </td>
-                            <td>{GodownAccount.full_name}</td>
-                            <td>{GodownAccount.email}</td>
-                            <td>{GodownAccount.phone}</td>
-                            <td>{GodownAccount.alt_phone}</td>
-                            <td>{GodownAccount.address}</td>
-                            <td
-                              className={`${GodownAccount.status == "Approved"
-                                ? "text-success"
-                                : "text-danger"
-                                }`}
-                            >
-                              {GodownAccount.status == "Approved"
-                                ? "Active"
-                                : "Inactive"}
-                            </td>
-                            <td>{GodownAccount.created_date}</td>
-                            
-                          </tr>
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="GodownAccount-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={12} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("Photo")}>Photo</th>
+
+                          <th onClick={() => handleSort("Fname")}>GoDown Name</th>
+                          <th onClick={() => handleSort("EmailId")}>Email</th>
+                          <th onClick={() => handleSort("Phone")}>Contact No</th>
+                          <th onClick={() => handleSort("Phone2")}>
+                            Another Contact No
+                          </th>
+                          <th onClick={() => handleSort("Address")}>Address</th>
+                          <th onClick={() => handleSort("Status")}>Status</th>
+                          <th onClick={() => handleSort("CreatedDate")}>
+                            Register Date
+                          </th>
+
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentviewGodownAccount.length > 0 ? (
+                          currentviewGodownAccount.map((GodownAccount: any) => (
+                            <tr key={GodownAccount.id}>
+                              <td>{GodownAccount.id}</td>
+                              <td>
+                                <img
+                                  className="avatar rounded-pill cover-image"
+                                  src={GodownAccount.Photo}
+                                  alt="Photo"
+                                />
+                              </td>
+                              <td>{GodownAccount.full_name}</td>
+                              <td>{GodownAccount.email}</td>
+                              <td>{GodownAccount.phone}</td>
+                              <td>{GodownAccount.alt_phone}</td>
+                              <td>{GodownAccount.address}</td>
+                              <td
+                                className={`${GodownAccount.status == "Approved"
+                                  ? "text-success"
+                                  : "text-danger"
+                                  }`}
+                              >
+                                {GodownAccount.status == "Approved"
+                                  ? "Active"
+                                  : "Inactive"}
+                              </td>
+                              <td>{GodownAccount.created_date}</td>
+
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={12} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useDailySaleReport2 from "../../Hook/Report-Hook/useDailySaleReport2";
 import Select from "react-select";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewDailySaleReport2: FC = () => {
     const {
@@ -19,6 +20,7 @@ const ViewDailySaleReport2: FC = () => {
         toDate,
         zoneArray,
         selectZone,
+        loading,
         handleSearch,
         handleSort,
         handlePageChange,
@@ -145,79 +147,84 @@ const ViewDailySaleReport2: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="DailySaleReport2-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("outletID")}>
-                                                    Outlet ID
-                                                </th>
-                                                <th onClick={() => handleSort("outletName")}>
-                                                    Outlet Name
-                                                </th>
-                                                <th onClick={() => handleSort("location")}>Location</th>
-                                                <th onClick={() => handleSort("outletopeningdate")}>
-                                                    Outlet Opening Date{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("outletvintageinmonth")}>
-                                                    {" "}
-                                                    Outlet Vintage in Months{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("ftdInvoice")}>
-                                                    FTD No of Invoice{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("ftdAmount")}>
-                                                    FTD Amount{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("mtdInvoice")}>
-                                                    MTD No of Invoice{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("mtdAmount")}>
-                                                    MTD Amount{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("mtdInvoice")}>
-                                                    MTD No of Invoice{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("ptdAmount")}>
-                                                    PTD Amount{" "}
-                                                </th>{" "}
-                                                <th onClick={() => handleSort("ptdAmount")}>
-                                                    PSMD No of{" "}
-                                                </th>
-                                                <th>% Growth No of Invoice</th>
-                                                <th onClick={() => handleSort("ptdAmount")}>
-                                                    Growth Amount{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("ptdAmount")}>
-                                                    Cash No of Invoice{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("ptdAmount")}>
-                                                    Cash Value{" "}
-                                                </th>
-                                                <th onClick={() => handleSort("ptdAmount")}>
-                                                    UPI No of Invoice{" "}
-                                                </th>{" "}
-                                                <th onClick={() => handleSort("upivalue")}>
-                                                    UPI Value{" "}
-                                                </th>{" "}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {DailySaleReport2.length > 0 ? (
-                                                DailySaleReport2.map((DailySaleReport2: any) => (
-                                                    <tr key={DailySaleReport2.id}></tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="DailySaleReport2-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("outletID")}>
+                                                        Outlet ID
+                                                    </th>
+                                                    <th onClick={() => handleSort("outletName")}>
+                                                        Outlet Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("location")}>Location</th>
+                                                    <th onClick={() => handleSort("outletopeningdate")}>
+                                                        Outlet Opening Date{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("outletvintageinmonth")}>
+                                                        {" "}
+                                                        Outlet Vintage in Months{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("ftdInvoice")}>
+                                                        FTD No of Invoice{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("ftdAmount")}>
+                                                        FTD Amount{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("mtdInvoice")}>
+                                                        MTD No of Invoice{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("mtdAmount")}>
+                                                        MTD Amount{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("mtdInvoice")}>
+                                                        MTD No of Invoice{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("ptdAmount")}>
+                                                        PTD Amount{" "}
+                                                    </th>{" "}
+                                                    <th onClick={() => handleSort("ptdAmount")}>
+                                                        PSMD No of{" "}
+                                                    </th>
+                                                    <th>% Growth No of Invoice</th>
+                                                    <th onClick={() => handleSort("ptdAmount")}>
+                                                        Growth Amount{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("ptdAmount")}>
+                                                        Cash No of Invoice{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("ptdAmount")}>
+                                                        Cash Value{" "}
+                                                    </th>
+                                                    <th onClick={() => handleSort("ptdAmount")}>
+                                                        UPI No of Invoice{" "}
+                                                    </th>{" "}
+                                                    <th onClick={() => handleSort("upivalue")}>
+                                                        UPI Value{" "}
+                                                    </th>{" "}
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                            </thead>
+                                            <tbody>
+                                                {DailySaleReport2.length > 0 ? (
+                                                    DailySaleReport2.map((DailySaleReport2: any) => (
+                                                        <tr key={DailySaleReport2.id}></tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

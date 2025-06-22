@@ -1,53 +1,87 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchInventoryAssetsStockReportApi } from "../../../api/SubFranchise-API/InventoryStockReport/InventoryStockReportApi";
+
+interface AssetsInventoryStockItem {
+  id: string | number;
+  Name: string;
+  [key: string]: any; 
+}
+
+interface SortConfig {
+  key: keyof AssetsInventoryStockItem | null;
+  direction: "asc" | "desc";
+}
 
 const useViewAssetsInventoryStockReport = () => {
-  const [AssetsInventoryStockReport, setAssetsInventoryStockReport] = useState([]);
-  const [filteredAssetsInventoryStockReport, setFilteredAssetsInventoryStockReport] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [AssetsInventoryStockReportPerPage, setAssetsInventoryStockReportPerPage] = useState(5);
-  const [fromDate, setfromDate] =  useState<Date | any>();
-  const [toDate , settodate] = useState<Date | any>();
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
+  const [AssetsInventoryStockReport, setAssetsInventoryStockReport] =
+    useState<AssetsInventoryStockItem[]>([]);
+  const [
+    filteredAssetsInventoryStockReport,
+    setFilteredAssetsInventoryStockReport,
+  ] = useState<AssetsInventoryStockItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [AssetsInventoryStockReportPerPage, setAssetsInventoryStockReportPerPage] =
+    useState<number>(5);
+  const [fromDate, setfromDate] = useState<Date | undefined>();
+  const [toDate, settodate] = useState<Date | undefined>();
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     handleFetchAssetsInventoryStockReport();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleFetchAssetsInventoryStockReport = async () => {
+  const handleFetchAssetsInventoryStockReport = async (): Promise<void> => {
+    const frId = localStorage.getItem("frId");
+    setLoading(true);
     try {
-      const response: any = await "";
-      const data = response.data ||[]
+      const response: any = await fetchInventoryAssetsStockReportApi(
+        Number(frId),
+      );
+      const data: AssetsInventoryStockItem[] = response?.data?.data || [];
       setAssetsInventoryStockReport(data);
       setFilteredAssetsInventoryStockReport(data);
+      setLoading(!data);
     } catch (error) {
       console.error("Error fetching AssetsInventoryStockReport:", error);
+      setLoading(false);
     }
   };
 
-  const handleSearch = (term: string) => {
+  const handleSearch = (term: string): void => {
     setSearchTerm(term);
     setFilteredAssetsInventoryStockReport(
       AssetsInventoryStockReport.filter(
-        (AssetsInventoryStockReport: any) =>
-          AssetsInventoryStockReport?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          AssetsInventoryStockReport?.id?.toString().includes(term.toLowerCase())
-      )
+        (AssetsInventoryStockReport: AssetsInventoryStockItem) =>
+          AssetsInventoryStockReport?.Name?.toLowerCase().includes(
+            term.toLowerCase(),
+          ) ||
+          AssetsInventoryStockReport?.id?.toString().includes(
+            term.toLowerCase(),
+          ),
+      ),
     );
   };
 
-  const handleSort = (key: string) => {
-    let direction = "asc";
+  const handleSort = (key: keyof AssetsInventoryStockItem): void => {
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedAssetsInventoryStockReport = [...filteredAssetsInventoryStockReport].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+
+    const sortedAssetsInventoryStockReport = [
+      ...filteredAssetsInventoryStockReport,
+    ].sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      if (aValue < bValue) return direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
@@ -55,19 +89,29 @@ const useViewAssetsInventoryStockReport = () => {
     setFilteredAssetsInventoryStockReport(sortedAssetsInventoryStockReport);
   };
 
-  const handlePageChange = (pageNumber: number) => {
+  const handlePageChange = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
 
-  const exportToExcel = () => {
+  const exportToExcel = (): void => {
     const table = document.getElementById("AssetsInventoryStockReport-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "AssetsInventoryStockReport_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "AssetsInventoryStockReport_data.xlsx");
+    }
   };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(
+    filteredAssetsInventoryStockReport.length /
+      AssetsInventoryStockReportPerPage,
+  );
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
-    let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+    let startPage = Math.max(
+      currentPage - Math.floor(maxVisiblePages / 2),
+      1,
+    );
     let endPage = startPage + maxVisiblePages - 1;
 
     if (endPage > totalPages) {
@@ -76,18 +120,19 @@ const useViewAssetsInventoryStockReport = () => {
     }
 
     return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
+      (_, index) => startPage + index,
     );
   };
 
-
-  const indexOfLastAssetsInventoryStockReport = currentPage * AssetsInventoryStockReportPerPage;
-  const indexOfFirstAssetsInventoryStockReport = indexOfLastAssetsInventoryStockReport - AssetsInventoryStockReportPerPage;
-  const currentAssetsInventoryStockReport = filteredAssetsInventoryStockReport.slice(
-    indexOfFirstAssetsInventoryStockReport,
-    indexOfLastAssetsInventoryStockReport
-  );
-  const totalPages = Math.ceil(filteredAssetsInventoryStockReport.length / AssetsInventoryStockReportPerPage);
+  const indexOfLastAssetsInventoryStockReport =
+    currentPage * AssetsInventoryStockReportPerPage;
+  const indexOfFirstAssetsInventoryStockReport =
+    indexOfLastAssetsInventoryStockReport - AssetsInventoryStockReportPerPage;
+  const currentAssetsInventoryStockReport =
+    filteredAssetsInventoryStockReport.slice(
+      indexOfFirstAssetsInventoryStockReport,
+      indexOfLastAssetsInventoryStockReport,
+    );
 
   return {
     indexOfLastAssetsInventoryStockReport,
@@ -102,6 +147,7 @@ const useViewAssetsInventoryStockReport = () => {
     totalPages,
     fromDate,
     toDate,
+    loading,
     handleSearch,
     settodate,
     setfromDate,

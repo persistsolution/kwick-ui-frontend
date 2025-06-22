@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchCommisionNoteApi } from "../../../api/FinancerPatner-Api/CommisionNoteApi";
+import { fetchRequestSellingProduct } from "../../api/RequestSellingProduct-Api/RequestSellingProductApi";
 
-const useCommisionNote = () => {
-  const [CommisionNote, setCommisionNote] = useState<any[]>([]);
-  const [filteredCommisionNote, setFilteredCommisionNote] = useState<any[]>([]);
+const useRequestSellingProduct = () => {
+  const [RequestSellingProduct, setRequestSellingProduct] = useState<any[]>([]);
+  const [filteredRequestSellingProduct, setFilteredRequestSellingProduct] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [CommisionNotePerPage, setCommisionNotePerPage] = useState<number>(5);
+  const [RequestSellingProductPerPage, setRequestSellingProductPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
@@ -15,16 +15,16 @@ const useCommisionNote = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    handleFetchCommisionNote();
+    handleFetchRequestSellingProduct();
   }, []);
 
-  const handleFetchCommisionNote = async () => {
+  const handleFetchRequestSellingProduct = async () => {
     setLoading(true)
     try {
-      const response: any = await fetchCommisionNoteApi();
+      const response: any = await fetchRequestSellingProduct();
       const data = response?.data?.data || []
-      setCommisionNote(data);
-      setFilteredCommisionNote(data);
+      setRequestSellingProduct(data);
+      setFilteredRequestSellingProduct(data);
       setLoading(!data)
     } catch (error) {
       console.error("Error fetching Commision Note:", error);
@@ -34,8 +34,8 @@ const useCommisionNote = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFilteredCommisionNote(
-      CommisionNote.filter(
+    setFilteredRequestSellingProduct(
+      RequestSellingProduct.filter(
         (note: any) =>
           note?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           note?.id?.toString().includes(term.toLowerCase())
@@ -48,14 +48,14 @@ const useCommisionNote = () => {
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedNotes = [...filteredCommisionNote].sort((a, b) => {
+    const sortedNotes = [...filteredRequestSellingProduct].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFilteredCommisionNote(sortedNotes);
+    setFilteredRequestSellingProduct(sortedNotes);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -63,10 +63,10 @@ const useCommisionNote = () => {
   };
 
   const exportToExcel = () => {
-    const table = document.getElementById("CommisionNote-table");
+    const table = document.getElementById("RequestSellingProduct-table");
     if (table) {
       const workbook = utils.table_to_book(table);
-      writeFile(workbook, "CommisionNote_data.xlsx");
+      writeFile(workbook, "RequestSellingProduct_data.xlsx");
     }
   };
 
@@ -83,24 +83,24 @@ const useCommisionNote = () => {
     return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
 
-  const indexOfLastCommisionNote = currentPage * CommisionNotePerPage;
-  const indexOfFirstCommisionNote = indexOfLastCommisionNote - CommisionNotePerPage;
-  const currentCommisionNote = filteredCommisionNote.slice(
-    indexOfFirstCommisionNote,
-    indexOfLastCommisionNote
+  const indexOfLastRequestSellingProduct = currentPage * RequestSellingProductPerPage;
+  const indexOfFirstRequestSellingProduct = indexOfLastRequestSellingProduct - RequestSellingProductPerPage;
+  const currentRequestSellingProduct = filteredRequestSellingProduct.slice(
+    indexOfFirstRequestSellingProduct,
+    indexOfLastRequestSellingProduct
   );
-  const totalPages = Math.ceil(filteredCommisionNote.length / CommisionNotePerPage);
+  const totalPages = Math.ceil(filteredRequestSellingProduct.length / RequestSellingProductPerPage);
 
   return {
-    indexOfLastCommisionNote,
-    indexOfFirstCommisionNote,
-    CommisionNote,
-    filteredCommisionNote,
+    indexOfLastRequestSellingProduct,
+    indexOfFirstRequestSellingProduct,
+    RequestSellingProduct,
+    filteredRequestSellingProduct,
     searchTerm,
     currentPage,
-    CommisionNotePerPage,
+    RequestSellingProductPerPage,
     sortConfig,
-    currentCommisionNote,
+    currentRequestSellingProduct,
     totalPages,
     loading,
     handleSearch,
@@ -108,8 +108,8 @@ const useCommisionNote = () => {
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setCommisionNotePerPage,
+    setRequestSellingProductPerPage,
   };
 };
 
-export default useCommisionNote;
+export default useRequestSellingProduct;

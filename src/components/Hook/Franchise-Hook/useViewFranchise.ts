@@ -6,6 +6,7 @@ import {
   fetchFranchiseApi,
 } from "../../api/Franchise-Api/FranchiseApi";
 
+
 const useViewFranchise = () => {
   const [franchises, setFranchises] = useState<String[]>([]);
   const [filteredFranchises, setFilteredFranchises] = useState<String[]>([]);
@@ -20,24 +21,33 @@ const useViewFranchise = () => {
   const [franchiseList] = useState<String[]>([]);
   const [fromDate, setfromDate] = useState<any | undefined>();
   const [toDate, settodate] = useState<any | undefined>();
-  const navigate = useNavigate();
+  const [loading, setloading] = useState<boolean>(false);
 
+  const navigate = useNavigate();
   useEffect(() => {
     handleFetchFranchises();
   }, []);
 
   const handleFetchFranchises = async () => {
+    setloading(true)
     try {
       const response: any = await fetchFranchiseApi();
-      const data =  response?.data?.data || []
+      const data = response?.data?.data || []
       setFranchises(data);
       setFilteredFranchises(data);
+      setloading(!data)
     } catch (error) {
+      setloading(false)
       console.error("Error fetching franchises:", error);
     }
   };
 
-  const handleAddFranchise = ()=>{
+  const handleFranchiseId = (id: any) => {
+    localStorage.setItem("frId" , id)
+  }
+
+
+  const handleAddFranchise = () => {
     navigate("/Franchise/AddFranchise")
   }
 
@@ -138,7 +148,9 @@ const useViewFranchise = () => {
     franchiseList,
     fromDate,
     toDate,
+    loading,
     handleSearch,
+    handleFranchiseId,
     handleSort,
     handlePageChange,
     exportToExcel,
@@ -148,6 +160,7 @@ const useViewFranchise = () => {
     setFranchisesPerPage,
     setfromDate,
     settodate,
+    setloading,
     handleAddFranchise
   };
 };

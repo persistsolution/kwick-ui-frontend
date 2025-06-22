@@ -12,6 +12,7 @@ const ViewMinMRPInventoryStockReport: FC = () => {
         currentPage,
         MinMRPInventoryStockReportPerPage,
         totalPages,
+        currentMinMRPInventoryStockReport,
         fromDate,
         toDate,
         handleSearch,
@@ -101,8 +102,8 @@ const ViewMinMRPInventoryStockReport: FC = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {MinMRPInventoryStockReport.length > 0 ? (
-                                                MinMRPInventoryStockReport.map((franchise: any) => (
+                                            {currentMinMRPInventoryStockReport.length > 0 ? (
+                                                currentMinMRPInventoryStockReport.map((franchise: any) => (
                                                     <tr key={franchise.id}></tr>
                                                 ))
                                             ) : (

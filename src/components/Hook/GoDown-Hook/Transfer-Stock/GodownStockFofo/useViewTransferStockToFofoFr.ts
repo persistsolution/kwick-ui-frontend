@@ -27,6 +27,7 @@ const useViewTransferStockToFofoFr = () => {
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
   const [FranchiseList, setFranchiseList] = useState([]);
+  const [loading , setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,13 +36,16 @@ const useViewTransferStockToFofoFr = () => {
   }, []);
 
   const handleFetchviewTransferStockToFofoFr = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchTransferStockToFofoFrApi();
       const data = response?.data?.data || []
       setviewTransferStockToFofoFr(data);
       setFilteredviewTransferStockToFofoFr(data);
+      setLoading(!data)
     } catch (error) {
       console.error("Error fetching viewTransferStockToFofoFr:", error);
+      setLoading(false)
     }
   };
 
@@ -156,6 +160,7 @@ const useViewTransferStockToFofoFr = () => {
     fromDate,
     toDate,
     FranchiseList,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

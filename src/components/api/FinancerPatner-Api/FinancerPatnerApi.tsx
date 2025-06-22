@@ -5,11 +5,18 @@ import { API_BASE_URL } from "../../../config";
 export const fetchFinancerPatnerAccountApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/FinancerPatnerReport/get/5`);
+  return axios.get<any[]>(`${API_BASE_URL}/partner/view-financer.php`);
 };
 
 // Fetch Financer Patner
 export const fetchRawFinancerPatnerApi = async (): Promise<
+  AxiosResponse<any[]>
+> => {
+  return axios.get<any[]>(`${API_BASE_URL}/FinancerPatnerReport/get/5`);
+};
+
+// Fetch Commission Note
+export const fetchCommissionNoteApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
   return axios.get<any[]>(`${API_BASE_URL}/FinancerPatnerReport/get/5`);

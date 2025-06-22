@@ -18,18 +18,23 @@ const useViewGodownAccount = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate()
   useEffect(() => {
     handleFetchviewGodownAccount();
   }, []);
 
   const handleFetchviewGodownAccount = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchGodownApi();
       const data = response?.data?.data || []
       setviewGodownAccount(data);
       setFilteredviewGodownAccount(data);
+      setLoading(!data)
     } catch (error) {
+      setLoading(false)
       console.error("Error fetching viewGodownAccount:", error);
     }
   };
@@ -140,6 +145,7 @@ const useViewGodownAccount = () => {
     sortConfig,
     currentviewGodownAccount,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

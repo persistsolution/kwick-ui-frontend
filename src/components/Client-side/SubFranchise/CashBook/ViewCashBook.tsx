@@ -5,8 +5,8 @@ import useViewCashBook from "../../../Hook/SubFranchise/CashBook/useViewCashBook
 
 const ViewCashBook: FC = () => {
   const {
-    indexOfLastcashBook,
-    indexOfFirstcashBook,
+    indexOfLastCashBook,
+    indexOfFirstCashBook,
     cashBook,
     searchTerm,
     currentPage,
@@ -15,13 +15,13 @@ const ViewCashBook: FC = () => {
     fromDate,
     toDate,
     handleSearch,
-    setfromDate,
-    settodate,
+    setFromDate,
+    setToDate,
     handleSort,
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setcashBookPerPage,
+    setCashBookPerPage,
   } = useViewCashBook();
 
   return (
@@ -44,7 +44,7 @@ const ViewCashBook: FC = () => {
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: Date | any) => setfromDate(date)}
+                        onChange={(date: Date | any) => setFromDate(date)}
                       />
                     </Form.Group>
                   </div>
@@ -55,7 +55,7 @@ const ViewCashBook: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: Date | any) => settodate(date)}
+                        onChange={(date: Date | any) => setToDate(date)}
               
                       />
                     </Form.Group>
@@ -79,7 +79,7 @@ const ViewCashBook: FC = () => {
                     <Form.Select
                       value={cashBookPerPage}
                       onChange={(e) =>
-                        setcashBookPerPage(Number(e.target.value))
+                        setCashBookPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
@@ -132,8 +132,8 @@ const ViewCashBook: FC = () => {
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
-                    Showing {indexOfFirstcashBook + 1} to{" "}
-                    {Math.min(indexOfLastcashBook, cashBook.length)} of{" "}
+                    Showing {indexOfFirstCashBook + 1} to{" "}
+                    {Math.min(indexOfLastCashBook, cashBook.length)} of{" "}
                     {cashBook.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">

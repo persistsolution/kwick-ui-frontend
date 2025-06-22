@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchdailySellReport2Api } from "../../api/Report-Api/dailySellReport";
 
 const useDailySaleReport2 = () => {
   const [DailySaleReport2, setDailySaleReport2] = useState([]);
@@ -9,29 +10,33 @@ const useDailySaleReport2 = () => {
   const [DailySaleReport2PerPage, setDailySaleReport2PerPage] = useState(5);
   const [franchiseList, setfranchiseList] = useState([]);
   const [categoryList, setcategoryList] = useState([]);
-  const [zoneArray , setZoneArray] = useState([]);
+  const [zoneArray, setZoneArray] = useState([]);
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
-  const [selectState , setSelectState] = useState("");
-  const [selectZone , setSelectZone]= useState("");
+  const [selectState, setSelectState] = useState("");
+  const [selectZone, setSelectZone] = useState("");
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-const [countryArray , setcountryArray]= useState([]);
+  const [countryArray, setcountryArray] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     handleFetchDailySaleReport2();
   }, []);
 
   const handleFetchDailySaleReport2 = async () => {
+    setLoading(true)
     try {
-      const response: any = await ""
-      const data = response.data || []
+      const response: any = await fetchdailySellReport2Api();
+      const data = response?.data?.data || []
       setDailySaleReport2(data);
       setFilteredDailySaleReport2(data);
+      setLoading(!data)
     } catch (error) {
       console.error("Error fetching DailySaleReport2:", error);
+      setLoading(false)
     }
   };
 
@@ -116,6 +121,7 @@ const [countryArray , setcountryArray]= useState([]);
     selectState,
     zoneArray,
     selectZone,
+    loading,
     handleSearch,
     settodate,
     setfromDate,

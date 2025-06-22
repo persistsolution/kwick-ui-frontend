@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 // import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useViewMRPInvenotoryStockReport from "../../../Hook/SubFranchise/MRPInvenotoryStockReport/useViewMRPInvenotoryStockReport";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewMRPInvenotoryStockReport: FC = () => {
     const {
@@ -14,6 +15,7 @@ const ViewMRPInvenotoryStockReport: FC = () => {
         totalPages,
         fromDate,
         toDate,
+        loading,
         handleSearch,
         setfromDate,
         settodate,
@@ -62,57 +64,73 @@ const ViewMRPInvenotoryStockReport: FC = () => {
                                             <option value={MRPInvenotoryStockReport.length}>All Items</option>
                                         </Form.Select>
 
-                                          <Button variant="success" onClick={exportToExcel}>
+                                        <Button variant="success" onClick={exportToExcel}>
                                             <i className="fe fe-download me-2"></i>Export to Excel
                                         </Button>
                                     </div>
                                 </div>
                                 <div className="table-responsive">
-                                    <Table
-                                        id="franchise-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("id")}>Product Id</th>
-                                                <th onClick={() => handleSort("date")}>Product Name </th>
-                                                <th onClick={() => handleSort("cashAmount")}>
-                                                    Category Name
-                                                </th>
-                                                <th onClick={() => handleSort("transferAmount")}>
-                                                    Purchase Price
-                                                </th>
-                                                <th onClick={() => handleSort("balanceAmount")}>
-                                                    Min Qty
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Carry Forword
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Credit
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Debit
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Balance
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {MRPInvenotoryStockReport.length > 0 ? (
-                                                MRPInvenotoryStockReport.map((franchise: any) => (
-                                                    <tr key={franchise.id}></tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="franchise-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("id")}>Product Id</th>
+                                                    <th onClick={() => handleSort("date")}>Product Name </th>
+                                                    <th onClick={() => handleSort("cashAmount")}>
+                                                        Category Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("transferAmount")}>
+                                                        Purchase Price
+                                                    </th>
+                                                    <th onClick={() => handleSort("balanceAmount")}>
+                                                        Min Qty
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Carry Forword
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Credit
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Debit
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Balance
+                                                    </th>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                            </thead>
+                                            <tbody>
+                                                {MRPInvenotoryStockReport.length > 0 ? (
+                                                    MRPInvenotoryStockReport.map((data: any) => (
+                                                        <tr key={data?.id}>
+                                                            <td>{data?.ProdId}</td>
+                                                            <td>{data?.ProductName}</td>
+                                                            <td>{data?.Category}</td>
+                                                            <td>{data?.PurchasePrice}</td>
+                                                            <td>{data?.MinQty}</td>
+                                                            <td>{data?.OpeningQty}</td>
+                                                            <td>{data?.CreditQty}</td>
+                                                            <td>{data?.DebitQty}</td>
+                                                            <td>{data?.BalanceQty}</td>
+
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

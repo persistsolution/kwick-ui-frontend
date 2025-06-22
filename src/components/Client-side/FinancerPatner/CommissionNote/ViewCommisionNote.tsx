@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Form } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useCommisionNote from "../../../Hook/FinancerPatner-Hook/CommisionNote/useCommisionNote";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewCommisionNote: FC = () => {
   const {
@@ -11,7 +12,9 @@ const ViewCommisionNote: FC = () => {
     searchTerm,
     currentPage,
     CommisionNotePerPage,
+    currentCommisionNote,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -61,54 +64,74 @@ const ViewCommisionNote: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="franchise-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("srNo")}>Sr No</th>
-                        <th onClick={() => handleSort("financer")}>
-                          Franchise
-                        </th>
-                        <th onClick={() => handleSort("noteNo")}>Note No </th>
-                        <th onClick={() => handleSort("noteDate")}>
-                          Note Date{" "}
-                        </th>
-                        <th onClick={() => handleSort("description")}>
-                          Description{" "}
-                        </th>
-                        <th onClick={() => handleSort("amount")}>
-                          Amount
-                        </th>
-                        <th onClick={() => handleSort("amount")}>
-                          Narration
-                        </th>
-                        <th onClick={() => handleSort("createdDate")}>
-                          Created Date
-                        </th>
-                        <th onClick={() => handleSort("invoicePrint")}>
-                          Invoice Print
-                        </th>
-                        <th >
-                          Action                        
-                          </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {CommisionNote.length > 0 ? (
-                        CommisionNote.map((franchise: any) => (
-                          <tr key={franchise.id}></tr>
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="franchise-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("srNo")}>Sr No</th>
+                          <th onClick={() => handleSort("financer")}>
+                            Franchise
+                          </th>
+                          <th onClick={() => handleSort("noteNo")}>Note No </th>
+                          <th onClick={() => handleSort("noteDate")}>
+                            Note Date{" "}
+                          </th>
+                          <th onClick={() => handleSort("description")}>
+                            Description{" "}
+                          </th>
+                          <th onClick={() => handleSort("amount")}>
+                            Amount
+                          </th>
+                          <th onClick={() => handleSort("amount")}>
+                            Narration
+                          </th>
+                          <th onClick={() => handleSort("createdDate")}>
+                            Created Date
+                          </th>
+                          <th onClick={() => handleSort("invoicePrint")}>
+                            Invoice Print
+                          </th>
+                          <th >
+                            Action
+                          </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentCommisionNote.length > 0 ? (
+                          currentCommisionNote.map((data: any) => (
+                            <tr key={data?.id}>
+                              <td>{data?.id}</td>
+                              <td>{data?.financer_name}</td>
+                              <td>{data?.note_no}</td>
+                              <td>{data?.note_date}</td>
+                              <td>{data?.description}</td>
+                              <td>{data?.amount}</td>
+                              <td>{data?.narration}</td>
+                              <td>{data?.created_date}</td>
+                              <td></td>
+                              <td>
+                                <button className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

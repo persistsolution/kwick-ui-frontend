@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 // import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useViewRawInventoryStockReport from "../../../Hook/SubFranchise/MRPInvenotoryStockReport/useViewRawInventoryStockReport";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewRawInventoryStockReport: FC = () => {
     const {
@@ -13,6 +14,7 @@ const ViewRawInventoryStockReport: FC = () => {
         RawInventoryStockReportPerPage,
         totalPages,
         fromDate,
+        loading,
         toDate,
         handleSearch,
         setfromDate,
@@ -67,42 +69,47 @@ const ViewRawInventoryStockReport: FC = () => {
                                     </div>
                                 </div>
                                 <div className="table-responsive">
-                                    <Table
-                                        id="franchise-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("id")}>Raw Product Name</th>
-
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Credit
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Debit
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Balance
-                                                </th>
-                                                <th onClick={() => handleSort("bankName")}>
-                                                    Unit
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {RawInventoryStockReport.length > 0 ? (
-                                                RawInventoryStockReport.map((franchise: any) => (
-                                                    <tr key={franchise.id}></tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="franchise-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("id")}>Raw Product Name</th>
+
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Credit
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Debit
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Balance
+                                                    </th>
+                                                    <th onClick={() => handleSort("bankName")}>
+                                                        Unit
+                                                    </th>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                            </thead>
+                                            <tbody>
+                                                {RawInventoryStockReport.length > 0 ? (
+                                                    RawInventoryStockReport.map((franchise: any) => (
+                                                        <tr key={franchise.id}></tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

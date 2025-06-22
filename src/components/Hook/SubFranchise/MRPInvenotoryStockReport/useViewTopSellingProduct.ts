@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchInventoryTopSellingPrdApi } from "../../../api/SubFranchise-API/InventoryStockReport/InventoryStockReportApi";
+
+interface TopSellingProductType {
+  id?: string | number;
+  Name?: string;
+  [key: string]: any;
+}
 
 const useViewTopSellingProduct = () => {
-  const [TopSellingProduct, setTopSellingProduct] = useState([]);
-  const [filteredTopSellingProduct, setFilteredTopSellingProduct] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [TopSellingProductPerPage, setTopSellingProductPerPage] = useState(5);
-  const [fromDate, setfromDate] =  useState<Date | any>();
-  const [toDate , settodate] = useState<Date | any>();
+  const [TopSellingProduct, setTopSellingProduct] = useState<TopSellingProductType[]>([]);
+  const [filteredTopSellingProduct, setFilteredTopSellingProduct] = useState<TopSellingProductType[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [TopSellingProductPerPage, setTopSellingProductPerPage] = useState<number>(5);
+  const [fromDate, setfromDate] = useState<Date | undefined>();
+  const [toDate, settodate] = useState<Date | undefined>();
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
@@ -19,9 +26,10 @@ const useViewTopSellingProduct = () => {
   }, []);
 
   const handleFetchTopSellingProduct = async () => {
+    const frId = localStorage.getItem("frId")
     try {
-      const response: any = await "";
-      const data = response.data ||[]
+      const response: any = await fetchInventoryTopSellingPrdApi(Number(frId));
+      const data: TopSellingProductType[] = response?.data?.data || [];
       setTopSellingProduct(data);
       setFilteredTopSellingProduct(data);
     } catch (error) {
@@ -33,7 +41,7 @@ const useViewTopSellingProduct = () => {
     setSearchTerm(term);
     setFilteredTopSellingProduct(
       TopSellingProduct.filter(
-        (TopSellingProduct: any) =>
+        (TopSellingProduct: TopSellingProductType) =>
           TopSellingProduct?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           TopSellingProduct?.id?.toString().includes(term.toLowerCase())
       )
@@ -61,11 +69,15 @@ const useViewTopSellingProduct = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("TopSellingProduct-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "TopSellingProduct_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "TopSellingProduct_data.xlsx");
+    }
   };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(filteredTopSellingProduct.length / TopSellingProductPerPage);
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -75,11 +87,8 @@ const useViewTopSellingProduct = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
-
 
   const indexOfLastTopSellingProduct = currentPage * TopSellingProductPerPage;
   const indexOfFirstTopSellingProduct = indexOfLastTopSellingProduct - TopSellingProductPerPage;
@@ -87,7 +96,6 @@ const useViewTopSellingProduct = () => {
     indexOfFirstTopSellingProduct,
     indexOfLastTopSellingProduct
   );
-  const totalPages = Math.ceil(filteredTopSellingProduct.length / TopSellingProductPerPage);
 
   return {
     indexOfLastTopSellingProduct,

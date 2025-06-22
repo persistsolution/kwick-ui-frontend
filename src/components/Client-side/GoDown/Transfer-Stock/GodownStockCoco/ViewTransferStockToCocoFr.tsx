@@ -4,6 +4,7 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewTransferStockToCocoFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockCoco/useViewTransferStockToCocoFr";
 import { Link } from "react-router-dom";
+import SkeletonLoader from "../../../../../common/SkeletonLoader";
 
 const ViewTransferStockToCocoFr: FC = () => {
   const {
@@ -18,6 +19,7 @@ const ViewTransferStockToCocoFr: FC = () => {
     toDate,
     FranchiseList,
     currentviewTransferStockToCocoFr,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -121,6 +123,9 @@ const ViewTransferStockToCocoFr: FC = () => {
                 </div>
 
                 <div className="table-responsive">
+                        {loading ? (
+                                  <SkeletonLoader loading={loading} />
+                                ) : (
                   <Table
                     id="GodownAccount-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
@@ -188,7 +193,7 @@ const ViewTransferStockToCocoFr: FC = () => {
                         </tr>
                       )}
                     </tbody>
-                  </Table>
+                  </Table>)}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

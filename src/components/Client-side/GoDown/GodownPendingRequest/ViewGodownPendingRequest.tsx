@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGodownPendingRequest from "../../../Hook/GoDown-Hook/GodownPendingRequest/useGodownPendingRequest";
 import { Link } from "react-router-dom";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewGodownPendingRequest: FC = () => {
   const {
@@ -13,6 +14,7 @@ const ViewGodownPendingRequest: FC = () => {
     currentPage,
     viewGodownPendingRequestPerPage,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -69,80 +71,83 @@ const ViewGodownPendingRequest: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="GodownAccount-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("invoiceNo")}>
-                          Invoice No
-                        </th>
-                        <th onClick={() => handleSort("franchise")}>
-                          Franchise{" "}
-                        </th>
-                        <th onClick={() => handleSort("requestedDate")}>
-                          Requested Data{" "}
-                        </th>
-                        <th onClick={() => handleSort("totalQty")}>
-                          Total Product{" "}
-                        </th>
-                        <th onClick={() => handleSort("downloadExcel")}>
-                          Download Excel{" "}
-                        </th>
-                        <th onClick={() => handleSort("narration")}>
-                          Narration{" "}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {viewGodownPendingRequest.length > 0 ? (
-                        viewGodownPendingRequest.map((GodownAccount: any) => (
-                          <tr key={GodownAccount.id}>
-                            <td>{GodownAccount?.sr_no}</td>
-
-                            <td>
-                              <Link
-                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
-                                to=""
-                                target="_blank"
-                              >
-                                #{GodownAccount?.request_id}
-                              </Link>
-                            </td>
-                            <td>{GodownAccount?.godown_name}</td>
-                            <td>{GodownAccount?.stock_date}</td>
-                            <td>                            <Link
-                              // to={`/Franchise/frDashboard/${GodownAccount.id}`}
-                              to=""
-                              target="_blank"
-                            >
-                              {GodownAccount?.item_count}
-                            </Link>
-                            </td>
-
-                            <td>
-                              <Link
-                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
-                                to=""
-                                target="_blank"
-                              >
-                                Download
-                              </Link>
-                            </td>
-                            <td>{GodownAccount?.narration}</td>
-                          </tr>
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="GodownAccount-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("invoiceNo")}>
+                            Invoice No
+                          </th>
+                          <th onClick={() => handleSort("franchise")}>
+                            Franchise{" "}
+                          </th>
+                          <th onClick={() => handleSort("requestedDate")}>
+                            Requested Data{" "}
+                          </th>
+                          <th onClick={() => handleSort("totalQty")}>
+                            Total Product{" "}
+                          </th>
+                          <th onClick={() => handleSort("downloadExcel")}>
+                            Download Excel{" "}
+                          </th>
+                          <th onClick={() => handleSort("narration")}>
+                            Narration{" "}
+                          </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {viewGodownPendingRequest.length > 0 ? (
+                          viewGodownPendingRequest.map((GodownAccount: any) => (
+                            <tr key={GodownAccount.id}>
+                              <td>{GodownAccount?.sr_no}</td>
+
+                              <td>
+                                <Link
+                                  // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                  to=""
+                                  target="_blank"
+                                >
+                                  #{GodownAccount?.request_id}
+                                </Link>
+                              </td>
+                              <td>{GodownAccount?.godown_name}</td>
+                              <td>{GodownAccount?.stock_date}</td>
+                              <td>                            <Link
+                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                to=""
+                                target="_blank"
+                              >
+                                {GodownAccount?.item_count}
+                              </Link>
+                              </td>
+
+                              <td>
+                                <Link
+                                  // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                  to=""
+                                  target="_blank"
+                                >
+                                  Download
+                                </Link>
+                              </td>
+                              <td>{GodownAccount?.narration}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>)}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

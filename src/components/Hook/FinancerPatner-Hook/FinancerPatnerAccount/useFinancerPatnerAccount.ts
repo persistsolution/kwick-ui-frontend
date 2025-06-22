@@ -1,29 +1,36 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchFinancerPatnerAccountApi } from "../../../api/FinancerPatner-Api/FinancerPatnerApi";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useFinancerPatnerAccount = () => {
-  const [FinancerPatnerAccount, setFinancerPatnerAccount] = useState([]);
-  const [filteredFinancerPatnerAccount, setFilteredFinancerPatnerAccount] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [FinancerPatnerAccountPerPage, setFinancerPatnerAccountPerPage] = useState(5);
+  const [FinancerPatnerAccount, setFinancerPatnerAccount] = useState<any[]>([]);
+  const [filteredFinancerPatnerAccount, setFilteredFinancerPatnerAccount] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [FinancerPatnerAccountPerPage, setFinancerPatnerAccountPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     handleFetchFinancerPatnerAccount();
   }, []);
 
   const handleFetchFinancerPatnerAccount = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchFinancerPatnerAccountApi();
-      setFinancerPatnerAccount(response.data);
-      setFilteredFinancerPatnerAccount(response.data);
+      const data = response?.data?.data || []
+      setFinancerPatnerAccount(data);
+      setFilteredFinancerPatnerAccount(data);
+      setLoading(!data)
     } catch (error) {
+      setLoading(false)
       console.error("Error fetching FinancerPatnerAccount:", error);
     }
   };
@@ -32,9 +39,9 @@ const navigate = useNavigate()
     setSearchTerm(term);
     setFilteredFinancerPatnerAccount(
       FinancerPatnerAccount.filter(
-        (FinancerPatnerAccount: any) =>
-          FinancerPatnerAccount?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          FinancerPatnerAccount?.id?.toString().includes(term.toLowerCase())
+        (account: any) =>
+          account?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          account?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
@@ -44,14 +51,14 @@ const navigate = useNavigate()
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedFinancerPatnerAccount = [...filteredFinancerPatnerAccount].sort((a, b) => {
+    const sortedAccounts = [...filteredFinancerPatnerAccount].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFilteredFinancerPatnerAccount(sortedFinancerPatnerAccount);
+    setFilteredFinancerPatnerAccount(sortedAccounts);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -60,13 +67,15 @@ const navigate = useNavigate()
 
   const exportToExcel = () => {
     const table = document.getElementById("financer-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "financer_excel.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "financer_excel.xlsx");
+    }
   };
 
-  const handleAddFinancerPatnerAccount = ()=>{
-    navigate("/FinancerPatner/AddFinancerPartnerAccount")
-  }
+  const handleAddFinancerPatnerAccount = () => {
+    navigate("/FinancerPatner/AddFinancerPartnerAccount");
+  };
 
   const getVisiblePages = () => {
     const maxVisiblePages = 5;
@@ -78,11 +87,8 @@ const navigate = useNavigate()
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
-
 
   const indexOfLastFinancerPatnerAccount = currentPage * FinancerPatnerAccountPerPage;
   const indexOfFirstFinancerPatnerAccount = indexOfLastFinancerPatnerAccount - FinancerPatnerAccountPerPage;
@@ -103,13 +109,14 @@ const navigate = useNavigate()
     sortConfig,
     currentFinancerPatnerAccount,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
     getVisiblePages,
     setFinancerPatnerAccountPerPage,
-    handleAddFinancerPatnerAccount
+    handleAddFinancerPatnerAccount,
   };
 };
 

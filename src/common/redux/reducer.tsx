@@ -33,15 +33,18 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action: any) {
-    const { type, payload } = action;
+  switch (action.type) {
+    case "ThemeChanger":
+      return { ...state, ...action.payload };
 
-    switch (type) {
+    case "frId":
+      return { ...state, frId: action.payload };
 
-        case "ThemeChanger":
-            state = payload;
-            return state;
-
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }
+
+
+
+

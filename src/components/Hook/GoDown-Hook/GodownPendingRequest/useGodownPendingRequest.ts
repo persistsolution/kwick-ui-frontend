@@ -16,18 +16,22 @@ const useGodownPendingRequest = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+  const [loading , setLoading] = useState(false)
 
   useEffect(() => {
     handleFetchviewGodownPendingRequest();
   }, []);
 
   const handleFetchviewGodownPendingRequest = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchGodownPendingRequestApi();
       const data = response?.data?.data || []
       setviewGodownPendingRequest(data);
       setFilteredviewGodownPendingRequest(data);
+      setLoading(!data)
     } catch (error) {
+      setLoading(false)
       console.error("Error fetching viewGodownPendingRequest:", error);
     }
   };
@@ -110,6 +114,7 @@ const useGodownPendingRequest = () => {
     sortConfig,
     currentviewGodownPendingRequest,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

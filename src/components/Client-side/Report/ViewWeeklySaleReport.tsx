@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useWeeklySaleReport from "../../Hook/Report-Hook/useWeeklySaleReport";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewWeeklySaleReport: FC = () => {
   const {
@@ -11,7 +12,9 @@ const ViewWeeklySaleReport: FC = () => {
     searchTerm,
     currentPage,
     weeklySaleReportPerPage,
+    currentweeklySaleReport,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -64,64 +67,86 @@ const ViewWeeklySaleReport: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="weeklySaleReport-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("outletID")}>
-                          Outlet ID
-                        </th>
-                        <th onClick={() => handleSort("outletName")}>
-                          Outlet Name
-                        </th>
-                        <th onClick={() => handleSort("location")}>Location</th>
-                        <th onClick={() => handleSort("outletopeningdate")}>
-                          Outlet Opening Date{" "}
-                        </th>
-                        <th onClick={() => handleSort("outletvintageinmonth")}>
-                          {" "}
-                          Outlet Vintage in Months{" "}
-                        </th>
-                        <th onClick={() => handleSort("outlateManager")}>
-                          Outlet Manager                        </th>
-                        <th onClick={() => handleSort("ftdAmount")}>
-                          Week 1 No of Invoices                         </th>
-                        <th onClick={() => handleSort("mtdInvoice")}>
-                          Week 1 Amount                        </th>
-                        <th onClick={() => handleSort("mtdAmount")}>
-                          Week 2 No of Invoices                        </th>
-                        <th onClick={() => handleSort("mtdInvoice")}>
-                          Week 2 Amount                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Week 3 No of Invoices                         </th>{" "}
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Week 3 Amount                        </th>
-                        <th>Week 4 No of Invoices</th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Week 4 Amount                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Week 5 No of Invoices                        </th>
-                        <th onClick={() => handleSort("ptdAmount")}>
-                          Week 5 Amount                        </th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {weeklySaleReport.length > 0 ? (
-                        weeklySaleReport.map((weeklySaleReport: any) => (
-                          <tr key={weeklySaleReport.id}></tr>
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="weeklySaleReport-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("outletID")}>
+                            Outlet ID
+                          </th>
+                          <th onClick={() => handleSort("outletName")}>
+                            Outlet Name
+                          </th>
+                          <th onClick={() => handleSort("location")}>Location</th>
+                          <th onClick={() => handleSort("outletopeningdate")}>
+                            Outlet Opening Date{" "}
+                          </th>
+                          <th onClick={() => handleSort("outletvintageinmonth")}>
+                            {" "}
+                            Outlet Vintage in Months{" "}
+                          </th>
+                          <th onClick={() => handleSort("outlateManager")}>
+                            Outlet Manager                        </th>
+                          <th onClick={() => handleSort("ftdAmount")}>
+                            Week 1 No of Invoices                         </th>
+                          <th onClick={() => handleSort("mtdInvoice")}>
+                            Week 1 Amount                        </th>
+                          <th onClick={() => handleSort("mtdAmount")}>
+                            Week 2 No of Invoices                        </th>
+                          <th onClick={() => handleSort("mtdInvoice")}>
+                            Week 2 Amount                        </th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Week 3 No of Invoices                         </th>{" "}
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Week 3 Amount                        </th>
+                          <th>Week 4 No of Invoices</th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Week 4 Amount                        </th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Week 5 No of Invoices                        </th>
+                          <th onClick={() => handleSort("ptdAmount")}>
+                            Week 5 Amount                        </th>
+
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentweeklySaleReport.length > 0 ? (
+                          currentweeklySaleReport.map((data: any) => (
+                            <tr key={data?.id}>
+                              <td>{data?.customer_id}</td>
+                              <td>{data?.shop_name}</td>
+                              <td>{data?.location}</td>
+                              <td>{data?.sell_date}</td>
+                              <td>{data?.vintage_months}</td>
+                              <td></td>
+                              <td>{data?.weekly_report?.week_1?.invoice_count}</td>
+                              <td>{Number(data?.weekly_report?.week_1?.total_amount || 0).toFixed(2)}</td>
+                              <td>{data?.weekly_report?.week_2?.invoice_count}</td>
+                              <td>{Number(data?.weekly_report?.week_2?.total_amount || 0).toFixed(2)}</td>
+                              <td>{data?.weekly_report?.week_3?.invoice_count}</td>
+                              <td>{Number(data?.weekly_report?.week_3?.total_amount || 0).toFixed(2)}</td>
+                              <td>{data?.weekly_report?.week_4?.invoice_count}</td>
+                              <td>{Number(data?.weekly_report?.week_4?.total_amount || 0).toFixed(2)}</td>
+                              <td>{data?.weekly_report?.week_5?.invoice_count}</td>
+                              <td>{Number(data?.weekly_report?.week_5?.total_amount || 0).toFixed(2)}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

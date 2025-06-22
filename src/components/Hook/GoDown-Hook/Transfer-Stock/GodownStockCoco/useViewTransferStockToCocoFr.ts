@@ -27,8 +27,9 @@ const useViewTransferStockToCocoFr = () => {
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
   const [FranchiseList, setFranchiseList] = useState([]);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const navigate = useNavigate();
   useEffect(() => {
     handleFetchviewTransferStockToCocoFr();
   }, []);
@@ -38,13 +39,16 @@ const useViewTransferStockToCocoFr = () => {
   };
 
   const handleFetchviewTransferStockToCocoFr = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchTransferStockToCocoFrApi();
-      const data = response?.data?.data ||[]
+      const data = response?.data?.data || []
       setviewTransferStockToCocoFr(data);
       setFilteredviewTransferStockToCocoFr(data);
+      setLoading(!data)
     } catch (error) {
       console.error("Error fetching viewTransferStockToCocoFr:", error);
+      setLoading(false)
     }
   };
 
@@ -126,7 +130,7 @@ const useViewTransferStockToCocoFr = () => {
     }
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => { };
 
   const indexOfLastTransferStockToCocoFr =
     currentPage * viewTransferStockToCocoFrPerPage;
@@ -155,6 +159,7 @@ const useViewTransferStockToCocoFr = () => {
     fromDate,
     toDate,
     FranchiseList,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

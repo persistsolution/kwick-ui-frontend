@@ -2,28 +2,44 @@ import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchCashBookApi } from "../../../api/SubFranchise-API/CashBookApi/CashBookApi";
 
+interface CashBookItem {
+  id: number;
+  Name: string;
+  [key: string]: any; 
+}
+
+interface SortConfig {
+  key: keyof CashBookItem | null;
+  direction: "asc" | "desc";
+}
+
 const useViewCashBook = () => {
-  const [cashBook, setcashBook] = useState([]);
-  const [filteredcashBook, setFilteredcashBook] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [cashBookPerPage, setcashBookPerPage] = useState(5);
-  const [fromDate, setfromDate] =  useState<Date | any>();
-  const [toDate , settodate] = useState<Date | any>();
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
+  const [cashBook, setCashBook] = useState<CashBookItem[]>([]);
+  const [filteredCashBook, setFilteredCashBook] = useState<CashBookItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [cashBookPerPage, setCashBookPerPage] = useState<number>(5);
+  const [fromDate, setFromDate] = useState<Date | any>(null);
+  const [toDate, setToDate] = useState<Date | any>(null);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+
+
 
   useEffect(() => {
-    handleFetchcashBook();
+    handleFetchCashBook();
+    
   }, []);
 
-  const handleFetchcashBook = async () => {
+  const handleFetchCashBook = async () => {
+    const frId = localStorage.getItem("frId")
     try {
-      const response: any = await fetchCashBookApi();
-      setcashBook(response.data);
-      setFilteredcashBook(response.data);
+      const response : any = await fetchCashBookApi(Number(frId));
+      const data: CashBookItem[] = response?.data?.data ||[];
+      setCashBook(data);
+      setFilteredCashBook(data);
     } catch (error) {
       console.error("Error fetching cashBook:", error);
     }
@@ -31,28 +47,27 @@ const useViewCashBook = () => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFilteredcashBook(
-      cashBook.filter(
-        (cashBook: any) =>
-          cashBook?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          cashBook?.id?.toString().includes(term.toLowerCase())
-      )
+    const filtered = cashBook.filter((item) =>
+      item?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+      item?.id?.toString().includes(term)
     );
+    setFilteredCashBook(filtered);
   };
 
-  const handleSort = (key: string) => {
-    let direction = "asc";
+  const handleSort = (key: keyof CashBookItem) => {
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedcashBook = [...filteredcashBook].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+
+    const sorted = [...filteredCashBook].sort((a, b) => {
+      if (a[key]! < b[key]!) return direction === "asc" ? -1 : 1;
+      if (a[key]! > b[key]!) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFilteredcashBook(sortedcashBook);
+    setFilteredCashBook(sorted);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -61,9 +76,18 @@ const useViewCashBook = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("cashBook-table");
+    if (!table) return;
     const workbook = utils.table_to_book(table);
     writeFile(workbook, "cashBook_data.xlsx");
   };
+
+  const totalPages = Math.ceil(filteredCashBook.length / cashBookPerPage);
+  const indexOfLastCashBook = currentPage * cashBookPerPage;
+  const indexOfFirstCashBook = indexOfLastCashBook - cashBookPerPage;
+  const currentCashBook = filteredCashBook.slice(
+    indexOfFirstCashBook,
+    indexOfLastCashBook
+  );
 
   const getVisiblePages = () => {
     const maxVisiblePages = 5;
@@ -75,41 +99,30 @@ const useViewCashBook = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   };
 
-
-  const indexOfLastcashBook = currentPage * cashBookPerPage;
-  const indexOfFirstcashBook = indexOfLastcashBook - cashBookPerPage;
-  const currentcashBook = filteredcashBook.slice(
-    indexOfFirstcashBook,
-    indexOfLastcashBook
-  );
-  const totalPages = Math.ceil(filteredcashBook.length / cashBookPerPage);
-
   return {
-    indexOfLastcashBook,
-    indexOfFirstcashBook,
+    indexOfLastCashBook,
+    indexOfFirstCashBook,
     cashBook,
-    filteredcashBook,
+    filteredCashBook,
     searchTerm,
     currentPage,
     cashBookPerPage,
     sortConfig,
-    currentcashBook,
+    currentCashBook,
     totalPages,
     fromDate,
     toDate,
     handleSearch,
-    settodate,
-    setfromDate,
+    setToDate,
+    setFromDate,
     handleSort,
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setcashBookPerPage,
+    setCashBookPerPage,
   };
 };
 

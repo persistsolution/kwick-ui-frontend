@@ -27,6 +27,7 @@ const useViewGodownStock = () => {
   const [goDownProductlist, setgoDownProductlist] = useState([]);
   const [selectGodownStockProduct, setselectGodownStockProduct] = useState(0);
   const [selectGodown, setselectGodown] = useState(0);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const useViewGodownStock = () => {
   const fetchGodownList = async () => {
     try {
       const response: any = await fetchGodownApi();
-      const data = response?.data?.data ||[]
+      const data = response?.data?.data || []
       setgoDownList(data);
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
@@ -52,20 +53,25 @@ const useViewGodownStock = () => {
   const handleFetchGodownPord = async () => {
     try {
       const response: any = await fetchGodownStockProduct();
-      setgoDownProductlist(response.data);
+      const data = response?.data || []
+      setgoDownProductlist(data);
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
     }
   };
 
   const handleFetchviewGodownStock = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchGodownStockApi();
       const data = response?.data?.data || []
       setviewGodownStock(data);
       setFilteredviewGodownStock(data);
+      setLoading(!data)
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
+      setLoading(false)
+
     }
   };
 
@@ -175,6 +181,7 @@ const useViewGodownStock = () => {
     goDownProductlist,
     selectGodownStockProduct,
     selectGodown,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

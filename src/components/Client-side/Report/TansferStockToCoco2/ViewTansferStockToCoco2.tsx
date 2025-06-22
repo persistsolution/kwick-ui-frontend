@@ -3,34 +3,43 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useTransferPrdToCocoFr2 from "../../../Hook/Report-Hook/TansferStockToCoco2/useViewTansferStockToCoco2";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewTransferPrdToCocoFr2: FC = () => {
     const {
         indexOfLastTransferPrdToCocoFr2,
         indexOfFirstTransferPrdToCocoFr2,
         TransferPrdToCocoFr2,
+        filteredTransferPrdToCocoFr2,
         searchTerm,
         currentPage,
         TransferPrdToCocoFr2PerPage,
+        sortConfig,
+        currentTransferPrdToCocoFr2,
         totalPages,
-        countryArray,
-        selectState,
+        franchiseList,
+        categoryList,
         fromDate,
         toDate,
+        countryArray,
+        selectState,
         franchiseArray,
         selectFranchise,
-        godownProductArray,
         selectFranchiseProduct,
+        godownProductArray,
+        loading,
         handleSearch,
         handelAddStock,
+        settodate,
+        setfromDate,
         handleSort,
         handlePageChange,
         exportToExcel,
         getVisiblePages,
         setTransferPrdToCocoFr2PerPage,
+        setfranchiseList,
+        setcategoryList,
         setSelectState,
-        setfromDate,
-        settodate,
         setSelectFranchise,
         setSelectFranchiseProduct
     } = useTransferPrdToCocoFr2();
@@ -79,7 +88,7 @@ const ViewTransferPrdToCocoFr2: FC = () => {
                                             <Form.Label>From Date</Form.Label>
                                             <Form.Control
                                                 type="date"
-                                                value={fromDate || ""}
+                                                value={fromDate}
                                                 onChange={(date: any) => setfromDate(date)}
                                             />
                                         </Form.Group>
@@ -129,52 +138,68 @@ const ViewTransferPrdToCocoFr2: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="TransferPrdToCocoFr2-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("")}>
-                                                    Sr No
-                                                </th>
-                                                <th onClick={() => handleSort("godown")}>
-                                                    Go-Down
-                                                </th>
-                                                <th onClick={() => handleSort("franchise")}>
-                                                    Franchise
-                                                </th>
-                                                <th onClick={() => handleSort("transferData")}>
-                                                    Transfer Data
-                                                </th>
-                                                <th onClick={() => handleSort("totalQty")}>
-                                                    Total Qty
-                                                </th>
-                                                <th onClick={() => handleSort("totalAmt")}>
-                                                    Total Amount
-                                                </th>
-                                                <th onClick={() => handleSort("narration")}>
-                                                    Narration
-                                                </th>
-                                                <th onClick={() => handleSort("createdDate")}>
-                                                    Created Date
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {TransferPrdToCocoFr2.length > 0 ? (
-                                                TransferPrdToCocoFr2.map((TransferPrdToCocoFr2: any) => (
-                                                    <tr key={TransferPrdToCocoFr2.id}></tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                    {
+                                        loading ? (
+                                            <SkeletonLoader loading={loading} />
+                                        ) : (
+                                            <Table
+                                                id="TransferPrdToCocoFr2-table"
+                                                className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                            >
+                                                <thead className="table-primary">
+                                                    <tr>
+                                                        <th onClick={() => handleSort("")}>
+                                                            Sr No
+                                                        </th>
+                                                        <th onClick={() => handleSort("godown")}>
+                                                            Go-Down
+                                                        </th>
+                                                        <th onClick={() => handleSort("franchise")}>
+                                                            Franchise
+                                                        </th>
+                                                        <th onClick={() => handleSort("transferDate")}>
+                                                            Transfer Date
+                                                        </th>
+                                                        <th onClick={() => handleSort("totalQty")}>
+                                                            Total Qty
+                                                        </th>
+                                                        <th onClick={() => handleSort("totalAmt")}>
+                                                            Total Amount
+                                                        </th>
+                                                        <th onClick={() => handleSort("narration")}>
+                                                            Narration
+                                                        </th>
+                                                        <th onClick={() => handleSort("createdDate")}>
+                                                            Created Date
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {currentTransferPrdToCocoFr2?.length > 0 ? (
+                                                        currentTransferPrdToCocoFr2?.map((data: any) => (
+                                                            <tr key={data?.id}>
+                                                                <td>{data?.sno}</td>
+                                                                <td>{data?.godown_name}</td>
+                                                                <td>{data?.franchise_name}</td>
+                                                                <td>{data?.stock_date}</td>
+                                                                <td>{data?.total_qty}</td>
+                                                                <td>{data?.total_amount}</td>
+                                                                <td>{data?.narration}</td>
+                                                                <td>{data?.created_date}</td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan={3} className="text-center">
+                                                                No records found.
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </Table>
+                                        )
+                                    }
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

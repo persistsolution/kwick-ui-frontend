@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../../../config";
 export const fetchCommisionNoteApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/CommisionNoteReport/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/partner/view-commision-note.php`);
 };
 
 // Fetch Commision Note Patner

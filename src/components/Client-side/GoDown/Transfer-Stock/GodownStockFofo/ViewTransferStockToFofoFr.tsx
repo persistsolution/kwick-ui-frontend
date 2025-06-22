@@ -4,6 +4,7 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useViewTransferStockToFofoFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockFofo/useViewTransferStockToFofoFr";
 import { Link } from "react-router-dom";
+import SkeletonLoader from "../../../../../common/SkeletonLoader";
 
 const ViewTransferStockToFofoFr: FC = () => {
   const {
@@ -18,6 +19,7 @@ const ViewTransferStockToFofoFr: FC = () => {
     fromDate,
     toDate,
     FranchiseList,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -121,73 +123,76 @@ const ViewTransferStockToFofoFr: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="GodownAccount-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("goDown")}>Go Down</th>
-                        <th onClick={() => handleSort("franchise")}>
-                          Franchise{" "}
-                        </th>
-                        <th onClick={() => handleSort("transferDate")}>
-                          Transfer Data{" "}
-                        </th>
-                        <th onClick={() => handleSort("totalQty")}>
-                          Total Qty{" "}
-                        </th>
-                        <th onClick={() => handleSort("totalAmount")}>
-                          Total Amount{" "}
-                        </th>
-                        <th onClick={() => handleSort("narration")}>
-                          Narration{" "}
-                        </th>
-                        <th onClick={() => handleSort("createdDate")}>
-                          Created Date{" "}
-                        </th>
-                        <th onClick={() => handleSort("invoicePrint")}>
-                          Invoice Print{" "}
-                        </th>
-                        <th onClick={() => handleSort("print")}>Print </th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentviewTransferStockToFofoFr.length > 0 ? (
-                        currentviewTransferStockToFofoFr.map(
-                          (GodownAccount: any) => (
-                            <tr key={GodownAccount.sr_no}>
-                              <td>{GodownAccount.sr_no}</td>
-                              <td>{GodownAccount.godown_name}</td>
-                              <td>{GodownAccount.franchise_name}</td>
-                              <td>{GodownAccount.stock_date}</td>
-                              <td>{GodownAccount.total_qty}</td>
-                              <td>{GodownAccount.total_amount}</td>
-                              <td>{GodownAccount.narration}</td>
-                              <td>{GodownAccount.created_date}</td>
-                              <td >  <Link to="" target="_blank"
-                              ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
-                              <td><Link to="" target="_blank"
-                              ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
-                              <td>
-                                <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
-                                  <i className="bi bi-trash"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          )
-                        )
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="GodownAccount-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("goDown")}>Go Down</th>
+                          <th onClick={() => handleSort("franchise")}>
+                            Franchise{" "}
+                          </th>
+                          <th onClick={() => handleSort("transferDate")}>
+                            Transfer Data{" "}
+                          </th>
+                          <th onClick={() => handleSort("totalQty")}>
+                            Total Qty{" "}
+                          </th>
+                          <th onClick={() => handleSort("totalAmount")}>
+                            Total Amount{" "}
+                          </th>
+                          <th onClick={() => handleSort("narration")}>
+                            Narration{" "}
+                          </th>
+                          <th onClick={() => handleSort("createdDate")}>
+                            Created Date{" "}
+                          </th>
+                          <th onClick={() => handleSort("invoicePrint")}>
+                            Invoice Print{" "}
+                          </th>
+                          <th onClick={() => handleSort("print")}>Print </th>
+                          <th>Delete</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentviewTransferStockToFofoFr.length > 0 ? (
+                          currentviewTransferStockToFofoFr.map(
+                            (GodownAccount: any) => (
+                              <tr key={GodownAccount.sr_no}>
+                                <td>{GodownAccount.sr_no}</td>
+                                <td>{GodownAccount.godown_name}</td>
+                                <td>{GodownAccount.franchise_name}</td>
+                                <td>{GodownAccount.stock_date}</td>
+                                <td>{GodownAccount.total_qty}</td>
+                                <td>{GodownAccount.total_amount}</td>
+                                <td>{GodownAccount.narration}</td>
+                                <td>{GodownAccount.created_date}</td>
+                                <td >  <Link to="" target="_blank"
+                                ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
+                                <td><Link to="" target="_blank"
+                                ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
+                                <td>
+                                  <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                    <i className="bi bi-trash"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            )
+                          )
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>)}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

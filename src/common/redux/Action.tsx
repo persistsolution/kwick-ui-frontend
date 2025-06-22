@@ -5,3 +5,9 @@ export const ThemeChanger = (value:any) => async (dispatch:any) => {
         payload: value
     });
   };
+
+export const setFrId = (id: string | number) => ({
+  type: "frId",
+  payload: id,
+});
+

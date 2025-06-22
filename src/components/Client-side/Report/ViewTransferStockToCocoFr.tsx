@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import useTransferStockToCocoFr from "../../Hook/Report-Hook/useTransferStockToCocoFranchise";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewTransferStockToCocoFr: FC = () => {
     const {
@@ -21,6 +22,8 @@ const ViewTransferStockToCocoFr: FC = () => {
         selectFranchise,
         godownProductArray,
         selectFranchiseProduct,
+        loading,
+        currentTransferStockToCocoFr,
         handleSearch,
         handleSort,
         handlePageChange,
@@ -78,7 +81,7 @@ const ViewTransferStockToCocoFr: FC = () => {
                                             <Form.Label>From Date</Form.Label>
                                             <Form.Control
                                                 type="date"
-                                                value={fromDate || ""}
+                                                value={fromDate}
                                                 onChange={(date: any) => setfromDate(date)}
                                             />
                                         </Form.Group>
@@ -126,56 +129,71 @@ const ViewTransferStockToCocoFr: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="TransferStockToCocoFr-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("")}>
-                                                    Sr No
-                                                </th>
-                                                <th onClick={() => handleSort("godown")}>
-                                                    Go-Down
-                                                </th>
-                                                <th onClick={() => handleSort("franchise")}>
-                                                    Franchise
-                                                </th>
-                                                <th onClick={() => handleSort("transferData")}>
-                                                    Transfer Data
-                                                </th>
-                                                <th onClick={() => handleSort("item")}>
-                                                    {" "}
-                                                    Item
-                                                </th>
-                                                <th onClick={() => handleSort("qty")}>
-                                                    Qty
-                                                </th>
-                                                <th onClick={() => handleSort("rate")}>
-                                                    Rate
-                                                </th>
-                                                <th onClick={() => handleSort("gst")}>
-                                                    GST
-                                                </th>
-                                                <th onClick={() => handleSort("amount")}>
-                                                    Amount
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {TransferStockToCocoFr.length > 0 ? (
-                                                TransferStockToCocoFr.map((TransferStockToCocoFr: any) => (
-                                                    <tr key={TransferStockToCocoFr.id}></tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="TransferStockToCocoFr-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("")}>
+                                                        Sr No
+                                                    </th>
+                                                    <th onClick={() => handleSort("godown")}>
+                                                        Go-Down
+                                                    </th>
+                                                    <th onClick={() => handleSort("franchise")}>
+                                                        Franchise
+                                                    </th>
+                                                    <th onClick={() => handleSort("transferData")}>
+                                                        Transfer date
+                                                    </th>
+                                                    <th onClick={() => handleSort("item")}>
+                                                        {" "}
+                                                        Item
+                                                    </th>
+                                                    <th onClick={() => handleSort("qty")}>
+                                                        Qty
+                                                    </th>
+                                                    <th onClick={() => handleSort("rate")}>
+                                                        Rate
+                                                    </th>
+                                                    <th onClick={() => handleSort("gst")}>
+                                                        GST
+                                                    </th>
+                                                    <th onClick={() => handleSort("amount")}>
+                                                        Amount
+                                                    </th>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                            </thead>
+                                            <tbody>
+                                                {currentTransferStockToCocoFr?.length > 0 ? (
+                                                    currentTransferStockToCocoFr?.map((data: any) => (
+                                                        <tr key={data?.id}>
+                                                            <td>{data?.sno}</td>
+                                                            <td>{data?.godown_name}</td>
+                                                            <td>{data?.franchise_name}</td>
+                                                            <td>{data?.stock_date}</td>
+                                                            <td>{data?.product_name}</td>
+                                                            <td>{data?.quantity}</td>
+                                                            <td>{data?.price}</td>
+                                                            <td>{data?.gst_amount}</td>
+                                                            <td>{data?.total_price}</td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

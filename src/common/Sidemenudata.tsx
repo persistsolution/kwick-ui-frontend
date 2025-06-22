@@ -756,6 +756,29 @@ const defaultMenu: MenuItemtype[] = [
     ],
   },
 
+  // Request Product Stock
+  {
+    title: "Request Product Stock",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }RequestSellingProduct/ViewRequestSellingProduct`,
+        title: "Request Selling Product Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
+
   // Franchise Report
   {
     title: "Franchise Report",
@@ -1340,7 +1363,7 @@ const frDashboardMenu: MenuItemtype[] = [
   },
   // Dashboard
   {
-    path: `${import.meta.env.BASE_URL}Franchise/frDashboard/:id`,
+    path: `${import.meta.env.BASE_URL}Franchises/frDashboard/:id`,
     title: "Dashboard",
     icon: dashboardsvg,
     type: "link",
@@ -1351,7 +1374,7 @@ const frDashboardMenu: MenuItemtype[] = [
 
   // Print Setting
   {
-    path: `${import.meta.env.BASE_URL}Franchise/Setting/PrintSetting`,
+    path: `${import.meta.env.BASE_URL}Franchises/Setting/PrintSetting`,
     title: "Print Setting",
     icon: dashboardsvg,
     type: "link",
@@ -1362,7 +1385,7 @@ const frDashboardMenu: MenuItemtype[] = [
 
   //  Credit Order Accounts
   {
-    path: `${import.meta.env.BASE_URL}Franchise/ViewCreditOrderAccount`,
+    path: `${import.meta.env.BASE_URL}Franchises/ViewCreditOrderAccount`,
     title: " Credit Order Accounts",
     icon: dashboardsvg,
     type: "link",
@@ -1382,7 +1405,7 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewMRPInvenotoryStockReport`,
+        path: `${import.meta.env.BASE_URL}Franchises/ViewMRPInvenotoryStockReport`,
         title: "MRP Invenotory Stock Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1391,7 +1414,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewRawInventoryStockReport`,
+        path: `${import.meta.env.BASE_URL}Franchises/ViewRawInventoryStockReport`,
         title: " Raw Invenotory Stock Report ",
         //icon: dashboardsvg,
         type: "link",
@@ -1400,7 +1423,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
        {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewAssetsInventoryStockReport`,
+        path: `${import.meta.env.BASE_URL}Franchises/ViewAssetsInventoryStockReport`,
         title: "  Assets Invenotory Stock Report ",
         //icon: dashboardsvg,
         type: "link",
@@ -1409,7 +1432,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
        {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewMinMRPInventoryStockReport`,
+        path: `${import.meta.env.BASE_URL}Franchises/ViewMinMRPInventoryStockReport`,
         title: "  Min MRP Invenotory Stock Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1418,7 +1441,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewTopSellingProduct`,
+        path: `${import.meta.env.BASE_URL}Franchises/ViewTopSellingProduct`,
         title: " Top Selling Product",
         //icon: dashboardsvg,
         type: "link",
@@ -1427,7 +1450,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/ViewStockLevel`,
+        path: `${import.meta.env.BASE_URL}Franchises/ViewStockLevel`,
         title: "Stock Level",
         //icon: dashboardsvg,
         type: "link",
@@ -1448,7 +1471,7 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/GRN/ViewMRPProductGRN`,
+        path: `${import.meta.env.BASE_URL}Franchises/GRN/ViewMRPProductGRN`,
         title: "MRP Product GRN",
         //icon: dashboardsvg,
         type: "link",
@@ -1457,7 +1480,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/GRN/ViewRawProductGRN`,
+        path: `${import.meta.env.BASE_URL}Franchises/GRN/ViewRawProductGRN`,
         title: "Raw Product GRN",
         //icon: dashboardsvg,
         type: "link",
@@ -1479,7 +1502,7 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/CashBook/AddCashBook`,
+        path: `${import.meta.env.BASE_URL}Franchises/CashBook/AddCashBook`,
         title: "Add CashBook",
         //icon: dashboardsvg,
         type: "link",
@@ -1488,7 +1511,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/CashBook/ViewCashBook`,
+        path: `${import.meta.env.BASE_URL}Franchises/CashBook/ViewCashBook`,
         title: "View CashBook",
         //icon: dashboardsvg,
         type: "link",
@@ -1509,7 +1532,7 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOrder`,
+        path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysOrder`,
         title: "Todays Orders",
         //icon: dashboardsvg,
         type: "link",
@@ -1518,7 +1541,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysPendingOrder`,
+        path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysPendingOrder`,
         title: "Todays Pending Orders",
         //icon: dashboardsvg,
         type: "link",
@@ -1527,7 +1550,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Orders/AllOrders`,
+        path: `${import.meta.env.BASE_URL}Franchises/Orders/AllOrders`,
         title: "All Orders",
         //icon: dashboardsvg,
         type: "link",
@@ -1536,7 +1559,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysBarcodeOrder`,
+        path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysBarcodeOrder`,
         title: "Todays Barcode Orders",
         //icon: dashboardsvg,
         type: "link",
@@ -1545,7 +1568,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Orders/TodaysOnlineOrders`,
+        path: `${import.meta.env.BASE_URL}Franchises/Orders/TodaysOnlineOrders`,
         title: "Todays Online Orders",
         //icon: dashboardsvg,
         type: "link",
@@ -1568,7 +1591,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/SellingProducts/ViewProduct`,
+        }Franchises/SellingProducts/ViewProduct`,
         title: "Products",
         //icon: dashboardsvg,
         type: "link",
@@ -1579,7 +1602,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/SellingProducts/ViewManageProduct`,
+        }Franchises/SellingProducts/ViewManageProduct`,
         title: "Manage Stock",
         //icon: dashboardsvg,
         type: "link",
@@ -1602,7 +1625,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/RawMakingProducts/ViewRawProducts`,
+        }Franchises/RawMakingProducts/ViewRawProducts`,
         title: "Products",
         //icon: dashboardsvg,
         type: "link",
@@ -1613,7 +1636,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/RawMakingProducts/ViewRawManageStock`,
+        }Franchises/RawMakingProducts/ViewRawManageStock`,
         title: "Manage Stock",
         //icon: dashboardsvg,
         type: "link",
@@ -1628,7 +1651,7 @@ const frDashboardMenu: MenuItemtype[] = [
   {
     path: `${
       import.meta.env.BASE_URL
-    }Franchise/RequestProductStock/ViewRequestProductStock`,
+    }Franchises/RequestProductStock/ViewRequestProductStock`,
     title: "Request Product Stock",
     icon: dashboardsvg,
     type: "link",
@@ -1647,7 +1670,7 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Employees/AddFrEmployee`,
+        path: `${import.meta.env.BASE_URL}Franchises/Employees/AddFrEmployee`,
         title: "Add Employees",
         //icon: dashboardsvg,
         type: "link",
@@ -1656,7 +1679,7 @@ const frDashboardMenu: MenuItemtype[] = [
         dirchange: false,
       },
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Employees/ViewFrEmployee`,
+        path: `${import.meta.env.BASE_URL}Franchises/Employees/ViewFrEmployee`,
         title: "View Employees",
         //icon: dashboardsvg,
         type: "link",
@@ -1677,7 +1700,7 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchise/Reports/ProductStockReport`,
+        path: `${import.meta.env.BASE_URL}Franchises/Reports/ProductStockReport`,
         title: " Product Stock Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1688,7 +1711,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/Reports/RawProductStockReport`,
+        }Franchises/Reports/RawProductStockReport`,
         title: "Raw Product Stock Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1699,7 +1722,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/Reports/CategoryWiseSellReport`,
+        }Franchises/Reports/CategoryWiseSellReport`,
         title: "Category Wise Sell Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1710,7 +1733,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchise/Reports/ViewProductWiseSellReport`,
+        }Franchises/Reports/ViewProductWiseSellReport`,
         title: "Product Wise Sell Report",
         //icon: dashboardsvg,
         type: "link",

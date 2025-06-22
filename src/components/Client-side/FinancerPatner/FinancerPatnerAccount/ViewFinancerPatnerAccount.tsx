@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useFinancerPatnerAccount from "../../../Hook/FinancerPatner-Hook/FinancerPatnerAccount/useFinancerPatnerAccount";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewFinancerPatnerAccount: FC = () => {
   const {
@@ -11,7 +12,9 @@ const ViewFinancerPatnerAccount: FC = () => {
     searchTerm,
     currentPage,
     FinancerPatnerAccountPerPage,
+    currentFinancerPatnerAccount,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -60,8 +63,8 @@ const ViewFinancerPatnerAccount: FC = () => {
                         All Items
                       </option>
                     </Form.Select>
-                           <Button variant="success" onClick={handleAddFinancerPatnerAccount}>
-Add New                    </Button>
+                    <Button variant="success" onClick={handleAddFinancerPatnerAccount}>
+                      Add New                    </Button>
                     <Button variant="success" onClick={exportToExcel}>
                       <i className="fe fe-download me-2"></i>Export to Excel
                     </Button>
@@ -69,7 +72,10 @@ Add New                    </Button>
                 </div>
 
                 <div className="table-responsive">
-                  <Table
+                  {loading ? (
+                    <SkeletonLoader loading={loading}/>
+                  ) : (
+<Table
                     id="financer-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
@@ -92,9 +98,24 @@ Add New                    </Button>
                       </tr>
                     </thead>
                     <tbody>
-                      {FinancerPatnerAccount.length > 0 ? (
-                        FinancerPatnerAccount.map((financer: any) => (
-                          <tr key={financer.id}></tr>
+                      {currentFinancerPatnerAccount?.length > 0 ? (
+                        currentFinancerPatnerAccount?.map((data: any) => (
+                          <tr key={data?.id}>
+                            <td>{data?.photo_url}</td>
+                            <td>{data?.full_name}</td>
+                            <td>{data?.phone}</td>
+                            <td>{data?.email}</td>
+                            <td>{data?.address}</td>
+                            <td>{data?.status}</td>
+                            <td>{data?.created_date}</td>
+                            <td>
+                              <button className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <i className="bi bi-pencil-square"></i>
+                              </button>
+                              &nbsp; &nbsp;
+
+                            </td>
+                          </tr>
                         ))
                       ) : (
                         <tr>
@@ -105,6 +126,8 @@ Add New                    </Button>
                       )}
                     </tbody>
                   </Table>
+                  )}
+                  
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

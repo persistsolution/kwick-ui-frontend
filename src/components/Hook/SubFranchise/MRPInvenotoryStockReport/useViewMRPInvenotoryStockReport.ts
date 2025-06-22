@@ -1,30 +1,36 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchInventoryMRPStockReportApi } from "../../../api/SubFranchise-API/InventoryStockReport/InventoryStockReportApi";
 
 const useViewMRPInvenotoryStockReport = () => {
-  const [MRPInvenotoryStockReport, setMRPInvenotoryStockReport] = useState([]);
-  const [filteredMRPInvenotoryStockReport, setFilteredMRPInvenotoryStockReport] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [MRPInvenotoryStockReportPerPage, setMRPInvenotoryStockReportPerPage] = useState(5);
-  const [fromDate, setfromDate] =  useState<Date | any>();
-  const [toDate , settodate] = useState<Date | any>();
+  const [MRPInvenotoryStockReport, setMRPInvenotoryStockReport] = useState<any[]>([]);
+  const [filteredMRPInvenotoryStockReport, setFilteredMRPInvenotoryStockReport] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [MRPInvenotoryStockReportPerPage, setMRPInvenotoryStockReportPerPage] = useState<number>(5);
+  const [fromDate, setfromDate] = useState<Date | any>();
+  const [toDate, settodate] = useState<Date | any>();
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+  const [loading , setLoading]= useState<boolean>(false);
 
   useEffect(() => {
     handleFetchMRPInvenotoryStockReport();
   }, []);
 
   const handleFetchMRPInvenotoryStockReport = async () => {
+    setLoading(true)
+    const frId = localStorage.getItem("frId")
     try {
-      const response: any = await "";
-      const data = response.data ||[]
+      const response: any = await fetchInventoryMRPStockReportApi(Number(frId));
+      const data = response?.data?.data || [];
       setMRPInvenotoryStockReport(data);
       setFilteredMRPInvenotoryStockReport(data);
+      setLoading(!data)
     } catch (error) {
+      setLoading(false)
       console.error("Error fetching MRPInvenotoryStockReport:", error);
     }
   };
@@ -65,6 +71,8 @@ const useViewMRPInvenotoryStockReport = () => {
     writeFile(workbook, "MRPInvenotoryStockReport_data.xlsx");
   };
 
+  const totalPages = Math.ceil(filteredMRPInvenotoryStockReport.length / MRPInvenotoryStockReportPerPage);
+
   const getVisiblePages = () => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
@@ -75,11 +83,8 @@ const useViewMRPInvenotoryStockReport = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
-
 
   const indexOfLastMRPInvenotoryStockReport = currentPage * MRPInvenotoryStockReportPerPage;
   const indexOfFirstMRPInvenotoryStockReport = indexOfLastMRPInvenotoryStockReport - MRPInvenotoryStockReportPerPage;
@@ -87,7 +92,6 @@ const useViewMRPInvenotoryStockReport = () => {
     indexOfFirstMRPInvenotoryStockReport,
     indexOfLastMRPInvenotoryStockReport
   );
-  const totalPages = Math.ceil(filteredMRPInvenotoryStockReport.length / MRPInvenotoryStockReportPerPage);
 
   return {
     indexOfLastMRPInvenotoryStockReport,
@@ -102,6 +106,7 @@ const useViewMRPInvenotoryStockReport = () => {
     totalPages,
     fromDate,
     toDate,
+    loading,
     handleSearch,
     settodate,
     setfromDate,
