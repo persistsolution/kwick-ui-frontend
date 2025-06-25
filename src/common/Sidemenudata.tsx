@@ -800,7 +800,7 @@ const defaultMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }FranchiseReport/ViewRawFinancerstockReport`,
+        }FranchiseReport/Report2025/ViewProductStockReport2025`,
         title: "Raw Product Stock Report",
         //icon: dashboardsvg,
         type: "link",
@@ -892,7 +892,7 @@ const defaultMenu: MenuItemtype[] = [
         selected: false,
         dirchange: false,
       },
-       {
+      {
         path: `${import.meta.env.BASE_URL}Report/ViewTransferPrdToCocoFr2`,
         title: "Transfer Stock Godown To Franchise Report 2",
         //icon: dashboardsvg,
@@ -1692,7 +1692,7 @@ const frDashboardMenu: MenuItemtype[] = [
 
   // Reports
   {
-    title: "Reports",
+    title: "Reports 2025",
     icon: pagesSvg,
     type: "sub",
     active: false,
@@ -1700,8 +1700,17 @@ const frDashboardMenu: MenuItemtype[] = [
     dirchange: false,
     children: [
       {
-        path: `${import.meta.env.BASE_URL}Franchises/Reports/ProductStockReport`,
-        title: " Product Stock Report",
+        path: `${import.meta.env.BASE_URL}Franchises/report2025/FrRawInventoryStockReport`,
+        title: "Product Stock Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${import.meta.env.BASE_URL}Franchises/report2025/FrAccountProductStockReport`,
+        title: "Account Product Stock Report",
         //icon: dashboardsvg,
         type: "link",
         active: false,

@@ -195,6 +195,10 @@ import EditOtherProductForm from "../components/Client-side/Selling-Products/Oth
 // Request Selling Product
 import ViewRequestSellingProduct from "../components/Client-side/RequestSellingProduct/ViewRequestSellingProduct";
 
+//Sub-Franchise Franchise Repoer 2025
+import FrRawInventoryStockReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrRawInventoryStockReport";
+import FrAccountProductStockReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrAccountProductStockReport";
+
 export interface routeType {
   id: number;
   path: string;
@@ -1006,6 +1010,18 @@ export const RouteData: routeType[] = [
     id: 32,
     path: `${import.meta.env.BASE_URL}RequestSellingProduct/ViewRequestSellingProduct`,
     element: <ViewRequestSellingProduct />,
+  },
+
+  //Sub-Franchise Franchise Report 2025
+    {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrRawInventoryStockReport`,
+    element: <FrRawInventoryStockReport />,
+  },
+  {
+     id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrAccountProductStockReport`,
+    element: <FrAccountProductStockReport />,
   }
 
 ];
