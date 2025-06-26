@@ -2,23 +2,29 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 // import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
-import useFrAccountProductStockReport from "../../../Hook/FranchiseReport2025/useFrAccountProductStockReport";
+import useFrDiscountReport from "../../../Hook/FranchiseReport2025/useFrDiscountReport";
 import SkeletonLoader from "../../../../common/SkeletonLoader";
 
-const FrAccountProductStockReport: FC = () => {
+const FrDiscountReport: FC = () => {
     const {
-        indexOfLastFrAccountProductStock,
-        indexOfFirstFrAccountProductStock,
-        FrAccountProductStock,
+        indexOfLastFrDiscount,
+        indexOfFirstFrDiscount,
+        FrDiscount,
         searchTerm,
         currentPage,
-        FrAccountProductStockPerPage,
+        FrDiscountPerPage,
         totalPages,
         fromDate,
         toDate,
         vendorOptions,
         vendorId,
         loading,
+        reportList,
+        selectedReport,
+        paymentTypeList,
+        selectedPayment,
+        setSelectPayment,
+        setSelectReport,
         handleSearch,
         setfromDate,
         settodate,
@@ -26,9 +32,9 @@ const FrAccountProductStockReport: FC = () => {
         handlePageChange,
         exportToExcel,
         getVisiblePages,
-        setFrAccountProductStockPerPage,
+        setFrDiscountPerPage,
         setVendorId
-    } = useFrAccountProductStockReport();
+    } = useFrDiscountReport();
 
     return (
         <Fragment>
@@ -44,32 +50,134 @@ const FrAccountProductStockReport: FC = () => {
                         <Card>
                             <Card.Body>
                                 <div className="row align-items-center g-2 mb-3">
-                                    <div className="col-md-3 col-12">
+
+
+                                    <div className="col-md-3 col-4">
+                                        <Form.Group controlId="selectReport">
+                                            <Form.Label>Select Report</Form.Label>
+                                            <Select
+                                                id="selectReport"
+                                                name="selectReport"
+                                                value={
+                                                    reportList.find(
+                                                        (option) => option.id.toString() === selectedReport
+                                                    ) || null
+                                                }
+                                                options={reportList}
+                                                getOptionLabel={(option) => option.label}
+                                                getOptionValue={(option) => option.id.toString()}
+                                                onChange={(selectedOption: any) => {
+                                                    setSelectReport(selectedOption ? selectedOption.id.toString() : "");
+                                                }}
+                                                required
+                                                isSearchable
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-3 col-6">
+                                        <Form.Group controlId="paymentType">
+                                            <Form.Label>Payment Type</Form.Label>
+                                            <Select
+                                                id="paymentType"
+                                                name="paymentType"
+                                                value={
+                                                    paymentTypeList.find(
+                                                        (option) => option.id.toString() === selectedPayment
+                                                    ) || null
+                                                }
+                                                options={paymentTypeList}
+                                                getOptionLabel={(option) => option.label}
+                                                getOptionValue={(option) => option.id.toString()}
+                                                onChange={(selectedOption: any) => {
+                                                    setSelectPayment(selectedOption ? selectedOption.id.toString() : "");
+                                                }}
+                                                required
+                                                isSearchable
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+
+                                    <div className="col-md-2 col-4">
+                                        <Form.Group controlId="cash">
+                                            <Form.Label>Cash</Form.Label>
+                                            <Form.Control
+                                                disabled
+                                                type="number"
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-2 col-4">
+                                        <Form.Group controlId="phonePay">
+                                            <Form.Label>Phone Pay</Form.Label>
+                                            <Form.Control
+                                                disabled
+                                                type="number"
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-2 col-4">
+                                        <Form.Group controlId="googlePay">
+                                            <Form.Label>Google Pay</Form.Label>
+                                            <Form.Control
+                                                disabled
+                                                type="number"
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+
+                                    <div className="col-md-2 col-4">
+                                        <Form.Group controlId="Paytm">
+                                            <Form.Label>Paytm</Form.Label>
+                                            <Form.Control
+                                                disabled
+                                                type="number"
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-2 col-4">
                                         <Form.Group controlId="fromDate">
-                                            <Form.Label> From Date</Form.Label>
+                                            <Form.Label>Other UPI</Form.Label>
                                             <Form.Control
-                                                value={fromDate}
-                                                type="date"
-                                                onChange={(date: Date | any) => setfromDate(date)}
+                                                disabled
+                                                type="number"
                                             />
                                         </Form.Group>
                                     </div>
 
-                                    <div className="col-md-3 col-12">
-                                        <Form.Group controlId="toDate">
-                                            <Form.Label> To Date</Form.Label>
+                                    <div className="col-md-2 col-4">
+                                        <Form.Group controlId="Credit">
+                                            <Form.Label>Credit</Form.Label>
                                             <Form.Control
-                                                value={toDate}
-                                                type="date"
-                                                onChange={(date: Date | any) => settodate(date)}
-
+                                                disabled
+                                                type="number"
                                             />
                                         </Form.Group>
                                     </div>
 
-                                    <div className="col-md-2 col-12">
-                                        <Button variant="success mt-4">Search </Button>
+                                    <div className="col-md-2 col-4">
+                                        <Form.Group controlId="Zomato">
+                                            <Form.Label>Zomato</Form.Label>
+                                            <Form.Control
+                                                disabled
+                                                type="number"
+                                            />
+                                        </Form.Group>
                                     </div>
+
+
+                                    <div className="col-md-2 col-12 d-flex align-items-center mt-4">
+                                        <Button variant="success" className="me-2">
+                                            Search
+                                        </Button>
+                                        <span>Total :</span>
+                                    </div>
+
 
                                     <div className="col-md-6 col-12">
                                         <Form.Control
@@ -83,16 +191,16 @@ const FrAccountProductStockReport: FC = () => {
 
                                     <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                                         <Form.Select
-                                            value={FrAccountProductStockPerPage}
+                                            value={FrDiscountPerPage}
                                             onChange={(e) =>
-                                                setFrAccountProductStockPerPage(Number(e.target.value))
+                                                setFrDiscountPerPage(Number(e.target.value))
                                             }
                                             className="w-auto"
                                         >
                                             <option value="5">5 Items</option>
                                             <option value="10">10 Items</option>
                                             <option value="20">20 Items</option>
-                                            <option value={FrAccountProductStock.length}>All Items</option>
+                                            <option value={FrDiscount.length}>All Items</option>
                                         </Form.Select>
 
                                         <Button variant="success" onClick={exportToExcel}>
@@ -136,8 +244,8 @@ const FrAccountProductStockReport: FC = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {FrAccountProductStock.length > 0 ? (
-                                                    FrAccountProductStock.map((franchise: any) => (
+                                                {FrDiscount.length > 0 ? (
+                                                    FrDiscount.map((franchise: any) => (
                                                         <tr key={franchise.ProdId}>
                                                             <td>{franchise.ProdId}</td>
                                                             <td>{franchise.ProductName}</td>
@@ -171,9 +279,9 @@ const FrAccountProductStockReport: FC = () => {
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                                     <div>
-                                        Showing {indexOfFirstFrAccountProductStock + 1} to{" "}
-                                        {Math.min(indexOfLastFrAccountProductStock, FrAccountProductStock.length)} of{" "}
-                                        {FrAccountProductStock.length} entries
+                                        Showing {indexOfFirstFrDiscount + 1} to{" "}
+                                        {Math.min(indexOfLastFrDiscount, FrDiscount.length)} of{" "}
+                                        {FrDiscount.length} entries
                                     </div>
                                     <ul className="pagination pagination-sm mt-2 mt-md-0">
                                         <li
@@ -249,4 +357,4 @@ const FrAccountProductStockReport: FC = () => {
     );
 };
 
-export default FrAccountProductStockReport;
+export default FrDiscountReport;

@@ -1,31 +1,35 @@
 import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
+import useFrCategoryWiseSellReport from "../../../Hook/FranchiseReport2025/useFrCategoryWiseSellReport";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 import Select from "react-select";
-import useFrRawInventoryStockReport from "../../../Hook/FranchiseReport2025/useFrRawInventoryStockReport";
 
-const FrRawInventoryStockReport: FC = () => {
+const FrCategoryWiseSellReport: FC = () => {
     const {
-        indexOfLastRawInventoryStockReport,
-        indexOfFirstRawInventoryStockReport,
-        filteredRawInventoryStockReport,
+        indexOfLastCategoryWiseSellReport,
+        indexOfFirstCategoryWiseSellReport,
+        filteredCategoryWiseSellReport,
         searchTerm,
         currentPage,
-        RawInventoryStockReportPerPage,
+        CategoryWiseSellReportPerPage,
         totalPages,
-        categoryList,
         fromDate,
         toDate,
-        currentRawInventoryStockReport,
+        currentCategoryWiseSellReport,
+        loading,
+        categoryList,
         handleSearch,
         handleSort,
         handlePageChange,
         getVisiblePages,
-        setRawInventoryStockReportPerPage,
+        setCategoryWiseSellReportPerPage,
         setfromDate,
         settodate,
+        exportToExcel,
         handelNavigateAllocatedProduct,
-    } = useFrRawInventoryStockReport();
+        handelfetchCategoryWiseSellReport
+    } = useFrCategoryWiseSellReport();
 
     return (
         <Fragment>
@@ -41,6 +45,7 @@ const FrRawInventoryStockReport: FC = () => {
                         <Card>
                             <Card.Body>
                                 <div className="row align-items-center g-2 mb-3">
+
                                     <div className="col-md-3 col-12">
                                         <Form.Group controlId="goDownlist">
                                             <Form.Label>Category</Form.Label>
@@ -58,8 +63,31 @@ const FrRawInventoryStockReport: FC = () => {
                                         </Form.Group>
                                     </div>
 
-                                    <div className="col-md-9 col-12">
-                                        <Button variant="success mt-4">Search </Button>
+                                    <div className="col-md-3 col-12">
+                                        <Form.Group controlId="fromDate">
+                                            <Form.Label> From Date</Form.Label>
+                                            <Form.Control
+                                                value={fromDate}
+                                                type="date"
+                                                onChange={(date: Date | any) => setfromDate(date)}
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-3 col-12">
+                                        <Form.Group controlId="toDate">
+                                            <Form.Label> To Date</Form.Label>
+                                            <Form.Control
+                                                value={toDate}
+                                                type="date"
+                                                onChange={(date: Date | any) => settodate(date)}
+
+                                            />
+                                        </Form.Group>
+                                    </div>
+
+                                    <div className="col-md-2 col-12">
+                                        <Button variant="success mt-4" onClick={handelfetchCategoryWiseSellReport}>Search </Button>
                                     </div>
 
                                     <div className="col-md-6 col-12">
@@ -74,99 +102,69 @@ const FrRawInventoryStockReport: FC = () => {
 
                                     <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                                         <Form.Select
-                                            value={RawInventoryStockReportPerPage}
+                                            value={CategoryWiseSellReportPerPage}
                                             onChange={(e) =>
-                                                setRawInventoryStockReportPerPage(Number(e.target.value))
+                                                setCategoryWiseSellReportPerPage(Number(e.target.value))
                                             }
                                             className="w-auto"
                                         >
                                             <option value="5">5 Items</option>
                                             <option value="10">10 Items</option>
                                             <option value="20">20 Items</option>
-                                            <option value={filteredRawInventoryStockReport.length}>
+                                            <option value={filteredCategoryWiseSellReport.length}>
                                                 All Items
                                             </option>
                                         </Form.Select>
+                                        <Button variant="success" onClick={exportToExcel}>
+                                            <i className="fe fe-download me-2"></i>Export to Excel
+                                        </Button>
                                     </div>
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="ViewRawInventoryStockReport-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                            <tr>
-                                                <th onClick={() => handleSort("id")}>ID</th>
-                                                <th onClick={() => handleSort("Fname")}>
-                                                    Product Name
-                                                </th>
-                                                <th onClick={() => handleSort("cateName")}>
-                                                    Category Name
-                                                </th>
-                                                <th onClick={() => handleSort("id")}>Purchase Price</th>
-                                                <th onClick={() => handleSort("id")}>Min Qty</th>
-                                                <th onClick={() => handleSort("id")}>Carry Forword</th>
-                                                <th onClick={() => handleSort("id")}>Credit</th>
-                                                <th onClick={() => handleSort("id")}>Debit</th>
-                                                <th onClick={() => handleSort("id")}>Balance</th>
-                                                <th onClick={() => handleSort("id")}>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentRawInventoryStockReport?.length > 0 ? (
-                                                currentRawInventoryStockReport?.map((products: any) => (
-                                                    <tr key={products.id}>
-                                                        <td>{products.id}</td>
-                                                        <td>{products.Fname}</td>
-                                                        <td>{products.ShopName}</td>
-                                                        <td
-                                                            className={
-                                                                products.Roll === 1
-                                                                    ? "text-warning"
-                                                                    : products.Roll === 2
-                                                                        ? "text-success"
-                                                                        : "text-danger"
-                                                            }
-                                                        >
-                                                            {products.Roll == 1
-                                                                ? "COCO Franchise"
-                                                                : products.Roll == 2
-                                                                    ? "FOFO Franchise"
-                                                                    : "Other Franchise"}
-                                                        </td>
-                                                        <td>{products.Phone}</td>
-                                                        <td>
-                                                            <button
-                                                                onClick={() =>
-                                                                    handelNavigateAllocatedProduct(products.id)
-                                                                }
-                                                                className="rounded-pill btn btn-primary-light"
-                                                            >
-                                                                Allocated Product
-                                                            </button>
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="ViewCategoryWiseSellReport-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
+                                                <tr>
+                                                    <th onClick={() => handleSort("id")}>ID</th>
+                                                    <th onClick={() => handleSort("Fname")}>Category</th>
+                                                    <th onClick={() => handleSort("id")}>Total Sell</th>
+                                                    <th onClick={() => handleSort("id")}>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {currentCategoryWiseSellReport?.length > 0 ? (
+                                                    currentCategoryWiseSellReport?.map((products: any) => (
+                                                        <tr key={products.id}>
+                                                         
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
                                                         </td>
                                                     </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                                )}
+                                            </tbody>
+                                        </Table>
+                                    )}
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                                     <div>
-                                        Showing {indexOfFirstRawInventoryStockReport + 1} to{" "}
+                                        Showing {indexOfFirstCategoryWiseSellReport + 1} to{" "}
                                         {Math.min(
-                                            indexOfLastRawInventoryStockReport,
-                                            filteredRawInventoryStockReport.length
+                                            indexOfLastCategoryWiseSellReport,
+                                            filteredCategoryWiseSellReport.length
                                         )}{" "}
-                                        of {filteredRawInventoryStockReport.length} entries
+                                        of {filteredCategoryWiseSellReport.length} entries
                                     </div>
                                     <ul className="pagination pagination-sm mt-2 mt-md-0">
                                         <li
@@ -242,4 +240,4 @@ const FrRawInventoryStockReport: FC = () => {
     );
 };
 
-export default FrRawInventoryStockReport;
+export default FrCategoryWiseSellReport;

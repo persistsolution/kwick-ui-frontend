@@ -198,6 +198,11 @@ import ViewRequestSellingProduct from "../components/Client-side/RequestSellingP
 //Sub-Franchise Franchise Repoer 2025
 import FrRawInventoryStockReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrRawInventoryStockReport";
 import FrAccountProductStockReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrAccountProductStockReport";
+import FrRawProductStockReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrRawProductStockReport";
+import FrCategoryWiseSellReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrCategoryWiseSellReport";
+import FrProductWiseSellReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrProductWiseSellReport";
+import FrProductWiseSellReportDatewis from "../components/Client-side/SubFranchise/FranchiseReport2025/FrProductWiseSellReportDatewis";
+import FrDiscountReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrDiscountReport";
 
 export interface routeType {
   id: number;
@@ -1022,6 +1027,32 @@ export const RouteData: routeType[] = [
      id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrAccountProductStockReport`,
     element: <FrAccountProductStockReport />,
-  }
+  },
+  {
+     id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrRawProductStockReport`,
+    element: <FrRawProductStockReport />,
+  },
+  {
+     id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrCategoryWiseSellReport`,
+    element: <FrCategoryWiseSellReport />,
+  },
+  {
+     id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrProductWiseSellReport`,
+    element: <FrProductWiseSellReport />,
+  },
+  {
+     id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrProductWiseSellReportDatewis`,
+    element: <FrProductWiseSellReportDatewis />,
+  },
+  {
+     id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/report2025/FrDiscountReport`,
+    element: <FrDiscountReport />,
+  },
+
 
 ];

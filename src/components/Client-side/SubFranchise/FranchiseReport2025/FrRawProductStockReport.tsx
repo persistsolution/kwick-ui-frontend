@@ -2,30 +2,32 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
 import Select from "react-select";
-import useFrRawInventoryStockReport from "../../../Hook/FranchiseReport2025/useFrRawInventoryStockReport";
+import useFrRawProductStockReport from "../../../Hook/FranchiseReport2025/useFrRawProductStockReport";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
-const FrRawInventoryStockReport: FC = () => {
+const FrRawProductStockReport: FC = () => {
     const {
-        indexOfLastRawInventoryStockReport,
-        indexOfFirstRawInventoryStockReport,
-        filteredRawInventoryStockReport,
+        indexOfLastRawProductStockReport,
+        indexOfFirstRawProductStockReport,
+        filteredRawProductStockReport,
         searchTerm,
         currentPage,
-        RawInventoryStockReportPerPage,
+        RawProductStockReportPerPage,
         totalPages,
-        categoryList,
         fromDate,
         toDate,
-        currentRawInventoryStockReport,
+        currentRawProductStockReport,
+        loading,
         handleSearch,
         handleSort,
         handlePageChange,
         getVisiblePages,
-        setRawInventoryStockReportPerPage,
+        setRawProductStockReportPerPage,
         setfromDate,
         settodate,
+        exportToExcel,
         handelNavigateAllocatedProduct,
-    } = useFrRawInventoryStockReport();
+    } = useFrRawProductStockReport();
 
     return (
         <Fragment>
@@ -41,27 +43,6 @@ const FrRawInventoryStockReport: FC = () => {
                         <Card>
                             <Card.Body>
                                 <div className="row align-items-center g-2 mb-3">
-                                    <div className="col-md-3 col-12">
-                                        <Form.Group controlId="goDownlist">
-                                            <Form.Label>Category</Form.Label>
-                                            <Select
-                                                name="state"
-                                                options={categoryList}
-                                                className="basic-multi-select"
-                                                isSearchable
-                                                menuPlacement="auto"
-                                                classNamePrefix="Select2"
-                                                defaultValue={categoryList[0]}
-                                                getOptionLabel={(e: any) => e.label}
-                                                getOptionValue={(e: any) => String(e.id)}
-                                            />
-                                        </Form.Group>
-                                    </div>
-
-                                    <div className="col-md-9 col-12">
-                                        <Button variant="success mt-4">Search </Button>
-                                    </div>
-
                                     <div className="col-md-6 col-12">
                                         <Form.Control
                                             type="text"
@@ -74,48 +55,46 @@ const FrRawInventoryStockReport: FC = () => {
 
                                     <div className="col-md-6 col-12 d-flex justify-content-md-end justify-content-between gap-2">
                                         <Form.Select
-                                            value={RawInventoryStockReportPerPage}
+                                            value={RawProductStockReportPerPage}
                                             onChange={(e) =>
-                                                setRawInventoryStockReportPerPage(Number(e.target.value))
+                                                setRawProductStockReportPerPage(Number(e.target.value))
                                             }
                                             className="w-auto"
                                         >
                                             <option value="5">5 Items</option>
                                             <option value="10">10 Items</option>
                                             <option value="20">20 Items</option>
-                                            <option value={filteredRawInventoryStockReport.length}>
+                                            <option value={filteredRawProductStockReport.length}>
                                                 All Items
                                             </option>
                                         </Form.Select>
+                                        <Button variant="success" onClick={exportToExcel}>
+                                            <i className="fe fe-download me-2"></i>Export to Excel
+                                        </Button>
                                     </div>
                                 </div>
 
                                 <div className="table-responsive">
-                                    <Table
-                                        id="ViewRawInventoryStockReport-table"
+                                    {loading ? (
+<SkeletonLoader loading={loading}/>
+                                    ) : (
+   <Table
+                                        id="ViewRawProductStockReport-table"
                                         className="border text-nowrap text-md-nowrap table-hover mb-0"
                                     >
                                         <thead className="table-primary">
                                             <tr>
                                                 <th onClick={() => handleSort("id")}>ID</th>
-                                                <th onClick={() => handleSort("Fname")}>
-                                                    Product Name
-                                                </th>
-                                                <th onClick={() => handleSort("cateName")}>
-                                                    Category Name
-                                                </th>
-                                                <th onClick={() => handleSort("id")}>Purchase Price</th>
-                                                <th onClick={() => handleSort("id")}>Min Qty</th>
-                                                <th onClick={() => handleSort("id")}>Carry Forword</th>
+                                                <th onClick={() => handleSort("Fname")}>Raw Product Name </th>
                                                 <th onClick={() => handleSort("id")}>Credit</th>
                                                 <th onClick={() => handleSort("id")}>Debit</th>
                                                 <th onClick={() => handleSort("id")}>Balance</th>
-                                                <th onClick={() => handleSort("id")}>Amount</th>
+                                                <th onClick={() => handleSort("id")}>Unit</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {currentRawInventoryStockReport?.length > 0 ? (
-                                                currentRawInventoryStockReport?.map((products: any) => (
+                                            {currentRawProductStockReport?.length > 0 ? (
+                                                currentRawProductStockReport?.map((products: any) => (
                                                     <tr key={products.id}>
                                                         <td>{products.id}</td>
                                                         <td>{products.Fname}</td>
@@ -157,16 +136,18 @@ const FrRawInventoryStockReport: FC = () => {
                                             )}
                                         </tbody>
                                     </Table>
+                                    )}
+                                 
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                                     <div>
-                                        Showing {indexOfFirstRawInventoryStockReport + 1} to{" "}
+                                        Showing {indexOfFirstRawProductStockReport + 1} to{" "}
                                         {Math.min(
-                                            indexOfLastRawInventoryStockReport,
-                                            filteredRawInventoryStockReport.length
+                                            indexOfLastRawProductStockReport,
+                                            filteredRawProductStockReport.length
                                         )}{" "}
-                                        of {filteredRawInventoryStockReport.length} entries
+                                        of {filteredRawProductStockReport.length} entries
                                     </div>
                                     <ul className="pagination pagination-sm mt-2 mt-md-0">
                                         <li
@@ -242,4 +223,4 @@ const FrRawInventoryStockReport: FC = () => {
     );
 };
 
-export default FrRawInventoryStockReport;
+export default FrRawProductStockReport;

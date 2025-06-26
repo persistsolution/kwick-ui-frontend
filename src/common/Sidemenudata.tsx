@@ -1720,7 +1720,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchises/Reports/RawProductStockReport`,
+        }Franchises/report2025/FrRawProductStockReport`,
         title: "Raw Product Stock Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1731,7 +1731,7 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchises/Reports/CategoryWiseSellReport`,
+        }Franchises/report2025/FrCategoryWiseSellReport`,
         title: "Category Wise Sell Report",
         //icon: dashboardsvg,
         type: "link",
@@ -1742,8 +1742,30 @@ const frDashboardMenu: MenuItemtype[] = [
       {
         path: `${
           import.meta.env.BASE_URL
-        }Franchises/Reports/ViewProductWiseSellReport`,
+        }Franchises/report2025/FrProductWiseSellReport`,
         title: "Product Wise Sell Report",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+       {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/report2025/FrProductWiseSellReportDatewis`,
+        title: "Product Wise Sell Report Date Wise",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+        {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/report2025/FrDiscountReport`,
+        title: "Discount Report",
         //icon: dashboardsvg,
         type: "link",
         active: false,

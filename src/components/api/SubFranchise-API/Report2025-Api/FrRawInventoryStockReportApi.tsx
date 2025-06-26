@@ -37,10 +37,10 @@ export const fetchProductWiseSellReportApi = async (frId : number): Promise<
 };
 
 // Product Wise Sell Report Date Wise
-export const fetchPrWisSellReportDateWisApi = async (frId : number): Promise<
+export const fetchPrWisSellReportDateWisApi = async (frId : number , fromDate : string , toDate : string): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/fr_acc/reports/sell-by-product-report-2.php?FrId=${frId}&FromDate=2025-06-01&ToDate=2025-06-01`);
+  return axios.get<any[]>(`${API_BASE_URL}/fr_acc/reports/sell-by-product-report-2.php?FrId=${frId}&FromDate=${fromDate}&ToDate=${toDate}`);
 };
 
 // Discount Invoice Report

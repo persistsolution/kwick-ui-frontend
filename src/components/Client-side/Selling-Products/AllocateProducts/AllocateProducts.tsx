@@ -49,7 +49,6 @@ const AllocateProducts: FC = () => {
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="goDownlist">
                       <Form.Label>Franchise</Form.Label>
-
                       <Select
                         id="rawProduct"
                         name="rawProduct"
