@@ -1774,6 +1774,40 @@ const frDashboardMenu: MenuItemtype[] = [
       },
     ],
   },
+
+  // Customer Products 2025
+  {
+    title: "Customer Products 2025",
+    icon: pagesSvg,
+    type: "sub",
+    active: false,
+    selected: false,
+    dirchange: false,
+    children: [
+        {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/CustomerProducts2025/FrCustomerproducts`,
+        title: "Customer Products",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+       {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/CustomerProducts2025/FrOtherproducts`,
+        title: "Other Products",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+    ],
+  },
 ];
 
 export const MENUITEMS = window.location.pathname.includes("/Franchises/")

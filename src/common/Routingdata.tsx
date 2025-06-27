@@ -203,6 +203,8 @@ import FrCategoryWiseSellReport from "../components/Client-side/SubFranchise/Fra
 import FrProductWiseSellReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrProductWiseSellReport";
 import FrProductWiseSellReportDatewis from "../components/Client-side/SubFranchise/FranchiseReport2025/FrProductWiseSellReportDatewis";
 import FrDiscountReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrDiscountReport";
+import FrCustomerproducts from "../components/Client-side/SubFranchise/CustomerProducts2025/FrCustomerproducts";
+import FrOtherproducts from "../components/Client-side/SubFranchise/CustomerProducts2025/FrOtherproducts";
 
 export interface routeType {
   id: number;
@@ -1017,7 +1019,7 @@ export const RouteData: routeType[] = [
     element: <ViewRequestSellingProduct />,
   },
 
-  //Sub-Franchise Franchise Report 2025
+  // Sub-Franchise Franchise Report 2025
     {
     id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrRawInventoryStockReport`,
@@ -1052,6 +1054,19 @@ export const RouteData: routeType[] = [
      id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrDiscountReport`,
     element: <FrDiscountReport />,
+  },
+
+  // Customer Products 2025 
+
+  {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/CustomerProducts2025/FrCustomerproducts`,
+    element: <FrCustomerproducts />,
+  },
+  {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/CustomerProducts2025/FrOtherproducts`,
+    element: <FrOtherproducts />,
   },
 
 
