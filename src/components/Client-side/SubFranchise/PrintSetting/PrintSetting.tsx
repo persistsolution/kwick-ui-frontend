@@ -12,6 +12,7 @@ import {
   Container,
 } from "react-bootstrap";
 import usePrintSetting from "../../../Hook/SubFranchise/PrintSetting/usePrintSetting";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const PrintSetting: FC = () => {
   const {
@@ -19,8 +20,7 @@ const PrintSetting: FC = () => {
     message,
     isLoading,
     handleChange,
-    handleSubmitFooterSetting,
-    handleSubmitHeaderSetting,
+    handleSubmitPrintSetting,
     handelMessage,
   } = usePrintSetting();
 
@@ -48,56 +48,123 @@ const PrintSetting: FC = () => {
                   </Nav.Link>{" "}
                 </Nav.Item>
               </Nav>
-              <Tab.Content>
-                <Tab.Pane eventKey={1} className="fade show" tabIndex={0}>
-                  <Form onSubmit={handleSubmitHeaderSetting}>
-                    <Container>
-                      <Row className="gy-4">
-                        <Col xl={12}>
-                          <Form.Group controlId="companyName">
-                            <Form.Label>Company Name</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="companyName"
-                              value={formData.companyName}
-                              onChange={handleChange}
-                            />
-                          </Form.Group>
-                        </Col>
+              {isLoading ? (
+                <SkeletonLoader loading={isLoading} />
+              ) : (
+                <Tab.Content>
+                  <Tab.Pane eventKey={1} className="fade show" tabIndex={0}>
 
+                    <Form>
+                      <Container>
+                        <Row className="gy-4">
+                          <Col xl={12}>
+                            <Form.Group controlId="companyName">
+                              <Form.Label>Company Name <span className="text-danger">*</span></Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="companyName"
+                                value={formData.companyName}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                          </Col>
+
+                          <Col xl={12}>
+                            <Form.Group controlId="companyAddress">
+                              <Form.Label>Company Address <span className="text-danger">*</span></Form.Label>
+                              <Form.Control
+                                as="textarea"
+                                aria-label="With textarea"
+                                type="text"
+                                name="companyAddress"
+                                value={formData.companyAddress}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                          </Col>
+
+                          <Col xl={6}>
+                            <Form.Group controlId="mobileNumber">
+                              <Form.Label>Mobile Number <span className="text-danger">*</span></Form.Label>
+                              <Form.Control
+                                name="mobileNumber"
+                                type="number"
+                                value={formData.mobileNumber}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                          </Col>
+
+                          <Col xl={6}>
+                            <Form.Group controlId="gstNo">
+                              <Form.Label>GST No <span className="text-danger">*</span></Form.Label>
+                              <Form.Control
+                                type="number"
+                                name="gstNo"
+                                value={formData.gstNo}
+                                onChange={handleChange}
+                              />
+                            </Form.Group>
+                          </Col>
+                        </Row>
+                        <Row className="mt-4">
+                          <Col>
+                            <Button
+                              type="submit"
+                              className="btn btn-primary"
+                              disabled={isLoading}
+                              onClick={handleSubmitPrintSetting}
+                            >
+                              {isLoading ? (
+                                <>
+                                  <span className="me-2">Processing...</span>
+                                  <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                                </>
+                              ) : "Save"}
+                            </Button>
+                            {/* {message && (
+                            <p
+                              className={`mt-3 ${
+                                message.includes("successfully")
+                                  ? "text-success"
+                                  : "text-danger"
+                              }`}
+                            >
+                              {message}
+                            </p>
+                          )} */}
+                          </Col>
+                        </Row>
+                      </Container>
+                    </Form>
+
+                  </Tab.Pane>
+                  <Tab.Pane eventKey={2} className="fade" tabIndex={0}>
+                    <Form >
+                      <Row>
                         <Col xl={12}>
-                          <Form.Group controlId="companyAddress">
-                            <Form.Label>Company Address</Form.Label>
+                          <Form.Group controlId="termsandcondition">
+                            <Form.Label>Terms & Condition <span className="text-danger">*</span></Form.Label>
                             <Form.Control
                               as="textarea"
                               aria-label="With textarea"
                               type="text"
-                              name="companyAddress"
-                              value={formData.companyAddress}
+                              name="termsandcondition"
+                              value={formData.termsandcondition}
                               onChange={handleChange}
                             />
                           </Form.Group>
                         </Col>
 
-                        <Col xl={6}>
-                          <Form.Group controlId="mobileNumber">
-                            <Form.Label>Mobile Number</Form.Label>
+                        <Col xl={12}>
+                          <Form.Group controlId="bottomTitle">
+                            <Form.Label>Bottom Title <span className="text-danger">*</span></Form.Label>
                             <Form.Control
-                              name="mobileNumber"
-                              type="number"
-                              value={formData.mobileNumber}
-                              onChange={handleChange}
-                            />
-                          </Form.Group>
-                        </Col>
-
-                        <Col xl={6}>
-                          <Form.Group controlId="gstNo">
-                            <Form.Label>GST No* </Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="gstNo"
-                              value={formData.gstNo}
+                              as="textarea"
+                              aria-label="With textarea"
+                              type="text"
+                              name="bottomTitle"
+                              value={formData.bottomTitle}
                               onChange={handleChange}
                             />
                           </Form.Group>
@@ -110,80 +177,29 @@ const PrintSetting: FC = () => {
                             className="btn btn-primary"
                             disabled={isLoading}
                           >
-                            {isLoading ? "Saving..." : "Save"}
+                            {isLoading ? (
+                              <>
+                                <span className="me-2">Processing...</span>
+                                <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                              </>
+                            ) : "Save"}
                           </Button>
-                          {message && (
-                            <p
-                              className={`mt-3 ${
-                                message.includes("successfully")
-                                  ? "text-success"
-                                  : "text-danger"
-                              }`}
-                            >
-                              {message}
-                            </p>
-                          )}
-                        </Col>
-                      </Row>
-                    </Container>
-                  </Form>
-                </Tab.Pane>
-                <Tab.Pane eventKey={2} className="fade" tabIndex={0}>
-                  <Form onSubmit={handleSubmitFooterSetting}>
-                    <Row>
-                      <Col xl={12}>
-                        <Form.Group controlId="termsandcondition">
-                          <Form.Label>Terms & Condition *</Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            aria-label="With textarea"
-                            type="text"
-                            name="termsandcondition"
-                            value={formData.termsandcondition}
-                            onChange={handleChange}
-                          />
-                        </Form.Group>
-                      </Col>
-
-                      <Col xl={12}>
-                        <Form.Group controlId="bottomTitle">
-                          <Form.Label>Bottom Title *</Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            aria-label="With textarea"
-                            type="text"
-                            name="bottomTitle"
-                            value={formData.bottomTitle}
-                            onChange={handleChange}
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    <Row className="mt-4">
-                      <Col>
-                        <Button
-                          type="submit"
-                          className="btn btn-primary"
-                          disabled={isLoading}
-                        >
-                          {isLoading ? "Saving..." : "Save"}
-                        </Button>
-                        {message && (
+                          {/* {message && (
                           <p
-                            className={`mt-3 ${
-                              message.includes("successfully")
+                            className={`mt-3 ${message.includes("successfully")
                                 ? "text-success"
                                 : "text-danger"
-                            }`}
+                              }`}
                           >
                             {message}
                           </p>
-                        )}
-                      </Col>
-                    </Row>
-                  </Form>
-                </Tab.Pane>
-              </Tab.Content>
+                        )} */}
+                        </Col>
+                      </Row>
+                    </Form>
+                  </Tab.Pane>
+                </Tab.Content>
+              )}
             </Tab.Container>
           </Card.Body>
         </Card>

@@ -1,17 +1,22 @@
-import { useState } from "react";
-import { headerPrintSettingApi , footerPrintSettingApi } from "../../../api/SubFranchise-API/PrintSettingApi/printSettingAPi";
+import { useEffect, useState } from "react";
+import { fetchPrintSettingApi } from "../../../api/SubFranchise-API/PrintSettingApi/printSettingAPi";
 
 const usePrintSetting = () => {
   const [formData, setFormData] = useState({
     companyName: "",
-    companyAddress:"",
-    mobileNumber:0,
-    gstNo:0,
-    termsandcondition:"",
-    bottomTitle:""
+    companyAddress: "",
+    mobileNumber: "",
+    gstNo: "",
+    termsandcondition: "",
+    bottomTitle: ""
   });
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    handleSubmitPrintSetting();
+  }, [])
 
   const handleChange = (e: any) => {
     const { name, value, files } = e.target;
@@ -23,87 +28,54 @@ const usePrintSetting = () => {
       const url = URL.createObjectURL(files[0]);
       setFormData((prev) => ({
         ...prev,
-        photo:url
-      }));   
-     }
+        photo: url
+      }));
+    }
   };
-  const handelMessage = ()=>{
+  const handelMessage = () => {
     setMessage("")
   }
 
-  const handleSubmitHeaderSetting = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmitPrintSetting = async () => {
     setMessage(null);
     setIsLoading(true);
     const payload = {
-
     };
-
+    const frId = localStorage.getItem("frId")
     try {
-      const response = await headerPrintSettingApi(payload);
+      const response = await fetchPrintSettingApi(Number(frId), payload);
+      const data = response?.data?.data
       if (response.status === 200) {
-        setMessage("Setting Save successfully!");
+        // setMessage("Setting Save successfully!");
         setFormData({
-            companyName: "",
-            companyAddress:"",
-            mobileNumber:0,
-            gstNo:0,
-            termsandcondition:"",
-            bottomTitle:""
+          companyName: data?.company_name,
+          companyAddress: data?.address,
+          mobileNumber: data?.mobile_number,
+          gstNo: data?.gst_number,
+          termsandcondition: data?.terms_condition,
+          bottomTitle: data?.bottom_title
         });
+        setIsLoading(false);
       } else {
-        setMessage(
-          `Error: Failed to add category.`
-        );
+        // setMessage(
+        //   `Error: Failed to add category.`
+        // );
       }
     } catch (err: any) {
       console.error("Error during save setting :", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSubmitFooterSetting = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage(null);
-    setIsLoading(true);
-    const payload = {
-
-    };
-
-    try {
-      const response = await headerPrintSettingApi(payload);
-      if (response.status === 200) {
-        setMessage("Setting Save successfully!");
-        setFormData({
-            companyName: "",
-            companyAddress:"",
-            mobileNumber:0,
-            gstNo:0,
-            termsandcondition:"",
-            bottomTitle:""
-        });
-      } else {
-        setMessage(
-          `Error: Failed to add category.`
-        );
-      }
-    } catch (err: any) {
-      console.error("Error during save setting :", err);
-      setMessage("Network error. Please try again later.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return {
     formData,
     message,
     isLoading,
     handleChange,
-    handleSubmitHeaderSetting,
-    handleSubmitFooterSetting,
+    handleSubmitPrintSetting,
     handelMessage
   };
 };

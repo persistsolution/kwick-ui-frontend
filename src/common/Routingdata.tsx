@@ -205,6 +205,9 @@ import FrProductWiseSellReportDatewis from "../components/Client-side/SubFranchi
 import FrDiscountReport from "../components/Client-side/SubFranchise/FranchiseReport2025/FrDiscountReport";
 import FrCustomerproducts from "../components/Client-side/SubFranchise/CustomerProducts2025/FrCustomerproducts";
 import FrOtherproducts from "../components/Client-side/SubFranchise/CustomerProducts2025/FrOtherproducts";
+import FrDownloadCustomerPrdts from "../components/Client-side/SubFranchise/CustomerProducts2025/FrDownloadCustomerPrdts";
+import FrManageStock from "../components/Client-side/SubFranchise/CustomerProducts2025/FrManageStock";
+import FrWastageStock from "../components/Client-side/SubFranchise/CustomerProducts2025/FrWastageStock";
 
 export interface routeType {
   id: number;
@@ -1068,6 +1071,20 @@ export const RouteData: routeType[] = [
     path: `${import.meta.env.BASE_URL}Franchises/CustomerProducts2025/FrOtherproducts`,
     element: <FrOtherproducts />,
   },
-
+  {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/CustomerProducts2025/FrDownloadCustomerPrdts`,
+    element: <FrDownloadCustomerPrdts />,
+  },
+  {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/CustomerProducts2025/FrManageStock`,
+    element: <FrManageStock />,
+  },
+  {
+    id: 32,
+    path: `${import.meta.env.BASE_URL}Franchises/CustomerProducts2025/FrWastageStock`,
+    element: <FrWastageStock />,
+  },
 
 ];

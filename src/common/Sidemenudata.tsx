@@ -1806,6 +1806,39 @@ const frDashboardMenu: MenuItemtype[] = [
         selected: false,
         dirchange: false,
       },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/CustomerProducts2025/FrDownloadCustomerPrdts`,
+        title: "Download Customer Products Excel",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/CustomerProducts2025/FrManageStock`,
+        title: "Manage Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
+      {
+        path: `${
+          import.meta.env.BASE_URL
+        }Franchises/CustomerProducts2025/FrWastageStock`,
+        title: "Wastage Stock",
+        //icon: dashboardsvg,
+        type: "link",
+        active: false,
+        selected: false,
+        dirchange: false,
+      },
     ],
   },
 ];
