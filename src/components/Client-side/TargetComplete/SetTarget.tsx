@@ -2,7 +2,19 @@ import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import useSetTarget from "../../Hook/TargetComplete-Hook/useSetTarget";
 //import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
+
+
+interface FranchiseOption {
+  label: string;
+  value: number | string;
+}
+
+interface Franchise {
+  id: number | string;
+  full_name: string;
+}
+
 
 const SetTarget: React.FC = () => {
   const {
@@ -12,6 +24,10 @@ const SetTarget: React.FC = () => {
     handleChange,
     handleSubmit,
     franchise,
+    franchisesList,
+    selectedFranchise,
+    setSelectFranchise,
+
   } = useSetTarget();
 
   return (
@@ -32,22 +48,36 @@ const SetTarget: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={12}>
                       <Form.Group controlId="franchise">
-                        <Form.Label>Franchise    <span className="text-danger ms-1">*</span></Form.Label>
+                        <Form.Label>Franchise <span className="text-danger ms-1">*</span></Form.Label>
                         <Select
-                          name="state"
-                          options={franchise}
-                          className="basic-multi-select "
+                          id="franchiseList"
+                          name="franchiseList"
+                          value={
+                            franchisesList
+                              ?.map((option: Franchise): FranchiseOption => ({
+                                label: option.full_name,
+                                value: option.id,
+                              }))
+                              .find((option) => option.value === selectedFranchise) || null
+                          }
+                          options={
+                            franchisesList?.map((option: Franchise): FranchiseOption => ({
+                              label: option.full_name,
+                              value: option.id,
+                            })) || []
+                          }
+                          onChange={(selectedOption: SingleValue<FranchiseOption>) => {
+                            setSelectFranchise(selectedOption ? selectedOption.value : "");
+                          }}
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
-                          defaultValue={[franchise[0]]}
+                          required
                         />
                       </Form.Group>
                     </Col>
 
                     <Col xl={3}>
                       <Form.Group controlId="name">
-                        <Form.Label>Month*</Form.Label>
+                        <Form.Label>Month <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Select
                           name="month"
                           value={formValues.month}
@@ -55,25 +85,25 @@ const SetTarget: React.FC = () => {
                           required
                         >
                           <option value="">Select</option>
-                          <option value="Jan">January</option>
-                          <option value="Feb">February</option>
-                          <option value="Mar">March</option>
-                          <option value="Apr">April</option>
-                          <option value="May">May</option>
-                          <option value="Jun">June</option>
-                          <option value="Jul">July</option>
-                          <option value="Aug">August</option>
-                          <option value="Sep">September</option>
-                          <option value="Oct">October</option>
-                          <option value="Nov">November</option>
-                          <option value="Dec">December</option>
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
 
                     <Col xl={3}>
                       <Form.Group controlId="name">
-                        <Form.Label>Year*</Form.Label>
+                        <Form.Label>Year <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Select
                           name="year"
                           value={formValues.year}
@@ -89,10 +119,49 @@ const SetTarget: React.FC = () => {
                     </Col>
                     <Col xl={2}>
                       <Form.Group controlId="setTargetAmount">
-                        <Form.Label>Target Amount*</Form.Label>
+                        <Form.Label>Target Amount <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
                           name="setTargetAmount"
                           value={formValues.setTargetAmount}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+
+
+                      <Col xl={2}>
+                      <Form.Group controlId="qsrKitcSales">
+                        <Form.Label>QSR KITCHEN SALES (%) <span className="text-danger ms-1">*</span></Form.Label>
+                        <Form.Control
+                          name="qsrKitcSales"
+                          value={formValues.qsrKitcSales}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+
+
+                      <Col xl={2}>
+                      <Form.Group controlId="setTargetAmount">
+                        <Form.Label>PACK FOOD SALES (%)  <span className="text-danger ms-1">*</span></Form.Label>
+                        <Form.Control
+                          name="packFoodSales"
+                          value={formValues.packFoodSales}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+
+
+                      <Col xl={2}>
+                      <Form.Group controlId="crossSalesQty">
+                        <Form.Label>CROSS SALES (Qty) <span className="text-danger ms-1">*</span></Form.Label>
+                        <Form.Control
+                          name="crossSalesQty"
+                          value={formValues.crossSalesQty}
                           onChange={handleChange}
                           required
                         />
@@ -109,7 +178,7 @@ const SetTarget: React.FC = () => {
                       >
                         {isLoading ? "Submitting..." : "Submit"}
                       </Button>
-                      {message && (
+                      {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -119,7 +188,7 @@ const SetTarget: React.FC = () => {
                         >
                           {message}
                         </p>
-                      )}
+                      )} */}
                     </Col>
                   </Row>
                   {/* </Container> */}

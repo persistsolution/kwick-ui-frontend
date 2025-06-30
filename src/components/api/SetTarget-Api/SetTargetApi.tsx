@@ -3,7 +3,7 @@ import { API_BASE_URL } from "../../../config";
 
 // Fetch all SetTarget
 export const fetchSetTargetAPI = async (): Promise<AxiosResponse<any[]>> => {
-  return axios.get<any[]>(`${API_BASE_URL}/SetTarget/get`);
+  return axios.get<any[]>(`${API_BASE_URL}/target/view-set-target.php`);
 };
 
 // API to fetch a SetTarget by ID
@@ -29,10 +29,10 @@ export const deleteSetTarget = async (
 };
 
 // API to create SetTarget
-export const createSetTarget = async (
+export const createSetTargetAPi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/SetTarget/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/kwickbill_api/target/set-target.php`, data);
 };
 
 // API to create Create Traget Completion

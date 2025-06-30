@@ -4,6 +4,7 @@ import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategor
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 import { createMRPProductsAPI } from "../../../api/Selling-Products-Api/MRPProduct-Api/MRPProductApi";
+import { useNavigate } from "react-router-dom";
 
 interface ProductFormValues {
   productName: string;
@@ -79,6 +80,7 @@ const useAddMRPProductForm = () => {
   });
   const [rawProductArray, setRawProductArray] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     handelGetCategories();
@@ -90,7 +92,7 @@ const useAddMRPProductForm = () => {
   const handelfetchBrand = async () => {
     try {
       const response: any = await fetchBrandApi();
-      const data = response.data || [];
+      const data = response?.data?.brands || [];
 
       setFormValues((prevValues) => ({
         ...prevValues,
@@ -107,11 +109,11 @@ const useAddMRPProductForm = () => {
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response.data || [];
+      const data = await response?.data?.units || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        unitList: data.map((unit: { Name: string; id: number }) => ({
-          name: unit.Name,
+        unitList: data.map((unit: { unit: string; id: number }) => ({
+          name: unit.unit,
           id: unit.id,
         })),
       }));
@@ -207,7 +209,7 @@ const useAddMRPProductForm = () => {
       Display: formValues.qrDisplay,
       push_flag: 0,
       delete_flag: 0,
-      Qty: null,
+      Qty: 0,
       Unit: formValues.unitId,
       Assets: 0,
       tempstatus: formValues.status,
@@ -249,8 +251,10 @@ const useAddMRPProductForm = () => {
           unitId: "",
           code: "",
           brandList: prevValues.brandList,
+          finalPrice: ""
         }));
         setLoading(false)
+        navigate("/SellingProduct/ViewMRPProducts")
       }
     } catch (error) {
       console.error("Error adding product:", error);
@@ -262,7 +266,7 @@ const useAddMRPProductForm = () => {
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response.data || [];
+      const data = await response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getcategory: data.length > 0 && data?.map((category: { Name: string; id: number }) => ({
@@ -278,13 +282,13 @@ const useAddMRPProductForm = () => {
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchSubCategories();
-      const data = response.data || [];
+      const data = response?.data?.data || [];
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.length > 0 && data?.map(
-          (subcategory: { Name: string; id: number }) => ({
-            name: subcategory.Name,
-            id: subcategory.id,
+          (subcategory: { subcategory_name: string; sr_no: number }) => ({
+            name: subcategory.subcategory_name,
+            id: subcategory.sr_no,
           })
         ),
       }));

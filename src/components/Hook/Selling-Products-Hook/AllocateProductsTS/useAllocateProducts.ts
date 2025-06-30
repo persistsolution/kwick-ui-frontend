@@ -3,26 +3,40 @@ import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
 import { fetchAllocatedProductsApi } from "../../../api/Selling-Products-Api/AllocatedProducts-Api/AllocatedProductsApi";
 
+interface AllocateProduct {
+  id: number;
+  Name: string;
+  [key: string]: any;
+}
+
+interface SortConfig {
+  key: string | null;
+  direction: string;
+}
+
+interface FranchiseOption {
+  id: number | string;
+  label: string;
+}
+
 const useAllocateProducts = () => {
-  const [allocateProducts, setallocateProducts] = useState([]);
-  const [filteredallocateProducts, setFilteredallocateProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [allocateProductsPerPage, setallocateProductsPerPage] = useState(5);
-  // const [franchiseList , setfranchiseList]= useState([])
-  // const [franchiseList] = useState([]);
-  const [fromDate, setfromDate] = useState<Date | any>();
-  const [toDate, settodate] = useState<Date | any>();
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
-const [loading , setLoading] = useState<boolean>(false);
-const [franchise , selectFranchise]= useState("");
+  const [allocateProducts, setallocateProducts] = useState<AllocateProduct[]>([]);
+  const [filteredallocateProducts, setFilteredallocateProducts] = useState<AllocateProduct[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [allocateProductsPerPage, setallocateProductsPerPage] = useState<number>(5);
+  const [fromDate, setfromDate] = useState<Date | any>("");
+  const [toDate, settodate] = useState<Date | any>("");
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [franchise, selectFranchise] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const franchiseList = [
+  const franchiseList: FranchiseOption[] = [
     {
       id: "all",
       label: "All",
@@ -31,7 +45,6 @@ const [franchise , selectFranchise]= useState("");
       id: 1,
       label: "COCO Franchise",
     },
-
     {
       id: 2,
       label: "FOFO Franchise",
@@ -47,15 +60,16 @@ const [franchise , selectFranchise]= useState("");
   }, []);
 
   const handelfetchallocateProducts = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response: any = await fetchAllocatedProductsApi();
-      const data = response?.data?.data || [] 
+      const data: AllocateProduct[] = response?.data?.data || [];
+      console.log(data, "data")
       setallocateProducts(data);
       setFilteredallocateProducts(data);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.error("Error fetching allocateProducts:", error);
     }
   };
@@ -68,7 +82,7 @@ const [franchise , selectFranchise]= useState("");
     setSearchTerm(term);
     setFilteredallocateProducts(
       allocateProducts.filter(
-        (AllocateProducts: any) =>
+        (AllocateProducts: AllocateProduct) =>
           AllocateProducts?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           AllocateProducts?.id?.toString().includes(term.toLowerCase())
       )
@@ -80,13 +94,11 @@ const [franchise , selectFranchise]= useState("");
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedallocateProducts = [...filteredallocateProducts].sort(
-      (a, b) => {
-        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-        return 0;
-      }
-    );
+    const sortedallocateProducts = [...filteredallocateProducts].sort((a, b) => {
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
 
     setSortConfig({ key, direction });
     setFilteredallocateProducts(sortedallocateProducts);
@@ -98,11 +110,14 @@ const [franchise , selectFranchise]= useState("");
 
   const exportToExcel = () => {
     const table = document.getElementById("AllocateProducts-table");
+    if (!table) return;
     const workbook = utils.table_to_book(table);
     writeFile(workbook, "AllocateProducts_data.xlsx");
   };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(filteredallocateProducts.length / allocateProductsPerPage);
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -112,20 +127,14 @@ const [franchise , selectFranchise]= useState("");
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
 
   const indexOfLastAllocateProducts = currentPage * allocateProductsPerPage;
-  const indexOfFirstAllocateProducts =
-    indexOfLastAllocateProducts - allocateProductsPerPage;
+  const indexOfFirstAllocateProducts = indexOfLastAllocateProducts - allocateProductsPerPage;
   const currentallocateProducts = filteredallocateProducts.slice(
     indexOfFirstAllocateProducts,
     indexOfLastAllocateProducts
-  );
-  const totalPages = Math.ceil(
-    filteredallocateProducts.length / allocateProductsPerPage
   );
 
   return {
@@ -142,6 +151,8 @@ const [franchise , selectFranchise]= useState("");
     franchiseList,
     fromDate,
     toDate,
+    franchise,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -149,15 +160,11 @@ const [franchise , selectFranchise]= useState("");
     getVisiblePages,
     setallocateProductsPerPage,
     handelNavigateAllocatedProduct,
-    // toggle,
-    // modal,
-    // allocateProductsEditId,
     handelfetchallocateProducts,
     setfromDate,
     settodate,
     selectFranchise,
-    franchise,
-    loading
+
   };
 };
 

@@ -14,6 +14,7 @@ const ViewSetTarget: FC = () => {
     SetTargetPerPage,
     totalPages,
     accountList,
+    currentSetTarget,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -112,8 +113,8 @@ const ViewSetTarget: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {SetTarget.length > 0 ? (
-                        SetTarget.map((target: any) => (
+                      {currentSetTarget.length > 0 ? (
+                        currentSetTarget.map((target: any) => (
                           <tr key={target.id}>
                             <td>{target?.sr_no}</td>
                             <td>{target?.franchise_name}</td>

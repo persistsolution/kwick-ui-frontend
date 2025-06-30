@@ -1,29 +1,42 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchSetTargetAPI } from "../../api/SetTarget-Api/SetTargetApi";
+import { fetchSetTargetAPI , createSetTargetAPi} from "../../api/SetTarget-Api/SetTargetApi";
 import { useNavigate } from "react-router-dom";
 
+interface SetTargetItem {
+  id: number;
+  Name: string;
+  [key: string]: any;
+}
+
+interface SortConfig {
+  key: string | null;
+  direction: string;
+}
+
 const useViewSetTarget = () => {
-  const [SetTarget, setSetTarget] = useState([]);
-  const [filteredSetTarget, setFilteredSetTarget] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [SetTargetPerPage, setSetTargetPerPage] = useState(5);
-  const [accountList, setaccountList] = useState([]);
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
-  const navigate = useNavigate()
+  const [SetTarget, setSetTarget] = useState<SetTargetItem[]>([]);
+  const [filteredSetTarget, setFilteredSetTarget] = useState<SetTargetItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [SetTargetPerPage, setSetTargetPerPage] = useState<number>(5);
+  const [accountList, setaccountList] = useState<any[]>([]);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleFetchSetTarget();
   }, []);
 
+
+
   const handleFetchSetTarget = async () => {
     try {
       const response: any = await fetchSetTargetAPI();
-      const data = response?.data?.data ||[]
+      const data: SetTargetItem[] = response?.data?.data || [];
       setSetTarget(data);
       setFilteredSetTarget(data);
     } catch (error) {
@@ -34,17 +47,16 @@ const useViewSetTarget = () => {
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setFilteredSetTarget(
-      SetTarget.filter(
-        (SetTarget: any) =>
-          SetTarget?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          SetTarget?.id?.toString().includes(term.toLowerCase())
+      SetTarget.filter((SetTarget: SetTargetItem) =>
+        SetTarget?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+        SetTarget?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
 
-  const handelSetTarget = ()=>{
-  navigate("/Target/SetTarget")
-}
+  const handelSetTarget = () => {
+    navigate("/Target/SetTarget");
+  };
 
   const handleSort = (key: string) => {
     let direction = "asc";
@@ -67,11 +79,14 @@ const useViewSetTarget = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("SetTarget-table");
+    if (!table) return;
     const workbook = utils.table_to_book(table);
     writeFile(workbook, "SetTarget_data.xlsx");
   };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(filteredSetTarget.length / SetTargetPerPage);
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -92,7 +107,6 @@ const useViewSetTarget = () => {
     indexOfFirstSetTarget,
     indexOfLastSetTarget
   );
-  const totalPages = Math.ceil(filteredSetTarget.length / SetTargetPerPage);
 
   return {
     indexOfLastSetTarget,
@@ -113,7 +127,7 @@ const useViewSetTarget = () => {
     getVisiblePages,
     setSetTargetPerPage,
     setaccountList,
-    handelSetTarget
+    handelSetTarget,
   };
 };
 

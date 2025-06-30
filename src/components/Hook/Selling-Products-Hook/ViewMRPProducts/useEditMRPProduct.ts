@@ -33,6 +33,7 @@ interface ProductFormValues {
   unitList: string[];
   unitId: string;
   code: string;
+  barndId:string;
 }
 
 const useEditMrpProductForm = () => {
@@ -63,6 +64,7 @@ const useEditMrpProductForm = () => {
     unitList: [],
     unitId: "",
     code: "",
+    barndId:""
   });
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,12 +81,12 @@ const useEditMrpProductForm = () => {
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response.data;
+      const data = await response?.data?.units || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        unitList: data.map((unit: { Name: string; id: number }) => ({
-          name: unit.Name,
-          id: unit.id,
+        unitList: data.map((data: { unit: string; id: number }) => ({
+          name: data.unit,
+          id: data.id,
         })),
       }));
     } catch (error) {
@@ -126,6 +128,7 @@ const useEditMrpProductForm = () => {
           qrDisplay: responseData?.QrDisplay,
           srNo: responseData?.SrNo,
           productImage: responseData?.Photo,
+          barndId:responseData?.BrandId
         }));
       } else {
         setMessage(
@@ -257,6 +260,7 @@ const useEditMrpProductForm = () => {
           unitList: [],
           unitId: "",
           code: "",
+          barndId:""
         });
         setMessage(`"Product Edit Successfully!.`);
         setLoading(false)

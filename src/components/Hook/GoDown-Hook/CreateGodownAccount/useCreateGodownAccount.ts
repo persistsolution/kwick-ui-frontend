@@ -25,7 +25,6 @@ const useCreateGodownAccount = () => {
     lattitude: "",
     longitude: "",
   });
-
   const [message, setMessage] = useState("");
   const [isLoading, setisLoading] = useState(false);
 

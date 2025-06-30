@@ -10,7 +10,7 @@ export interface Brand {
 // Fetch all brands
 export const fetchBrandApi = async (): Promise<AxiosResponse<Brand[]>> => {
   return axios.get<Brand[]>(
-    `${API_BASE_URL}/selling-product/brand/get`
+    `${API_BASE_URL}/selling-products/mrp-products/brand-list.php`
   );
 };
 

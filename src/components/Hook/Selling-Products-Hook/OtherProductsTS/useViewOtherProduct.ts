@@ -6,11 +6,10 @@ import {
   deleteOtherProductsApi,
 } from "../../../api/Selling-Products-Api/OtherProduct-Api/OtherProductApi";
 
-// Define a type for the product
 interface OtherProduct {
   id: number;
   Name: string;
-  [key: string]: any; // Allows sorting on dynamic keys
+  [key: string]: any; 
 }
 
 interface SortConfig {

@@ -8,5 +8,5 @@ interface unit {
 
 // API to Fetch all Unit
 export const fetchUnitApi = async (): Promise<AxiosResponse<unit[]>> => {
-  return axios.get<unit[]>(`${API_BASE_URL}/masters/unit/get`);
+  return axios.get<unit[]>(`${API_BASE_URL}/selling-products/mrp-products/unit-list.php`);
 };

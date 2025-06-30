@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { createSetTarget } from "../../api/SetTarget-Api/SetTargetApi";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { createSetTargetAPi } from "../../api/SetTarget-Api/SetTargetApi";
+import { fetchFranchiseApi } from "../../api/Franchise-Api/FranchiseApi";
 
 interface SetTargetFormValues {
   month: string;
   year: string;
   setTargetAmount: number;
+  qsrKitcSales: string;
+  packFoodSales: string;
+  crossSalesQty: string
 }
 
 const useSetTarget = () => {
@@ -14,11 +17,20 @@ const useSetTarget = () => {
     month: "",
     year: "",
     setTargetAmount: 0,
+    qsrKitcSales: "",
+    packFoodSales: "",
+    crossSalesQty: ""
   });
   const [franchise, setFranchise] = useState([]);
   const [message, setMessage] = useState("");
   const [isLoading, setisLoading] = useState(false);
+  const [franchisesList, setFranchisesList] = useState<any[]>([]);
+  const [selectedFranchise, setSelectFranchise] = useState("")
   const navigate = useNavigate()
+
+  useEffect(() => {
+    handleFetchFranchises();
+  }, [])
 
   const handleChange = (e: any) => {
     const { name, value, type } = e.target;
@@ -39,27 +51,52 @@ const useSetTarget = () => {
         ...formValues,
         [name]: value,
       };
-
       setFormValues(updatedValues);
     }
   };
 
-const handelSetTarget = ()=>{
-}
+
+  const handleFetchFranchises = async () => {
+    try {
+      const response: any = await fetchFranchiseApi();
+      const data = response?.data?.data || []
+      setFranchisesList(data);
+    } catch (error) {
+      console.error("Error fetching franchises:", error);
+    }
+  };
+
+
+  const handelSetTarget = () => {
+  }
 
   const handelAddSetTarget = async () => {
-    const SetTargetData = {};
+    setisLoading(true)
+    const SetTargetData = {
+      frid: selectedFranchise,
+      month: formValues.month,
+      year: formValues.year,
+      target: formValues.setTargetAmount,
+      qsrkitchen_target: formValues.qsrKitcSales,
+      packfood_target: formValues.packFoodSales,
+      cross_sale_target: formValues.crossSalesQty,
+    };
     try {
-      const response: any = await createSetTarget(SetTargetData);
+      const response: any = await createSetTargetAPi(SetTargetData);
       if (response.status === 201) {
-        setMessage("SetTarget added successfully!");
+        // setMessage("SetTarget added successfully!");
         setFormValues({
           month: "",
           year: "",
           setTargetAmount: 0,
+          qsrKitcSales: "",
+          packFoodSales: "",
+          crossSalesQty: ""
         });
+        setisLoading(false)
       }
     } catch (error) {
+      setisLoading(false)
       console.error("Error adding SetTarget:", error);
     }
   };
@@ -76,6 +113,9 @@ const handelSetTarget = ()=>{
     message,
     isLoading,
     franchise,
+    franchisesList,
+    selectedFranchise,
+    setSelectFranchise,
     setFranchise,
     setisLoading,
     handelSetTarget

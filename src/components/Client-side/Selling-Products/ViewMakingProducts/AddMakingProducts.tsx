@@ -331,18 +331,18 @@ const AddMakingProductForm: FC = () => {
                             value={
                               rawProductArray.find(
                                 (option: any) =>
-                                  option.id.toString() ==
+                                  option.SrNo.toString() ==
                                   formValues.selectedRawProduct.toString()
                               ) || null
                             }
                             options={rawProductArray}
-                            getOptionLabel={(option: any) => option.label}
-                            getOptionValue={(option: any) => option.id}
+                            getOptionLabel={(option: any) => option.ProductName}
+                            getOptionValue={(option: any) => option.SrNo}
                             onChange={(selectedOption: any) => {
                               setFormValues((prevValues) => ({
                                 ...prevValues,
-                                selectedZone: selectedOption
-                                  ? selectedOption.id.toString()
+                                selectedRawProduct: selectedOption
+                                  ? selectedOption.SrNo.toString()
                                   : "",
                               }));
                             }}
@@ -403,8 +403,8 @@ const AddMakingProductForm: FC = () => {
                               value={
                                 rawProductArray.find(
                                   (option: any) =>
-                                    option.id.toString() ==
-                                    item.selectedRawProduct.toString()
+                                    option.SrNo.toString() ==
+                                    item.selectedRawProduct?.toString()
                                 ) || null
                               }
                               options={rawProductArray}
@@ -413,8 +413,8 @@ const AddMakingProductForm: FC = () => {
                               onChange={(selectedOption: any) => {
                                 setFormValues((prevValues) => ({
                                   ...prevValues,
-                                  selectedZone: selectedOption
-                                    ? selectedOption.id.toString()
+                                  selectedRawProduct: selectedOption
+                                    ? selectedOption.SrNo.toString()
                                     : "",
                                 }));
                               }}

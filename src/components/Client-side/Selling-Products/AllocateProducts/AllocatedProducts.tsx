@@ -138,7 +138,7 @@ const AllocatedProducts: FC = () => {
                             <td>{products.BarcodeNo}</td>
                             <td>{products.Category}</td>
                             <td>{products.SubCatName}</td>
-                            <td>{products.Phone}</td>
+                            <td>{products.ProdType2Text}</td>
                             <td>{products.MinPrice}</td>
                           </tr>
                         ))

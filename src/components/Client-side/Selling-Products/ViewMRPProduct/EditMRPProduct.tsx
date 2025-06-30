@@ -25,6 +25,7 @@ interface ProductFormValues {
   productImage: File | null;
   getcategory: string[];
   getSubCategory: string[];
+  barndId:string
 }
 const EditMrpProductForm: FC = () => {
   const { handleSubmit, handleChange, formValues, loading, setFormValues } =
@@ -56,7 +57,7 @@ const EditMrpProductForm: FC = () => {
                         required: "*",
                       },
                       {
-                        name: "barnd",
+                        name: "barndId",
                         label: "Select Brand",
                         type: "select",
                         options: formValues.getBrandList,

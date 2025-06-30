@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  addGodownStockApi,
+  godownStockToCOCOFrApi,
   fetchGodownListApi,
   fetchGodownStockProduct,
   fetchProductDetailsApi,
@@ -96,7 +96,8 @@ const useTransferStockGodownToFr = () => {
   const fetchFranchiseList = async () => {
     try {
       const response: any = await fetchFranchiseApi();
-      setFranchisesList(response.data);
+      const data = response?.data?.data || []
+      setFranchisesList(data);
     } catch (error) {
       console.error("Error fetching franchises:", error);
     }
@@ -177,7 +178,8 @@ const useTransferStockGodownToFr = () => {
   const fetchGodownList = async () => {
     try {
       const response: any = await fetchGodownListApi();
-      setgoDownList(response.data);
+      const data = response?.data?.data || []
+      setgoDownList(data);
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
     }
@@ -194,7 +196,8 @@ const useTransferStockGodownToFr = () => {
   const handleFetchGodownPord = async () => {
     try {
       const response: any = await fetchGodownStockProduct();
-      setgoDownProductlist(response.data);
+      const data = response?.data?.data || []
+      setgoDownProductlist(data);
     } catch (error) {
       console.error("Error fetching viewGodownStock:", error);
     }
@@ -242,7 +245,7 @@ const useTransferStockGodownToFr = () => {
       productdetails: productdetailsList,
     };
     try {
-      const response: any = await addGodownStockApi(addGodownStockData);
+      const response: any = await godownStockToCOCOFrApi(addGodownStockData);
       if (response.status === 201) {
         setMessage("GoDown Stock Add successfully!");
         setFormValues({

@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../../../../config";
 export const createGodownApi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/godown/account/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/godown/add-godown.php`, data);
 };
 
 // Fetch all Godown Account

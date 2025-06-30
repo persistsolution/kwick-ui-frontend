@@ -22,7 +22,7 @@ export const fetchProductDetailsApi = async (
 export const addGodownStockApi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/godownstock/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/godown/add-godown-raw-prod-stock.php`, data);
 };
 
 // Fetch Godown List
@@ -41,4 +41,11 @@ export const deleteGodownStock = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
   return axios.delete<void>(`${API_BASE_URL}/godownstock/delete/${id}`);
+};
+
+// Godown Stock To COCO Franchise
+export const godownStockToCOCOFrApi = async (
+  data: object
+): Promise<AxiosResponse<void>> => {
+  return axios.delete<void>(`${API_BASE_URL}/godown/add-transfer-godwon-raw-stock-coco.php` , data);
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useParams } from "react-router-dom";
 import {
-  fetchAllocatedProductsApi,
+  fetchAllocatedProductsFrApi,
   updateAllocatedProductsApi,
 } from "../../../api/Selling-Products-Api/AllocatedProducts-Api/AllocatedProductsApi";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
@@ -79,7 +79,7 @@ const useAllocatedProducts = () => {
 
   const updateAllocatedProducts = async (data: object) => {
     try {
-      const response: any = await updateAllocatedProductsApi(data);
+      const response: any = await updateAllocatedProductsApi(Number(id) , data);
       console.log(response, "response");
     } catch (error) {
       console.error("Error fetching allocateProducts:", error);
@@ -118,9 +118,10 @@ const useAllocatedProducts = () => {
 
   const handelfetchallocateProducts = async () => {
     try {
-      const response: any = await fetchAllocatedProductsApi(Number(id));
-      setallocateProducts(response.data);
-      setFilteredallocateProducts(response.data);
+      const response: any = await fetchAllocatedProductsFrApi(Number(id));
+      const data  = response?.data?.data || []
+      setallocateProducts(data);
+      setFilteredallocateProducts(data);
     } catch (error) {
       console.error("Error fetching allocateProducts:", error);
     }
