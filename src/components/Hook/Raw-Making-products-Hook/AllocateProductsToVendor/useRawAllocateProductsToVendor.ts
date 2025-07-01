@@ -2,99 +2,97 @@ import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
 
+interface AllocateProduct {
+  id: number;
+  Name: string;
+  [key: string]: any; 
+}
+
+interface SortConfig {
+  key: keyof AllocateProduct | null;
+  direction: "asc" | "desc";
+}
+
+interface FranchiseOption {
+  id: string | number;
+  label: string;
+}
+
 const useRawAllocateProductsToVendor = () => {
-  const [allocateProducts, setallocateProducts] = useState([]);
-  const [filteredallocateProducts, setFilteredallocateProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [allocateProductsPerPage, setallocateProductsPerPage] = useState(5);
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
-  const [modal, setModal] = useState(false);
-  const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
-  // const [franchiseList, setfranchiseList] = useState([]);
-  const [fromDate, setfromDate] = useState<Date | any>();
-  const [toDate, settodate] = useState<Date | any>();
+  const [allocateProducts, setAllocateProducts] = useState<AllocateProduct[]>([]);
+  const [filteredAllocateProducts, setFilteredAllocateProducts] = useState<AllocateProduct[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [allocateProductsPerPage, setAllocateProductsPerPage] = useState<number>(5);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: "asc" });
+  const [modal, setModal] = useState<boolean>(false);
+  const [allocateProductsEditId, setAllocateProductsEditId] = useState<number>(0);
+  const [fromDate, setFromDate] = useState<Date | any>(null);
+  const [toDate, setToDate] = useState<Date | any>(null);
   const navigate = useNavigate();
 
-  const franchiseList = [
-    {
-      id: "all",
-      label: "All",
-    },
-    {
-      id: 1,
-      label: "COCO Franchise",
-    },
-
-    {
-      id: 2,
-      label: "FOFO Franchise",
-    },
-    {
-      id: 0,
-      label: "Other Franchise ",
-    },
+  const franchiseList: FranchiseOption[] = [
+    { id: "all", label: "All" },
+    { id: 1, label: "COCO Franchise" },
+    { id: 2, label: "FOFO Franchise" },
+    { id: 0, label: "Other Franchise" },
   ];
 
-  const toggle = (id: any) => {
+  const toggle = (id: number | null) => {
     setModal(!modal);
-    setallocateProductsEditId(id);
     if (typeof id === "number") {
+      setAllocateProductsEditId(id);
       localStorage.setItem("AllocateProductsId", id.toString());
     } else {
+      setAllocateProductsEditId(0);
       localStorage.removeItem("AllocateProductsId");
     }
   };
 
   useEffect(() => {
-    handelfetchallocateProducts();
+    handleFetchAllocateProducts();
   }, []);
 
-  const handelfetchallocateProducts = async () => {
+  const handleFetchAllocateProducts = async () => {
     try {
-      const response: any = await "";
-      const data = response.data ||[]
-      setallocateProducts(data);
-      setFilteredallocateProducts(data);
+      const response: any = await ""; // Replace with actual API call
+      const data: AllocateProduct[] = response?.data || [];
+      setAllocateProducts(data);
+      setFilteredAllocateProducts(data);
     } catch (error) {
-      console.error("Error fetching allocateProducts:", error);
+      console.error("Error fetching allocate products:", error);
     }
   };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFilteredallocateProducts(
+    const lowerTerm = term.toLowerCase();
+    setFilteredAllocateProducts(
       allocateProducts.filter(
-        (AllocateProducts: any) =>
-          AllocateProducts?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          AllocateProducts?.id?.toString().includes(term.toLowerCase())
+        (product) =>
+          product?.Name?.toLowerCase().includes(lowerTerm) ||
+          product?.id?.toString().includes(lowerTerm)
       )
     );
   };
 
-  const handleSort = (key: string) => {
-    let direction = "asc";
+  const handleSort = (key: keyof AllocateProduct) => {
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedallocateProducts = [...filteredallocateProducts].sort(
-      (a, b) => {
-        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-        return 0;
-      }
-    );
+
+    const sorted = [...filteredAllocateProducts].sort((a, b) => {
+      if (a[key]! < b[key]!) return direction === "asc" ? -1 : 1;
+      if (a[key]! > b[key]!) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
 
     setSortConfig({ key, direction });
-    setFilteredallocateProducts(sortedallocateProducts);
+    setFilteredAllocateProducts(sorted);
   };
 
-  const handelAllocatedProduct = () => {};
-
-  const handelNavigateAllocatedProduct = (id: number) => {
+  const handleNavigateAllocatedProduct = (id: number) => {
     navigate(`/RawProducts/ViewRawAllocatedProducts/${id}`);
   };
 
@@ -104,11 +102,15 @@ const useRawAllocateProductsToVendor = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("AllocateProducts-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "AllocateProducts_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "AllocateProducts_data.xlsx");
+    }
   };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(filteredAllocateProducts.length / allocateProductsPerPage);
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -118,32 +120,26 @@ const useRawAllocateProductsToVendor = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
 
   const indexOfLastAllocateProducts = currentPage * allocateProductsPerPage;
-  const indexOfFirstAllocateProducts =
-    indexOfLastAllocateProducts - allocateProductsPerPage;
-  const currentallocateProducts = filteredallocateProducts.slice(
+  const indexOfFirstAllocateProducts = indexOfLastAllocateProducts - allocateProductsPerPage;
+  const currentAllocateProducts = filteredAllocateProducts.slice(
     indexOfFirstAllocateProducts,
     indexOfLastAllocateProducts
-  );
-  const totalPages = Math.ceil(
-    filteredallocateProducts.length / allocateProductsPerPage
   );
 
   return {
     indexOfLastAllocateProducts,
     indexOfFirstAllocateProducts,
     allocateProducts,
-    filteredallocateProducts,
+    filteredAllocateProducts,
     searchTerm,
     currentPage,
     allocateProductsPerPage,
     sortConfig,
-    currentallocateProducts,
+    currentAllocateProducts,
     totalPages,
     franchiseList,
     fromDate,
@@ -153,15 +149,14 @@ const useRawAllocateProductsToVendor = () => {
     handlePageChange,
     exportToExcel,
     getVisiblePages,
-    setallocateProductsPerPage,
+    setAllocateProductsPerPage,
     toggle,
     modal,
     allocateProductsEditId,
-    handelfetchallocateProducts,
-    setfromDate,
-    settodate,
-    handelAllocatedProduct,
-    handelNavigateAllocatedProduct,
+    handleFetchAllocateProducts,
+    setFromDate,
+    setToDate,
+    handleNavigateAllocatedProduct,
   };
 };
 

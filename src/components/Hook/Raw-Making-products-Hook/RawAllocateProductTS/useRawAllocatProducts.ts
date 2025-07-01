@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { utils, writeFile } from 'xlsx';
 import { useNavigate } from 'react-router-dom';
 import {
-  fetchRawAllocateProducts as fetchRawAllocateProductsApi,
+ fetchRawAllocateProductsApi,
 } from '../../../api/Raw-Making-Products-Api/RawAllocateProducts/RawAllocateProductsApi';
 
 export interface RawAllocateProduct {

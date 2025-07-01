@@ -26,5 +26,5 @@ export const fetchCommissionNoteApi = async (): Promise<
 export const createFinancerPatnerApi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/AddFinancerpather/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/kwickbill_api/partner/add-financer.php`, data);
 };

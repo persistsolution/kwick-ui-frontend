@@ -902,20 +902,29 @@ export function ChartPie() {
 // *************************************************************************
 
 const DoughnutData = {
-    type: 'doughnut',
-    labels: ['Red', 'Blue', 'Yellow'],
-    datasets: [{
-        label: 'My First Dataset',
-        data: [300, 50, 100],
-        backgroundColor: [
-            'rgb(0, 165, 162)',
-            'rgb(35, 183, 229)',
-            'rgb(245, 184, 73)'
-        ],
-        hoverOffset: 4,
-        borderColor: 'rgba(142, 156, 173,0.1)'
-    }]
+  labels: [
+    "Total Sale", "Employee Expenses", "Vendor Expenses", "NSO Vendor Expenses",
+    "Product Cost (40%)", "Salary", "Rent & Electricity", "Misc Expenses",
+    "Investor Share Cost (12%)", "GST (5%)", "HO Cost (5%)", "Balance"
+  ],
+  datasets: [
+    {
+      label: "Amount in ₹",
+      data: [
+        100000000, 5000000, 3000000, 2000000, 45000000, 4000000,
+        2500000, 1500000, 12000000, 5000000, 5000000, 2000000
+      ],
+      backgroundColor: [
+        "#e74c3c", "#e67e22", "#f1c40f", "#2ecc71", "#27ae60",
+        "#1abc9c", "#3498db", "#5dade2", "#5b2c6f", "#8e44ad",
+        "#d63384", "#fd7e14"
+      ],
+      hoverOffset: 4,
+      borderColor: "rgba(142, 156, 173, 0.1)"
+    }
+  ]
 };
+
 
 const DoughnutOptions = {
     responsive: true,

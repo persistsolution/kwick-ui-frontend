@@ -1,5 +1,8 @@
 // Main Dashboard
 import Indexpage from "../components/Client-side/Dashboard/AddMinDashboard/IndexPage";
+import SubZoneExpenseVSSale from "../components/Client-side/Dashboard/SubZoneExpenseVSSale/SubZoneExpenseVSSale";
+import ZoneExpenseVSSale from "../components/Client-side/Dashboard/ZoneExpenseVSSale/ZoneExpenseVSSale";
+import FranchiseExpenseVsSaleReport from "../components/Client-side/Dashboard/FranchiseExpenseVsSaleReport/FranchiseExpenseVsSaleReport";
 
 // Selling Product
 import ViewProduct from "../components/Client-side/Selling-Products/Products/ViewProduct";
@@ -222,6 +225,22 @@ export const RouteData: routeType[] = [
     id: 1,
     path: `${import.meta.env.BASE_URL}Dashboard/IndexPage`,
     element: <Indexpage />,
+  },
+  {
+    id: 1,
+    path: `${import.meta.env.BASE_URL}Dashboard/SubZoneExpenseVSSale`,
+    element: <SubZoneExpenseVSSale />,
+  },
+  {
+    id: 1,
+    path: `${import.meta.env.BASE_URL}Dashboard/ZoneExpenseVSSale`,
+    element: <ZoneExpenseVSSale />,
+  },
+  {
+     id: 1,
+    path: `${import.meta.env.BASE_URL}Dashboard/FranchiseExpenseVsSaleReport`,
+    element: <FranchiseExpenseVsSaleReport />,
+    
   },
 
   // Selling Product
@@ -1023,38 +1042,38 @@ export const RouteData: routeType[] = [
   },
 
   // Sub-Franchise Franchise Report 2025
-    {
+  {
     id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrRawInventoryStockReport`,
     element: <FrRawInventoryStockReport />,
   },
   {
-     id: 32,
+    id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrAccountProductStockReport`,
     element: <FrAccountProductStockReport />,
   },
   {
-     id: 32,
+    id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrRawProductStockReport`,
     element: <FrRawProductStockReport />,
   },
   {
-     id: 32,
+    id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrCategoryWiseSellReport`,
     element: <FrCategoryWiseSellReport />,
   },
   {
-     id: 32,
+    id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrProductWiseSellReport`,
     element: <FrProductWiseSellReport />,
   },
   {
-     id: 32,
+    id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrProductWiseSellReportDatewis`,
     element: <FrProductWiseSellReportDatewis />,
   },
   {
-     id: 32,
+    id: 32,
     path: `${import.meta.env.BASE_URL}Franchises/report2025/FrDiscountReport`,
     element: <FrDiscountReport />,
   },

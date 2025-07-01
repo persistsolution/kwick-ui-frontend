@@ -156,19 +156,23 @@ const CreateGodownAccount: React.FC = () => {
                           className="btn btn-primary"
                           disabled={isLoading}
                         >
-                          {isLoading ? "Submitting..." : "Submit"}
+                          {isLoading ? (
+                            <>
+                              <span className="me-2">Processing...</span>
+                              <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                            </>) : "Submit"}
+
                         </Button>
-                        {message && (
+                        {/* {message && (
                           <p
-                            className={`mt-3 ${
-                              message.includes("successfully")
-                                ? "text-success"
-                                : "text-danger"
-                            }`}
+                            className={`mt-3 ${message.includes("successfully")
+                              ? "text-success"
+                              : "text-danger"
+                              }`}
                           >
                             {message}
                           </p>
-                        )}
+                        )} */}
                       </Col>
                     </Row>
                   </Col>

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { fetchProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { ApexOptions } from "apexcharts";
 
-const useIndexPage = () => {
+const useZoneExpenseVSSale = () => {
   // const [totalEmployees, setTotalEmployees] = useState<any>(0);
   const [selectReport, setSelectReport] = useState<string>("");
   const [totalEmployees] = useState<any>(0);
@@ -103,54 +103,52 @@ const useIndexPage = () => {
     } as ApexOptions,
   });
 
-    const zoneData = [
-    {
-      zone: "WEST-SOUTH",
-      franchises: 73,
-      employees: 208,
-      salary: 2537125.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-    {
-      zone: "NORTH-EAST",
-      franchises: 56,
-      employees: 127,
-      salary: 1195600.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-    {
-      zone: "EXPRESSWAY",
-      franchises: 18,
-      employees: 269,
-      salary: 4165142.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-    {
-      zone: "MAHABAZAR",
-      franchises: 17,
-      employees: 36,
-      salary: 317000.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-  ];
-
-
+const zoneData = [
+  {
+    zone: "WEST-SOUTH",
+    franchises: 73,
+    employees: 208,
+    salary: 2537125.0,
+    qsrSales: 0,
+    packFoodSales: 0,
+    crossSales: 0,
+    cash: 0,
+    upi: 0,
+  },
+  {
+    zone: "NORTH-EAST",
+    franchises: 56,
+    employees: 127,
+    salary: 1195600.0,
+    qsrSales: 0,
+    packFoodSales: 0,
+    crossSales: 0,
+    cash: 0,
+    upi: 0,
+  },
+  {
+    zone: "EXPRESSWAY",
+    franchises: 18,
+    employees: 269,
+    salary: 4165142.0,
+    qsrSales: 0,
+    packFoodSales: 0,
+    crossSales: 0,
+    cash: 0,
+    upi: 0,
+  },
+  {
+    zone: "MAHABAZAR",
+    franchises: 17,
+    employees: 36,
+    salary: 317000.0,
+    qsrSales: 0,
+    packFoodSales: 0,
+    crossSales: 0,
+    cash: 0,
+    upi: 0,
+  },
+];
 
 const optionsDonutJS = useMemo(() => {
   const chartData = zoneData.map((zone) => ({
@@ -238,4 +236,4 @@ const optionsDonutJS = useMemo(() => {
   };
 };
 
-export default useIndexPage;
+export default useZoneExpenseVSSale;

@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
-import { deleteEmploye , fetchEmployeApi } from "../../../api/Employe-Api/EmployeApi";
+import {
+  deleteEmploye,
+  fetchEmployeApi,
+} from "../../../api/Employe-Api/EmployeApi";
+
+type EmployeeType = {
+  id: number;
+  Name: string;
+  [key: string]: any;
+};
+
+type SortConfig = {
+  key: string | null;
+  direction: "asc" | "desc";
+};
 
 const useViewEmployee = () => {
-  const [Employee, setEmployee] = useState([]);
-  const [filteredEmployee, setFilteredEmployee] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [EmployeePerPage, setEmployeePerPage] = useState(5);
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
+  const [Employee, setEmployee] = useState<EmployeeType[]>([]);
+  const [filteredEmployee, setFilteredEmployee] = useState<EmployeeType[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [EmployeePerPage, setEmployeePerPage] = useState<number>(5);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+  const [isLoading, setisLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,12 +35,15 @@ const useViewEmployee = () => {
   }, []);
 
   const handleFetchEmployee = async () => {
+    setisLoading(true);
     try {
       const response: any = await fetchEmployeApi();
-      const data = response?.data?.data || []
+      const data: EmployeeType[] = response?.data?.data || [];
       setEmployee(data);
       setFilteredEmployee(data);
+      setisLoading(!data);
     } catch (error) {
+      setisLoading(false);
       console.error("Error fetching Employee:", error);
     }
   };
@@ -34,7 +52,7 @@ const useViewEmployee = () => {
     setSearchTerm(term);
     setFilteredEmployee(
       Employee.filter(
-        (Employee: any) =>
+        (Employee) =>
           Employee?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           Employee?.id?.toString().includes(term.toLowerCase())
       )
@@ -42,7 +60,7 @@ const useViewEmployee = () => {
   };
 
   const handleSort = (key: string) => {
-    let direction = "asc";
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
@@ -62,17 +80,24 @@ const useViewEmployee = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("Employee-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "Employee_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "Employee_data.xlsx");
+    }
   };
 
-  const handleAddEmployee = ()=>{
-    navigate("/Employee/AddEmployee")
-  }
+  const handleAddEmployee = () => {
+    navigate("/Employee/AddEmployee");
+  };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(filteredEmployee.length / EmployeePerPage);
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
-    let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+    let startPage = Math.max(
+      currentPage - Math.floor(maxVisiblePages / 2),
+      1
+    );
     let endPage = startPage + maxVisiblePages - 1;
 
     if (endPage > totalPages) {
@@ -113,7 +138,6 @@ const useViewEmployee = () => {
     indexOfFirstEmployee,
     indexOfLastEmployee
   );
-  const totalPages = Math.ceil(filteredEmployee.length / EmployeePerPage);
 
   return {
     indexOfLastEmployee,
@@ -126,6 +150,7 @@ const useViewEmployee = () => {
     sortConfig,
     currentEmployee,
     totalPages,
+    isLoading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -134,7 +159,7 @@ const useViewEmployee = () => {
     handleEdit,
     getVisiblePages,
     setEmployeePerPage,
-    handleAddEmployee
+    handleAddEmployee,
   };
 };
 

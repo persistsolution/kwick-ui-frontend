@@ -8,7 +8,7 @@ const ViewRawAllocateProductsToVendor: FC = () => {
   const {
     indexOfLastAllocateProducts,
     indexOfFirstAllocateProducts,
-    filteredallocateProducts,
+    filteredAllocateProducts,
     searchTerm,
     currentPage,
     allocateProductsPerPage,
@@ -16,16 +16,16 @@ const ViewRawAllocateProductsToVendor: FC = () => {
     franchiseList,
     fromDate,
     toDate,
-    currentallocateProducts,
-    setfromDate,
-    settodate,
+    currentAllocateProducts,
+    setFromDate,
+    setToDate,
     handleSearch,
     handleSort,
     handlePageChange,
     getVisiblePages,
-    setallocateProductsPerPage,
+    setAllocateProductsPerPage,
     // handelAllocatedProduct,
-    handelNavigateAllocatedProduct,
+    handleNavigateAllocatedProduct,
   } = useRawAllocateProductsToVendor();
 
   return (
@@ -65,7 +65,7 @@ const ViewRawAllocateProductsToVendor: FC = () => {
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: any) => setfromDate(date)}
+                        onChange={(date: any) => setFromDate(date)}
                       />
                     </Form.Group>
                   </div>
@@ -76,7 +76,7 @@ const ViewRawAllocateProductsToVendor: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: any) => settodate(date)}
+                        onChange={(date: any) => setToDate(date)}
                       />
                     </Form.Group>
                   </div>
@@ -99,14 +99,14 @@ const ViewRawAllocateProductsToVendor: FC = () => {
                     <Form.Select
                       value={allocateProductsPerPage}
                       onChange={(e) =>
-                        setallocateProductsPerPage(Number(e.target.value))
+                        setAllocateProductsPerPage(Number(e.target.value))
                       }
                       className="w-auto"
                     >
                       <option value="5">5 Items</option>
                       <option value="10">10 Items</option>
                       <option value="20">20 Items</option>
-                      <option value={filteredallocateProducts.length}>
+                      <option value={filteredAllocateProducts.length}>
                         All Items
                       </option>
                     </Form.Select>
@@ -137,8 +137,8 @@ const ViewRawAllocateProductsToVendor: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentallocateProducts.length > 0 ? (
-                        currentallocateProducts.map((products: any) => (
+                      {currentAllocateProducts.length > 0 ? (
+                        currentAllocateProducts.map((products: any) => (
                           <tr key={products.id}>
                             <td>{products.id}</td>
                             <td>{products.Fname}</td>
@@ -162,7 +162,7 @@ const ViewRawAllocateProductsToVendor: FC = () => {
                             <td>
                               <button
                                 onClick={() =>
-                                  handelNavigateAllocatedProduct(products.id)
+                                  handleNavigateAllocatedProduct(products.id)
                                 }
                                 className="rounded-pill btn btn-primary-light"
                               >
@@ -187,9 +187,9 @@ const ViewRawAllocateProductsToVendor: FC = () => {
                     Showing {indexOfFirstAllocateProducts + 1} to{" "}
                     {Math.min(
                       indexOfLastAllocateProducts,
-                      filteredallocateProducts.length
+                      filteredAllocateProducts.length
                     )}{" "}
-                    of {filteredallocateProducts.length} entries
+                    of {filteredAllocateProducts.length} entries
                   </div>
                   <ul className="pagination pagination-sm mt-2 mt-md-0">
                     <li

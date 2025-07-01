@@ -7,11 +7,11 @@ export interface AllocateProducts {
 }
 
 // Fetch all Raw Allocate Products
-export const fetchRawAllocateProducts = async (): Promise<
+export const fetchRawAllocateProductsApi = async (): Promise<
   AxiosResponse<AllocateProducts[]>
 > => {
   return axios.get<AllocateProducts[]>(
-    `${API_BASE_URL}/raw-products/other-products/view-allocate-products.php`
+    `${API_BASE_URL}/raw-products/allocate-products/view-allocate-products.php`
   );
 };
 
@@ -34,10 +34,10 @@ export const fetchrawallocatedProductsrawidApi = async (
   );
 };
 // Fetch all Raw Allocated Products
-export const fetchrawallocatedProductsApi = async (): Promise<
+export const fetchrawallocatedProductsApi = async (frId : number): Promise<
   AxiosResponse<AllocateProducts[]>
 > => {
   return axios.get<AllocateProducts[]>(
-    `${API_BASE_URL}/raw-product/product/get/1`
+    `${API_BASE_URL}/raw-products/allocate-products/allocate-selling-product.php?frid=${frId}`
   );
 };

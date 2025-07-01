@@ -4,6 +4,7 @@ import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import EditBrandFormModal from "./EditBrandFormModal";
 import useViewBrandForm from "../../../Hook/Selling-Products-Hook/BrandTS/useViewBrandForm";
 import AddBrand from "./AddBrand";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewBrand: FC = () => {
   const {
@@ -14,6 +15,7 @@ const ViewBrand: FC = () => {
     currentPage,
     BrandPerPage,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -30,7 +32,6 @@ const ViewBrand: FC = () => {
     currentBrand,
   } = useViewBrandForm();
 
-  console.log(BrandEditId, "view");
   return (
     <Fragment>
       {/* <Pageheader 
@@ -75,6 +76,9 @@ const ViewBrand: FC = () => {
                 </div>
 
                 <div className="table-responsive">
+                    {loading ? (
+                                  <SkeletonLoader loading={loading} />
+                                ) : (
                   <Table
                     id="Brand-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
@@ -84,8 +88,7 @@ const ViewBrand: FC = () => {
                         <th onClick={() => handleSort("id")}>#</th>
                         <th onClick={() => handleSort("name")}>Brand Name</th>
                         <th onClick={() => handleSort("status")}>Status</th>
-                        <th onClick={() => handleSort("Name")}>Edit</th>
-                        <th onClick={() => handleSort("Name")}>Delete</th>
+                        <th onClick={() => handleSort("Name")}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -103,22 +106,18 @@ const ViewBrand: FC = () => {
                             >
                               {Brand.status === 1 ? "Active" : "In Active"}
                             </td>
+
+
                             <td>
-                              <button
-                                className="avatar rounded-circle bg-azure cursor-pointer border-0"
-                                onClick={() => toggleEdit(Brand.id)}
-                              >
-                                <i className="bi bi-pen fs-15"></i>
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className="avatar rounded-circle bg-pink cursor-pointer  border-0"
-                                onClick={() => handleDeleteProduct(Brand.id)}
-                              >
-                                <i className="bi bi-trash fs-15"></i>
-                              </button>
-                            </td>
+                            <button onClick={() => toggleEdit(Brand.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                              <i className="bi bi-pencil-square"></i>
+                            </button>
+                            &nbsp; &nbsp;
+                            <button  onClick={() => handleDeleteProduct(Brand.id)}className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                              <i className="bi bi-trash"></i>
+                            </button>
+                          </td>
+                           
                           </tr>
                         ))
                       ) : (
@@ -129,7 +128,7 @@ const ViewBrand: FC = () => {
                         </tr>
                       )}
                     </tbody>
-                  </Table>
+                  </Table>)}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

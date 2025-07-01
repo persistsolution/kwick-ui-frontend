@@ -3,7 +3,6 @@ import { Card, Col, Row, Table, Form, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import useRawAllocatProducts from '../../../Hook/Raw-Making-products-Hook/RawAllocateProductTS/useRawAllocatProducts';
 import SkeletonLoader from "../../../../common/SkeletonLoader";
-import DeleteAlert from "../../../../common/DeleteAlert";
 
 const RawAllocateProducts: FC = () => {
   const {

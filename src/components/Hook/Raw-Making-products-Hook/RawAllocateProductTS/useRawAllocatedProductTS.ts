@@ -106,12 +106,14 @@ const useRawAllocatedProductTS = () => {
   const handelfetchallocateProducts = async (
     callback?: (allocateProducts: any) => void
   ) => {
+    
     try {
-      const response: any = await fetchrawallocatedProductsApi();
-      setallocateProducts(response.data);
-      setFilteredallocateProducts(response.data);
+      const response: any = await fetchrawallocatedProductsApi(Number(id));
+      const data = response?.data?.data || []
+      setallocateProducts(data);
+      setFilteredallocateProducts(data);
       if (callback) {
-        callback(response.data);
+        callback(data);
       }
     } catch (error) {
       console.error("Error fetching allocateProducts:", error);
@@ -120,7 +122,7 @@ const useRawAllocatedProductTS = () => {
 
   const fetchrawAllocatedProductsrawid = async (allocateProducts: any) => {
     try {
-      const response: any = await fetchrawallocatedProductsrawidApi(Number(id));
+      const response: any = await fetchrawallocatedProductsApi(Number(id));
       const allocateRawProd: any[] = response?.data?.AllocateRawProd || [];
       // setallocateProductsRawId(allocateRawProd);
       const checkedallocateProducts: any = allocateProducts.map(

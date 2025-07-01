@@ -1,8 +1,49 @@
 import { useState } from "react";
 import { createFinancerPatnerApi } from "../../../api/FinancerPatner-Api/FinancerPatnerApi";
 
+type AccessOption = {
+  value: number;
+  label: string;
+};
+
+type FinancerFormData = {
+  FinancerPatnerAccountName: string;
+  permanentAddress: string;
+  password: string;
+  designation: string;
+  dateOfJoining: string;
+  perDaySalary: string;
+  resign: string;
+  resignDate: string;
+  resignComment: string;
+  mobileNo: string;
+  emailId: string;
+  address: string;
+  bankHolderName: string;
+  bankName: string;
+  accountNo: string;
+  branch: string;
+  ifscCode: string;
+  upiId: string;
+  anotherMobileNo: string;
+  Designation: string;
+  AdharNo: string;
+  dateOfJoning: string;
+  details: string;
+  status: string;
+  BankName: string;
+  AccountNo: number;
+  Branch: string;
+  IFSCCode: string;
+  UPIID: string;
+  BankAccountStatus: string;
+  photo: File | string;
+  roll: number;
+  commisionPercentage: string
+};
+
 const useAddFinancerPatner = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FinancerFormData>({
     FinancerPatnerAccountName: "",
     permanentAddress: "",
     password: "",
@@ -21,26 +62,27 @@ const useAddFinancerPatner = () => {
     branch: "",
     ifscCode: "",
     upiId: "",
-    anotherMobileNo:"",
-    Designation:"",
-    AdharNo:"",
-    dateOfJoning:"",
-    details:"",
-    status:"",
-    BankName:"",
-    AccountNo:0,
-    Branch:"",
-    IFSCCode:"",
-    UPIID:"",
-    BankAccountStatus:"",
-    photo:"",
-    roll:63,
+    anotherMobileNo: "",
+    Designation: "",
+    AdharNo: "",
+    dateOfJoning: "",
+    details: "",
+    status: "",
+    BankName: "",
+    AccountNo: 0,
+    Branch: "",
+    IFSCCode: "",
+    UPIID: "",
+    BankAccountStatus: "",
+    photo: "",
+    roll: 63,
+    commisionPercentage: ""
   });
 
   const [message, setMessage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const AdminAccess = [
+  const AdminAccess: AccessOption[] = [
     { value: 48, label: "Selling Product Category" },
     { value: 49, label: "Selling Product Sub Category" },
     { value: 50, label: "Selling Products" },
@@ -72,13 +114,13 @@ const useAddFinancerPatner = () => {
     { value: 76, label: "Transfer Stock Godown To Franchise Report" },
   ];
 
-  const RightAccess = [
+  const RightAccess: AccessOption[] = [
     { value: 1, label: "Edit" },
     { value: 2, label: "Delete" },
     { value: 3, label: "Add" },
   ];
 
-  const franchiseOptions = [
+  const franchiseOptions: AccessOption[] = [
     { value: 56, label: "Franchise Account" },
     { value: 57, label: "FinancerPatnerAccount Account" },
     { value: 66, label: "Product Stock Report" },
@@ -96,7 +138,7 @@ const useAddFinancerPatner = () => {
   ];
 
   const handleChange = (e: any) => {
-    const { name, value, files } = e.target;
+    const { name, value, files } = e.target as HTMLInputElement;
     setFormData((prev) => ({
       ...prev,
       [name]: files && files.length > 0 ? files[0] : value,
@@ -109,13 +151,11 @@ const useAddFinancerPatner = () => {
     setIsLoading(true);
 
     try {
-
-
-      const Payload = {
+      const payload = {
         CustomerId: "",
         ColgId: "",
         ShopName: "",
-        Fname:  formData.FinancerPatnerAccountName,
+        Fname: formData.FinancerPatnerAccountName,
         Mname: "",
         Lname: "",
         Phone: formData.mobileNo,
@@ -138,12 +178,10 @@ const useAddFinancerPatner = () => {
         CreatedBy: 0,
         ModifiedBy: 0,
         CreatedDate: new Date(),
-        ModifiedDate:new Date(),
-
-        
+        ModifiedDate: new Date(),
       };
-      
-      const response = await createFinancerPatnerApi(Payload);
+
+      const response = await createFinancerPatnerApi(payload);
       if (response.status === 201) {
         setMessage("FinancerPatnerAccount added successfully!");
         setFormData({
@@ -165,26 +203,26 @@ const useAddFinancerPatner = () => {
           branch: "",
           ifscCode: "",
           upiId: "",
-          anotherMobileNo:"",
-          Designation:"",
-          AdharNo:"",
-          dateOfJoning:"",
-          details:"",
-          status:"",
-          BankName:"",
-          AccountNo:0,
-          Branch:"",
-          IFSCCode:"",
-          UPIID:"",
-          BankAccountStatus:"",
-          photo:"",
-          roll:63
-
+          anotherMobileNo: "",
+          Designation: "",
+          AdharNo: "",
+          dateOfJoning: "",
+          details: "",
+          status: "",
+          BankName: "",
+          AccountNo: 0,
+          Branch: "",
+          IFSCCode: "",
+          UPIID: "",
+          BankAccountStatus: "",
+          photo: "",
+          roll: 63,
+          commisionPercentage:""
         });
       } else {
         setMessage("Error: Failed to add Financer Patner Account.");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error during Add Financer Patner Account creation:", err);
       setMessage("Network error. Please try again later.");
     } finally {

@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewEmployee from "../../../Hook/Employee-Hook/ViewEmployee/useViewEmpolyee";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewEmployee: FC = () => {
   const {
@@ -12,6 +13,7 @@ const ViewEmployee: FC = () => {
     currentPage,
     EmployeePerPage,
     currentEmployee,
+    isLoading,
     totalPages,
     handleSearch,
     handleSort,
@@ -70,7 +72,10 @@ const ViewEmployee: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
+                  {isLoading ? (
+<SkeletonLoader loading={isLoading}/>
+                  ) : (
+                              <Table
                     id="Employee-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
@@ -177,6 +182,8 @@ const ViewEmployee: FC = () => {
                       )}
                     </tbody>
                   </Table>
+                  )}
+        
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

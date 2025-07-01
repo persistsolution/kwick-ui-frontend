@@ -41,6 +41,7 @@ const ViewFinancerReport: FC = () => {
             <Card>
               <Card.Body>
                 <div className="row align-items-center g-2 mb-3">
+                  
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="goDownlist">
                       <Form.Label>Franchise</Form.Label>

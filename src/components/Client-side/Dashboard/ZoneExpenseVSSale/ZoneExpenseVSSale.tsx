@@ -2,12 +2,12 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 // import Graph from "../../Graph/Graph";
-import useIndexPage from "../../../Hook/Dashboard-Hook/AddMinDashboard/useIndexPage";
 import { DoughnutEChart } from "../../../../common/ChartData";
 import ReactEcharts from "echarts-for-react";
+import useZoneExpenseVSSale from "../../../Hook/Dashboard-Hook/ZoneExpenseVSSale/useZoneExpenseVSSale";
 
-const Indexpage: FC = () => {
-  const { optionsDonutJS, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, zoneData, setSelectReport, handleSearch } = useIndexPage();
+const ZoneExpenseVSSale: FC = () => {
+  const { optionsDonutJS, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, zoneData, setSelectReport, handleSearch } = useZoneExpenseVSSale();
 
   return (
     <Fragment>
@@ -55,9 +55,6 @@ const Indexpage: FC = () => {
                       <div className="d-flex flex-column mt-1">
                         <small>Franchise: {zone.franchises}</small>
                         <small>Employee: {zone.employees}</small>
-                        <small>Salary: ₹{zone.salary.toLocaleString()}</small>
-                        <small>Cash: ₹{zone.cash}</small>
-                        <small>UPI: ₹{zone.upi}</small>
                         <small>Total Sales: ₹{zone.qsrSales + zone.packFoodSales + zone.crossSales}</small>
                       </div>
                     </div>
@@ -113,4 +110,4 @@ const Indexpage: FC = () => {
   );
 };
 
-export default Indexpage;
+export default ZoneExpenseVSSale;

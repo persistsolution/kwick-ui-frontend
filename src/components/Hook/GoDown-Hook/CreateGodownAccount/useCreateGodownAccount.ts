@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createGodownApi } from "../../../api/GoDown-Api/CreateGoDown/CreateGoDownApi";
+import { useNavigate } from "react-router-dom";
 
 interface retailerFormValues {
   createGodownAccountName: string;
@@ -27,6 +28,7 @@ const useCreateGodownAccount = () => {
   });
   const [message, setMessage] = useState("");
   const [isLoading, setisLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: any) => {
     const { name, value, type } = e.target;
@@ -68,10 +70,12 @@ const useCreateGodownAccount = () => {
       CreatedDate: new Date().toISOString().split("T")[0],
       ModifiedDate: new Date().toISOString().split("T")[0],
     };
+    setisLoading(true)
+    navigate("/GoDown/ViewGodownAccount")
     try {
       const response: any = await createGodownApi(createGodownAccountData);
-      if (response.status === 201) {
-        setMessage("GoDown Account Create successfully!");
+      if (response.status === 200) {
+        // setMessage("GoDown Account Create successfully!");
         setFormValues({
           createGodownAccountName: "",
           retailerAddress: "",
@@ -83,8 +87,10 @@ const useCreateGodownAccount = () => {
           lattitude: "",
           longitude: "",
         });
+        setisLoading(false)
       }
     } catch (error) {
+      setisLoading(false)
       console.error("Error adding createGodownAccount:", error);
     }
   };
