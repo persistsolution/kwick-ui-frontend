@@ -6,7 +6,7 @@ interface Allocated {
 }
 
 // Fetch all Allocate Products
-export const fetchAllocatedProductsApi = async (id : number): Promise<AxiosResponse<Allocated>> => {
+export const fetchAllocatedProductsApi = async (): Promise<AxiosResponse<Allocated>> => {
   return axios.get<Allocated>(
     `${API_BASE_URL}/selling-products/allocate-products/view-allocate-products.php`
   );
@@ -18,7 +18,7 @@ export const updateAllocatedProductsApi = async (
   data: object
 ): Promise<AxiosResponse<Allocated>> => {
   return axios.post<Allocated>(
-    `${API_BASE_URL}/raw-products/other-products/allocate-selling-product.php?frid=${frId}`,
+    `${API_BASE_URL}/selling-products/allocate-products/save-allocate-product.php`,
     data
   );
 };

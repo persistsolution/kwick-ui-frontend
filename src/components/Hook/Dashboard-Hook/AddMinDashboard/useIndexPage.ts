@@ -1,13 +1,32 @@
 import { useEffect, useMemo, useState } from "react";
-import { fetchProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { ApexOptions } from "apexcharts";
+import dayjs from "dayjs";
+import { fetchDashboardDataApi } from "../../../api/Dashboard-Api/DashboardAPi";
+
+interface DashboardDataType {
+  ZoneId: string;
+  ZoneName: string;
+  Address: string | null;
+  TotalFranchise: number;
+  TotalEmployee: number;
+  MonthlySalary: number;
+  TotalInvoice: number;
+  NetAmount: number;
+  Cash: number;
+  UPI: number;
+}
+
+
 
 const useIndexPage = () => {
   // const [totalEmployees, setTotalEmployees] = useState<any>(0);
-  const [selectReport, setSelectReport] = useState<string>("");
+  const [selectReport, setSelectReport] = useState<string>("today");
   const [totalEmployees] = useState<any>(0);
   const [totalFranchises] = useState<any>(0);
   const [totalProducts, setTotalProducts] = useState<any>(0);
+  const [fromDate, setFromDate] = useState<string>("");
+  const [dashboardData, setDashboardData] = useState<DashboardDataType[]>([]);
+  const [toDate, setToDate] = useState<string>("");
   // const [chartState, setChartState] = useState({
   const [chartState] = useState({
     series: [
@@ -103,122 +122,99 @@ const useIndexPage = () => {
     } as ApexOptions,
   });
 
-    const zoneData = [
-    {
-      zone: "WEST-SOUTH",
-      franchises: 73,
-      employees: 208,
-      salary: 2537125.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-    {
-      zone: "NORTH-EAST",
-      franchises: 56,
-      employees: 127,
-      salary: 1195600.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-    {
-      zone: "EXPRESSWAY",
-      franchises: 18,
-      employees: 269,
-      salary: 4165142.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-    {
-      zone: "MAHABAZAR",
-      franchises: 17,
-      employees: 36,
-      salary: 317000.0,
-      qsrSales: 0,
-      packFoodSales: 0,
-      crossSales: 0,
-      cash: 0,
-      upi: 0,
-    },
-  ];
-
-
-
-const optionsDonutJS = useMemo(() => {
-  const chartData = zoneData.map((zone) => ({
-    value: zone.cash + zone.upi,
-    name: zone.zone,
-  }));
-
-  return {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      top: '0%',
-      left: 'center',
-      textStyle: {
-        color: 'rgb(119, 119, 142)'
-      }
-    },
-    series: [
-      {
-        name: 'Zone Income',
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: 'center'
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '17',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: true
-        },
-        data: chartData
-      }
-    ],
-    color: ["#23b7e5", "#00a5a2", "#a26cf1", "#f5b849"]
-  };
-}, [zoneData]);
-
-
-
-  useEffect(() => {
-    fetchGetProduct();
-  }, []);
-
-  const fetchGetProduct = async () => {
-    try {
-      const response: any = await fetchProducts();
-      setTotalProducts(response.data);
+  const fetchDashboardData = async()=>{
+  try {
+      const response: any = await fetchDashboardDataApi(fromDate , toDate ,selectReport );
+      const data = response?.data?.data?.zones || [];
+      setDashboardData(data)
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
-  };
+  }
+
+  useEffect(() => {
+    let from = "";
+    let to = dayjs().format("YYYY-MM-DD");
+
+    switch (selectReport) {
+      case "yesterday":
+        from = dayjs().subtract(1, "day").format("YYYY-MM-DD");
+        to = from;
+        break;
+      case "week":
+        from = dayjs().startOf("week").format("YYYY-MM-DD");
+        break;
+      case "month":
+        from = dayjs().startOf("month").format("YYYY-MM-DD");
+        break;
+      case "custom":
+        // keep current fromDate and toDate
+        return;
+      default: // today
+        from = dayjs().format("YYYY-MM-DD");
+        break;
+    }
+
+    setFromDate(from);
+    setToDate(to);
+    fetchDashboardData();
+  }, [selectReport]);
+
+
+
+  const optionsDonutJS = useMemo(() => {
+    const chartData = dashboardData.map((zone) => ({
+      value: zone.Cash + zone.UPI,
+      name: zone.ZoneName,
+    }));
+
+    return {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '0%',
+        left: 'center',
+        textStyle: {
+          color: 'rgb(119, 119, 142)'
+        }
+      },
+      series: [
+        {
+          name: 'Zone Income',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '17',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: true
+          },
+          data: chartData
+        }
+      ],
+      color: ["#23b7e5", "#00a5a2", "#a26cf1", "#f5b849"]
+    };
+  }, [dashboardData]);
+
 
   const handleSearch = () => {
 
   }
 
-  const totalCash = zoneData.reduce((sum, z) => sum + z.cash, 0);
-  const totalUPI = zoneData.reduce((sum, z) => sum + z.upi, 0);
+  const totalCash = dashboardData.reduce((sum, z) => sum + z.Cash, 0);
+  const totalUPI = dashboardData.reduce((sum, z) => sum + z.UPI, 0);
   const totalIncome = totalCash + totalUPI;
-  const totalAvg = zoneData.length > 0 ? totalIncome / zoneData.length : 0;
+  const totalAvg = dashboardData.length > 0 ? totalIncome / dashboardData.length : 0;
 
 
   return {
@@ -227,12 +223,17 @@ const optionsDonutJS = useMemo(() => {
     totalProducts,
     chartState,
     selectReport,
-    zoneData,
     totalCash,
     totalUPI,
     totalIncome,
     totalAvg,
     optionsDonutJS,
+    fromDate,
+    toDate,
+    dashboardData,
+    fetchDashboardData,
+    setFromDate,
+    setToDate,
     setSelectReport,
     handleSearch
   };

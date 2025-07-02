@@ -7,7 +7,7 @@ import ReactEcharts from "echarts-for-react";
 import useSubZoneExpenseVSSale from "../../../Hook/Dashboard-Hook/SubZoneExpenseVSSale/useSubZoneExpenseVSSale";
 
 const SubZoneExpenseVSSale: FC = () => {
-  const { optionsDonutJS, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, zoneData, setSelectReport, handleSearch } = useSubZoneExpenseVSSale();
+  const { optionsDonutJS,dashboardData, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, setSelectReport, handleSearch } = useSubZoneExpenseVSSale();
 
   return (
     <Fragment>
@@ -45,17 +45,17 @@ const SubZoneExpenseVSSale: FC = () => {
             </Card>
           </Col>
 
-          {zoneData.map((zone, index) => (
+          {dashboardData.map((zone, index) => (
             <Col xl={4} lg={4} md={4} sm={6} xxl={3} key={index} >
               <Card>
                 <Card.Body>
                   <div className="d-flex align-items-start">
                     <div className="flex-grow-1">
-                      <p className="mb-0">{zone.zone}</p>
+                      <strong className="mb-0">{zone.ZoneName}</strong>
                       <div className="d-flex flex-column mt-1">
-                        <small>Franchise: {zone.franchises}</small>
-                        <small>Employee: {zone.employees}</small>
-                        <small>Total Sales: ₹{zone.qsrSales + zone.packFoodSales + zone.crossSales}</small>
+                        <span>Franchise: {zone.TotalFranchise}</span>
+                        <span>Employee: {zone.TotalEmployee}</span>
+                        <span>Total Sales: ₹{zone.TotalInvoice}</span>
                       </div>
                     </div>
   
@@ -69,19 +69,19 @@ const SubZoneExpenseVSSale: FC = () => {
             <Card>
               <Card.Body>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="fw-semibold">Total Cash</span>
+                  <strong className="fw-semibold">Total Cash</strong>
                   <span className="fw-bold">₹{totalCash.toFixed(2)}</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="fw-semibold">Total UPI</span>
+                  <strong className="fw-semibold">Total UPI</strong>
                   <span className="fw-bold">₹{totalUPI.toFixed(2)}</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
-                  <span className="fw-semibold">Total Income</span>
+                  <strong className="fw-semibold">Total Income</strong>
                   <span className="fw-bold">₹{totalIncome.toFixed(2)}</span>
                 </div>
                 <div className="d-flex justify-content-between">
-                  <span className="fw-semibold">Total Avg</span>
+                  <strong className="fw-semibold">Total Avg</strong>
                   <span className="fw-bold">{isNaN(totalAvg) ? "nan" : totalAvg.toFixed(2)}</span>
                 </div>
               </Card.Body>

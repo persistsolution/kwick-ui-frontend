@@ -1,13 +1,11 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-// import Graph from "../../Graph/Graph";
-import { DoughnutEChart } from "../../../../common/ChartData";
 import ReactEcharts from "echarts-for-react";
 import useZoneExpenseVSSale from "../../../Hook/Dashboard-Hook/ZoneExpenseVSSale/useZoneExpenseVSSale";
 
 const ZoneExpenseVSSale: FC = () => {
-  const { optionsDonutJS, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, zoneData, setSelectReport, handleSearch } = useZoneExpenseVSSale();
+  const { optionsDonutJS, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, dashboardData, setSelectReport, handleSearch } = useZoneExpenseVSSale();
 
   return (
     <Fragment>
@@ -45,17 +43,17 @@ const ZoneExpenseVSSale: FC = () => {
             </Card>
           </Col>
 
-          {zoneData.map((zone, index) => (
+          {dashboardData.map((zone, index) => (
             <Col xl={4} lg={4} md={4} sm={6} xxl={3} key={index} >
               <Card>
                 <Card.Body>
                   <div className="d-flex align-items-start">
                     <div className="flex-grow-1">
-                      <p className="mb-0">{zone.zone}</p>
+                      <strong className="mb-0">{zone.ZoneName}</strong>
                       <div className="d-flex flex-column mt-1">
-                        <small>Franchise: {zone.franchises}</small>
-                        <small>Employee: {zone.employees}</small>
-                        <small>Total Sales: ₹{zone.qsrSales + zone.packFoodSales + zone.crossSales}</small>
+                        <span>Franchise: {zone.TotalFranchise}</span>
+                        <span>Employee: {zone.TotalEmployee}</span>
+                        <span>Total Sales: ₹{zone.TotalInvoice}</span>
                       </div>
                     </div>
   

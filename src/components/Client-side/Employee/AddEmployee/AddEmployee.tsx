@@ -158,7 +158,7 @@ const AddEmployee: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="perDaySalary">
-                          <Form.Label>Per Day Salary*</Form.Label>
+                          <Form.Label>Per Day Salary <span className="text-danger ms-1">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             name="perDaySalary"
@@ -438,9 +438,14 @@ const AddEmployee: React.FC = () => {
                           className="btn btn-primary"
                           disabled={isLoading}
                         >
-                          {isLoading ? "Submitting..." : "Submit"}
+                          {isLoading ? (
+                            <>
+                              <span className="me-2">Processing...</span>
+                              <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                            </>
+                          ) : "Submit"}
                         </Button>
-                        {message && (
+                        {/* {message && (
                           <p
                             className={`mt-3 ${
                               message.includes("successfully")
@@ -450,7 +455,7 @@ const AddEmployee: React.FC = () => {
                           >
                             {message}
                           </p>
-                        )}
+                        )} */}
                       </Col>
                     </Row>
                   </Container>

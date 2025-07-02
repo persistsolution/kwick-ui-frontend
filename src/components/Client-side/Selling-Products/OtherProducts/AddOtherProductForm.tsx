@@ -147,7 +147,7 @@ const AddOtherProductForm: FC = () => {
                         required: "*",
                         options: [
                           { name: "MRP OtherProduct", id: 0 },
-                          { name: "Making OtherProduct", id: 1 },
+                          // { name: "Making OtherProduct", id: 1 },
                           { name: "Other OtherProduct", id: 2 },
                         ],
                       },

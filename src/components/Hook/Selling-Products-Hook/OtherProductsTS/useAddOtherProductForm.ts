@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
-import { createProducts } from "../../../api/Selling-Products-Api/ProductApi/productApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
+import { createOtherProductsAPI } from "../../../api/Selling-Products-Api/OtherProduct-Api/OtherProductApi";
+import {useNavigate } from "react-router-dom";
 
 interface OtherProductFormValues {
   OtherProductName: string;
@@ -66,6 +67,7 @@ const useAddOtherProductForm = () => {
     code: "",
   });
   const [loading, setLoading] = useState<boolean>(false)
+const navigate = useNavigate();
 
   useEffect(() => {
     handelGetCategories();
@@ -77,13 +79,12 @@ const useAddOtherProductForm = () => {
   const handelfetchBrand = async () => {
     try {
       const response: any = await fetchBrandApi();
-      const data = response.data;
-
+      const data = response?.data?.brands || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        getBrandList: data.map((unit: { name: string; id: number }) => ({
-          name: unit.name,
-          id: unit.id,
+        getBrandList: data.map((data: { name: string; id: number }) => ({
+          name: data.name,
+          id: data.id,
         })),
       }));
     } catch (error) {
@@ -94,12 +95,12 @@ const useAddOtherProductForm = () => {
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response.data;
+      const data = await response?.data?.units || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        unitList: data.map((unit: { Name: string; id: number }) => ({
-          name: unit.Name,
-          id: unit.id,
+        unitList: data.map((data: { unit: string; id: number }) => ({
+          name: data.unit,
+          id: data.id,
         })),
       }));
     } catch (error) {
@@ -154,7 +155,7 @@ const useAddOtherProductForm = () => {
     }
 
     const OtherProductData = {
-      OtherProductName: formValues.OtherProductName,
+      ProductName: formValues.OtherProductName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
       CgstPer: formValues.cgst,
@@ -176,17 +177,17 @@ const useAddOtherProductForm = () => {
       PurchasePrice: formValues.purchasePrice,
       checkstatus: formValues.status,
       code: formValues.code,
-      ProdType2: 1,
+      ProdType2: 3,
       ProdId: 0,
       MinPrice: 10,
-      CreatedBy: 2091,
+      CreatedBy: 10,
       ModifiedBy: 2091,
       StockQty: 0,
       TempPrdId: 67913,
       Display: formValues.qrDisplay,
-      push_flag: 0,
+      push_flag: 1,
       delete_flag: 0,
-      Qty: null,
+      Qty: 0,
       Unit: formValues.unitId,
       Assets: 0,
       tempstatus: formValues.status,
@@ -197,8 +198,7 @@ const useAddOtherProductForm = () => {
     };
 
     try {
-      const response: any = await createProducts(OtherProductData);
-
+      const response: any = await createOtherProductsAPI(OtherProductData);
       if (response.status === 200) {
         // alert("OtherProduct added successfully!");
         setFormValues((prevValues) => ({
@@ -232,6 +232,7 @@ const useAddOtherProductForm = () => {
           brandList: prevValues.brandList,
         }));
         setLoading(false)
+        navigate("/SellingProduct/ViewOtherProduct")
       }
     } catch (error) {
       console.error("Error adding OtherProduct:", error);
@@ -262,9 +263,9 @@ const useAddOtherProductForm = () => {
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
-          (subcategory: { Name: string; id: number }) => ({
-            name: subcategory.Name,
-            id: subcategory.id,
+          (subcategory: { subcategory_name: string; sr_no: number }) => ({
+            name: subcategory.subcategory_name,
+            id: subcategory.sr_no,
           })
         ),
       }));

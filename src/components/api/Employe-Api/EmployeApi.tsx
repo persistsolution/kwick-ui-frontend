@@ -32,5 +32,5 @@ export const deleteEmploye = async (
 export const createEmployeCreate = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/employee/create`, data);
+  return axios.post<void>(`${API_BASE_URL}/kwickbill_api/employee/add-employee.php `, data);
 };

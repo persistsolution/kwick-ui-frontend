@@ -47,7 +47,8 @@ export const createOtherProductsAPI = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
   return axios.post<void>(
-    `${API_BASE_URL}/selling-products/other-products/add-product.php`,
+    `${API_BASE_URL}/selling-products/other-products/add-product.php
+`,
     data
   );
 };

@@ -1,18 +1,14 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
-// import Graph from "../../Graph/Graph";
 import useIndexPage from "../../../Hook/Dashboard-Hook/AddMinDashboard/useIndexPage";
-import { DoughnutEChart } from "../../../../common/ChartData";
 import ReactEcharts from "echarts-for-react";
 
 const Indexpage: FC = () => {
-  const { optionsDonutJS, totalEmployees, totalFranchises, totalProducts, totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, zoneData, setSelectReport, handleSearch } = useIndexPage();
-
+  const { fromDate, toDate,  optionsDonutJS, totalEmployees, totalFranchises, totalProducts, dashboardData , totalCash, totalUPI, totalIncome, totalAvg, chartState, selectReport, setSelectReport, handleSearch , setFromDate, setToDate, fetchDashboardData} = useIndexPage();
   return (
     <Fragment>
       {/* <Pageheader  heading="Dashboard" homepage="Admin" activepage="Dashboard" /> */}
-
       <div className="main-container container-fluid">
         <Row>
           <Col xl={12}>
@@ -28,15 +24,45 @@ const Indexpage: FC = () => {
                       }
 
                     >
-                      <option value="yesterday">Today</option>
+                      <option value="today">Today</option>
                       <option value="yesterday">yesterday</option>
                       <option value="week">This Week</option>
                       <option value="month">This Month</option>
                       <option value="custom">Custom</option>
                     </Form.Select>
                   </div>
+                  {selectReport === "custom" ? (
+                    <>
+                      <div className="col-md-2">
+                        <Form.Group>
+                          <Form.Label>From Date</Form.Label>
+                          <Form.Control
+                            type="date"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                          />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-2">
+                        <Form.Group>
+                          <Form.Label>To Date</Form.Label>
+                          <Form.Control
+                            type="date"
+                            value={toDate}
+                            onChange={(e) => setToDate(e.target.value)}
+                          />
+                        </Form.Group>
+                      </div>
+                    </>
+                  ) : (
+                    // <div className="mt-2">
+                    //   <span className="text-muted">From: {fromDate} To: {toDate}</span>
+                    // </div>
+                    null
+                  )}
+
                   <div className="col-1 mt-4 ">
-                    <Button variant="success mt-1" onClick={handleSearch}>
+                    <Button variant="success mt-1" onClick={fetchDashboardData}>
                       Search
                     </Button>
                   </div>
@@ -45,23 +71,23 @@ const Indexpage: FC = () => {
             </Card>
           </Col>
 
-          {zoneData.map((zone, index) => (
+          {dashboardData.map((zone, index) => (
             <Col xl={4} lg={4} md={4} sm={6} xxl={3} key={index} >
               <Card>
                 <Card.Body>
                   <div className="d-flex align-items-start">
                     <div className="flex-grow-1">
-                      <p className="mb-0">{zone.zone}</p>
+                      <strong className="mb-0">{zone.ZoneName}</strong>
                       <div className="d-flex flex-column mt-1">
-                        <small>Franchise: {zone.franchises}</small>
-                        <small>Employee: {zone.employees}</small>
-                        <small>Salary: ₹{zone.salary.toLocaleString()}</small>
-                        <small>Cash: ₹{zone.cash}</small>
-                        <small>UPI: ₹{zone.upi}</small>
-                        <small>Total Sales: ₹{zone.qsrSales + zone.packFoodSales + zone.crossSales}</small>
+                        <span>Franchise: {zone.TotalFranchise}</span>
+                        <span>Employee: {zone.TotalEmployee}</span>
+                        <span>Salary: ₹{zone.MonthlySalary.toLocaleString()}</span>
+                        <span>Cash: ₹{zone.Cash}</span>
+                        <span>UPI: ₹{zone.UPI}</span>
+                        <span>Total Sales: ₹{zone.TotalInvoice}</span>
                       </div>
                     </div>
-  
+
                   </div>
                 </Card.Body>
               </Card>
@@ -101,7 +127,6 @@ const Indexpage: FC = () => {
                 <div id="echart-doughnut" className="echart-charts">
                   <ReactEcharts
                     option={optionsDonutJS}
-                    style={{ height: "300px", width: "100%" }}
                   />
                 </div>
               </Card.Body>

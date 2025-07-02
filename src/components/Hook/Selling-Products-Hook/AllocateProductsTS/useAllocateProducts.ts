@@ -64,7 +64,6 @@ const useAllocateProducts = () => {
     try {
       const response: any = await fetchAllocatedProductsApi();
       const data: AllocateProduct[] = response?.data?.data || [];
-      console.log(data, "data")
       setallocateProducts(data);
       setFilteredallocateProducts(data);
       setLoading(false);

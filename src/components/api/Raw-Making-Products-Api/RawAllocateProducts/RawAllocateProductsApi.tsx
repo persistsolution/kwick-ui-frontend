@@ -16,7 +16,7 @@ export const fetchRawAllocateProductsApi = async (): Promise<
 };
 
 //   Allocate Raw Products
-export const allocatedRawProductsApi = async (
+export const fetchAllocatedRawProductsApi = async (
   data: object
 ): Promise<AxiosResponse<AllocateProducts>> => {
   return axios.post<AllocateProducts>(
@@ -41,3 +41,15 @@ export const fetchrawallocatedProductsApi = async (frId : number): Promise<
     `${API_BASE_URL}/raw-products/allocate-products/allocate-selling-product.php?frid=${frId}`
   );
 };
+
+// Fetch all Raw Allocated Products
+export const updateRawAllocatedProducts = async (data : object): Promise<
+  AxiosResponse<AllocateProducts[]>
+> => {
+  return axios.get<AllocateProducts[]>(
+    `${API_BASE_URL}/raw-products/allocate-products/save-allocate-product.php` , data
+  );
+};
+
+
+

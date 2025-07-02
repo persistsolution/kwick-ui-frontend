@@ -6,7 +6,10 @@ import {
   fetchFranchiseApi,
 } from "../../api/Franchise-Api/FranchiseApi";
 
-
+interface Franchise {
+  id: string | number;
+  label: string;
+}
 const useViewFranchise = () => {
   const [franchises, setFranchises] = useState<String[]>([]);
   const [filteredFranchises, setFilteredFranchises] = useState<String[]>([]);
@@ -17,11 +20,30 @@ const useViewFranchise = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  // const [franchiseList, setfranchiseList] = useState<String[]>([]);
-  const [franchiseList] = useState<String[]>([]);
   const [fromDate, setfromDate] = useState<any | undefined>();
   const [toDate, settodate] = useState<any | undefined>();
   const [loading, setloading] = useState<boolean>(false);
+  const [selectFranchise, setSelectFranchise] = useState<string | any>("");
+
+
+  const franchiseList: Franchise[] = [
+    {
+      id: "all",
+      label: "All",
+    },
+    {
+      id: 1,
+      label: "COCO Franchise",
+    },
+    {
+      id: 2,
+      label: "FOFO Franchise",
+    },
+    {
+      id: 0,
+      label: "Other Franchise ",
+    },
+  ];
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -43,7 +65,7 @@ const useViewFranchise = () => {
   };
 
   const handleFranchiseId = (id: any) => {
-    localStorage.setItem("frId" , id)
+    localStorage.setItem("frId", id)
   }
 
 
@@ -134,6 +156,7 @@ const useViewFranchise = () => {
   );
   const totalPages = Math.ceil(filteredFranchises.length / franchisesPerPage);
 
+
   return {
     indexOfLastFranchise,
     indexOfFirstFranchise,
@@ -146,6 +169,7 @@ const useViewFranchise = () => {
     currentFranchises,
     totalPages,
     franchiseList,
+    selectFranchise,
     fromDate,
     toDate,
     loading,
@@ -161,6 +185,7 @@ const useViewFranchise = () => {
     setfromDate,
     settodate,
     setloading,
+    setSelectFranchise,
     handleAddFranchise
   };
 };

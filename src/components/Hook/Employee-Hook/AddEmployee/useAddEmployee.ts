@@ -21,29 +21,29 @@ const useAddEmployee = () => {
     branch: "",
     ifscCode: "",
     upiId: "",
-    anotherMobileNo:"",
-    Designation:"",
-    AdharNo:"",
-    dateOfJoning:"",
-    details:"",
-    status:"",
-    BankName:"",
-    AccountNo:0,
-    Branch:"",
-    IFSCCode:"",
-    UPIID:"",
-    BankAccountStatus:"",
-    photo:"",
-    roll:63,
-    photo2:"",
-    photo3:"",
-    CustomerId:"",
-    ColgId:"",
-    pincode:"",
-    areaId:"",
-    shopName:"",
-    lastName:"",
-    middleName:""
+    anotherMobileNo: "",
+    Designation: "",
+    AdharNo: "",
+    dateOfJoning: "",
+    details: "",
+    status: "",
+    BankName: "",
+    AccountNo: 0,
+    Branch: "",
+    IFSCCode: "",
+    UPIID: "",
+    BankAccountStatus: "",
+    photo: "",
+    roll: 63,
+    photo2: "",
+    photo3: "",
+    CustomerId: "",
+    ColgId: "",
+    pincode: "",
+    areaId: "",
+    shopName: "",
+    lastName: "",
+    middleName: ""
   });
 
   const [message, setMessage] = useState<string | null>(null);
@@ -112,139 +112,71 @@ const useAddEmployee = () => {
     }));
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setMessage(null);
-  //   setIsLoading(true);
-
-  //   try {
-  //     const Payload = {
-  //       CustomerId: "",
-  //       ColgId: "",
-  //       ShopName: "",
-  //       Fname:  formData.employeeName,
-  //       Mname: "",
-  //       Lname: "",
-  //       Phone: formData.mobileNo,
-  //       Phone2: formData.anotherMobileNo,
-  //       EmailId: formData.emailId,
-  //       Password: formData.password,
-  //       CountryId: 0,
-  //       StateId: 0,
-  //       CityId: 0,
-  //       AreaId: "",
-  //       Address: formData.details,
-  //       Pincode: "",
-  //       Photo: formData.photo,
-  //       Photo2: "",
-  //       Photo3: "",
-  //       GstNo: "",
-  //       PanNo: "",
-  //       Roll: formData.roll,
-  //       Status: formData.status,
-  //       CreatedBy: 0,
-  //       ModifiedBy: 0,
-  //       CreatedDate: new Date(),
-  //       ModifiedDate:new Date(),
-
-        
-  //     };
-      
-  //     const response = await createEmployeCreate(Payload);
-  //     if (response.status === 201) {
-  //       setMessage("Employee added successfully!");
-  //       setFormData({
-  //         employeeName: "",
-  //         permanentAddress: "",
-  //         password: "",
-  //         designation: "",
-  //         dateOfJoining: "",
-  //         perDaySalary: "",
-  //         resign: "",
-  //         resignDate: "",
-  //         resignComment: "",
-  //         mobileNo: "",
-  //         emailId: "",
-  //         address: "",
-  //         bankHolderName: "",
-  //         bankName: "",
-  //         accountNo: "",
-  //         branch: "",
-  //         ifscCode: "",
-  //         upiId: "",
-  //         anotherMobileNo:"",
-  //         Designation:"",
-  //         AdharNo:"",
-  //         dateOfJoning:"",
-  //         details:"",
-  //         status:"",
-  //         BankName:"",
-  //         AccountNo:0,
-  //         Branch:"",
-  //         IFSCCode:"",
-  //         UPIID:"",
-  //         BankAccountStatus:"",
-  //         photo:"",
-  //         roll:63
-
-  //       });
-  //     } else {
-  //       setMessage("Error: Failed to add Employee.");
-  //     }
-  //   } catch (err: any) {
-  //     console.error("Error during Add Employee creation:", err);
-  //     setMessage("Network error. Please try again later.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
+
     try {
-      const formDataObj = new FormData();
-        const safeAppend = (key: string, value: any) => {
-        if (value !== undefined && value !== null && value !== "") {
-          formDataObj.append(key, value);
-        }
+      const Payload = {
+        CustomerId: "",
+        ColgId: "",
+        ShopName: "",
+        Fname: formData.employeeName,
+        Mname: "",
+        Lname: "",
+        Phone: formData.mobileNo,
+        Phone2: formData.anotherMobileNo,
+        EmailId: formData.emailId,
+        Password: formData.password,
+        CountryId: 0,
+        StateId: 0,
+        CityId: 0,
+        AreaId: "",
+        Address: formData.details,
+        Details: formData.details,
+        Pincode: "",
+        Photo: formData.photo,
+        Photo2: "",
+        Photo3: "",
+        GstNo: "",
+        PanNo: "",
+        Roll: formData.roll,
+        Status: formData.status,
+        CreatedBy: 0,
+        ModifiedBy: 0,
+        CreatedDate: new Date(),
+        ModifiedDate: new Date(),
+        FatherPhone: "",
+        Designation: "",
+        Dob: "",
+        AadharNo: "",
+        BloodGroup: "",
+        JoinDate: "",
+        EmailId2: "",
+        PerDaySalary: "",
+        CompId: "",
+        BranchId: "",
+        AccountName: "",
+        BankName: "",
+        AccountNo: "",
+        IfscCode: "",
+        Branch: "",
+        UpiNo: "",
+        UnderUser: "",
+        ReportingMgr: "",
+        ResignStatus: "",
+        ResignDate: "",
+        ResignComment: "",
+        CatId: 4,
+        Options: [],
+        zone: [],
+        CocoFranchiseAccess: [],
       };
-        safeAppend("CustomerId", formData.CustomerId || "0");
-      safeAppend("ColgId", formData.ColgId || "0");
-      safeAppend("ShopName", formData.shopName);
-      safeAppend("Fname", formData.employeeName);
-      safeAppend("Mname", formData.middleName);
-      safeAppend("Lname", formData.lastName);
-      safeAppend("Phone", formData.mobileNo);
-      safeAppend("Phone2", formData.anotherMobileNo);
-      safeAppend("EmailId", formData.emailId);
-      safeAppend("Password", formData.password);
-      safeAppend("perDaySalary", formData.perDaySalary);
-      safeAppend("CountryId", "0");
-      safeAppend("StateId", "0");
-      safeAppend("CityId", "0");
-      safeAppend("AreaId", formData.areaId || "0");
-      safeAppend("Address", formData.details);
-      safeAppend("Pincode", formData.pincode || "0");
-      safeAppend("Roll", formData.roll?.toString() || "0");
-      safeAppend("Status", formData.status || "0");
-      safeAppend("CreatedBy", "0");
-      safeAppend("ModifiedBy", "0");
-      safeAppend("CreatedDate", new Date().toISOString());
-      safeAppend("ModifiedDate", new Date().toISOString());
-  
-      // File uploads (only if files are selected)
-      if (formData.photo) formDataObj.append("Photo", formData.photo);
-      if (formData.photo2) formDataObj.append("Photo2", formData.photo2);
-      if (formData.photo3) formDataObj.append("Photo3", formData.photo3);
-  
-      const response = await createEmployeCreate(formDataObj);
-  
-      if (response.status === 200) {
-        setMessage("Employee added successfully!");
-  
-        // Reset form data
+
+      const response = await createEmployeCreate(Payload);
+      if (response.status === 201) {
+        // setMessage("Employee added successfully!");
         setFormData({
           employeeName: "",
           permanentAddress: "",
@@ -280,26 +212,126 @@ const useAddEmployee = () => {
           roll: 63,
           photo2: "",
           photo3: "",
-          CustomerId:"",
-          ColgId:"",
-          pincode:"",
-          areaId:"",
-          shopName:"",
-          lastName:"",
-          middleName:""
+          CustomerId: "",
+          ColgId: "",
+          pincode: "",
+          areaId: "",
+          shopName: "",
+          lastName: "",
+          middleName: ""
         });
       } else {
-        setMessage("Error: Failed to add Employee.");
+        // setMessage("Error: Failed to add Employee.");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error during Add Employee creation:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setMessage(null);
+  //   setIsLoading(true);
+  //   try {
+  //     const formDataObj = new FormData();
+  //       const safeAppend = (key: string, value: any) => {
+  //       if (value !== undefined && value !== null && value !== "") {
+  //         formDataObj.append(key, value);
+  //       }
+  //     };
+  //       safeAppend("CustomerId", formData.CustomerId || "0");
+  //     safeAppend("ColgId", formData.ColgId || "0");
+  //     safeAppend("ShopName", formData.shopName);
+  //     safeAppend("Fname", formData.employeeName);
+  //     safeAppend("Mname", formData.middleName);
+  //     safeAppend("Lname", formData.lastName);
+  //     safeAppend("Phone", formData.mobileNo);
+  //     safeAppend("Phone2", formData.anotherMobileNo);
+  //     safeAppend("EmailId", formData.emailId);
+  //     safeAppend("Password", formData.password);
+  //     safeAppend("perDaySalary", formData.perDaySalary);
+  //     safeAppend("CountryId", "0");
+  //     safeAppend("StateId", "0");
+  //     safeAppend("CityId", "0");
+  //     safeAppend("AreaId", formData.areaId || "0");
+  //     safeAppend("Address", formData.details);
+  //     safeAppend("Pincode", formData.pincode || "0");
+  //     safeAppend("Roll", formData.roll?.toString() || "0");
+  //     safeAppend("Status", formData.status || "0");
+  //     safeAppend("CreatedBy", "0");
+  //     safeAppend("ModifiedBy", "0");
+  //     safeAppend("CreatedDate", new Date().toISOString());
+  //     safeAppend("ModifiedDate", new Date().toISOString());
+
+  //     // File uploads (only if files are selected)
+  //     if (formData.photo) formDataObj.append("Photo", formData.photo);
+  //     if (formData.photo2) formDataObj.append("Photo2", formData.photo2);
+  //     if (formData.photo3) formDataObj.append("Photo3", formData.photo3);
+
+  //     const response = await createEmployeCreate(formDataObj);
+
+  //     if (response.status === 200) {
+  //       setMessage("Employee added successfully!");
+
+  //       // Reset form data
+  //       setFormData({
+  //         employeeName: "",
+  //         permanentAddress: "",
+  //         password: "",
+  //         designation: "",
+  //         dateOfJoining: "",
+  //         perDaySalary: "",
+  //         resign: "",
+  //         resignDate: "",
+  //         resignComment: "",
+  //         mobileNo: "",
+  //         emailId: "",
+  //         address: "",
+  //         bankHolderName: "",
+  //         bankName: "",
+  //         accountNo: "",
+  //         branch: "",
+  //         ifscCode: "",
+  //         upiId: "",
+  //         anotherMobileNo: "",
+  //         Designation: "",
+  //         AdharNo: "",
+  //         dateOfJoning: "",
+  //         details: "",
+  //         status: "",
+  //         BankName: "",
+  //         AccountNo: 0,
+  //         Branch: "",
+  //         IFSCCode: "",
+  //         UPIID: "",
+  //         BankAccountStatus: "",
+  //         photo: "",
+  //         roll: 63,
+  //         photo2: "",
+  //         photo3: "",
+  //         CustomerId:"",
+  //         ColgId:"",
+  //         pincode:"",
+  //         areaId:"",
+  //         shopName:"",
+  //         lastName:"",
+  //         middleName:""
+  //       });
+  //     } else {
+  //       setMessage("Error: Failed to add Employee.");
+  //     }
+  //   } catch (err) {
+  //     console.error("Error during Add Employee creation:", err);
+  //     setMessage("Network error. Please try again later.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
 
 
   return {

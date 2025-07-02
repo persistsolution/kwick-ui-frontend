@@ -35,6 +35,8 @@ interface ProductFormValues {
 const AddMakingProductForm: FC = () => {
   const { formValues, makingProductArray , loading, rawProductArray, handleSubmit, handleChange, setFormValues, handelAddMakingProduct, handelDeleteMakingProduct } =
     useAddMakingProductForm();
+
+    console.log(makingProductArray,"makingProductArray")
   return (
     <Fragment>
       {/* <Pageheader 
@@ -195,9 +197,9 @@ const AddMakingProductForm: FC = () => {
                         type: "select",
                         required: "*",
                         options: [
-                          { name: "MRP Product", id: 0 },
+                          // { name: "MRP Product", id: 0 },
                           { name: "Making Product", id: 1 },
-                          { name: "Other Product", id: 2 },
+                          // { name: "Other Product", id: 2 },
                         ],
                         col: 3
 
@@ -404,12 +406,12 @@ const AddMakingProductForm: FC = () => {
                                 rawProductArray.find(
                                   (option: any) =>
                                     option.SrNo.toString() ==
-                                    item.selectedRawProduct?.toString()
+                                    item.makingProduct?.toString()
                                 ) || null
                               }
                               options={rawProductArray}
-                              getOptionLabel={(option: any) => option.label}
-                              getOptionValue={(option: any) => option.id}
+                              getOptionLabel={(option: any) => option.ProductName}
+                              getOptionValue={(option: any) => option.SrNo}
                               onChange={(selectedOption: any) => {
                                 setFormValues((prevValues) => ({
                                   ...prevValues,

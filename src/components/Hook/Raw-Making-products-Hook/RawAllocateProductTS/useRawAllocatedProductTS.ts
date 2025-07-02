@@ -3,10 +3,9 @@ import { utils, writeFile } from "xlsx";
 import { useParams } from "react-router-dom";
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
-import { fetchrawallocatedProductsApi } from "../../../api/Raw-Making-Products-Api/RawAllocateProducts/RawAllocateProductsApi";
+import { fetchrawallocatedProductsApi , updateRawAllocatedProducts} from "../../../api/Raw-Making-Products-Api/RawAllocateProducts/RawAllocateProductsApi";
 import {
-  fetchrawallocatedProductsrawidApi,
-  allocatedRawProductsApi,
+  fetchAllocatedRawProductsApi,
 } from "../../../api/Raw-Making-Products-Api/RawAllocateProducts/RawAllocateProductsApi";
 
 const useRawAllocatedProductTS = () => {
@@ -15,16 +14,12 @@ const useRawAllocatedProductTS = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [allocateProductsPerPage, setallocateProductsPerPage] = useState(5);
-  // const [franchiseList , setfranchiseList]= useState([])
-  // const [franchiseList] = useState([]);
   const [fromDate, setfromDate] = useState<Date | any>();
   const [toDate, settodate] = useState<Date | any>();
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  // const [modal, setModal] = useState(false);
-  // const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
   const [selectAllocatedProduct, setSelectAllocatedProduct] = useState<
     object[]
   >([]);
@@ -35,9 +30,6 @@ const useRawAllocatedProductTS = () => {
     { id: number; Name: string }[]
   >([]);
 
-  // const [allocateProductsRawId, setallocateProductsRawId] = useState<
-  //   { id: number; Name: string }[]
-  // >([]);
 
   const { id } = useParams();
 
@@ -94,6 +86,11 @@ const useRawAllocatedProductTS = () => {
         item.id === productId ? { ...item, checkstatus: checked } : item
     );
     setFilteredallocateProducts(updatedFilteredProducts);
+      const data = {
+      id: products.id,
+      frid: id,
+      status: checked ? 1 : 0,
+    };
     if (checked) {
       setSelectAllocatedProduct([...selectAllocatedProduct, products]);
     } else {
@@ -101,7 +98,9 @@ const useRawAllocatedProductTS = () => {
         selectAllocatedProduct.filter((item: any) => item.id !== productId)
       );
     }
+    updateRawAllocatedProducts(data)
   };
+  
 
   const handelfetchallocateProducts = async (
     callback?: (allocateProducts: any) => void
@@ -166,7 +165,7 @@ const useRawAllocatedProductTS = () => {
       FrId: id,
       RawProdId: filterAssign.map((item: any) => item.id),
     };
-    allocatedRawProductsApi(data);
+    fetchAllocatedRawProductsApi(data);
   };
 
   const handleSearch = (term: string) => {

@@ -5,6 +5,7 @@ import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 import { createMakingProductsAPI } from "../../../api/Selling-Products-Api/MakingProducts-Api/MakingProductApi";
 import { fetchRawProducts } from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
+import { useNavigate } from "react-router-dom";
 
 interface ProductFormValues {
   productName: string;
@@ -92,6 +93,7 @@ const useAddMakingProductForm = () => {
   const [makingProductArray, setMakingProductArray] = useState<ProductItem[]>(
     []
   );
+  const navigate = useNavigate();
   useEffect(() => {
     handelGetCategories();
     handelGetSubCategories();
@@ -282,10 +284,7 @@ const useAddMakingProductForm = () => {
         console.log(makingProductArray , "makingProductArray")
         setMakingProductArray([])
         setLoading(false)
-        const updatemakingProduct = makingProductArray.map((data)=>({
-          ...data,
-          
-        }))
+navigate("/SellingProduct/ViewMakingProducts")
       }
     } catch (error) {
       console.error("Error adding product:", error);

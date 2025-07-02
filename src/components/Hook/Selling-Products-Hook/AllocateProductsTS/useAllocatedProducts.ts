@@ -8,51 +8,41 @@ import {
 import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 
+interface Product {
+  id: number;
+  Name?: string;
+  [key: string]: any;
+}
+
+interface Category {
+  id: number;
+  Name: string;
+}
+
+interface SortConfig {
+  key: string | null;
+  direction: string;
+}
+
 const useAllocatedProducts = () => {
-  const [allocateProducts, setallocateProducts] = useState([]);
-  const [filteredallocateProducts, setFilteredallocateProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [allocateProductsPerPage, setallocateProductsPerPage] = useState(5);
-  // const [franchiseList , setfranchiseList]= useState([])
-  // const [franchiseList] = useState([]);
-  const [fromDate, setfromDate] = useState<Date | any>();
-  const [toDate, settodate] = useState<Date | any>();
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
-  // const [modal, setModal] = useState(false);
-  // const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
-  const [selectAllocatedProduct, setSelectAllocatedProduct] = useState<
-    object[]
-  >([]);
-  const [categories, setCategories] = useState<{ id: number; Name: string }[]>(
-    []
-  );
-  const [subCategory, setSubCategory] = useState<
-    { id: number; Name: string }[]
-  >([]);
-  const { id } = useParams();
+  const [allocateProducts, setallocateProducts] = useState<Product[]>([]);
+  const [filteredallocateProducts, setFilteredallocateProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [allocateProductsPerPage, setallocateProductsPerPage] = useState<number>(5);
+  const [fromDate, setfromDate] = useState<Date | string | undefined>();
+  const [toDate, settodate] = useState<Date | string | undefined>();
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: "asc" });
+  const [selectAllocatedProduct, setSelectAllocatedProduct] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategory, setSubCategory] = useState<Category[]>([]);
+  const { id } = useParams<{ id: string }>();
 
   const franchiseList = [
-    {
-      id: "all",
-      label: "All",
-    },
-    {
-      id: 1,
-      label: "COCO Franchise",
-    },
-
-    {
-      id: 2,
-      label: "FOFO Franchise",
-    },
-    {
-      id: 0,
-      label: "Other Franchise ",
-    },
+    { id: "all", label: "All" },
+    { id: 1, label: "COCO Franchise" },
+    { id: 2, label: "FOFO Franchise" },
+    { id: 0, label: "Other Franchise " },
   ];
 
   useEffect(() => {
@@ -61,14 +51,12 @@ const useAllocatedProducts = () => {
     handelGetSubCategories();
   }, []);
 
-  const handelAllocatedAllProduct = (e: any) => {
+  const handelAllocatedAllProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
-    const updatefilteredallocateProducts: any = filteredallocateProducts.map(
-      (item: any) => ({
-        ...item,
-        checkstatus: checked,
-      })
-    );
+    const updatefilteredallocateProducts = filteredallocateProducts.map((item) => ({
+      ...item,
+      checkstatus: checked,
+    }));
     setFilteredallocateProducts(updatefilteredallocateProducts);
     if (checked) {
       setSelectAllocatedProduct(updatefilteredallocateProducts);
@@ -79,7 +67,7 @@ const useAllocatedProducts = () => {
 
   const updateAllocatedProducts = async (data: object) => {
     try {
-      const response: any = await updateAllocatedProductsApi(Number(id) , data);
+      const response: any = await updateAllocatedProductsApi(Number(id), data);
       console.log(response, "response");
     } catch (error) {
       console.error("Error fetching allocateProducts:", error);
@@ -87,41 +75,43 @@ const useAllocatedProducts = () => {
   };
 
   const handelAllocatedProduct = (
-    e: any,
+    e: React.ChangeEvent<HTMLInputElement>,
     productId: number,
-    products: { id: number; [key: string]: any }
+    products: Product
   ) => {
     const { checked } = e.target;
-    const updatedFilteredProducts: any = filteredallocateProducts.map(
-      (item: any) =>
-        item.id === productId ? { ...item, checkstatus: checked } : item
+    const updatedFilteredProducts = filteredallocateProducts.map((item) =>
+      item.id === productId ? { ...item, checkstatus: checked } : item
     );
     setFilteredallocateProducts(updatedFilteredProducts);
+
+    const data = {
+      id: products.id,
+      frid: id,
+      status: checked ? 1 : 0,
+    };
+
     if (checked) {
       setSelectAllocatedProduct([...selectAllocatedProduct, products]);
-      const data = {
-        id: products.id,
-        checkstatus: checked ? 1 : 0,
-      };
-      updateAllocatedProducts(data);
     } else {
-      const data = {
-        id: products.id,
-        checkstatus: checked ? 1 : 0,
-      };
-      updateAllocatedProducts(data);
       setSelectAllocatedProduct(
-        selectAllocatedProduct.filter((item: any) => item.id !== productId)
+        selectAllocatedProduct.filter((item) => item.id !== productId)
       );
     }
+
+    updateAllocatedProducts(data);
   };
 
   const handelfetchallocateProducts = async () => {
     try {
       const response: any = await fetchAllocatedProductsFrApi(Number(id));
-      const data  = response?.data?.data || []
-      setallocateProducts(data);
-      setFilteredallocateProducts(data);
+      const data = response?.data?.data || [];
+      const updateAllocatedProducts = data?.map((data: any) => ({
+        ...data,
+        checkstatus: data?.checkstatus == 0 ? false : true
+      }))
+      setallocateProducts(updateAllocatedProducts);
+      setFilteredallocateProducts(updateAllocatedProducts);
     } catch (error) {
       console.error("Error fetching allocateProducts:", error);
     }
@@ -151,7 +141,7 @@ const useAllocatedProducts = () => {
     setSearchTerm(term);
     setFilteredallocateProducts(
       allocateProducts.filter(
-        (AllocateProducts: any) =>
+        (AllocateProducts) =>
           AllocateProducts?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           AllocateProducts?.id?.toString().includes(term.toLowerCase())
       )
@@ -163,13 +153,12 @@ const useAllocatedProducts = () => {
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedallocateProducts = [...filteredallocateProducts].sort(
-      (a, b) => {
-        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-        return 0;
-      }
-    );
+
+    const sortedallocateProducts = [...filteredallocateProducts].sort((a, b) => {
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
 
     setSortConfig({ key, direction });
     setFilteredallocateProducts(sortedallocateProducts);
@@ -181,6 +170,7 @@ const useAllocatedProducts = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("AllocateProducts-table");
+    if (!table) return;
     const workbook = utils.table_to_book(table);
     writeFile(workbook, "AllocateProducts_data.xlsx");
   };
@@ -195,21 +185,16 @@ const useAllocatedProducts = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
 
   const indexOfLastAllocateProducts = currentPage * allocateProductsPerPage;
-  const indexOfFirstAllocateProducts =
-    indexOfLastAllocateProducts - allocateProductsPerPage;
+  const indexOfFirstAllocateProducts = indexOfLastAllocateProducts - allocateProductsPerPage;
   const currentallocateProducts = filteredallocateProducts.slice(
     indexOfFirstAllocateProducts,
     indexOfLastAllocateProducts
   );
-  const totalPages = Math.ceil(
-    filteredallocateProducts.length / allocateProductsPerPage
-  );
+  const totalPages = Math.ceil(filteredallocateProducts.length / allocateProductsPerPage);
 
   return {
     indexOfLastAllocateProducts,
@@ -231,8 +216,6 @@ const useAllocatedProducts = () => {
     exportToExcel,
     getVisiblePages,
     setallocateProductsPerPage,
-    // modal,
-    // allocateProductsEditId,
     categories,
     subCategory,
     handelfetchallocateProducts,

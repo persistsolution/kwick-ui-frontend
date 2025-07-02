@@ -20,6 +20,7 @@ const ViewFranchise: FC = () => {
     toDate,
     currentFranchises,
     loading,
+    selectFranchise,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -31,7 +32,8 @@ const ViewFranchise: FC = () => {
     setfromDate,
     settodate,
     handleAddFranchise,
-    handleFranchiseId
+    handleFranchiseId,
+    setSelectFranchise
   } = useViewFranchise();
 
   return (
@@ -50,16 +52,29 @@ const ViewFranchise: FC = () => {
                 <div className="row align-items-center g-2 mb-3">
                   <div className="col-md-3 col-12">
                     <Form.Group controlId="goDownlist">
-                      <Form.Label>Franchise</Form.Label>
-                      <Select
-                        name="state"
-                        options={franchiseList}
-                        className="basic-multi-select "
-                        isSearchable
-                        menuPlacement="auto"
-                        classNamePrefix="Select2"
-                        defaultValue={[franchiseList[0]]}
-                      />
+                      <Form.Label>Franchise Type</Form.Label>
+                         <Select
+                            value={
+                              franchiseList
+                                ?.map((option: any) => ({
+                                  label: option.label,
+                                  value: option.id,
+                                }))
+                                .find(
+                                  (option) =>
+                                    option.value ===
+                                  selectFranchise
+                                ) || null
+                            }
+                            options={
+                              franchiseList?.map((option: any) => ({
+                                label: option.label,
+                                value: option.id,
+                              })) || []
+                            }                             
+                            isSearchable
+                          />
+
                     </Form.Group>
                   </div>
 
@@ -171,7 +186,7 @@ const ViewFranchise: FC = () => {
                               <td>{franchise.id}</td>
                               <td>
                                 <Link
-                                onClick={()=>handleFranchiseId(franchise.id)}
+                                  onClick={() => handleFranchiseId(franchise.id)}
                                   to={`/Franchises/frDashboard/${franchise.id}`}
                                   target="_blank"
                                 >
