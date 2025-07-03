@@ -25,9 +25,10 @@ interface ProductFormValues {
   productImage: File | null;
   getcategory: string[];
   getSubCategory: string[];
+  BrandId:string
 }
 const EditMakingProductForm: FC = () => {
-  const { handleSubmit, handleChange, formValues, loading, setFormValues } =
+  const { handleSubmit, handleChange, formValues, loading,brandList, setFormValues } =
     useEditMakingProductForm();
 
   return (
@@ -56,10 +57,10 @@ const EditMakingProductForm: FC = () => {
                         required: "*",
                       },
                       {
-                        name: "barnd",
+                        name: "BrandId",
                         label: "Select Brand",
                         type: "select",
-                        options: formValues.getBrandList,
+                        options: brandList,
                       },
                       {
                         name: "categoryId",
@@ -165,8 +166,8 @@ const EditMakingProductForm: FC = () => {
                         type: "select",
                         required: "*",
                         options: [
-                          { name: "Yes", id: 1 },
-                          { name: "No", id: 0 },
+                          { name: "Yes", id: "Yes" },
+                          { name: "No", id: "No"},
                         ],
                       },
                       {

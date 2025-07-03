@@ -75,7 +75,7 @@ const AllocateProducts: FC = () => {
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: any) => setfromDate(date)}
+                        onChange={(e) => setfromDate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
@@ -86,7 +86,7 @@ const AllocateProducts: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: any) => settodate(date)}
+                        onChange={(e) => settodate(e.target.value)}
                       />
                     </Form.Group>
                   </div>

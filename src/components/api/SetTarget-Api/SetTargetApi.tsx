@@ -32,7 +32,7 @@ export const deleteSetTarget = async (
 export const createSetTargetAPi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
-  return axios.post<void>(`${API_BASE_URL}/kwickbill_api/target/set-target.php`, data);
+  return axios.post<void>(`${API_BASE_URL}/target/set-target.php`, data);
 };
 
 // API to create Create Traget Completion
@@ -48,7 +48,7 @@ export const TargetCompletionReportApi = async (
   data: any
 ): Promise<AxiosResponse<void>> => {
   return axios.post<void>(
-    `${API_BASE_URL}/TargetCompletionReport/create`,
+    `${API_BASE_URL}/target/target-completion-report.php`,
     data
   );
 };

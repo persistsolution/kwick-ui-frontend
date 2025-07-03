@@ -353,12 +353,12 @@ export const RouteData: routeType[] = [
   },
   {
     id: 10,
-    path: `${import.meta.env.BASE_URL}Franchises/AddFranchise`,
+    path: `${import.meta.env.BASE_URL}Franchise/AddFranchise`,
     element: <AddFranchise />,
   },
   {
     id: 11,
-    path: `${import.meta.env.BASE_URL}Franchises/EditFranchise/:id`,
+    path: `${import.meta.env.BASE_URL}Franchise/EditFranchise/:id`,
     element: <EditFranchise />,
   },
   {

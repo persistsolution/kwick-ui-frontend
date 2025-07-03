@@ -5,6 +5,7 @@ import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/c
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchEditMakingProductsAPI, updateMakingProductsAPI } from "../../../api/Selling-Products-Api/MakingProducts-Api/MakingProductApi";
+import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
 
 interface ProductFormValues {
@@ -34,6 +35,7 @@ interface ProductFormValues {
   unitList: string[];
   unitId: string;
   code: string;
+  BrandId:string
 }
 
 const useEditMakingProductForm = () => {
@@ -64,28 +66,31 @@ const useEditMakingProductForm = () => {
     unitList: [],
     unitId: "",
     code: "",
+    BrandId:"",
   });
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [brandList ,setBrandList]= useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
-
+console.log(formValues ,"formValues")
   useEffect(() => {
     handelGetCategories();
     handelGetSubCategories();
     handleFetchEditMakingProductData();
     fetchUnit();
+    handelfetchBrand();
   }, []);
 
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response.data;
+      const data = await response?.data?.units || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        unitList: data.map((unit: { Name: string; id: number }) => ({
-          name: unit.Name,
-          id: unit.id,
+        unitList: data.map((data: { unit: string; id: number }) => ({
+          name: data.unit,
+          id: data.id,
         })),
       }));
     } catch (error) {
@@ -127,6 +132,7 @@ const useEditMakingProductForm = () => {
           qrDisplay: responseData?.QrDisplay,
           srNo: responseData?.SrNo,
           productImage: responseData?.Photo,
+          BrandId:responseData?.BrandId
         }));
       } else {
         setMessage(
@@ -221,7 +227,7 @@ const useEditMakingProductForm = () => {
       Unit: formValues.unitId,
       Assets: 0,
       tempstatus: formValues.status,
-      BrandId: formValues.brandId,
+      BrandId: formValues.BrandId,
       CreatedDate: new Date().toISOString(),
       ModifiedDate: new Date().toISOString(),
       modified_time: null,
@@ -258,6 +264,7 @@ const useEditMakingProductForm = () => {
           brandId: 0,
           unitList: [],
           unitId: "",
+          BrandId:"",
           code: "",
         });
         setMessage(`"Product Edit Successfully!.`);
@@ -286,6 +293,16 @@ const useEditMakingProductForm = () => {
     }
   };
 
+    const handelfetchBrand = async () => {
+      try {
+        const response: any = await fetchBrandApi();
+        const data = response?.data?.brands || []
+        setBrandList(data);
+      } catch (error) {
+        console.error("Error fetching Brand:", error);
+      }
+    };
+
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchSubCategories();
@@ -293,9 +310,9 @@ const useEditMakingProductForm = () => {
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
-          (subcategory: { Name: string; id: number }) => ({
-            name: subcategory.Name,
-            id: subcategory.id,
+          (subcategory: { subcategory_name: string; sr_no: number }) => ({
+            name: subcategory.subcategory_name,
+            id: subcategory.sr_no,
           })
         ),
       }));
@@ -315,7 +332,8 @@ const useEditMakingProductForm = () => {
     setFormValues,
     message,
     formValues,
-    loading
+    loading,
+    brandList
   };
 };
 

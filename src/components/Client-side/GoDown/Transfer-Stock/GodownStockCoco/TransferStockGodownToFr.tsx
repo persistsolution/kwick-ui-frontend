@@ -8,7 +8,6 @@ import {
   Container,
   Table,
 } from "react-bootstrap";
-//import Pageheader from "../../../../../layouts/Component/PageHeader/PageHeader";
 import Select from "react-select";
 import AddIcon from "@mui/icons-material/Add";
 import useTransferStockGodownToFr from "../../../../Hook/GoDown-Hook/Transfer-Stock/GodownStockCoco/useTransferStockGodownToFr";
@@ -24,27 +23,19 @@ const TransferStockGodownToFr: React.FC = () => {
     totalQty,
     totalGstAmt,
     totalAmt,
-    // selectGodownStockProduct,
+    otherProductList,
+    GstAmount,
     handleChange,
     handleSubmit,
     handelAddGodown,
     handleRemoveGodownStock,
-    // handelChangeAddedGodownPoduct,
     setselectGodown,
     setselectFranchise,
-    // setselectGodownStockProduct,
-    // setFormValues,
     handlSelectGodownProductList,
   } = useTransferStockGodownToFr();
 
   return (
     <Fragment>
-      {/* <Pageheader 
-        heading="Transfer Stock Godown To COCO Franchise"
-        homepage="Forms"
-        activepage="Transfer Stock Godown To COCO Franchise"
-      /> */}
-
       <div className="main-container container-fluid">
         <Row>
           <Col xl={12}>
@@ -54,27 +45,14 @@ const TransferStockGodownToFr: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={6}>
                       <Form.Group controlId="goDownlist">
-                        <Form.Label>
-                          Godown<span className="text-danger">*</span>
-                        </Form.Label>
+                        <Form.Label>Godown<span className="text-danger">*</span></Form.Label>
                         <Select
                           name="goDownlist"
                           id="goDownlist"
-                          className="basic-multi-select "
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
-                          options={
-                            goDownList?.map((option: any) => ({
-                              label: option.Fname,
-                              value: option.id,
-                            })) || []
-                          }
+                          options={goDownList.map((option: any) => ({ label: option.full_name, value: option.id }))}
                           onChange={(selectedOption) => {
-                            setselectGodown((prevValues: any) => ({
-                              ...prevValues,
-                              value: selectedOption ? selectedOption.value : "",
-                            }));
+                            setselectGodown(selectedOption);
                           }}
                           required
                         />
@@ -83,236 +61,118 @@ const TransferStockGodownToFr: React.FC = () => {
 
                     <Col xl={6}>
                       <Form.Group controlId="selectFranchise">
-                        <Form.Label>
-                          Franchise<span className="text-danger">*</span>
-                        </Form.Label>
+                        <Form.Label>Franchise<span className="text-danger">*</span></Form.Label>
                         <Select
                           name="selectFranchise"
                           id="selectFranchise"
-                          className="basic-multi-select "
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
-                          options={
-                            franchisesList?.map((option: any) => ({
-                              label: option.Fname,
-                              value: option.id,
-                            })) || []
-                          }
+                          options={franchisesList.map((option: any) => ({ label: option.full_name, value: option.id }))}
                           onChange={(selectedOption) => {
-                            setselectFranchise((prevValues: any) => ({
-                              ...prevValues,
-                              value: selectedOption ? selectedOption.value : "",
-                            }));
+                            setselectFranchise(selectedOption);
                           }}
                           required
                         />
                       </Form.Group>
                     </Col>
 
-                    <Container className="fieldset border col-12  mt-3">
-                      {/* <h4 className="legend">Godown Detail</h4> */}
+                    <Container className="fieldset border col-12 mt-3">
                       <Row>
-                        <Col xl={6}>
-                          <Form.Group controlId="goDownProductlist">
-                            <Form.Label>
-                              Product<span className="text-danger">*</span>
-                            </Form.Label>
+                        <Col xl={4}>
+                          <Form.Group controlId="otherProductList">
+                            <Form.Label>Product<span className="text-danger">*</span></Form.Label>
                             <Select
-                              name="goDownProductlist"
-                              id="goDownProductlist"
-                              className="basic-multi-select "
+                              name="otherProductList"
+                              id="otherProductList"
                               isSearchable
                               menuPlacement="auto"
-                              classNamePrefix="Select2"
-                              options={
-                                goDownProductlist?.map((option: any) => ({
-                                  label: option.ProductName,
-                                  value: option.id,
-                                })) || []
-                              }
-                              onChange={(selectedOption) =>
-                                handlSelectGodownProductList(selectedOption)
-                              }
+                              options={otherProductList.map((item: any) => ({
+                                label: item.ProductName,
+                                value: item.id,
+                                data: item,
+                              }))}
+                              onChange={(selectedOption: any) => {
+                                if (selectedOption) {
+                                  handlSelectGodownProductList(selectedOption.data);
+                                }
+                              }}
                               required
                             />
+
                           </Form.Group>
                         </Col>
 
                         <Col xl={2}>
                           <Form.Group controlId="availableStock">
                             <Form.Label>Available Stock</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="availableStock"
-                              value={formValues.availableStock}
-                              readOnly
-                            />
+                            <Form.Control type="text" name="availableStock" value={formValues.availableStock} readOnly />
                           </Form.Group>
                         </Col>
+
                         <Col xl={2}>
                           <Form.Group controlId="unit">
                             <Form.Label>Available Stock Unit</Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="unit"
-                              value={formValues.unit}
-                              readOnly
-                            />
+                            <Form.Control type="text" name="unit" value={formValues.unit} readOnly />
                           </Form.Group>
                         </Col>
-                        <Col xl={2}>
+
+                        <Col xl={1}>
                           <Form.Group controlId="stockInQty">
                             <Form.Label>Qty</Form.Label>
-                            <Form.Control
-                              name="stockInQty"
-                              type="number"
-                              value={formValues.stockInQty}
-                              onChange={handleChange}
-                              required
-                            />
+                            <Form.Control name="stockInQty" type="number" value={formValues.stockInQty} onChange={handleChange} required />
                           </Form.Group>
                         </Col>
-                        <Col xl={2}>
+
+                        <Col xl={1}>
                           <Form.Group controlId="qtyUnit">
                             <Form.Label>Qty Unit</Form.Label>
-                            <Form.Control
-                              name="qtyUnit"
-                              type="text"
-                              value={formValues.qtyUnit}
-                              readOnly
-                            />
+                            <Form.Control name="qtyUnit" type="text" value={formValues.qtyUnit} readOnly />
                           </Form.Group>
                         </Col>
 
                         <Col xl={2}>
                           <Form.Group controlId="productPrice">
                             <Form.Label>Product Price</Form.Label>
-                            <Form.Control
-                              name="productPrice"
-                              type="number"
-                              value={formValues.productPrice}
-                              onChange={handleChange}
-                              required
-                            />
+                            <Form.Control name="productPrice" type="number" value={formValues.productPrice} onChange={handleChange} required />
                           </Form.Group>
                         </Col>
 
                         <Col xl={2}>
                           <Form.Group controlId="totalPrice">
                             <Form.Label>Total Price</Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="totalPrice"
-                              value={Number(formValues.totalPrice).toFixed(2)}
-                              readOnly
-                            />
+                            <Form.Control type="number" name="totalPrice" value={Number(formValues.totalPrice).toFixed(2)} readOnly />
                           </Form.Group>
                         </Col>
+
                         <Col xl={2}>
-                          <Form.Group controlId="stockInQty">
-                            <Form.Label>
-                              Total Qty <span className="text-danger">*</span>
-                            </Form.Label>
-                            <Form.Control
-                              name="stockInQty"
-                              type="number"
-                              value={totalQty}
-                              onChange={handleChange}
-                              required
-                              readOnly
-                            />
+                          <Form.Group controlId="totalQty">
+                            <Form.Label>Total Qty</Form.Label>
+                            <Form.Control name="totalQty" type="number" value={totalQty} readOnly />
                           </Form.Group>
                         </Col>
 
                         <Col xl={2}>
                           <Form.Group controlId="totalgst">
-                            <Form.Label>
-                              GST Amount<span className="text-danger">*</span>
-                            </Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="totalgst"
-                              value={totalGstAmt}
-                              readOnly
-                            />
+                            <Form.Label>GST Amount</Form.Label>
+                            <Form.Control type="number" name="totalgst" value={GstAmount} readOnly />
                           </Form.Group>
                         </Col>
 
                         <Col xl={2}>
-                          <Form.Group controlId="totalPrice">
-                            <Form.Label>
-                              Total Amount<span className="text-danger">*</span>
-                            </Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="totalPrice"
-                              value={Number(totalAmt).toFixed(2)}
-                              readOnly
-                            />
+                          <Form.Group controlId="totalAmount">
+                            <Form.Label>Total Amount</Form.Label>
+                            <Form.Control type="number" name="totalAmount" value={Number(totalAmt).toFixed(2)} readOnly />
                           </Form.Group>
                         </Col>
 
                         <Col xl={2}>
                           <Form.Group controlId="invoiveNo">
-                            <Form.Label>
-                              Invoice No<span className="text-danger">*</span>
-                            </Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="invoiveNo"
-                              value={Number(formValues.invoiveNo)}
-                              readOnly
-                            />
+                            <Form.Label>Invoice No</Form.Label>
+                            <Form.Control type="number" name="invoiveNo" value={formValues.invoiveNo} readOnly />
                           </Form.Group>
                         </Col>
-                        {/* <Col xl={2}>
-                          <Form.Group controlId="cgst">
-                            <Form.Label>
-                              CGST%<span className="text-danger">*</span>{" "}
-                            </Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="cgst"
-                              value={formValues.cgst}
-                              readOnly
-                            />
-                          </Form.Group>
-                        </Col>
-
-                        <Col xl={2}>
-                          <Form.Group controlId="sgst">
-                            <Form.Label>
-                              SGST%<span className="text-danger">*</span>
-                            </Form.Label>
-                            <Form.Control
-                              name="sgst"
-                              type="number"
-                              value={formValues.sgst}
-                              readOnly
-                            />
-                          </Form.Group>
-                        </Col>
-
-                        <Col xl={2}>
-                          <Form.Group controlId="igst">
-                            <Form.Label>
-                              IGST%<span className="text-danger">*</span>
-                            </Form.Label>
-                            <Form.Control
-                              name="igst"
-                              type="number"
-                              value={formValues.igst}
-                              readOnly
-                            />
-                          </Form.Group>
-                        </Col> */}
 
                         <Col xl={1}>
-                          <Button
-                            className="btn btn-primary mt-4"
-                            onClick={handelAddGodown}
-                          >
+                          <Button className="btn btn-primary mt-4" onClick={handelAddGodown}>
                             <AddIcon />
                           </Button>
                         </Col>
@@ -321,92 +181,62 @@ const TransferStockGodownToFr: React.FC = () => {
 
                     <Col xl={2}>
                       <Form.Group controlId="date">
-                        <Form.Label>
-                          Date<span className="text-danger">*</span>
-                        </Form.Label>
-                        <Form.Control
-                          type="date"
-                          name="date"
-                          value={formValues.date}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Form.Label>Date<span className="text-danger">*</span></Form.Label>
+                        <Form.Control type="date" name="date" value={formValues.date} onChange={handleChange} required />
                       </Form.Group>
                     </Col>
 
                     <Col xl={9}>
-                      <Form.Group controlId="date">
+                      <Form.Group controlId="narration">
                         <Form.Label>Narration</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="narration"
-                          value={formValues.narration}
-                          onChange={handleChange}
-                        />
+                        <Form.Control type="text" name="narration" value={formValues.narration} onChange={handleChange} />
                       </Form.Group>
                     </Col>
                   </Row>
 
                   <Row className="mt-4">
                     <Col>
-                      <Button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Submitting..." : "Submit"}
+                      <Button type="submit" className="btn btn-primary" disabled={isLoading}>
+                        {isLoading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}
                       </Button>
-                      {message && (
-                        <p
-                          className={`mt-3 ${
-                            message.includes("successfully")
-                              ? "text-success"
-                              : "text-danger"
-                          }`}
-                        >
-                          {message}
-                        </p>
-                      )}
+                      {/* {message && (
+                        <p className={`mt-3 ${message.includes("successfully") ? "text-success" : "text-danger"}`}>{message}</p>
+                      )} */}
                     </Col>
                   </Row>
                 </Form>
-                {formValues?.addGodownStockArray.length > 0 && (
+
+                {formValues.addGodownStockArray.length > 0 && (
                   <div className="table-responsive mt-4">
-                    <Table
-                      id="category-table"
-                      className="border text-nowrap text-md-nowrap table-hover mb-0"
-                    >
+                    <Table className="border text-nowrap text-md-nowrap table-hover mb-0">
                       <thead className="table-primary">
                         <tr>
                           <th>Product Name</th>
                           <th>Qty</th>
                           <th>Price</th>
                           <th>Total Price</th>
-                          <td>Action</td>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {formValues.addGodownStockArray.map(
-                          (item: any, idx: number) => (
-                            <tr key={idx}>
-                              <td>{item.productName}</td>
-                              <td>{item.stockInQty}</td>
-                              <td>{Number(item.productPrice).toFixed(2)}</td>
-                              <td>{Number(item.totalPrice).toFixed(2)}</td>
-                              <td>
-                                {" "}
-                                <button
-                                  className="avatar rounded-circle bg-pink cursor-pointer border-0"
-                                  onClick={() =>
-                                    handleRemoveGodownStock(Number(idx))
-                                  }
-                                >
-                                  <i className="bi bi-trash fs-15"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          )
-                        )}
+                        {formValues.addGodownStockArray.map((item: any, idx: number) => (
+                          <tr key={idx}>
+                            <td>{item.productName}</td>
+                            <td>{item.stockInQty}</td>
+                            <td>{Number(item.productPrice).toFixed(2)}</td>
+                            <td>{Number(item.totalPrice).toFixed(2)}</td>
+                            <td>
+                              <button className="avatar rounded-circle bg-pink cursor-pointer border-0" onClick={() => handleRemoveGodownStock(idx)}>
+                                <i className="bi bi-trash fs-15"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </Table>
                   </div>

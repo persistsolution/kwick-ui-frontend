@@ -65,10 +65,10 @@ const ViewGodownStock: FC = () => {
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                          classNamePrefix="Select2"
+                        //classNamePrefix="Select2"
                           options={
                             goDownList?.map((option: any) => ({
-                              label: option.Fname,
+                              label: option.full_name,
                               value: option.id,
                             })) || []
                           }
@@ -93,7 +93,7 @@ const ViewGodownStock: FC = () => {
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                          classNamePrefix="Select2"
+                          //classNamePrefix="Select2"
                           options={
                             goDownProductlist?.map((option: any) => ({
                               label: option.ProductName,
@@ -121,7 +121,7 @@ const ViewGodownStock: FC = () => {
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                          classNamePrefix="Select2"
+                          //classNamePrefix="Select2"
                           defaultValue={[categoryList[0]]}
                         />
                       </Form.Group>
@@ -136,7 +136,7 @@ const ViewGodownStock: FC = () => {
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                          classNamePrefix="Select2"
+                          //classNamePrefix="Select2"
                           defaultValue={[subcategoryList[0]]}
                         />
                       </Form.Group>
@@ -203,68 +203,68 @@ const ViewGodownStock: FC = () => {
 
                 <div className="table-responsive">
                   {loading ? (
-<SkeletonLoader loading={loading}/>
+                    <SkeletonLoader loading={loading} />
                   ) : (
-           <Table
-                    id="GodownAccount-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>Sr.No</th>
-                        <th onClick={() => handleSort("GoDownName")}>
-                          GoDown Name{" "}
-                        </th>
-                        <th onClick={() => handleSort("ShopName")}>
-                          Product Name
-                        </th>
-                        <th onClick={() => handleSort("date")}>Date </th>
-                        <th onClick={() => handleSort("Email")}>
-                          Stock In Qty{" "}
-                        </th>
-                        <th onClick={() => handleSort("price")}>Price </th>
-                        <th onClick={() => handleSort("totalPrice")}>
-                          Total Price
-                        </th>
-                        <th>Action</th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentviewGodownStock.length > 0 ? (
-                        currentviewGodownStock.map(
-                          (godowonStock: any, idx: number) => (
-                            <tr key={godowonStock.id}>
-                              <td>{idx + 1}</td>
-                              <td>{godowonStock.godown_name}</td>
-                              <td>{godowonStock.product_name}</td>
-                              <td>{godowonStock.stock_date}</td>
-                              <td>{godowonStock.qty_unit}</td>
-                              <td>{godowonStock.price}</td>
-                              <td>{godowonStock.total_price}</td>
-                              <td>
-                                <button className="btn btn-md btn-icon btn-info-light rounded-circle" >
-                                  <i className="bi bi-pencil-square"></i>
-                                </button>
-                                &nbsp; &nbsp;
-                                <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
-                                  <i className="bi bi-trash"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          )
-                        )
-                      ) : (
+                    <Table
+                      id="GodownAccount-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("id")}>Sr.No</th>
+                          <th onClick={() => handleSort("GoDownName")}>
+                            GoDown Name{" "}
+                          </th>
+                          <th onClick={() => handleSort("ShopName")}>
+                            Product Name
+                          </th>
+                          <th onClick={() => handleSort("date")}>Date </th>
+                          <th onClick={() => handleSort("Email")}>
+                            Stock In Qty{" "}
+                          </th>
+                          <th onClick={() => handleSort("price")}>Price </th>
+                          <th onClick={() => handleSort("totalPrice")}>
+                            Total Price
+                          </th>
+                          <th>Action</th>
+
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentviewGodownStock.length > 0 ? (
+                          currentviewGodownStock.map(
+                            (godowonStock: any, idx: number) => (
+                              <tr key={godowonStock.id}>
+                                <td>{idx + 1}</td>
+                                <td>{godowonStock.godown_name}</td>
+                                <td>{godowonStock.product_name}</td>
+                                <td>{godowonStock.stock_date}</td>
+                                <td>{godowonStock.qty_unit}</td>
+                                <td>{godowonStock.price}</td>
+                                <td>{godowonStock.total_price}</td>
+                                <td>
+                                  <button className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                    <i className="bi bi-pencil-square"></i>
+                                  </button>
+                                  &nbsp; &nbsp;
+                                  <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                    <i className="bi bi-trash"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            )
+                          )
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
                   )}
-       
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

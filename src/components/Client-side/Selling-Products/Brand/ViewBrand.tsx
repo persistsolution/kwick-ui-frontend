@@ -109,11 +109,11 @@ const ViewBrand: FC = () => {
 
 
                             <td>
-                            <button onClick={() => toggleEdit(Brand.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                            <button onClick={() => toggleEdit(Number(Brand.id))} className="btn btn-md btn-icon btn-info-light rounded-circle" >
                               <i className="bi bi-pencil-square"></i>
                             </button>
                             &nbsp; &nbsp;
-                            <button  onClick={() => handleDeleteProduct(Brand.id)}className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                            <button  onClick={() => handleDeleteProduct(Number(Brand.id))}className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
                               <i className="bi bi-trash"></i>
                             </button>
                           </td>

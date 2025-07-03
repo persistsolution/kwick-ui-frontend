@@ -1,8 +1,57 @@
 import { useState } from "react";
-import { createEmployeCreate } from "../../../api/Employe-Api/EmployeApi";
+import { createEmployeCreateApi } from "../../../api/Employe-Api/EmployeApi";
+
+interface AccessOption {
+  value: number;
+  label: string;
+}
+
+interface FormData {
+  employeeName: string;
+  permanentAddress: string;
+  password: string;
+  designation: string;
+  dateOfJoining: string;
+  perDaySalary: string;
+  resign: string;
+  resignDate: string;
+  resignComment: string;
+  mobileNo: string;
+  emailId: string;
+  address: string;
+  bankHolderName: string;
+  bankName: string;
+  accountNo: string;
+  branch: string;
+  ifscCode: string;
+  upiId: string;
+  anotherMobileNo: string;
+  Designation: string;
+  AdharNo: string;
+  dateOfJoning: string;
+  details: string;
+  status: string;
+  BankName: string;
+  AccountNo: number;
+  Branch: string;
+  IFSCCode: string;
+  UPIID: string;
+  BankAccountStatus: string;
+  photo: File | string;
+  roll: number;
+  photo2: File | string;
+  photo3: File | string;
+  CustomerId: string;
+  ColgId: string;
+  pincode: string;
+  areaId: string;
+  shopName: string;
+  lastName: string;
+  middleName: string;
+}
 
 const useAddEmployee = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     employeeName: "",
     permanentAddress: "",
     password: "",
@@ -43,13 +92,13 @@ const useAddEmployee = () => {
     areaId: "",
     shopName: "",
     lastName: "",
-    middleName: ""
+    middleName: "",
   });
 
   const [message, setMessage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const AdminAccess = [
+  const AdminAccess: AccessOption[] = [
     { value: 48, label: "Selling Product Category" },
     { value: 49, label: "Selling Product Sub Category" },
     { value: 50, label: "Selling Products" },
@@ -81,13 +130,13 @@ const useAddEmployee = () => {
     { value: 76, label: "Transfer Stock Godown To Franchise Report" },
   ];
 
-  const RightAccess = [
+  const RightAccess: AccessOption[] = [
     { value: 1, label: "Edit" },
     { value: 2, label: "Delete" },
     { value: 3, label: "Add" },
   ];
 
-  const franchiseOptions = [
+  const franchiseOptions: AccessOption[] = [
     { value: 56, label: "Franchise Account" },
     { value: 57, label: "Employee Account" },
     { value: 66, label: "Product Stock Report" },
@@ -105,14 +154,14 @@ const useAddEmployee = () => {
   ];
 
   const handleChange = (e: any) => {
-    const { name, value, files } = e.target;
+    const { name, value, files } = e.target as HTMLInputElement;
     setFormData((prev) => ({
       ...prev,
       [name]: files && files.length > 0 ? files[0] : value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
@@ -174,9 +223,9 @@ const useAddEmployee = () => {
         CocoFranchiseAccess: [],
       };
 
-      const response = await createEmployeCreate(Payload);
+      const response = await createEmployeCreateApi(Payload);
+
       if (response.status === 201) {
-        // setMessage("Employee added successfully!");
         setFormData({
           employeeName: "",
           permanentAddress: "",
@@ -218,121 +267,15 @@ const useAddEmployee = () => {
           areaId: "",
           shopName: "",
           lastName: "",
-          middleName: ""
+          middleName: "",
         });
-      } else {
-        // setMessage("Error: Failed to add Employee.");
       }
     } catch (err: any) {
       console.error("Error during Add Employee creation:", err);
-      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setMessage(null);
-  //   setIsLoading(true);
-  //   try {
-  //     const formDataObj = new FormData();
-  //       const safeAppend = (key: string, value: any) => {
-  //       if (value !== undefined && value !== null && value !== "") {
-  //         formDataObj.append(key, value);
-  //       }
-  //     };
-  //       safeAppend("CustomerId", formData.CustomerId || "0");
-  //     safeAppend("ColgId", formData.ColgId || "0");
-  //     safeAppend("ShopName", formData.shopName);
-  //     safeAppend("Fname", formData.employeeName);
-  //     safeAppend("Mname", formData.middleName);
-  //     safeAppend("Lname", formData.lastName);
-  //     safeAppend("Phone", formData.mobileNo);
-  //     safeAppend("Phone2", formData.anotherMobileNo);
-  //     safeAppend("EmailId", formData.emailId);
-  //     safeAppend("Password", formData.password);
-  //     safeAppend("perDaySalary", formData.perDaySalary);
-  //     safeAppend("CountryId", "0");
-  //     safeAppend("StateId", "0");
-  //     safeAppend("CityId", "0");
-  //     safeAppend("AreaId", formData.areaId || "0");
-  //     safeAppend("Address", formData.details);
-  //     safeAppend("Pincode", formData.pincode || "0");
-  //     safeAppend("Roll", formData.roll?.toString() || "0");
-  //     safeAppend("Status", formData.status || "0");
-  //     safeAppend("CreatedBy", "0");
-  //     safeAppend("ModifiedBy", "0");
-  //     safeAppend("CreatedDate", new Date().toISOString());
-  //     safeAppend("ModifiedDate", new Date().toISOString());
-
-  //     // File uploads (only if files are selected)
-  //     if (formData.photo) formDataObj.append("Photo", formData.photo);
-  //     if (formData.photo2) formDataObj.append("Photo2", formData.photo2);
-  //     if (formData.photo3) formDataObj.append("Photo3", formData.photo3);
-
-  //     const response = await createEmployeCreate(formDataObj);
-
-  //     if (response.status === 200) {
-  //       setMessage("Employee added successfully!");
-
-  //       // Reset form data
-  //       setFormData({
-  //         employeeName: "",
-  //         permanentAddress: "",
-  //         password: "",
-  //         designation: "",
-  //         dateOfJoining: "",
-  //         perDaySalary: "",
-  //         resign: "",
-  //         resignDate: "",
-  //         resignComment: "",
-  //         mobileNo: "",
-  //         emailId: "",
-  //         address: "",
-  //         bankHolderName: "",
-  //         bankName: "",
-  //         accountNo: "",
-  //         branch: "",
-  //         ifscCode: "",
-  //         upiId: "",
-  //         anotherMobileNo: "",
-  //         Designation: "",
-  //         AdharNo: "",
-  //         dateOfJoning: "",
-  //         details: "",
-  //         status: "",
-  //         BankName: "",
-  //         AccountNo: 0,
-  //         Branch: "",
-  //         IFSCCode: "",
-  //         UPIID: "",
-  //         BankAccountStatus: "",
-  //         photo: "",
-  //         roll: 63,
-  //         photo2: "",
-  //         photo3: "",
-  //         CustomerId:"",
-  //         ColgId:"",
-  //         pincode:"",
-  //         areaId:"",
-  //         shopName:"",
-  //         lastName:"",
-  //         middleName:""
-  //       });
-  //     } else {
-  //       setMessage("Error: Failed to add Employee.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error during Add Employee creation:", err);
-  //     setMessage("Network error. Please try again later.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-
-
 
   return {
     AdminAccess,

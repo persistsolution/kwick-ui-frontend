@@ -577,7 +577,7 @@ const defaultMenu: MenuItemtype[] = [
 
   // Set Target
   {
-    title: "Set Target",
+    title: "Target Complete",
     icon: pagesSvg,
     type: "sub",
     active: false,

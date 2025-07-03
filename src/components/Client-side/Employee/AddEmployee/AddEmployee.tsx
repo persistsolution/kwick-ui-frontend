@@ -88,11 +88,11 @@ const AddEmployee: React.FC = () => {
                       </Col>
 
                       <Col xl={4}>
-                        <Form.Group controlId="mobileNo">
+                        <Form.Group controlId="anotherMobileNo">
                           <Form.Label>Another Mobile No</Form.Label>
                           <Form.Control
                             type="number"
-                            name="mobileNo"
+                            name="anotherMobileNo"
                             placeholder="Enter Another Mobile No"
                             value={formData.anotherMobileNo}
                             onChange={handleChange}
@@ -198,7 +198,7 @@ const AddEmployee: React.FC = () => {
 
                       <Col xl={4}>
                         <Form.Group controlId="status ">
-                          <Form.Label>Status*</Form.Label>
+                          <Form.Label>Status <span className="text-danger ms-1">*</span></Form.Label>
                           <Form.Select
                             name="status"
                             value={formData.status}

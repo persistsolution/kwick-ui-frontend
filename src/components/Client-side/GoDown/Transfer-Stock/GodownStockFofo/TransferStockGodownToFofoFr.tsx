@@ -24,6 +24,7 @@ const TransferStockGodownToFofoFr: React.FC = () => {
     totalQty,
     totalGstAmt,
     totalAmt,
+    otherProductList,
     // selectGodownStockProduct,
     handleChange,
     handleSubmit,
@@ -60,13 +61,11 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                         <Select
                           name="goDownlist"
                           id="goDownlist"
-                          className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                          classNamePrefix="Select2"
                           options={
                             goDownList?.map((option: any) => ({
-                              label: option.Fname,
+                              label: option.full_name,
                               value: option.id,
                             })) || []
                           }
@@ -89,13 +88,11 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                         <Select
                           name="selectFranchise"
                           id="selectFranchise"
-                          className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                          classNamePrefix="Select2"
                           options={
                             franchisesList?.map((option: any) => ({
-                              label: option.Fname,
+                              label: option.full_name,
                               value: option.id,
                             })) || []
                           }
@@ -110,30 +107,30 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                       </Form.Group>
                     </Col>
 
-                    <Container className="fieldset border  mt-3">
-                      {/* <h4 className="legend">Godown Detail</h4> */}
+                    <Container className="fieldset border  col-12  mt-3">
                       <Row>
-                        <Col xl={6}>
-                          <Form.Group controlId="goDownProductlist">
+                        <Col xl={4}>
+                          <Form.Group controlId="otherProductList">
                             <Form.Label>
                               Product<span className="text-danger">*</span>
                             </Form.Label>
                             <Select
-                              name="goDownProductlist"
-                              id="goDownProductlist"
-                              className="basic-multi-select "
+                              name="otherProductList"
+                              id="otherProductList"
+                              // className="basic-multi-select "
                               isSearchable
                               menuPlacement="auto"
-                              classNamePrefix="Select2"
-                              options={
-                                goDownProductlist?.map((option: any) => ({
-                                  label: option.ProductName,
-                                  value: option.id,
-                                })) || []
-                              }
-                              onChange={(selectedOption) =>
-                                handlSelectGodownProductList(selectedOption)
-                              }
+                              // classNamePrefix="Select2"
+                              options={otherProductList.map((item: any) => ({
+                                label: item.ProductName,
+                                value: item.id,
+                                data: item,
+                              }))}
+                            onChange={(selectedOption: any) => {
+                                if (selectedOption) {
+                                  handlSelectGodownProductList(selectedOption.data);
+                                }
+                              }}
                               required
                             />
                           </Form.Group>
@@ -154,14 +151,14 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                           <Form.Group controlId="unit">
                             <Form.Label>Available Stock Unit</Form.Label>
                             <Form.Control
-                              type="number"
+                              type="text"
                               name="unit"
                               value={formValues.unit}
                               readOnly
                             />
                           </Form.Group>
                         </Col>
-                        <Col xl={2}>
+                        <Col xl={1}>
                           <Form.Group controlId="stockInQty">
                             <Form.Label>Qty</Form.Label>
                             <Form.Control
@@ -173,7 +170,7 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col xl={2}>
+                        <Col xl={1}>
                           <Form.Group controlId="qtyUnit">
                             <Form.Label>Qty Unit</Form.Label>
                             <Form.Control
@@ -354,9 +351,14 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                         className="btn btn-primary"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Submitting..." : "Submit"}
+                        {isLoading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}
                       </Button>
-                      {message && (
+                      {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -366,7 +368,7 @@ const TransferStockGodownToFofoFr: React.FC = () => {
                         >
                           {message}
                         </p>
-                      )}
+                      )} */}
                     </Col>
                   </Row>
                 </Form>

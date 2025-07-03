@@ -185,6 +185,7 @@ const useViewFranchise = () => {
     setfromDate,
     settodate,
     setloading,
+    handleFetchFranchises,
     setSelectFranchise,
     handleAddFranchise
   };

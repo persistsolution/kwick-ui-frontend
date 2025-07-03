@@ -24,8 +24,8 @@ const useViewTransferStockToOtherFr = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  const [fromDate, setfromDate] = useState<Date | any>();
-  const [toDate, settodate] = useState<Date | any>();
+  const [fromDate, setfromDate] = useState<Date | any>("");
+  const [toDate, settodate] = useState<Date | any>("");
   const [FranchiseList, setFranchiseList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

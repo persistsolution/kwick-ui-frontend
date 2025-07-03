@@ -640,9 +640,9 @@ const AddFranchise: React.FC = () => {
                           className="btn btn-primary"
                           disabled={isLoading}
                         >
-                          {isLoading ? "Saving..." : "Save"}
+                          {isLoading ? "Saving..." : "Submit"}
                         </Button>
-                        {message && (
+                        {/* {message && (
                           <p
                             className={`mt-3 ${
                               message.includes("successfully")
@@ -652,7 +652,7 @@ const AddFranchise: React.FC = () => {
                           >
                             {message}
                           </p>
-                        )}
+                        )} */}
                       </Col>
                     </Row>
                   </Col>

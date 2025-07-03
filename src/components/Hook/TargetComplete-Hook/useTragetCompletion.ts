@@ -1,60 +1,74 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { utils, writeFile } from "xlsx";
 import { TragetCompletionApi } from "../../api/SetTarget-Api/SetTargetApi";
 
-const useTragetCompletion = () => {
-  const [TargetCompletion, setTargetCompletion] = useState([]);
-  const [filteredTargetCompletion, setFilteredTargetCompletion] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [TargetCompletionPerPage, setTargetCompletionPerPage] = useState(5);
-  const [franchiseList, setfranchiseList] = useState([]);
-  const [categoryList, setcategoryList] = useState([]);
-  const [fromDate, setfromDate] = useState<any>();
-  const [toDate, settodate] = useState<any>();
-  const [sortConfig, setSortConfig] = useState<{
-    key: string | null;
-    direction: string;
-  }>({ key: null, direction: "asc" });
+// Define types
+interface TargetCompletionItem {
+  id: number;
+  Name: string;
+  [key: string]: any;
+}
 
-  const [formValues, setFormValues] = useState({
+interface FormValues {
+  month: string;
+  year: string;
+  photo?: string;
+  [key: string]: any;
+}
+
+interface SortConfig {
+  key: string | null;
+  direction: "asc" | "desc";
+}
+
+const useTragetCompletion = () => {
+  const [TargetCompletion, setTargetCompletion] = useState<TargetCompletionItem[]>([]);
+  const [filteredTargetCompletion, setFilteredTargetCompletion] = useState<TargetCompletionItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [TargetCompletionPerPage, setTargetCompletionPerPage] = useState<number>(5);
+  const [franchiseList, setfranchiseList] = useState<any[]>([]);
+  const [categoryList, setcategoryList] = useState<any[]>([]);
+  const [fromDate, setfromDate] = useState<Date | null>(null);
+  const [toDate, settodate] = useState<Date | null>(null);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: "asc",
+  });
+
+  const [formValues, setFormValues] = useState<FormValues>({
     month: "",
     year: "",
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     if (type === "file") {
       const target = e.target as HTMLInputElement;
-      const files: any = target.files;
+      const files = target.files;
       setFormValues((prevValues) => ({
         ...prevValues,
         [name]: files && files[0] ? files[0] : null,
       }));
-      const url = URL.createObjectURL(files[0]);
+      if (files && files[0]) {
+        const url = URL.createObjectURL(files[0]);
+        setFormValues((prev) => ({
+          ...prev,
+          photo: url,
+        }));
+      }
+    } else {
       setFormValues((prev) => ({
         ...prev,
-        photo: url,
-      }));
-    } else {
-      const updatedValues = {
-        ...formValues,
         [name]: value,
-      };
-
-      setFormValues(updatedValues);
+      }));
     }
   };
 
-useEffect(()=>{
-handleFetchTargetCompletion();
-},[])
-
   const handleFetchTargetCompletion = async () => {
-    const raw = {};
     try {
-      const response: any = await TragetCompletionApi(raw);
-      const data = response?.data?.data ||[] 
+      const response: any = await TragetCompletionApi({});
+      const data = response?.data?.data || [];
       setTargetCompletion(data);
       setFilteredTargetCompletion(data);
     } catch (error) {
@@ -62,32 +76,32 @@ handleFetchTargetCompletion();
     }
   };
 
+  useEffect(() => {
+    handleFetchTargetCompletion();
+  }, []);
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFilteredTargetCompletion(
-      TargetCompletion.filter(
-        (TargetCompletion: any) =>
-          TargetCompletion?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          TargetCompletion?.id?.toString().includes(term.toLowerCase())
-      )
+    const filtered = TargetCompletion.filter((item) =>
+      item?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+      item?.id?.toString().includes(term.toLowerCase())
     );
+    setFilteredTargetCompletion(filtered);
   };
 
   const handleSort = (key: string) => {
-    let direction = "asc";
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedTargetCompletion = [...filteredTargetCompletion].sort(
-      (a, b) => {
-        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-        return 0;
-      }
-    );
+    const sorted = [...filteredTargetCompletion].sort((a, b) => {
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
 
     setSortConfig({ key, direction });
-    setFilteredTargetCompletion(sortedTargetCompletion);
+    setFilteredTargetCompletion(sorted);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -96,11 +110,14 @@ handleFetchTargetCompletion();
 
   const exportToExcel = () => {
     const table = document.getElementById("TargetCompletion-table");
+    if (!table) return;
     const workbook = utils.table_to_book(table);
     writeFile(workbook, "TargetCompletion_data.xlsx");
   };
 
-  const getVisiblePages = () => {
+  const totalPages = Math.ceil(filteredTargetCompletion.length / TargetCompletionPerPage);
+
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -110,20 +127,14 @@ handleFetchTargetCompletion();
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   };
 
   const indexOfLastTargetCompletion = currentPage * TargetCompletionPerPage;
-  const indexOfFirstTargetCompletion =
-    indexOfLastTargetCompletion - TargetCompletionPerPage;
+  const indexOfFirstTargetCompletion = indexOfLastTargetCompletion - TargetCompletionPerPage;
   const currentTargetCompletion = filteredTargetCompletion.slice(
     indexOfFirstTargetCompletion,
     indexOfLastTargetCompletion
-  );
-  const totalPages = Math.ceil(
-    filteredTargetCompletion.length / TargetCompletionPerPage
   );
 
   return {

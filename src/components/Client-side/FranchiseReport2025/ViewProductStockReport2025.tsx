@@ -82,7 +82,7 @@ const ViewProductStockReport2025: FC = () => {
                                             <Form.Control
                                                 type="date"
                                                 value={fromDate || ""}
-                                                onChange={(date: any) => setfromDate(date)}
+                                                onChange={(e) => setfromDate(e.target.value)}
                                             />
                                         </Form.Group>
                                     </div>
@@ -93,7 +93,7 @@ const ViewProductStockReport2025: FC = () => {
                                             <Form.Control
                                                 value={toDate}
                                                 type="date"
-                                                onChange={(date: any) => settodate(date)}
+                                                onChange={(e) => settodate(e.target.value)}
                                             />
                                         </Form.Group>
                                     </div>
@@ -129,66 +129,66 @@ const ViewProductStockReport2025: FC = () => {
                                 </div>
 
                                 <div className="table-responsive">
-                                        {loading ? (
-                                                    <SkeletonLoader loading={loading} />
-                                                  ) : (
-                                    <Table
-                                        id="ProductStockReport2025-table"
-                                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                                    >
-                                        <thead className="table-primary">
-                                              <tr>
-                                                <th onClick={() => handleSort("srno")}>
-                                                    Sr No
-                                                </th>
-                                                <th onClick={() => handleSort("franchise")}>
-                                                    Franchise Name                                                
-                                                </th>
-                                                <th onClick={() => handleSort("productName")}>
-                                                    Product Name                                                
-                                                </th>
-                                                <th onClick={() => handleSort("cateName")}>
-                                                    Category Name                                                
-                                                </th>
-                                                <th onClick={() => handleSort("minQty")}>
-                                                    {" "}
-                                                    Min Qty                                                
-                                                </th>
-                                                <th onClick={() => handleSort("credit")}>
-                                                    Credit                                                
-                                                </th>
-                                                <th onClick={() => handleSort("debit")}>
-                                                    Debit                                                
-                                                </th>
-                                                <th onClick={() => handleSort("balance")}>
-                                                    Balance                                                
-                                                </th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentProductStockReport2025.length > 0 ? (
-                                                currentProductStockReport2025.map((ProductStockReport2025: any) => (
-                                                    <tr key={ProductStockReport2025.sr_no}>
-                                                        <td>{ProductStockReport2025?.sr_no}</td>
-                                                        <td>{ProductStockReport2025?.franchise_name}</td>
-                                                        <td>{ProductStockReport2025?.product_name}</td>
-                                                        <td>{ProductStockReport2025?.category_name}</td>
-                                                        <td>{ProductStockReport2025?.min_qty}</td>
-                                                        <td>{ProductStockReport2025?.credit}</td>
-                                                        <td>{ProductStockReport2025?.debit}</td>
-                                                        <td>{ProductStockReport2025?.balance}</td>
-                                                    </tr>
-                                                ))
-                                            ) : (
+                                    {loading ? (
+                                        <SkeletonLoader loading={loading} />
+                                    ) : (
+                                        <Table
+                                            id="ProductStockReport2025-table"
+                                            className="border text-nowrap text-md-nowrap table-hover mb-0"
+                                        >
+                                            <thead className="table-primary">
                                                 <tr>
-                                                    <td colSpan={3} className="text-center">
-                                                        No records found.
-                                                    </td>
+                                                    <th onClick={() => handleSort("srno")}>
+                                                        Sr No
+                                                    </th>
+                                                    <th onClick={() => handleSort("franchise")}>
+                                                        Franchise Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("productName")}>
+                                                        Product Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("cateName")}>
+                                                        Category Name
+                                                    </th>
+                                                    <th onClick={() => handleSort("minQty")}>
+                                                        {" "}
+                                                        Min Qty
+                                                    </th>
+                                                    <th onClick={() => handleSort("credit")}>
+                                                        Credit
+                                                    </th>
+                                                    <th onClick={() => handleSort("debit")}>
+                                                        Debit
+                                                    </th>
+                                                    <th onClick={() => handleSort("balance")}>
+                                                        Balance
+                                                    </th>
+
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>)}
+                                            </thead>
+                                            <tbody>
+                                                {currentProductStockReport2025.length > 0 ? (
+                                                    currentProductStockReport2025.map((ProductStockReport2025: any) => (
+                                                        <tr key={ProductStockReport2025.sr_no}>
+                                                            <td>{ProductStockReport2025?.sr_no}</td>
+                                                            <td>{ProductStockReport2025?.franchise_name}</td>
+                                                            <td>{ProductStockReport2025?.product_name}</td>
+                                                            <td>{ProductStockReport2025?.category_name}</td>
+                                                            <td>{ProductStockReport2025?.min_qty}</td>
+                                                            <td>{ProductStockReport2025?.credit}</td>
+                                                            <td>{ProductStockReport2025?.debit}</td>
+                                                            <td>{ProductStockReport2025?.balance}</td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan={3} className="text-center">
+                                                            No records found.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </Table>)}
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

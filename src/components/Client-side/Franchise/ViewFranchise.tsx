@@ -26,6 +26,7 @@ const ViewFranchise: FC = () => {
     handlePageChange,
     exportToExcel,
     handleDeleteFranchise,
+    handleFetchFranchises,
     handleEdit,
     getVisiblePages,
     setFranchisesPerPage,
@@ -84,7 +85,7 @@ const ViewFranchise: FC = () => {
                       <Form.Control
                         type="date"
                         value={fromDate || ""}
-                        onChange={(date: any) => setfromDate(date)}
+                        onChange={(e: any) => setfromDate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
@@ -95,13 +96,13 @@ const ViewFranchise: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: any) => settodate(date)}
+                        onChange={(e: any) => settodate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
 
                   <div className="col-md-2 col-12">
-                    <Button variant="success mt-4">Search </Button>
+                    <Button variant="success mt-4" onClick={handleFetchFranchises}>Search </Button>
                   </div>
 
                   <div className="col-md-6 col-12">

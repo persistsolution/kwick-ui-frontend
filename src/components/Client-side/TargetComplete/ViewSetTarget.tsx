@@ -45,10 +45,10 @@ const ViewSetTarget: FC = () => {
                       <Select
                         name="state"
                         options={accountList}
-                        className="basic-multi-select "
-                        isSearchable
-                        menuPlacement="auto"
-                        classNamePrefix="Select2"
+                        // className="basic-multi-select "
+                        // isSearchable
+                        // menuPlacement="auto"
+                        // classNamePrefix="Select2"
                         defaultValue={[accountList[0]]}
                       />
                     </Form.Group>

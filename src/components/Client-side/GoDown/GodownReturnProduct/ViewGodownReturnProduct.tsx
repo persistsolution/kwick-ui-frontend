@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGoDownReturnProduct from "../../../Hook/GoDown-Hook/GoDownReturnProduct/useGoDownReturnProduct";
 import { Link } from "react-router-dom";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewGodownReturnProduct: FC = () => {
   const {
@@ -13,6 +14,7 @@ const ViewGodownReturnProduct: FC = () => {
     currentPage,
     viewGodownReturnProductPerPage,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -73,7 +75,10 @@ const ViewGodownReturnProduct: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
+                  {loading ? (
+                    <SkeletonLoader loading={loading}/>
+                  ) : (
+    <Table
                     id="GodownAccount-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
@@ -145,6 +150,8 @@ const ViewGodownReturnProduct: FC = () => {
                       )}
                     </tbody>
                   </Table>
+                  )}
+              
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

@@ -43,9 +43,9 @@ export const deleteGodownStock = async (
   return axios.delete<void>(`${API_BASE_URL}/godownstock/delete/${id}`);
 };
 
-// Godown Stock To COCO Franchise
-export const godownStockToCOCOFrApi = async (
+// Add Godown Stock To COCO Franchise
+export const addGodownStockToCOCOFrApi = async (
   data: object
 ): Promise<AxiosResponse<void>> => {
-  return axios.delete<void>(`${API_BASE_URL}/godown/add-transfer-godwon-raw-stock-coco.php` , data);
+  return axios.post<void>(`${API_BASE_URL}/godown/add-transfer-godwon-raw-stock-coco.php` , data);
 };

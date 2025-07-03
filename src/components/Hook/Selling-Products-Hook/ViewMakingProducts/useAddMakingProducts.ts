@@ -39,7 +39,7 @@ interface ProductFormValues {
   selectedRawProduct: string;
   makingQty: string;
   unit: string;
-  rawProduct:string
+  rawProduct: string
 }
 type ProductItem = {
   makingProduct: string;
@@ -47,7 +47,7 @@ type ProductItem = {
   unit: string;
 };
 
- interface RawProduct {
+interface RawProduct {
   id: number;
   name: string;
   [key: string]: any;
@@ -86,7 +86,7 @@ const useAddMakingProductForm = () => {
     selectedRawProduct: "",
     makingQty: "",
     unit: "",
-    rawProduct:""
+    rawProduct: ""
   });
   const [rawProductArray, setRawProductArray] = useState<RawProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -102,16 +102,16 @@ const useAddMakingProductForm = () => {
     fetchGetProduct();
   }, []);
 
-    const fetchGetProduct = async (): Promise<void> => {
-      try {
-        const response: any = await fetchRawProducts();
-        const data: RawProduct[] = response?.data?.data || [];
+  const fetchGetProduct = async (): Promise<void> => {
+    try {
+      const response: any = await fetchRawProducts();
+      const data: RawProduct[] = response?.data?.data || [];
       setRawProductArray(data);
 
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const handelfetchBrand = async () => {
     try {
@@ -281,10 +281,10 @@ const useAddMakingProductForm = () => {
           code: "",
           brandList: prevValues.brandList,
         }));
-        console.log(makingProductArray , "makingProductArray")
+        console.log(makingProductArray, "makingProductArray")
         setMakingProductArray([])
         setLoading(false)
-navigate("/SellingProduct/ViewMakingProducts")
+        navigate("/SellingProduct/ViewMakingProducts")
       }
     } catch (error) {
       console.error("Error adding product:", error);
@@ -337,6 +337,13 @@ navigate("/SellingProduct/ViewMakingProducts")
       makingQty: formValues?.makingQty,
       unit: formValues?.unit,
     };
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      unit: "",
+      makingQty: "",
+      selectedRawProduct: ""
+    }));
+
     setMakingProductArray([...makingProductArray, addmakingProductArray]);
   };
 

@@ -9,7 +9,13 @@ interface SetTargetFormValues {
   setTargetAmount: number;
   qsrKitcSales: string;
   packFoodSales: string;
-  crossSalesQty: string
+  crossSalesQty: string;
+}
+
+interface FranchiseType {
+  id: string;
+  name: string;
+  [key: string]: any; 
 }
 
 const useSetTarget = () => {
@@ -19,59 +25,59 @@ const useSetTarget = () => {
     setTargetAmount: 0,
     qsrKitcSales: "",
     packFoodSales: "",
-    crossSalesQty: ""
+    crossSalesQty: "",
   });
-  const [franchise, setFranchise] = useState([]);
-  const [message, setMessage] = useState("");
-  const [isLoading, setisLoading] = useState(false);
-  const [franchisesList, setFranchisesList] = useState<any[]>([]);
-  const [selectedFranchise, setSelectFranchise] = useState("")
-  const navigate = useNavigate()
+
+  const [franchise, setFranchise] = useState<FranchiseType[]>([]);
+  const [message, setMessage] = useState<string>("");
+  const [isLoading, setisLoading] = useState<boolean>(false);
+  const [franchisesList, setFranchisesList] = useState<FranchiseType[]>([]);
+  const [selectedFranchise, setSelectFranchise] = useState<string>("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleFetchFranchises();
-  }, [])
+  }, []);
 
   const handleChange = (e: any) => {
-    const { name, value, type } = e.target;
-    if (type === "file") {
-      const target = e.target as HTMLInputElement;
-      const files: any = target.files;
+    const { name, value, type, files } = e.target as HTMLInputElement;
+
+    if (type === "file" && files) {
       setFormValues((prevValues) => ({
         ...prevValues,
-        [name]: files && files[0] ? files[0] : null,
+        [name]: files[0] || null,
       }));
+
       const url = URL.createObjectURL(files[0]);
       setFormValues((prev) => ({
         ...prev,
         photo: url,
       }));
     } else {
-      const updatedValues = {
-        ...formValues,
+      setFormValues((prevValues) => ({
+        ...prevValues,
         [name]: value,
-      };
-      setFormValues(updatedValues);
+      }));
     }
   };
-
 
   const handleFetchFranchises = async () => {
     try {
       const response: any = await fetchFranchiseApi();
-      const data = response?.data?.data || []
+      const data: FranchiseType[] = response?.data?.data || [];
       setFranchisesList(data);
     } catch (error) {
       console.error("Error fetching franchises:", error);
     }
   };
 
-
   const handelSetTarget = () => {
-  }
+    // Placeholder for future logic
+  };
 
   const handelAddSetTarget = async () => {
-    setisLoading(true)
+    setisLoading(true);
     const SetTargetData = {
       frid: selectedFranchise,
       month: formValues.month,
@@ -81,22 +87,23 @@ const useSetTarget = () => {
       packfood_target: formValues.packFoodSales,
       cross_sale_target: formValues.crossSalesQty,
     };
+
     try {
       const response: any = await createSetTargetAPi(SetTargetData);
-      if (response.status === 201) {
-        // setMessage("SetTarget added successfully!");
+      if (response.status === 200) {
         setFormValues({
           month: "",
           year: "",
           setTargetAmount: 0,
           qsrKitcSales: "",
           packFoodSales: "",
-          crossSalesQty: ""
+          crossSalesQty: "",
         });
-        setisLoading(false)
+        setisLoading(false);
+        navigate("/Target/ViewSetTarget");
       }
     } catch (error) {
-      setisLoading(false)
+      setisLoading(false);
       console.error("Error adding SetTarget:", error);
     }
   };
@@ -118,7 +125,7 @@ const useSetTarget = () => {
     setSelectFranchise,
     setFranchise,
     setisLoading,
-    handelSetTarget
+    handelSetTarget,
   };
 };
 

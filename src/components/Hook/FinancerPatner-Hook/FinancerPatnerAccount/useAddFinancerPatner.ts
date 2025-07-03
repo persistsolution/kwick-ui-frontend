@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFinancerPatnerApi } from "../../../api/FinancerPatner-Api/FinancerPatnerApi";
+import { useNavigate } from "react-router-dom";
 
 type AccessOption = {
   value: number;
@@ -81,6 +82,7 @@ const useAddFinancerPatner = () => {
 
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate= useNavigate();
 
   const AdminAccess: AccessOption[] = [
     { value: 48, label: "Selling Product Category" },
@@ -182,8 +184,8 @@ const useAddFinancerPatner = () => {
       };
 
       const response = await createFinancerPatnerApi(payload);
-      if (response.status === 201) {
-        setMessage("FinancerPatnerAccount added successfully!");
+      if (response.status === 200) {
+        // setMessage("FinancerPatnerAccount added successfully!");
         setFormData({
           FinancerPatnerAccountName: "",
           permanentAddress: "",
@@ -219,12 +221,13 @@ const useAddFinancerPatner = () => {
           roll: 63,
           commisionPercentage:""
         });
+        navigate("/FinancerPatner/ViewFinancerPatnerAccount")
       } else {
-        setMessage("Error: Failed to add Financer Patner Account.");
+        // setMessage("Error: Failed to add Financer Patner Account.");
       }
     } catch (err) {
       console.error("Error during Add Financer Patner Account creation:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }

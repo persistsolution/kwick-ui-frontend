@@ -16,9 +16,7 @@ import SkeletonLoader from "../../../../common/SkeletonLoader";
 import useFranchiseExpenseVsSaleReport from "../../../Hook/Dashboard-Hook/FranchiseExpenseVsSaleReport/useFranchiseExpenseVsSaleReport";
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
-
 Chart.register(...registerables);
-
 
 const FranchiseExpenseVsSaleReport: FC = () => {
     const {
@@ -177,11 +175,6 @@ const FranchiseExpenseVsSaleReport: FC = () => {
                                         </div>
                                     </Row>
                                 </Tab.Pane>
-
-
-
-
-
 
                                 {/* Graph Tab */}
                                 <Tab.Pane eventKey={2} className="fade" tabIndex={0}>

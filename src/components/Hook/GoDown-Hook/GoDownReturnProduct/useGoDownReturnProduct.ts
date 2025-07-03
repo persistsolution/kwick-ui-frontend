@@ -15,6 +15,7 @@ const useGoDownReturnProduct = () => {
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
+  const [loading, setloading] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -26,12 +27,15 @@ const useGoDownReturnProduct = () => {
   }
 
   const handleFetchviewGodownReturnProduct = async () => {
-    try { 
+    setloading(true)
+    try {
       const response: any = await fetchGodownReturnProductApi();
       const data = response?.data?.data || []
       setviewGodownReturnProduct(data);
       setFilteredviewGodownReturnProduct(data);
+      setloading(!data)
     } catch (error) {
+      setloading(false)
       console.error("Error fetching viewGodownReturnProduct:", error);
     }
   };
@@ -113,6 +117,7 @@ const useGoDownReturnProduct = () => {
     sortConfig,
     currentviewGodownReturnProduct,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

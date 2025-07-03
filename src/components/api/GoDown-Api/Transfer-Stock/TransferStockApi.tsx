@@ -54,10 +54,10 @@ export const deleteTransferStockToOtherFr = async (
 export const fetchGodownPendingRequestApi = async (): Promise<
   AxiosResponse<any[]>
 > => {
-  return axios.get<any[]>(`${API_BASE_URL}/godown/approve-request-product-stock.php`);
+  return axios.get<any[]>(`${API_BASE_URL}/godown/pending-request-product-stock.php`);
 };
 
-// Pending Approve GoDown API
+//  Approve GoDown API
 export const fetchGodownApproveRequestApi = async (): Promise<
   AxiosResponse<any[]>
 > => {

@@ -51,8 +51,6 @@ const ViewTransferStockToCocoFr: FC = () => {
                         <Card>
                             <Card.Body>
                                 <div className="row align-items-center g-2 mb-3">
-
-
                                     <div className="col-md-3 col-12">
                                         <Form.Label>Select Franchise</Form.Label>
                                         <Form.Group>
@@ -75,28 +73,29 @@ const ViewTransferStockToCocoFr: FC = () => {
                                         </Form.Group>
                                     </div>
 
-
                                     <div className="col-md-2 col-6">
                                         <Form.Group controlId="fromDate">
                                             <Form.Label>From Date</Form.Label>
                                             <Form.Control
                                                 type="date"
                                                 value={fromDate}
-                                                onChange={(date: any) => setfromDate(date)}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setfromDate(e.target.value)}
                                             />
                                         </Form.Group>
                                     </div>
 
+
                                     <div className="col-md-2 col-6">
                                         <Form.Group controlId="toDate">
-                                            <Form.Label> To Date</Form.Label>
+                                            <Form.Label>To Date</Form.Label>
                                             <Form.Control
-                                                value={toDate}
                                                 type="date"
-                                                onChange={(date: any) => settodate(date)}
+                                                value={toDate}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => settodate(e.target.value)}
                                             />
                                         </Form.Group>
                                     </div>
+
 
 
                                     <div className="col-md-6 col-12">

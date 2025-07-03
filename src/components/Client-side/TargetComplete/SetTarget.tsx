@@ -7,7 +7,7 @@ import Select, { SingleValue } from "react-select";
 
 interface FranchiseOption {
   label: string;
-  value: number | string;
+  value: string | number;
 }
 
 interface Franchise {
@@ -46,7 +46,7 @@ const SetTarget: React.FC = () => {
                 <Form onSubmit={handleSubmit}>
                   {/* <Container> */}
                   <Row className="gy-4">
-                    <Col xl={12}>
+                    <Col xl={4}>
                       <Form.Group controlId="franchise">
                         <Form.Label>Franchise <span className="text-danger ms-1">*</span></Form.Label>
                         <Select
@@ -54,23 +54,20 @@ const SetTarget: React.FC = () => {
                           name="franchiseList"
                           value={
                             franchisesList
-                              ?.map((option: Franchise): FranchiseOption => ({
+                              ?.map((option): FranchiseOption => ({
                                 label: option.full_name,
                                 value: option.id,
                               }))
                               .find((option) => option.value === selectedFranchise) || null
                           }
-                          options={
-                            franchisesList?.map((option: Franchise): FranchiseOption => ({
-                              label: option.full_name,
-                              value: option.id,
-                            })) || []
-                          }
-                          onChange={(selectedOption: SingleValue<FranchiseOption>) => {
+                          options={franchisesList?.map((option): FranchiseOption => ({
+                            label: option.full_name,
+                            value: option.id,
+                          }))}
+                          onChange={(selectedOption: any) => {
                             setSelectFranchise(selectedOption ? selectedOption.value : "");
                           }}
                           isSearchable
-                          required
                         />
                       </Form.Group>
                     </Col>
@@ -130,7 +127,7 @@ const SetTarget: React.FC = () => {
                     </Col>
 
 
-                      <Col xl={2}>
+                    <Col xl={2}>
                       <Form.Group controlId="qsrKitcSales">
                         <Form.Label>QSR KITCHEN SALES (%) <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
@@ -143,7 +140,7 @@ const SetTarget: React.FC = () => {
                     </Col>
 
 
-                      <Col xl={2}>
+                    <Col xl={2}>
                       <Form.Group controlId="setTargetAmount">
                         <Form.Label>PACK FOOD SALES (%)  <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control
@@ -156,7 +153,7 @@ const SetTarget: React.FC = () => {
                     </Col>
 
 
-                      <Col xl={2}>
+                    <Col xl={2}>
                       <Form.Group controlId="crossSalesQty">
                         <Form.Label>CROSS SALES (Qty) <span className="text-danger ms-1">*</span></Form.Label>
                         <Form.Control

@@ -62,7 +62,7 @@ const TragetCompletion: React.FC = () => {
                     </Col>
                     <Col xl={3}>
                       <Form.Group controlId="name">
-                        <Form.Label>Month*</Form.Label>
+                        <Form.Label>Month<span className="text-danger">*</span></Form.Label>
                         <Form.Select
                           name="month"
                           value={formValues.month}
@@ -88,7 +88,7 @@ const TragetCompletion: React.FC = () => {
 
                     <Col xl={3}>
                       <Form.Group controlId="name">
-                        <Form.Label>Year*</Form.Label>
+                        <Form.Label>Year<span className="text-danger">*</span></Form.Label>
                         <Form.Select
                           name="year"
                           value={formValues.year}

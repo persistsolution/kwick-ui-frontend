@@ -3,6 +3,7 @@ import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 //import Pageheader from "../../../layouts/Component/PageHeader/PageHeader";
 // import Select from "react-select";
 import useTargetCompletionReport from "../../Hook/TargetComplete-Hook/useTargetCompletionReport";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 const ViewTargetCompletionReport: React.FC = () => {
   const {
@@ -12,6 +13,7 @@ const ViewTargetCompletionReport: React.FC = () => {
     // searchTerm,
     currentPage,
     TargetCompletionReportPerPage,
+    currentTargetCompletionReport,
     totalPages,
     // franchiseList,
     // categoryList,
@@ -21,6 +23,7 @@ const ViewTargetCompletionReport: React.FC = () => {
     // setfromDate,
     // settodate,
     formValues,
+    loading,
     handleSort,
     handlePageChange,
     exportToExcel,
@@ -48,7 +51,7 @@ const ViewTargetCompletionReport: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={3}>
                       <Form.Group controlId="name">
-                        <Form.Label>Month*</Form.Label>
+                        <Form.Label>Month <span className="text-danger">*</span></Form.Label>
                         <Form.Select
                           name="month"
                           value={formValues.month}
@@ -74,7 +77,7 @@ const ViewTargetCompletionReport: React.FC = () => {
 
                     <Col xl={3}>
                       <Form.Group controlId="name">
-                        <Form.Label>Year*</Form.Label>
+                        <Form.Label>Year <span className="text-danger">*</span></Form.Label>
                         <Form.Select
                           name="year"
                           value={formValues.year}
@@ -125,41 +128,64 @@ const ViewTargetCompletionReport: React.FC = () => {
                     </div>
 
                     <div className="table-responsive">
-                      <Table
-                        id="TradetCompletionReport-table"
-                        className="border text-nowrap text-md-nowrap table-hover mb-0"
-                      >
-                        <thead className="table-primary">
-                          <tr>
-                            <th onClick={() => handleSort("id")}>Sr No.</th>
-                            <th onClick={() => handleSort("franchisename")}>
-                              Franchise Name
-                            </th>
-                            <th onClick={() => handleSort("target")}>
-                              Target{" "}
-                            </th>
-                            <th onClick={() => handleSort("totalAmount")}>
-                              Total Amount{" "}
-                            </th>
-                            <th onClick={() => handleSort("Percentage")}>
-                              Percentage{" "}
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {TargetCompletionReport.length > 0 ? (
-                            TargetCompletionReport.map((franchise: any) => (
-                              <tr key={franchise.id}></tr>
-                            ))
-                          ) : (
+                      {loading ? (
+                        <SkeletonLoader loading={loading} />
+                      ) : (
+                        <Table
+                          id="TradetCompletionReport-table"
+                          className="border text-nowrap text-md-nowrap table-hover mb-0"
+                        >
+                          <thead className="table-primary">
                             <tr>
-                              <td colSpan={3} className="text-center">
-                                No records found.
-                              </td>
+                              <th onClick={() => handleSort("id")}>Sr No.</th>
+                              <th onClick={() => handleSort("franchisename")}>
+                                Franchise Name
+                              </th>
+                              <th onClick={() => handleSort("franchisename")}>
+                                Zone
+                              </th>
+                              <th onClick={() => handleSort("franchisename")}>
+                                Sub Zone
+                              </th>
+                              <th onClick={() => handleSort("franchisename")}>
+                                Yesterday Sale (FTD)
+                              </th>
+                              <th onClick={() => handleSort("target")}>
+                                Target{" "}
+                              </th>
+                              <th onClick={() => handleSort("totalAmount")}>
+                                Total Amount{" "}
+                              </th>
+                              <th onClick={() => handleSort("Percentage")}>
+                                Percentage{" "}
+                              </th>
                             </tr>
-                          )}
-                        </tbody>
-                      </Table>
+                          </thead>
+                          <tbody>
+                            {currentTargetCompletionReport.length > 0 ? (
+                              currentTargetCompletionReport.map((data: any) => (
+                                <tr key={data.sr_no}>
+                                  <td>{data.sr_no}</td>
+                                  <td>{data.shop_name}</td>
+                                  <td>{data.zone}</td>
+                                  <td>{data.subzone}</td>
+                                  <td>{data.yesterday_sales}</td>
+                                  <td>{data.target}</td>
+                                  <td>{Number(data.total_sales).toFixed(2)}</td>
+                                  <td>{data.achievement_percent}</td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={3} className="text-center">
+                                  No records found.
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </Table>
+                      )}
+
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -173,9 +199,8 @@ const ViewTargetCompletionReport: React.FC = () => {
                       </div>
                       <ul className="pagination pagination-sm mt-2 mt-md-0">
                         <li
-                          className={`page-item ${
-                            currentPage === 1 ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === 1 ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -186,9 +211,8 @@ const ViewTargetCompletionReport: React.FC = () => {
                           </button>
                         </li>
                         <li
-                          className={`page-item ${
-                            currentPage === 1 ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === 1 ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -201,9 +225,8 @@ const ViewTargetCompletionReport: React.FC = () => {
                         {getVisiblePages().map((pageNumber) => (
                           <li
                             key={pageNumber}
-                            className={`page-item ${
-                              currentPage === pageNumber ? "active" : ""
-                            }`}
+                            className={`page-item ${currentPage === pageNumber ? "active" : ""
+                              }`}
                           >
                             <button
                               className="page-link"
@@ -214,9 +237,8 @@ const ViewTargetCompletionReport: React.FC = () => {
                           </li>
                         ))}
                         <li
-                          className={`page-item ${
-                            currentPage === totalPages ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -227,9 +249,8 @@ const ViewTargetCompletionReport: React.FC = () => {
                           </button>
                         </li>
                         <li
-                          className={`page-item ${
-                            currentPage === totalPages ? "disabled" : ""
-                          }`}
+                          className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
