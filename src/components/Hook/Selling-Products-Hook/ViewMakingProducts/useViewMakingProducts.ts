@@ -51,7 +51,7 @@ const useViewMakingProducts = () => {
     setFilteredProductArray(
       ProductArray.filter(
         (product: ProductType) =>
-          product?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          product?.ProductName?.toLowerCase().includes(term.toLowerCase()) ||
           product?.id?.toString().includes(term)
       )
     );

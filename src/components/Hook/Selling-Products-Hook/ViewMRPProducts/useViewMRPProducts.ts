@@ -58,7 +58,7 @@ const useViewMRPProducts = () => {
     setFilteredProductArray(
       ProductArray.filter(
         (product) =>
-          product?.Name?.toLowerCase().includes(lowerCaseTerm) ||
+          product?.ProductName?.toLowerCase().includes(lowerCaseTerm) ||
           product?.id?.toString().includes(lowerCaseTerm)
       )
     );

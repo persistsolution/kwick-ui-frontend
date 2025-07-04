@@ -22,12 +22,17 @@ const ViewGodownStock: FC = () => {
     goDownProductlist,
     currentviewGodownStock,
     loading,
+    selectedCategory,
+    selectSubCategory,
+    setSelectSubCategory,
+    setSelectCategory,
     // selectGodownStockProduct,
     // selectGodown,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
+    handleFetchviewGodownStock,
     // handleDeleteGodownStock,
     // handleEdit,
     getVisiblePages,
@@ -65,7 +70,7 @@ const ViewGodownStock: FC = () => {
                           className="basic-multi-select "
                           isSearchable
                           menuPlacement="auto"
-                        //classNamePrefix="Select2"
+                          //classNamePrefix="Select2"
                           options={
                             goDownList?.map((option: any) => ({
                               label: option.full_name,
@@ -116,13 +121,21 @@ const ViewGodownStock: FC = () => {
                       <Form.Group controlId="categoryList">
                         <Form.Label>Category </Form.Label>
                         <Select
-                          name="state"
+                          id="selectCategory"
+                          name="selectCategory"
+                          value={
+                            categoryList.find(
+                              (option: any) => option.id.toString() === selectedCategory
+                            ) || null
+                          }
                           options={categoryList}
-                          className="basic-multi-select "
+                          getOptionLabel={(option) => option.Name}
+                          getOptionValue={(option) => option.id.toString()}
+                          onChange={(selectedOption: any) => {
+                            setSelectCategory(selectedOption ? selectedOption.id.toString() : "");
+                          }}
+                          required
                           isSearchable
-                          menuPlacement="auto"
-                          //classNamePrefix="Select2"
-                          defaultValue={[categoryList[0]]}
                         />
                       </Form.Group>
                     </div>
@@ -131,13 +144,21 @@ const ViewGodownStock: FC = () => {
                       <Form.Group controlId="subcategoryList">
                         <Form.Label>Sub Category </Form.Label>
                         <Select
-                          name="state"
+                          id="selectSubCategory"
+                          name="selectSubCategory"
+                          value={
+                            subcategoryList.find(
+                              (option: any) => option.sr_no.toString() === selectSubCategory
+                            ) || null
+                          }
                           options={subcategoryList}
-                          className="basic-multi-select "
+                          getOptionLabel={(option) => option.subcategory_name}
+                          getOptionValue={(option) => option.sr_no.toString()}
+                          onChange={(selectedOption: any) => {
+                            setSelectSubCategory(selectedOption ? selectedOption.sr_no.toString() : "");
+                          }}
+                          required
                           isSearchable
-                          menuPlacement="auto"
-                          //classNamePrefix="Select2"
-                          defaultValue={[subcategoryList[0]]}
                         />
                       </Form.Group>
                     </div>
@@ -148,7 +169,7 @@ const ViewGodownStock: FC = () => {
                         <Form.Control
                           value={fromDate}
                           type="date"
-                          onChange={(date: Date | any) => setfromDate(date)}
+                          onChange={(e) => setfromDate(e.target.value)}
                         />
                       </Form.Group>
                     </div>
@@ -159,12 +180,12 @@ const ViewGodownStock: FC = () => {
                         <Form.Control
                           value={toDate}
                           type="date"
-                          onChange={(date: Date | any) => settodate(date)}
+                          onChange={(e) => settodate(e.target.value)}
                         />
                       </Form.Group>
                     </div>
 
-                    <div className="col-md-2 col-12">
+                    <div className="col-md-2 col-12" onClick={handleFetchviewGodownStock}>
                       <Button variant="success mt-4">Search </Button>
                     </div>
                   </div>

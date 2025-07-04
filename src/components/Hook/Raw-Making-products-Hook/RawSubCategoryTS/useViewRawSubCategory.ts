@@ -48,7 +48,6 @@ const useViewRawSubCategory = () => {
       setSubCategories(data);
       setFilteredSubCategories(data);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error("Error fetching subcategories:", error);
     } finally {
       setLoading(false);
@@ -67,7 +66,7 @@ const useViewRawSubCategory = () => {
     setFilteredSubCategories(
       subcategories.filter(
         (s :any) =>
-          s.name.toLowerCase().includes(lower) ||
+          s.Name.toLowerCase().includes(lower) ||
           s.id.toString().includes(lower)
       )
     );

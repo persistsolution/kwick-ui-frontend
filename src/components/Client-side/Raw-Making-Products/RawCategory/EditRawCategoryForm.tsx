@@ -108,7 +108,7 @@ const EditRawCategoryFrom: React.FC<EditRawCategoryFromProps> = ({
                       >
                         {isLoading ? "Submitting..." : "Submit"}
                       </Button>
-                      {message && (
+                      {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -118,7 +118,7 @@ const EditRawCategoryFrom: React.FC<EditRawCategoryFromProps> = ({
                         >
                           {message}
                         </p>
-                      )}
+                      )} */}
                     </Col>
                   </Row>
                 </div>

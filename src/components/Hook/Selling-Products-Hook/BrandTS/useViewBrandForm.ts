@@ -67,7 +67,7 @@ const useViewBrandForm = () => {
     setFilteredBrand(
       Brand.filter(
         (b) =>
-          b?.Name?.toLowerCase().includes(lowerTerm) ||
+          b?.name?.toLowerCase().includes(lowerTerm) ||
           b?.id?.toString().includes(lowerTerm)
       )
     );

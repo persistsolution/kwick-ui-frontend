@@ -2,53 +2,39 @@ import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { useNavigate } from "react-router-dom";
 
+// Define type for Allocate Product (update as per actual API shape)
+interface AllocateProduct {
+  id: number;
+  Name: string;
+  [key: string]: any;
+}
+
+interface FranchiseOption {
+  id: number | string;
+  label: string;
+}
+
 const useAllocateProductsVendor = () => {
-  const [allocateProducts, setallocateProducts] = useState([]);
-  const [filteredallocateProducts, setFilteredallocateProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [allocateProductsPerPage, setallocateProductsPerPage] = useState(5);
-  // const [franchiseList , setfranchiseList]= useState([])
-  // const [franchiseList] = useState([]);
-  const [fromDate, setfromDate] = useState<Date | any>();
-  const [toDate, settodate] = useState<Date | any>();
+  const [allocateProducts, setallocateProducts] = useState<AllocateProduct[]>([]);
+  const [filteredallocateProducts, setFilteredallocateProducts] = useState<AllocateProduct[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [allocateProductsPerPage, setallocateProductsPerPage] = useState<number>(5);
+  const [fromDate, setfromDate] = useState<Date | any>(null);
+  const [toDate, settodate] = useState<Date | any>(null);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
-    direction: string;
+    direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
-  // const [modal, setModal] = useState(false);
-  // const [allocateProductsEditId, setallocateProductsEditId] = useState(0);
+
   const navigate = useNavigate();
 
-  const franchiseList = [
-    {
-      id: "all",
-      label: "All",
-    },
-    {
-      id: 1,
-      label: "COCO Franchise",
-    },
-
-    {
-      id: 2,
-      label: "FOFO Franchise",
-    },
-    {
-      id: 0,
-      label: "Other Franchise ",
-    },
+  const franchiseList: FranchiseOption[] = [
+    { id: "all", label: "All" },
+    { id: 1, label: "COCO Franchise" },
+    { id: 2, label: "FOFO Franchise" },
+    { id: 0, label: "Other Franchise" },
   ];
-
-  // const toggle = (id: any) => {
-  //   setModal(!modal);
-  //   setallocateProductsEditId(id);
-  //   if (typeof id === "number") {
-  //     localStorage.setItem("AllocateProductsVendorId", id.toString());
-  //   } else {
-  //     localStorage.removeItem("AllocateProductsVendorId");
-  //   }
-  // };
 
   useEffect(() => {
     handelfetchallocateProducts();
@@ -56,8 +42,8 @@ const useAllocateProductsVendor = () => {
 
   const handelfetchallocateProducts = async () => {
     try {
-      const response: any = await ""
-      const data = response.data || []
+      const response: any = await ""; // Replace with actual API call
+      const data: AllocateProduct[] = response?.data || [];
       setallocateProducts(data);
       setFilteredallocateProducts(data);
     } catch (error) {
@@ -73,28 +59,26 @@ const useAllocateProductsVendor = () => {
     setSearchTerm(term);
     setFilteredallocateProducts(
       allocateProducts.filter(
-        (AllocateProductsVendor: any) =>
-          AllocateProductsVendor?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          AllocateProductsVendor?.id?.toString().includes(term.toLowerCase())
+        (item) =>
+          item?.Fname?.toLowerCase().includes(term.toLowerCase()) ||
+          item?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
 
   const handleSort = (key: string) => {
-    let direction = "asc";
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedallocateProducts = [...filteredallocateProducts].sort(
-      (a, b) => {
-        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-        return 0;
-      }
-    );
+    const sorted = [...filteredallocateProducts].sort((a, b) => {
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
 
     setSortConfig({ key, direction });
-    setFilteredallocateProducts(sortedallocateProducts);
+    setFilteredallocateProducts(sorted);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -103,11 +87,13 @@ const useAllocateProductsVendor = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("AllocateProductsVendor-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "AllocateProductsVendor_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "AllocateProductsVendor_data.xlsx");
+    }
   };
 
-  const getVisiblePages = () => {
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -117,21 +103,16 @@ const useAllocateProductsVendor = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
 
   const indexOfLastAllocateProductsVendor = currentPage * allocateProductsPerPage;
-  const indexOfFirstAllocateProductsVendor =
-    indexOfLastAllocateProductsVendor - allocateProductsPerPage;
+  const indexOfFirstAllocateProductsVendor = indexOfLastAllocateProductsVendor - allocateProductsPerPage;
   const currentallocateProducts = filteredallocateProducts.slice(
     indexOfFirstAllocateProductsVendor,
     indexOfLastAllocateProductsVendor
   );
-  const totalPages = Math.ceil(
-    filteredallocateProducts.length / allocateProductsPerPage
-  );
+  const totalPages = Math.ceil(filteredallocateProducts.length / allocateProductsPerPage);
 
   return {
     indexOfLastAllocateProductsVendor,
@@ -154,9 +135,6 @@ const useAllocateProductsVendor = () => {
     getVisiblePages,
     setallocateProductsPerPage,
     handelNavigateAllocatedProduct,
-    // toggle,
-    // modal,
-    // allocateProductsEditId,
     handelfetchallocateProducts,
     setfromDate,
     settodate,

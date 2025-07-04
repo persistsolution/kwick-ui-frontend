@@ -55,7 +55,7 @@ const useViewOtherProduct = () => {
     setFilteredOtherProductArray(
       OtherProductArray.filter(
         (product) =>
-          product?.Name?.toLowerCase().includes(lowerTerm) ||
+          product?.ProductName?.toLowerCase().includes(lowerTerm) ||
           product?.id?.toString().includes(lowerTerm)
       )
     );

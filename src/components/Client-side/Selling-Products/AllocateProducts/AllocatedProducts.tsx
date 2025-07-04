@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Form, Button } from "react-bootstrap";
 // import Select from "react-select";
 import useAllocatedProducts from "../../../Hook/Selling-Products-Hook/AllocateProductsTS/useAllocatedProducts";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const AllocatedProducts: FC = () => {
   const {
@@ -17,6 +18,7 @@ const AllocatedProducts: FC = () => {
     // fromDate,
     // toDate,
     currentallocateProducts,
+    loading,
     // categories,
     // subCategory,
     handleSearch,
@@ -77,7 +79,10 @@ const AllocatedProducts: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
+                  {loading ? (
+<SkeletonLoader loading={loading}/>
+                  ): (
+  <Table
                     id="AllocateProducts-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
@@ -151,6 +156,8 @@ const AllocatedProducts: FC = () => {
                       )}
                     </tbody>
                   </Table>
+                  )}
+                
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

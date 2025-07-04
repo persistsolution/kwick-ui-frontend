@@ -124,7 +124,7 @@ const RawAddSubCategory: React.FC<AddRawSubCategoryFromProps> = ({
                       >
                         {isLoading ? "Submitting..." : "Submit"}
                       </Button>
-                      {message && (
+                      {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -134,7 +134,7 @@ const RawAddSubCategory: React.FC<AddRawSubCategoryFromProps> = ({
                         >
                           {message}
                         </p>
-                      )}
+                      )} */}
                     </Col>
                   </Row>
                 </div>

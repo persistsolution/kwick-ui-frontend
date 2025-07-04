@@ -7,6 +7,8 @@ import {
 } from "../../../api/GoDown-Api/GodownStock/GodownStockApi";
 import { useNavigate } from "react-router-dom";
 import { fetchGodownApi } from "../../../api/GoDown-Api/CreateGoDown/CreateGoDownApi";
+import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
+import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 
 const useViewGodownStock = () => {
   const [viewGodownStock, setviewGodownStock] = useState([]);
@@ -27,12 +29,16 @@ const useViewGodownStock = () => {
   const [selectGodownStockProduct, setselectGodownStockProduct] = useState(0);
   const [selectGodown, setselectGodown] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [selectedCategory,setSelectCategory]= useState("");
+  const [selectSubCategory,setSelectSubCategory,]= useState("");
   const navigate = useNavigate()
 
   useEffect(() => {
     handleFetchviewGodownStock();
     handleFetchGodownPord();
     fetchGodownList();
+    handelfetchCategories();
+    handelfetchSubCategories();
   }, []);
 
   const fetchGodownList = async () => {
@@ -45,9 +51,30 @@ const useViewGodownStock = () => {
     }
   };
 
+
+    const handelfetchSubCategories = async () => {
+      try {
+        const response :any = await fetchSubCategories();
+        const data: any = response?.data?.data || [];
+        setsubcategoryList(data)
+      } catch (error) {
+        console.error("Error fetching subcategories:", error);
+      }
+    };
+
   const handleAddNewStock = () => {
     navigate("/GoDown/AddGodownStock")
   }
+
+    const handelfetchCategories = async () => {
+      try {
+        const response :any = await fetchCategories();
+        const data: any = response?.data?.data || [];
+        setcategoryList(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
   const handleFetchGodownPord = async () => {
     try {
@@ -181,11 +208,16 @@ const useViewGodownStock = () => {
     selectGodownStockProduct,
     selectGodown,
     loading,
+    selectedCategory,
+    selectSubCategory,
+    setSelectSubCategory,
+    setSelectCategory,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
     handleDeleteGodownStock,
+    handleFetchviewGodownStock,
     handleEdit,
     getVisiblePages,
     setviewGodownStockPerPage,

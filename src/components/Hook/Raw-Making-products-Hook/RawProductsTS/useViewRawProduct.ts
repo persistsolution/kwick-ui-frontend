@@ -56,7 +56,7 @@ const useViewRawProduct = () => {
     setFilteredProductArray(
       ProductArray.filter(
         (product) =>
-          product?.name?.toLowerCase().includes(lower) ||
+          product?.ProductName?.toLowerCase().includes(lower) ||
           product?.id?.toString().includes(lower)
       )
     );

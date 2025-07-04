@@ -5,7 +5,6 @@ import useViewSubCategory from "../../../Hook/Selling-Products-Hook/SubCategoryT
 import EditSubCategoryFormModal from "./EditSubCategoryFormModal";
 import AddSubCategoryFormModal from "./AddSubCategoryFormModal";
 import SkeletonLoader from "../../../../common/SkeletonLoader";
-import DeleteAlert from "../../../../common/DeleteAlert";
 
 interface ComponentProps { }
 

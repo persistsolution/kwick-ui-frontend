@@ -52,7 +52,7 @@ const useRawEditCategory = ({
 
     try {
       const response: any = await fetchByIdRawCategory(Number(id));
-      const responceData = response.data;
+      const responceData = response?.data?.data;
       if (response.status === 200) {
         setFormData((prev) => ({
           ...prev,
@@ -88,96 +88,34 @@ const useRawEditCategory = ({
     // }
   };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setMessage(null);
-  //   setIsLoading(true);
-
-  //   const raw = {
-  //     Name: formData.categoryName,
-  //     Icon: formData.icon,
-  //     Photo: formData.photo,
-  //     Photo2: formData.photo2,
-  //     Featured: formData.featured,
-  //     ProdType: Number(formData.prodtype),
-  //     Status: Number(formData.status),
-  //     srno: Number(formData.categorySrno),
-  //     CreatedDate: formData.createddate,
-  //     ModifiedDate: formData.modifieddate,
-  //     Roll: Number(formData.roll),
-  //     CreatedBy: formData.createdby,
-  //     push_flag: formData.push_flag ? 1 : 0,
-  //     delete_flag: formData.delete_flag ? 1 : 0,
-  //     modified_time: formData.modified_time,
-  //   };
-
-  //   try {
-  //     const response: any = await updateRawCategory(Number(id), Object(raw));
-  //     if (response.status === 200) {
-  //       // setMessage("Raw Category Edit successfully!");
-  //       setFormData({
-  //         name: "",
-  //         icon: null,
-  //         photo: "",
-  //         photo2: null,
-  //         featured: 0,
-  //         prodtype: 1,
-  //         status: 1,
-  //         srno: 1.0,
-  //         createddate: new Date().toISOString(),
-  //         modifieddate: null,
-  //         roll: 1,
-  //         createdby: 2091,
-  //         modifiedby: 0,
-  //         push_flag: false,
-  //         delete_flag: false,
-  //         modified_time: new Date().toISOString(),
-  //         categoryImage: "",
-  //         categorySrno: 0,
-  //         categoryName: "",
-  //       });
-  //       handelToggleEditRawCategory();
-  //       handelfetchCategories();
-  //     } else {
-  //       // setMessage(
-  //       //   `Error: ${response.data?.message || "Failed To Edit Category."}`
-  //       // );
-  //     }
-  //   } catch (err) {
-  //     console.error("Network error:", err);
-  //     // setMessage("Network error. Please try again later.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-  
-    const formDataObj : any = new FormData();
-      formDataObj.append("Name", formData.categoryName);
-    formDataObj.append("Icon", formData.icon || "");
-    formDataObj.append("Photo", formData.categoryImage);  
-    formDataObj.append("Photo2", formData.photo2 || ""); 
-    formDataObj.append("Featured", formData.featured.toString());
-    formDataObj.append("ProdType", formData.prodtype.toString());
-    formDataObj.append("Status", formData.status.toString());
-    formDataObj.append("srno", formData.categorySrno.toString());
-    formDataObj.append("CreatedDate", formData.createddate);
-    formDataObj.append("ModifiedDate", formData.modifieddate || "");
-    formDataObj.append("Roll", formData.roll.toString());
-    formDataObj.append("CreatedBy", formData.createdby.toString());
-    formDataObj.append("push_flag", formData.push_flag ? "1" : "0");
-    formDataObj.append("delete_flag", formData.delete_flag ? "1" : "0");
-    formDataObj.append("modified_time", formData.modified_time);
-  
+
+    const raw = {
+      id:id,
+      Name: formData.categoryName,
+      Icon: formData.icon,
+      Photo: formData.photo,
+      Photo2: formData.photo2,
+      Featured: formData.featured,
+      ProdType: Number(formData.prodtype),
+      Status: Number(formData.status),
+      srno: Number(formData.categorySrno),
+      CreatedDate: formData.createddate,
+      ModifiedDate: formData.modifieddate,
+      Roll: Number(formData.roll),
+      CreatedBy: formData.createdby,
+      push_flag: formData.push_flag ? 1 : 0,
+      delete_flag: formData.delete_flag ? 1 : 0,
+      modified_time: formData.modified_time,
+    };
+
     try {
-      const response: any = await updateRawCategory(Number(id), formDataObj);
-      
+      const response: any = await updateRawCategory(Number(id), Object(raw));
       if (response.status === 200) {
-        setMessage("Raw Category Edit successfully!");
+        // setMessage("Raw Category Edit successfully!");
         setFormData({
           name: "",
           icon: null,
@@ -202,16 +140,80 @@ const useRawEditCategory = ({
         handelToggleEditRawCategory();
         handelfetchCategories();
       } else {
-        setMessage(`Error: Failed To Edit Category.`);
+        // setMessage(
+        //   `Error: ${response.data?.message || "Failed To Edit Category."}`
+        // );
       }
     } catch (err) {
       console.error("Network error:", err);
-      setMessage("Network error. Please try again later.");
+      // setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
-  
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setMessage(null);
+  //   setIsLoading(true);
+
+  //   const formDataObj: any = new FormData();
+  //   formDataObj.append("id", Number(id));
+  //   formDataObj.append("Name", formData.categoryName);
+  //   formDataObj.append("Icon", formData.icon || "");
+  //   formDataObj.append("Photo", formData.categoryImage);
+  //   formDataObj.append("Photo2", formData.photo2 || "");
+  //   formDataObj.append("Featured", formData.featured.toString());
+  //   formDataObj.append("ProdType", formData.prodtype.toString());
+  //   formDataObj.append("Status", formData.status.toString());
+  //   formDataObj.append("srno", formData.categorySrno.toString());
+  //   formDataObj.append("CreatedDate", formData.createddate);
+  //   formDataObj.append("ModifiedDate", formData.modifieddate || "");
+  //   formDataObj.append("Roll", formData.roll.toString());
+  //   formDataObj.append("CreatedBy", formData.createdby.toString());
+  //   formDataObj.append("push_flag", formData.push_flag ? "1" : "0");
+  //   formDataObj.append("delete_flag", formData.delete_flag ? "1" : "0");
+  //   formDataObj.append("modified_time", formData.modified_time);
+
+  //   try {
+  //     const response: any = await updateRawCategory(Number(id), formDataObj);
+
+  //     if (response.status === 200) {
+  //       setMessage("Raw Category Edit successfully!");
+  //       setFormData({
+  //         name: "",
+  //         icon: null,
+  //         photo: "",
+  //         photo2: null,
+  //         featured: 0,
+  //         prodtype: 1,
+  //         status: 1,
+  //         srno: 1.0,
+  //         createddate: new Date().toISOString(),
+  //         modifieddate: null,
+  //         roll: 1,
+  //         createdby: 2091,
+  //         modifiedby: 0,
+  //         push_flag: false,
+  //         delete_flag: false,
+  //         modified_time: new Date().toISOString(),
+  //         categoryImage: "",
+  //         categorySrno: 0,
+  //         categoryName: "",
+  //       });
+  //       handelToggleEditRawCategory();
+  //       handelfetchCategories();
+  //     } else {
+  //       setMessage(`Error: Failed To Edit Category.`);
+  //     }
+  //   } catch (err) {
+  //     console.error("Network error:", err);
+  //     setMessage("Network error. Please try again later.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
 
   return {
     formData,

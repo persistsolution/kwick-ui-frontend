@@ -100,26 +100,16 @@ const ViewRequestSellingProductStock: FC = () => {
                     </thead>
                     <tbody>
                       {currentRequestSellingProdStockForm?.length > 0 ? (
-                        currentRequestSellingProdStockForm?.map((RequestSellingProdStockForm: any) => (
-                          <tr key={RequestSellingProdStockForm.id}>
-                            <td>{RequestSellingProdStockForm.id}</td>
+                        currentRequestSellingProdStockForm?.map((data: any) => (
+                          <tr key={data.sr_no}>
+                            <td>{data.sr_no}</td>
                             <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={RequestSellingProdStockForm.Photo}
-                                alt={RequestSellingProdStockForm.name || "RequestSellingProdStockForm Image"}
-                              />
+                              
                             </td>
-                            <td>{RequestSellingProdStockForm.Name}</td>
-                            <td>{RequestSellingProdStockForm.srno}</td>
-                            <td
-                              className={`${
-                                parseInt(RequestSellingProdStockForm.Status) === 1
-                                  ? "text-success"
-                                  : "text-danger"
-                              }`}
-                            >
-                              {parseInt(RequestSellingProdStockForm.Status) === 1
+                            <td>{data.Name}</td>
+                            <td>{data.srno}</td>
+                            <td>
+                              {parseInt(data.Status) === 1
                                 ? "Active"
                                 : "In Active"}
                             </td>

@@ -51,6 +51,8 @@ interface ProductFormValues {
   makingQty: number;
   unitList: Unit[];
   productList: string[];
+  Unit:string,
+  minQty:string
 }
 
 interface AddedProduct {
@@ -87,6 +89,8 @@ const useEditRawProductForm = () => {
     makingQty: 0,
     unitList: [],
     productList: [],
+    Unit:"",
+    minQty:""
   });
 
   const [addedProducts, setAddedProducts] = useState<AddedProduct[]>([]);
@@ -111,19 +115,21 @@ const useEditRawProductForm = () => {
       productName: data.ProductName,
       categoryId: data.CatId,
       subCategoryId: data.SubCatId,
-      unit: data.Unit,
+      Unit: data.Unit,
+      PurchasePrice:data.PurchasePrice,
+      minQty:data.MinPrice
     }));
   };
 
   const fetchUnit = async () => {
     try {
-      const response = await fetchUnitApi();
-      const data = response?.data || [];
+      const response : any = await fetchUnitApi();
+      const data = response?.data?.units || [];
       setFormValues((prev) => ({
         ...prev,
-        unitList: data.map((unit: any) => ({
-          name: unit.Name,
-          id: unit.id,
+        unitList: data.map((data: any) => ({
+          name: data.unit,
+          id: data.id,
         })),
       }));
     } catch (error) {
@@ -244,30 +250,7 @@ const useEditRawProductForm = () => {
     handelAddProduct();
   };
 
-  const handelAddProductList = () => {
-    setAddedProducts((prev) => [
-      ...prev,
-      {
-        customerProductId: formValues.customerProductId,
-        makingQty: formValues.makingQty,
-      },
-    ]);
-    setFormValues((prev) => ({
-      ...prev,
-      customerProductId: 0,
-      makingQty: 0,
-    }));
-  };
 
-  const handleDelete = (index: number) => {
-    setAddedProducts((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleChangeProductList = (value: number, index: number) => {
-    setAddedProducts((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, makingQty: value } : item))
-    );
-  };
 
   return {
     formValues,
@@ -275,9 +258,6 @@ const useEditRawProductForm = () => {
     addedProducts,
     handleSubmit,
     handleChange,
-    handelAddProductList,
-    handleDelete,
-    handleChangeProductList,
     setFormValues,
     setAddedProducts,
   };

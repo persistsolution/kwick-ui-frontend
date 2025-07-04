@@ -1,34 +1,41 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
+import { fetchRequestProductStockApi } from "../../../api/Request-product-stock-Api/RequestProductStockApi";
+
+interface RequestSellingProdStockFormType {
+  id: number;
+  Name: string;
+  [key: string]: any; 
+}
 
 const useRequestSellingProdStockForm = () => {
-  const [RequestSellingProdStockForm, setRequestSellingProdStockForm] = useState([]);
-  const [filteredRequestSellingProdStockForm, setFilteredRequestSellingProdStockForm] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [RequestSellingProdStockFormPerPage, setRequestSellingProdStockFormPerPage] = useState(5);
+  const [RequestSellingProdStockForm, setRequestSellingProdStockForm] = useState<RequestSellingProdStockFormType[]>([]);
+  const [filteredRequestSellingProdStockForm, setFilteredRequestSellingProdStockForm] = useState<RequestSellingProdStockFormType[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [RequestSellingProdStockFormPerPage, setRequestSellingProdStockFormPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
-    direction: string;
+    direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
-  const [modalEdit, setModalEdit] = useState(false);
-  const [RequestSellingProdStockFormEditId ,setRequestSellingProdStockFormEditId]= useState(0)
-  const[toggleAddRequestSellingProdStockForm , settoggleAddRequestSellingProdStockForm] = useState(false)
 
+  const [modalEdit, setModalEdit] = useState<boolean>(false);
+  const [RequestSellingProdStockFormEditId, setRequestSellingProdStockFormEditId] = useState<number>(0);
+  const [toggleAddRequestSellingProdStockForm, setToggleAddRequestSellingProdStockForm] = useState<boolean>(false);
 
   const toggleEdit = (id: number) => {
     setModalEdit(!modalEdit);
-    setRequestSellingProdStockFormEditId(id)
+    setRequestSellingProdStockFormEditId(id);
     if (typeof id === "number") {
       localStorage.setItem("RequestSellingProdStockFormId", id.toString());
-    } else{
+    } else {
       localStorage.removeItem("RequestSellingProdStockFormId");
     }
   };
 
-  const modalAddRequestSellingProdStockForm = ()=>{
-    settoggleAddRequestSellingProdStockForm(!toggleAddRequestSellingProdStockForm)
-  }  
+  const modalAddRequestSellingProdStockForm = () => {
+    setToggleAddRequestSellingProdStockForm(!toggleAddRequestSellingProdStockForm);
+  };
 
   useEffect(() => {
     handelfetchRequestSellingProdStockForm();
@@ -36,9 +43,10 @@ const useRequestSellingProdStockForm = () => {
 
   const handelfetchRequestSellingProdStockForm = async () => {
     try {
-      const response :any = await ""
-      setRequestSellingProdStockForm(response.data);
-      setFilteredRequestSellingProdStockForm(response.data);
+      const response: any= await fetchRequestProductStockApi(); 
+      const data = response?.data?.data || []
+      setRequestSellingProdStockForm(data);
+      setFilteredRequestSellingProdStockForm(data);
     } catch (error) {
       console.error("Error fetching RequestSellingProdStockForm:", error);
     }
@@ -48,26 +56,27 @@ const useRequestSellingProdStockForm = () => {
     setSearchTerm(term);
     setFilteredRequestSellingProdStockForm(
       RequestSellingProdStockForm.filter(
-        (RequestSellingProdStockForm: any) =>
-          RequestSellingProdStockForm?.Name?.toLowerCase().includes(term.toLowerCase()) ||
-          RequestSellingProdStockForm?.id?.toString().includes(term.toLowerCase())
+        (item) =>
+          item?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          item?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
 
   const handleSort = (key: string) => {
-    let direction = "asc";
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedRequestSellingProdStockForm = [...filteredRequestSellingProdStockForm].sort((a, b) => {
+
+    const sorted = [...filteredRequestSellingProdStockForm].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFilteredRequestSellingProdStockForm(sortedRequestSellingProdStockForm);
+    setFilteredRequestSellingProdStockForm(sorted);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -76,9 +85,13 @@ const useRequestSellingProdStockForm = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("RequestSellingProdStockForm-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "RequestSellingProdStockForm_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "RequestSellingProdStockForm_data.xlsx");
+    }
   };
+
+  const totalPages = Math.ceil(filteredRequestSellingProdStockForm.length / RequestSellingProdStockFormPerPage);
 
   const getVisiblePages = () => {
     const maxVisiblePages = 5;
@@ -90,19 +103,15 @@ const useRequestSellingProdStockForm = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   };
 
   const handleDeleteProduct = async (id: number) => {
-    console.log(id)
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this product?"
-      );
+      const confirmDelete = window.confirm("Are you sure you want to delete this product?");
       if (!confirmDelete) return;
-      const response : any = await ""
+
+      const response: any = await "";
       if (response.status === 200) {
         handelfetchRequestSellingProdStockForm();
       } else {
@@ -114,17 +123,13 @@ const useRequestSellingProdStockForm = () => {
     }
   };
 
-  const indexOfLastRequestSellingProdStockForm = currentPage * RequestSellingProdStockFormPerPage;
-  const indexOfFirstRequestSellingProdStockForm = indexOfLastRequestSellingProdStockForm - RequestSellingProdStockFormPerPage;
-  const currentRequestSellingProdStockForm = filteredRequestSellingProdStockForm?.slice(
-    indexOfFirstRequestSellingProdStockForm,
-    indexOfLastRequestSellingProdStockForm
-  );
-  const totalPages = Math.ceil(Number(filteredRequestSellingProdStockForm?.length || 0)  / RequestSellingProdStockFormPerPage);
+  const indexOfLast = currentPage * RequestSellingProdStockFormPerPage;
+  const indexOfFirst = indexOfLast - RequestSellingProdStockFormPerPage;
+  const currentRequestSellingProdStockForm = filteredRequestSellingProdStockForm.slice(indexOfFirst, indexOfLast);
 
   return {
-    indexOfLastRequestSellingProdStockForm,
-    indexOfFirstRequestSellingProdStockForm,
+    indexOfLastRequestSellingProdStockForm: indexOfLast,
+    indexOfFirstRequestSellingProdStockForm: indexOfFirst,
     RequestSellingProdStockForm,
     filteredRequestSellingProdStockForm,
     searchTerm,
@@ -145,7 +150,7 @@ const useRequestSellingProdStockForm = () => {
     RequestSellingProdStockFormEditId,
     handelfetchRequestSellingProdStockForm,
     toggleAddRequestSellingProdStockForm,
-    modalAddRequestSellingProdStockForm
+    modalAddRequestSellingProdStockForm,
   };
 };
 

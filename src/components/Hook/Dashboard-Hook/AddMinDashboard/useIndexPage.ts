@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import dayjs from "dayjs";
 import { fetchDashboardDataApi } from "../../../api/Dashboard-Api/DashboardAPi";
@@ -16,10 +16,7 @@ interface DashboardDataType {
   UPI: number;
 }
 
-
-
 const useIndexPage = () => {
-  // const [totalEmployees, setTotalEmployees] = useState<any>(0);
   const [selectReport, setSelectReport] = useState<string>("today");
   const [totalEmployees] = useState<any>(0);
   const [totalFranchises] = useState<any>(0);
@@ -27,7 +24,7 @@ const useIndexPage = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [dashboardData, setDashboardData] = useState<DashboardDataType[]>([]);
   const [toDate, setToDate] = useState<string>("");
-  // const [chartState, setChartState] = useState({
+
   const [chartState] = useState({
     series: [
       {
@@ -59,9 +56,7 @@ const useIndexPage = () => {
       dataLabels: {
         enabled: false,
       },
-      //   colors: ["rgb(21, 58, 84)", "rgb(0, 165, 162)", "rgb(166, 142, 94)"],
       colors: ["rgb(0, 165, 162)"],
-
       stroke: {
         show: true,
         width: 2,
@@ -75,21 +70,7 @@ const useIndexPage = () => {
             colors: "#8c9097",
             fontSize: "11px",
             fontWeight: 600,
-            cssClass: "apexcharts-xaxis-label",
           },
-        },
-        axisBorder: {
-          show: true,
-          color: "rgba(119, 119, 142, 0.05)",
-          offsetX: 0,
-          offsetY: 0,
-        },
-        axisTicks: {
-          show: true,
-          borderType: "solid",
-          color: "rgba(119, 119, 142, 0.05)",
-          offsetX: 0,
-          offsetY: 0,
         },
       },
       yaxis: {
@@ -105,7 +86,6 @@ const useIndexPage = () => {
             colors: "#8c9097",
             fontSize: "11px",
             fontWeight: 600,
-            cssClass: "apexcharts-xaxis-label",
           },
         },
       },
@@ -115,22 +95,22 @@ const useIndexPage = () => {
       tooltip: {
         y: {
           formatter: function (val: number) {
-            return "$ " + val + " thousands";
+            return "₹ " + val;
           },
         },
       },
     } as ApexOptions,
   });
 
-  const fetchDashboardData = async()=>{
-  try {
-      const response: any = await fetchDashboardDataApi(fromDate , toDate ,selectReport );
+  const fetchDashboardData = async () => {
+    try {
+      const response: any = await fetchDashboardDataApi(fromDate, toDate, selectReport);
       const data = response?.data?.data?.zones || [];
-      setDashboardData(data)
+      setDashboardData(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching dashboard data:", error);
     }
-  }
+  };
 
   useEffect(() => {
     let from = "";
@@ -148,9 +128,8 @@ const useIndexPage = () => {
         from = dayjs().startOf("month").format("YYYY-MM-DD");
         break;
       case "custom":
-        // keep current fromDate and toDate
         return;
-      default: // today
+      default:
         from = dayjs().format("YYYY-MM-DD");
         break;
     }
@@ -160,62 +139,44 @@ const useIndexPage = () => {
     fetchDashboardData();
   }, [selectReport]);
 
+const filteredZones = dashboardData.filter((zone) => zone.Cash + zone.UPI > 0);
 
-
-  const optionsDonutJS = useMemo(() => {
-    const chartData = dashboardData.map((zone) => ({
-      value: zone.Cash + zone.UPI,
-      name: zone.ZoneName,
-    }));
-
-    return {
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '0%',
-        left: 'center',
-        textStyle: {
-          color: 'rgb(119, 119, 142)'
-        }
-      },
-      series: [
-        {
-          name: 'Zone Income',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            show: false,
-            position: 'center'
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '17',
-              fontWeight: 'bold'
-            }
-          },
-          labelLine: {
-            show: true
-          },
-          data: chartData
-        }
+const optionsDonutJS = {
+  labels: filteredZones.map((zone) => zone.ZoneName),
+  datasets: [
+    {
+      label: "Zone Income",
+      data: filteredZones.map((zone) => zone.Cash + zone.UPI),
+      backgroundColor: [
+        "rgb(255, 99, 132)",   // pink
+        "rgb(54, 162, 235)",   // blue
+        "rgb(255, 205, 86)",   // yellow
+        "rgb(75, 192, 192)",   // cyan
+        "rgb(153, 102, 255)",  // purple
+        "rgb(255, 159, 64)",   // orange
       ],
-      color: ["#23b7e5", "#00a5a2", "#a26cf1", "#f5b849"]
-    };
-  }, [dashboardData]);
+      hoverOffset: 4,
+    },
+  ],
+};
 
-
-  const handleSearch = () => {
-
-  }
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Zone-wise Income Distribution",
+      },
+    },
+  };
 
   const totalCash = dashboardData.reduce((sum, z) => sum + z.Cash, 0);
   const totalUPI = dashboardData.reduce((sum, z) => sum + z.UPI, 0);
   const totalIncome = totalCash + totalUPI;
   const totalAvg = dashboardData.length > 0 ? totalIncome / dashboardData.length : 0;
-
 
   return {
     totalEmployees,
@@ -228,6 +189,7 @@ const useIndexPage = () => {
     totalIncome,
     totalAvg,
     optionsDonutJS,
+    options,
     fromDate,
     toDate,
     dashboardData,
@@ -235,7 +197,7 @@ const useIndexPage = () => {
     setFromDate,
     setToDate,
     setSelectReport,
-    handleSearch
+    handleSearch: fetchDashboardData,
   };
 };
 

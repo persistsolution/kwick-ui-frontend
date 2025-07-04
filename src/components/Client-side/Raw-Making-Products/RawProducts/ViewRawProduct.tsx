@@ -3,7 +3,6 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewRawProduct from "../../../Hook/Raw-Making-products-Hook/RawProductsTS/useViewRawProduct";
 import SkeletonLoader from "../../../../common/SkeletonLoader";
-import DeleteAlert from "../../../../common/DeleteAlert";
 
 const ViewRawProduct: FC = () => {
   const {

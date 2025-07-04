@@ -5,7 +5,6 @@ import useRawViewCategoryForm from "../../../Hook/Raw-Making-products-Hook/RawCa
 import EditRawCategoryFrom from "./EditRawCategoryForm";
 import AddRawCategoryForm from "./AddRawCategoryForm";
 import SkeletonLoader from "../../../../common/SkeletonLoader";
-import DeleteAlert from "../../../../common/DeleteAlert";
 
 const ViewRawCategory: FC = () => {
   const {
@@ -32,7 +31,6 @@ const ViewRawCategory: FC = () => {
     handelToggleEditRawCategory,
     handelfetchCategories,
   } = useRawViewCategoryForm();
-
 
 
   return (
@@ -131,11 +129,11 @@ const ViewRawCategory: FC = () => {
                               </td>
 
                               <td>
-                                <button onClick={() => handleEdit(category.id)} className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                <button onClick={() => handleEdit(Number(category.id))} className="btn btn-md btn-icon btn-info-light rounded-circle" >
                                   <i className="bi bi-pencil-square"></i>
                                 </button>
                                 &nbsp; &nbsp;
-                                <button onClick={() => handleDeleteProduct(category.id)} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                <button onClick={() => handleDeleteProduct(Number(category.id))} className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
                                   <i className="bi bi-trash"></i>
                                 </button>
                               </td>

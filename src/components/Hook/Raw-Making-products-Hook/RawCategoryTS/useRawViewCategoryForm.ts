@@ -5,11 +5,10 @@ import {
   deleteRawCategory,
 } from "../../../api/Raw-Making-Products-Api/RawCategoryApi/RawCategortApi";
 
-// Define the expected structure of a category
 interface Category {
   id: number;
   Name: string;
-  [key: string]: any; // Optional: in case you have more fields
+  [key: string]: any; 
 }
 
 const useRawViewCategoryForm = () => {

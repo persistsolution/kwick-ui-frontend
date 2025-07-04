@@ -1,33 +1,37 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
-import { fetchSubCategories, deleteSubCategory } from '../../../api/Selling-Products-Api/SubCategory/subCategoryApi';
+import {
+  fetchSubCategories,
+  deleteSubCategory,
+} from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
+
+// Define subcategory type
+interface SubCategory {
+  id: number;
+  Name: string;
+  [key: string]: any; // allows sorting with dynamic keys
+}
 
 const useViewSubCategory = () => {
-  interface SubCategory {
-    id: number;
-    name: string;
-  }
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [subcategoriesPerPage, setSubCategoriesPerPage] = useState(5);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [subcategoriesPerPage, setSubCategoriesPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
-    direction: string;
+    direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
   const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
-  const [filteredSubCategories, setFilteredSubCategories] = useState<
-    SubCategory[]
-  >([]);
-  const [modal, setModal] = useState(false);
-  const [subcategoriesEditId, setsubcategoriesEditId] = useState(0)
-  const [toggleAddSubCategory, setToggleAddSubCategory] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [filteredSubCategories, setFilteredSubCategories] = useState<SubCategory[]>([]);
+  const [modal, setModal] = useState<boolean>(false);
+  const [subcategoriesEditId, setsubcategoriesEditId] = useState<number>(0);
+  const [toggleAddSubCategory, setToggleAddSubCategory] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const toggleEdit = (id: any) => {
+  const toggleEdit = (id: number) => {
     setModal(!modal);
-    const subCatId = Number(id)
-    setsubcategoriesEditId(subCatId)
-    if (typeof subCatId === "number") {
+    const subCatId = Number(id);
+    setsubcategoriesEditId(subCatId);
+    if (!isNaN(subCatId)) {
       localStorage.setItem("subCategoryId", subCatId.toString());
     } else {
       localStorage.removeItem("subCategoryId");
@@ -35,26 +39,24 @@ const useViewSubCategory = () => {
   };
 
   const modalAddSubCategory = () => {
-    setToggleAddSubCategory(!toggleAddSubCategory)
-  }
+    setToggleAddSubCategory(!toggleAddSubCategory);
+  };
 
   useEffect(() => {
     handelfetchSubCategories();
   }, []);
 
   const handelfetchSubCategories = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response: any = await fetchSubCategories();
-      const data = response?.data?.data || []
+      const response :any = await fetchSubCategories();
+      const data: SubCategory[] = response?.data?.data || [];
       setSubCategories(data);
       setFilteredSubCategories(data);
-      setLoading(!data)
-
+      setLoading(!data.length);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
-      setLoading(false)
-
+      setLoading(false);
     }
   };
 
@@ -62,17 +64,17 @@ const useViewSubCategory = () => {
     setSearchTerm(term);
     setFilteredSubCategories(
       subcategories.filter(
-        (subcategory: any) =>
-          subcategory?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+        (subcategory) =>
+          subcategory?.subcategory_name?.toLowerCase().includes(term.toLowerCase()) ||
           subcategory?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
 
-  const handleSort = (key: keyof SubCategory | string) => {
-    const direction =
+  const handleSort = (key: string) => {
+    const direction: "asc" | "desc" =
       sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    const sortedSubCategories = [...filteredSubCategories].sort((a: any, b: any) => {
+    const sortedSubCategories = [...filteredSubCategories].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
@@ -82,11 +84,10 @@ const useViewSubCategory = () => {
   };
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this subcategory?"))
-      return;
+    if (!window.confirm("Are you sure you want to delete this subcategory?")) return;
     try {
-      const response = await deleteSubCategory(id)
-      if (response) {
+      const response = await deleteSubCategory(id);
+      if (response?.status === 200) {
         handelfetchSubCategories();
       }
     } catch (error) {
@@ -100,11 +101,13 @@ const useViewSubCategory = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("subcategory-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "subcategory_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "subcategory_data.xlsx");
+    }
   };
 
-  const getVisiblePages = () => {
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -114,9 +117,7 @@ const useViewSubCategory = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   };
 
   const indexOfLastSubCategory = currentPage * subcategoriesPerPage;
@@ -125,9 +126,7 @@ const useViewSubCategory = () => {
     indexOfFirstSubCategory,
     indexOfLastSubCategory
   );
-  const totalPages = Math.ceil(
-    filteredSubCategories.length / subcategoriesPerPage
-  );
+  const totalPages = Math.ceil(filteredSubCategories.length / subcategoriesPerPage);
 
   return {
     searchTerm,
@@ -151,8 +150,8 @@ const useViewSubCategory = () => {
     loading,
     handelfetchSubCategories,
     modalAddSubCategory,
-    toggleAddSubCategory
-  }
+    toggleAddSubCategory,
+  };
 };
 
 export default useViewSubCategory;

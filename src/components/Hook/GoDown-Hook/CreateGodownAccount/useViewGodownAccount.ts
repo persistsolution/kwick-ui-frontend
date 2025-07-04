@@ -59,7 +59,7 @@ const useViewGodownAccount = () => {
     setFilteredviewGodownAccount(
       viewGodownAccount.filter(
         (GodownAccount: GodownAccount) =>
-          GodownAccount?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          GodownAccount?.full_name?.toLowerCase().includes(term.toLowerCase()) ||
           GodownAccount?.id?.toString().includes(term.toLowerCase())
       )
     );
@@ -75,7 +75,6 @@ const useViewGodownAccount = () => {
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
-
     setSortConfig({ key, direction });
     setFilteredviewGodownAccount(sortedviewGodownAccount);
   };
@@ -95,12 +94,10 @@ const useViewGodownAccount = () => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
-
     if (endPage > totalPages) {
       endPage = totalPages;
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
-
     return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
 

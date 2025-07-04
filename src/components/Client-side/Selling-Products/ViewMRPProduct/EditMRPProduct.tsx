@@ -25,7 +25,7 @@ interface ProductFormValues {
   productImage: File | null;
   getcategory: string[];
   getSubCategory: string[];
-  barndId:string
+  BrandId:string
 }
 const EditMrpProductForm: FC = () => {
   const { handleSubmit, handleChange, formValues, loading, setFormValues } =
@@ -57,14 +57,14 @@ const EditMrpProductForm: FC = () => {
                         required: "*",
                       },
                       {
-                        name: "barndId",
+                        name: "BrandId",
                         label: "Select Brand",
                         type: "select",
                         options: formValues.getBrandList,
                       },
                       {
                         name: "categoryId",
-                        label: "Category",
+                        label: "Select Category",
                         type: "select",
                         options: formValues.getcategory,
                         required: "*",
@@ -246,7 +246,6 @@ const EditMrpProductForm: FC = () => {
                                   : "",
                               }));
                             }}
-                            // placeholder={`Select ${field.label}`}
                             required={field.required ? true : false}
                             isSearchable
                           />

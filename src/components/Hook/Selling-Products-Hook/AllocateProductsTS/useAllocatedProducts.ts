@@ -36,6 +36,7 @@ const useAllocatedProducts = () => {
   const [selectAllocatedProduct, setSelectAllocatedProduct] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategory, setSubCategory] = useState<Category[]>([]);
+  const [loading , setLoading]= useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
 
   const franchiseList = [
@@ -103,6 +104,7 @@ const useAllocatedProducts = () => {
   };
 
   const handelfetchallocateProducts = async () => {
+    setLoading(true)
     try {
       const response: any = await fetchAllocatedProductsFrApi(Number(id));
       const data = response?.data?.data || [];
@@ -112,7 +114,9 @@ const useAllocatedProducts = () => {
       }))
       setallocateProducts(updateAllocatedProducts);
       setFilteredallocateProducts(updateAllocatedProducts);
+      setLoading(!data)
     } catch (error) {
+      setLoading(false)
       console.error("Error fetching allocateProducts:", error);
     }
   };
@@ -142,7 +146,7 @@ const useAllocatedProducts = () => {
     setFilteredallocateProducts(
       allocateProducts.filter(
         (AllocateProducts) =>
-          AllocateProducts?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          AllocateProducts?.ProductName?.toLowerCase().includes(term.toLowerCase()) ||
           AllocateProducts?.id?.toString().includes(term.toLowerCase())
       )
     );
@@ -210,6 +214,7 @@ const useAllocatedProducts = () => {
     franchiseList,
     fromDate,
     toDate,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,

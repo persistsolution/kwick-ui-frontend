@@ -6,12 +6,12 @@ import {
 } from "../../../api/Raw-Making-Products-Api/RawProductsApi/RawProductsApi";
 import { fetchRawSubCategories } from "../../../api/Raw-Making-Products-Api/RawSubCategoryApi/RawSubCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
+import { useNavigate } from "react-router-dom";
 
 interface ProductFormValues {
   productName: string;
   categoryId: number;
   subCategoryId: number;
-  purchasePrice: string;
   totalPrice: string;
   cgst: string;
   sgst: string;
@@ -36,6 +36,8 @@ interface ProductFormValues {
   unitList: string[];
   productList: string[];
   productType2: number;
+  minQty:string;
+  PurchasePrice: string;
 }
 
 const useAddRawAdProducts = () => {
@@ -43,7 +45,6 @@ const useAddRawAdProducts = () => {
     productName: "",
     categoryId: 0,
     subCategoryId: 0,
-    purchasePrice: "",
     totalPrice: "",
     cgst: "",
     sgst: "",
@@ -68,13 +69,14 @@ const useAddRawAdProducts = () => {
     unitList: [],
     productList: [],
     productType2: 2,
+    PurchasePrice: "",
+    minQty:""
   });
   const [addedProducts, setAddedProducts] = useState<
     { customerProductId: number; makingQty: number }[]
   >([]);
   const [loading, setLoading] = useState<boolean>(false)
-
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     handelGetCategories();
@@ -98,12 +100,12 @@ const useAddRawAdProducts = () => {
   const fetchUnit = async () => {
     try {
       const response: any = await fetchUnitApi();
-      const data = await response?.data || [];
+      const data = await response?.data?.units || [];
       setFormValues((prevValues) => ({
         ...prevValues,
-        unitList: data.map((unit: { Name: string; id: number }) => ({
-          name: unit.Name,
-          id: unit.Name,
+        unitList: data.map((data: { unit: string; id: number }) => ({
+          name: data.unit,
+          id: data.id,
         })),
       }));
     } catch (error) {
@@ -137,18 +139,23 @@ const useAddRawAdProducts = () => {
   const handelAddProduct = async () => {
     setLoading(true)
     const productData = {
+      ProdId: 0,
+      BrandId: 0,
+      CreatedBy: 0,
+      modifiedby: 0,
+      push_flag: false,
+      delete_flag:false,
+      Qty:0,
+      PurchasePrice:formValues.PurchasePrice,
+      ProdPrice: formValues.PurchasePrice,
       ProductName: formValues.productName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
       Unit: formValues.unit,
       Status: formValues.status,
       ProdType: formValues.productType,
-      prodType2: formValues.productType2,
-      productdetails: addedProducts.map((item) => ({
-        id: item.customerProductId,
-        Qty: item.makingQty,
-        Unit: formValues.unit,
-      })),
+      ProdType2: formValues.productType2,
+      MinPrice:formValues.minQty,
     };
 
     try {
@@ -184,9 +191,12 @@ const useAddRawAdProducts = () => {
           unitList: prevValues.unitList,
           productList: prevValues.productList,
           productType2: 2,
+          PurchasePrice: "",
+          minQty:""
         }));
         setAddedProducts([]);
         setLoading(!response)
+        navigate("/RawProducts/ViewRawProduct")
       }
     } catch (error) {
       console.error("Error adding product:", error);
@@ -233,61 +243,11 @@ const useAddRawAdProducts = () => {
     handelAddProduct();
   };
 
-  const handelAddProductList = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newProduct = {
-      customerProductId: formValues.customerProductId,
-      makingQty: formValues.makingQty,
-    };
-    setAddedProducts((prev) => [...prev, newProduct]);
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      purchasePrice: "",
-      totalPrice: "",
-      cgst: "",
-      sgst: "",
-      igst: "",
-      totalGst: "",
-      priceWoGst: "",
-      barcodeNo: "",
-      minStockQty: "",
-      productType: 1,
-      transferProduct: "",
-      qrDisplay: "",
-      srNo: "",
-      productImage: null,
-      getcategory: prevValues.getcategory,
-      getSubCategory: prevValues.getSubCategory,
-      photo: "",
-      Qty: 0,
-      customerProductId: 0,
-      makingQty: 0,
-      unitList: prevValues.unitList,
-      productList: prevValues.productList,
-    }));
-  };
-
-  const handleDelete = (index: number) => {
-    setAddedProducts((prev) => prev.filter((_, idx) => idx !== index));
-  };
-
-  const handleChangeProductList = (value: any, index: number) => {
-    setAddedProducts((prev) =>
-      prev.map((product, idx) =>
-        idx === index ? { ...product, makingQty: value } : product
-      )
-    );
-  };
-
   return {
     formValues,
     loading,
     handleSubmit,
     handleChange,
-    handelAddProductList,
-    addedProducts,
-    handleDelete,
-    handleChangeProductList,
     setFormValues,
     setAddedProducts,
   };

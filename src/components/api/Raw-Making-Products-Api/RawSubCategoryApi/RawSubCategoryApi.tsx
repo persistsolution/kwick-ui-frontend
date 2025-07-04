@@ -22,7 +22,7 @@ export const createRawSubCategory = async (
   data: Partial<SubCategory>
 ): Promise<AxiosResponse<SubCategory>> => {
   return axios.post<SubCategory>(
-    `${API_BASE_URL}/selling-product/subcategory/create`,
+    `${API_BASE_URL}/raw-products/subcategory/save-sub-category.php`,
     data
   );
 };

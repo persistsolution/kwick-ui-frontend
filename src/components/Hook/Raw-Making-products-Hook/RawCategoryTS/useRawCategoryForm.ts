@@ -62,27 +62,27 @@ const useRawCategoryForm = ({
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-    const formDataObj = new FormData();
-    formDataObj.append("Name", formData.categoryName);
-    formDataObj.append("Icon", formData.icon || "");
-    formDataObj.append("Photo", formData.photo);  
-    formDataObj.append("Photo2", formData.photo2 || "");
-    formDataObj.append("Featured", formData.featured.toString());
-    formDataObj.append("ProdType", formData.prodtype.toString());
-    formDataObj.append("Status", formData.status.toString());
-    formDataObj.append("srno", formData.categorySrno.toString());
-    formDataObj.append("CreatedDate", formData.createddate);
-    formDataObj.append("ModifiedDate", formData.modifieddate || "");
-    formDataObj.append("Roll", formData.roll.toString());
-    formDataObj.append("CreatedBy", formData.createdby.toString());
-    formDataObj.append("push_flag", formData.push_flag ? "1" : "0");
-    formDataObj.append("delete_flag", formData.delete_flag ? "1" : "0");
-    formDataObj.append("modified_time", formData.modified_time);
-    formDataObj.append("ModifiedBy", "0"); 
+    const rawData = {
+      Name: formData.categoryName,
+      Icon: formData.icon || "",
+      Photo: formData.photo,
+      Photo2: formData.photo2 || "",
+      Featured: formData.featured.toString(),
+      ProdType: formData.prodtype.toString(),
+      Status: formData.status.toString(),
+      srno: formData.categorySrno.toString(),
+      CreatedDate: formData.createddate,
+      ModifiedDate: formData.modifieddate || "",
+      Roll: formData.roll.toString(),
+      CreatedBy: formData.createdby.toString(),
+      push_flag: formData.push_flag ? "1" : "0",
+      delete_flag: formData.delete_flag ? "1" : "0",
+      modified_time: formData.modified_time,
+      ModifiedBy: "0"
+    };
 
     try {
-      const response = await createRawCategory(formDataObj);
-  
+      const response = await createRawCategory(rawData);
       if (response.status === 200) {
         setMessage("Category added successfully!");
         setFormData({
@@ -118,7 +118,7 @@ const useRawCategoryForm = ({
       setIsLoading(false);
     }
   };
-  
+
 
   return {
     formData,

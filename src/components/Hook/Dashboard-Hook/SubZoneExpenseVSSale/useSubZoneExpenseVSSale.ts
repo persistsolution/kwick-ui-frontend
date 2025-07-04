@@ -160,51 +160,38 @@ const useSubZoneExpenseVSSale = () => {
     fetchDashboardData();
   }, [selectReport]);
 
-
-
-  const optionsDonutJS = useMemo(() => {
-    const chartData = dashboardData.map((zone) => ({
-      value: zone.Cash + zone.UPI,
-      name: zone.ZoneName,
-    }));
-
-    return {
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '0%',
-        left: 'center',
-        textStyle: {
-          color: 'rgb(119, 119, 142)'
-        }
-      },
-      series: [
-        {
-          name: 'Zone Income',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            show: false,
-            position: 'center'
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '17',
-              fontWeight: 'bold'
-            }
-          },
-          labelLine: {
-            show: true
-          },
-          data: chartData
-        }
+const filteredZones = dashboardData.filter((zone) => zone.Cash + zone.UPI > 0);
+const optionsDonutJS = {
+  labels: filteredZones.map((zone) => zone.ZoneName),
+  datasets: [
+    {
+      label: "Zone Income",
+      data: filteredZones.map((zone) => zone.Cash + zone.UPI),
+      backgroundColor: [
+        "rgb(255, 99, 132)",   // pink
+        "rgb(54, 162, 235)",   // blue
+        "rgb(255, 205, 86)",   // yellow
+        "rgb(75, 192, 192)",   // cyan
+        "rgb(153, 102, 255)",  // purple
+        "rgb(255, 159, 64)",   // orange
       ],
-      color: ["#23b7e5", "#00a5a2", "#a26cf1", "#f5b849"]
-    };
-  }, [dashboardData]);
+      hoverOffset: 4,
+    },
+  ],
+};
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Zone-wise Income Distribution",
+      },
+    },
+  };
 
 
   const handleSearch = () => {
@@ -228,6 +215,7 @@ const useSubZoneExpenseVSSale = () => {
     totalIncome,
     totalAvg,
     optionsDonutJS,
+    options,
     fromDate,
     toDate,
     dashboardData,

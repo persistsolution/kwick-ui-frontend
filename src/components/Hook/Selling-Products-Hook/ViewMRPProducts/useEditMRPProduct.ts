@@ -5,6 +5,7 @@ import { fetchCategories } from "../../../api/Selling-Products-Api/CategoryApi/c
 import { fetchSubCategories } from "../../../api/Selling-Products-Api/SubCategory/subCategoryApi";
 import { fetchUnitApi } from "../../../api/Master-Api/Unit-Api/UnitApi";
 import { fetchEditMRPProductsAPI , updateMRPProductsAPI } from "../../../api/Selling-Products-Api/MRPProduct-Api/MRPProductApi";
+import { fetchBrandApi } from "../../../api/Selling-Products-Api/Brand-Api/BrandApi";
 
 interface ProductFormValues {
   productName: string;
@@ -29,7 +30,7 @@ interface ProductFormValues {
   getSubCategory: string[];
   photo: string;
   getBrandList: string[];
-  brandId: number;
+  BrandId: number;
   unitList: string[];
   unitId: string;
   code: string;
@@ -60,7 +61,7 @@ const useEditMrpProductForm = () => {
     getSubCategory: [],
     photo: "",
     getBrandList: [],
-    brandId: 0,
+    BrandId: 0,
     unitList: [],
     unitId: "",
     code: "",
@@ -76,6 +77,7 @@ const useEditMrpProductForm = () => {
     handelGetSubCategories();
     handleFetchEditMrpProductData();
     fetchUnit();
+    fetchBrandList();
   }, []);
 
   const fetchUnit = async () => {
@@ -93,6 +95,23 @@ const useEditMrpProductForm = () => {
       console.error("Error fetching unit list:", error);
     }
   };
+
+
+  const fetchBrandList =async ()=>{
+     try {
+      const response: any = await fetchBrandApi();
+      const data = await response?.data?.brands || [];
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        getBrandList: data.map((data: { name: string; id: number }) => ({
+          name: data.name,
+          id: data.id,
+        })),
+      }));
+    } catch (error) {
+      console.error("Error fetching unit list:", error);
+    }
+  }
 
   const handleFetchEditMrpProductData = async () => {
     try {
@@ -128,7 +147,7 @@ const useEditMrpProductForm = () => {
           qrDisplay: responseData?.QrDisplay,
           srNo: responseData?.SrNo,
           productImage: responseData?.Photo,
-          barndId:responseData?.BrandId
+          BrandId:responseData?.BrandId
         }));
       } else {
         setMessage(
@@ -185,8 +204,8 @@ const useEditMrpProductForm = () => {
       var sgstAmount: any = formValues.totalGst / 3;
       var igstAmount: any = formValues.totalGst / 3;
     }
-
     const productData: Object = {
+      id:id,
       ProductName: formValues.productName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
@@ -223,7 +242,7 @@ const useEditMrpProductForm = () => {
       Unit: formValues.unitId,
       Assets: 0,
       tempstatus: formValues.status,
-      BrandId: formValues.brandId,
+      BrandId: formValues.BrandId,
       CreatedDate: new Date().toISOString(),
       ModifiedDate: new Date().toISOString(),
       modified_time: null,
@@ -256,7 +275,7 @@ const useEditMrpProductForm = () => {
           getSubCategory: [],
           photo: "",
           getBrandList: [],
-          brandId: 0,
+          BrandId: 0,
           unitList: [],
           unitId: "",
           code: "",
@@ -295,8 +314,8 @@ const useEditMrpProductForm = () => {
       setFormValues((prevValues) => ({
         ...prevValues,
         getSubCategory: data.map(
-          (subcategory: { Name: string; id: number }) => ({
-            name: subcategory.Name,
+          (subcategory: { subcategory_name: string; id: number }) => ({
+            name: subcategory.subcategory_name,
             id: subcategory.id,
           })
         ),

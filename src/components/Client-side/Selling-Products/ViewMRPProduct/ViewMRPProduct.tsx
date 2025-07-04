@@ -3,7 +3,6 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useViewMRPProducts from "../../../Hook/Selling-Products-Hook/ViewMRPProducts/useViewMRPProducts";
 import SkeletonLoader from "../../../../common/SkeletonLoader";
-import DeleteAlert from "../../../../common/DeleteAlert";
 
 const ViewMRPProducts: FC = () => {
   const {

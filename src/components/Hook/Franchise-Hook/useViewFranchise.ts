@@ -78,7 +78,7 @@ const useViewFranchise = () => {
     setFilteredFranchises(
       franchises.filter(
         (franchise: any) =>
-          franchise?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+          franchise?.shop_name?.toLowerCase().includes(term.toLowerCase()) ||
           franchise?.id?.toString().includes(term.toLowerCase())
       )
     );

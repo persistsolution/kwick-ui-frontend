@@ -2,27 +2,34 @@ import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchCategories, deleteCategory } from "../../../api/Selling-Products-Api/CategoryApi/categoryApi";
 
+// Define Category type
+interface Category {
+  id: number;
+  Name: string;
+  [key: string]: any; // for dynamic keys used in sorting
+}
+
 const useViewCategoryForm = () => {
-  const [categories, setCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [categoriesPerPage, setCategoriesPerPage] = useState(5);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [categoriesPerPage, setCategoriesPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
-    direction: string;
+    direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
-  const [modalEdit, setModalEdit] = useState(false);
-  const [categoriesEditId, setcategoriesEditId] = useState(0)
-  const [toggleAddCategory, settoggleAddCategory] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [showDeleteAlert, setshowDeleteAlert] = useState(false)
-  const [deleteId, setDeleteId] = useState(0)
+  const [modalEdit, setModalEdit] = useState<boolean>(false);
+  const [categoriesEditId, setcategoriesEditId] = useState<number>(0);
+  const [toggleAddCategory, settoggleAddCategory] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showDeleteAlert, setshowDeleteAlert] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<number>(0);
 
   const toggleEdit = (id: number) => {
-    const catId = Number(id)
+    const catId = Number(id);
     setModalEdit(!modalEdit);
-    setcategoriesEditId(catId)
+    setcategoriesEditId(catId);
     if (typeof catId === "number") {
       localStorage.setItem("categoryId", catId.toString());
     } else {
@@ -31,24 +38,24 @@ const useViewCategoryForm = () => {
   };
 
   const modalAddCategory = () => {
-    settoggleAddCategory(!toggleAddCategory)
-  }
+    settoggleAddCategory(!toggleAddCategory);
+  };
 
   useEffect(() => {
     handelfetchCategories();
   }, []);
 
   const handelfetchCategories = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response: any = await fetchCategories();
-      const data = response?.data?.data || []
+      const response :any = await fetchCategories();
+      const data: Category[] = response?.data?.data || [];
       setCategories(data);
       setFilteredCategories(data);
-      setLoading(!data)
+      setLoading(!data.length);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -56,7 +63,7 @@ const useViewCategoryForm = () => {
     setSearchTerm(term);
     setFilteredCategories(
       categories.filter(
-        (category: any) =>
+        (category) =>
           category?.Name?.toLowerCase().includes(term.toLowerCase()) ||
           category?.id?.toString().includes(term.toLowerCase())
       )
@@ -64,7 +71,7 @@ const useViewCategoryForm = () => {
   };
 
   const handleSort = (key: string) => {
-    let direction = "asc";
+    let direction: "asc" | "desc" = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
@@ -84,8 +91,10 @@ const useViewCategoryForm = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("category-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "category_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "category_data.xlsx");
+    }
   };
 
   const getVisiblePages = () => {
@@ -108,8 +117,7 @@ const useViewCategoryForm = () => {
       const response = await deleteCategory(deleteId);
       if (response.status === 200) {
         handelfetchCategories();
-        setshowDeleteAlert(false)
-
+        setshowDeleteAlert(false);
       } else {
         console.error("Failed to delete the product:", response.statusText);
       }
@@ -120,9 +128,9 @@ const useViewCategoryForm = () => {
   };
 
   const handleOpenCloseDltAlrt = (id: number) => {
-    setshowDeleteAlert(!showDeleteAlert)
-    setDeleteId(id)
-  }
+    setshowDeleteAlert(!showDeleteAlert);
+    setDeleteId(id);
+  };
 
   const indexOfLastCategory = currentPage * categoriesPerPage;
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
@@ -159,7 +167,7 @@ const useViewCategoryForm = () => {
     categoriesEditId,
     handelfetchCategories,
     toggleAddCategory,
-    modalAddCategory
+    modalAddCategory,
   };
 };
 

@@ -40,7 +40,7 @@ const useEditRawSubCategory = ({
   const handelGetCategories = async () => {
     try {
       const response: any = await fetchCategories();
-      const data = await response?.data?.data ||[];
+      const data = await response?.data?.data || [];
       setCategoryOptions(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -51,7 +51,7 @@ const useEditRawSubCategory = ({
   const handelGetSubCategories = async () => {
     try {
       const response: any = await fetchRawSubCategoryById(Number(id));
-      const updateresponse = response?.data?.data ||[];
+      const updateresponse = response?.data?.data || [];
       if (response.status === 200) {
         setFormData({
           catid: Number(updateresponse?.CatId),
@@ -101,22 +101,35 @@ const useEditRawSubCategory = ({
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-  
-    const formDataObj :any= new FormData();
-    formDataObj.append("CatId", formData.catid.toString());
-    formDataObj.append("Name", formData.subCatname);
-    formDataObj.append("Photo", formData.photo || ""); 
-    formDataObj.append("Status", formData.status.toString());
-    formDataObj.append("FrId", formData.frId.toString());
-    formDataObj.append("ProdType", formData.productType.toString());
-    formDataObj.append("CreatedBy", formData.createdby.toString());
-    formDataObj.append("CreatedDate", formData.createddate);
-    formDataObj.append("ModifiedBy", formData.modifiedby.toString());
-    formDataObj.append("ModifiedDate", formData.modifieddate || "");
-  
+
+    // const formDataObj :any= new FormData();
+    // formDataObj.append("CatId", formData.catid.toString());
+    // formDataObj.append("Name", formData.subCatname);
+    // formDataObj.append("Photo", formData.photo || ""); 
+    // formDataObj.append("Status", formData.status.toString());
+    // formDataObj.append("FrId", formData.frId.toString());
+    // formDataObj.append("ProdType", formData.productType.toString());
+    // formDataObj.append("CreatedBy", formData.createdby.toString());
+    // formDataObj.append("CreatedDate", formData.createddate);
+    // formDataObj.append("ModifiedBy", formData.modifiedby.toString());
+    // formDataObj.append("ModifiedDate", formData.modifieddate || "");
+
+    const rawData: any = {
+      id:id,
+      CatId: formData.catid.toString(),
+      Name: formData.subCatname,
+      Photo: formData.photo || "", 
+      Status: formData.status.toString(),
+      FrId: formData.frId.toString(),
+      ProdType: formData.productType.toString(),
+      CreatedBy: formData.createdby.toString(),
+      CreatedDate: formData.createddate,
+      ModifiedBy: formData.modifiedby.toString(),
+      ModifiedDate: formData.modifieddate || ""
+    };
+
     try {
-      const response: any = await updateRawSubCategory(Number(id), formDataObj);
-      
+      const response: any = await updateRawSubCategory(Number(id), rawData);
       if (response.status === 200) {
         setFormData({
           catid: 0,
@@ -144,7 +157,7 @@ const useEditRawSubCategory = ({
       setIsLoading(false);
     }
   };
-  
+
   return {
     formData,
     categoryOptions,

@@ -23,7 +23,7 @@ const useRawSubCategory = ({
     productType: "",
     frId: 0,
     category: "",
-    categoryImage:""
+    categoryImage: ""
   });
   const [message, setMessage] = useState<string | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<object[]>([]);
@@ -74,22 +74,35 @@ const useRawSubCategory = ({
     e.preventDefault();
     setMessage(null);
     setIsLoading(true);
-    
-    const formDataObj :any = new FormData();
-    formDataObj.append("CatId", formData.catid.toString());
-    formDataObj.append("Name", formData.subCatname);
-    formDataObj.append("Photo", formData.photo); 
-    formDataObj.append("Status", formData.status);
-    formDataObj.append("FrId", formData.frId.toString());
-    formDataObj.append("ProdType", formData.productType);
-    formDataObj.append("CreatedBy", formData.createdby.toString());
-    formDataObj.append("CreatedDate", formData.createddate);
-    formDataObj.append("ModifiedBy", formData.modifiedby.toString());
-    formDataObj.append("ModifiedDate", formData.modifieddate);
-  
+
+    // const formDataObj :any = new FormData();
+    // formDataObj.append("CatId", formData.catid.toString());
+    // formDataObj.append("Name", formData.subCatname);
+    // formDataObj.append("Photo", formData.photo); 
+    // formDataObj.append("Status", formData.status);
+    // formDataObj.append("FrId", formData.frId.toString());
+    // formDataObj.append("ProdType", formData.productType);
+    // formDataObj.append("CreatedBy", formData.createdby.toString());
+    // formDataObj.append("CreatedDate", formData.createddate);
+    // formDataObj.append("ModifiedBy", formData.modifiedby.toString());
+    // formDataObj.append("ModifiedDate", formData.modifieddate);
+
+    const rawData :any = {
+      CatId: formData.catid.toString(),
+      Name: formData.subCatname,
+      Photo: formData.photo,
+      Status: formData.status,
+      FrId: formData.frId.toString(),
+      ProdType: formData.productType,
+      CreatedBy: formData.createdby.toString(),
+      CreatedDate: formData.createddate,
+      ModifiedBy: formData.modifiedby.toString(),
+      ModifiedDate: formData.modifieddate
+    };
+
     try {
-      const response: any = await createRawSubCategory(formDataObj);
-  
+      const response: any = await createRawSubCategory(rawData);
+
       if (response.status === 200) {
         setMessage("Sub Category Added successfully!");
         setFormData({
@@ -104,7 +117,7 @@ const useRawSubCategory = ({
           productType: "",
           frId: 0,
           category: "",
-          categoryImage:""
+          categoryImage: ""
         });
         modalAddRawSubCategory();
         handelfetchSubCategories();
@@ -120,7 +133,7 @@ const useRawSubCategory = ({
       setIsLoading(false);
     }
   };
-  
+
 
   return {
     categoryOptions,

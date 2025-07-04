@@ -24,10 +24,9 @@ export const fetchEditMakingProductsAPI = async (
 
 // API to update a Making product
 export const updateMakingProductsAPI = async (
-  id: number,
   data: Partial<Product>
 ): Promise<AxiosResponse<Product>> => {
-  return axios.put<Product>(
+  return axios.post<Product>(
     `${API_BASE_URL}/selling-products/making-products/update-making-product.php`,
     data
   );

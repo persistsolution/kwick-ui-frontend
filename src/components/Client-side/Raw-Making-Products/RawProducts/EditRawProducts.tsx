@@ -35,12 +35,7 @@ const EditRawProducts: FC = () => {
     loading,
     handleSubmit,
     handleChange,
-    handelAddProductList,
-    addedProducts,
-    handleDelete,
-    handleChangeProductList,
     setFormValues,
-    setAddedProducts,
   } = useEditRawProductForm();
 
   return (
@@ -59,7 +54,7 @@ const EditRawProducts: FC = () => {
                 <div className="card-title">Add Product</div>
               </Card.Header>
               <Card.Body>
-                <Form onSubmit={handleSubmit}>
+                <Form>
                   <Row className="gy-4">
                     {[
                       {
@@ -68,9 +63,19 @@ const EditRawProducts: FC = () => {
                         type: "text",
                         required: "*",
                       },
+                       {
+                        name: "PurchasePrice",
+                        label: "Purchase Price",
+                        type: "number",
+                      },
+                      {
+                        name: "minQty",
+                        label: "Min Qty",
+                        type: "number",
+                      },
 
                       {
-                        name: "unitId",
+                        name: "Unit",
                         label: "Unit",
                         type: "select",
                         options: formValues.unitList,
@@ -88,18 +93,6 @@ const EditRawProducts: FC = () => {
                         type: "select",
                         options: formValues.getSubCategory,
                         required: "*",
-                      },
-                      {
-                        name: "customerProductId",
-                        label: "Customer Product",
-                        type: "select",
-                        options: formValues.productList,
-                      },
-
-                      {
-                        name: "makingQty",
-                        label: "Making Qty",
-                        type: "number",
                       },
                       {
                         name: "status",
@@ -128,8 +121,10 @@ const EditRawProducts: FC = () => {
                               "qrDisplay",
                               "status",
                               "transferProduct",
-                              "unitId",
+                              "Unit",
                               "makingQty",
+                              "PurchasePrice",
+                              "minQty"
                             ].includes(field.name)
                               ? 2
                               : ["productName"].includes(field.name)
@@ -203,96 +198,11 @@ const EditRawProducts: FC = () => {
                         </Col>
                       </Fragment>
                     ))}
-                    <Col xl={1} lg={1} md={1} sm={1}>
-                      <Button
-                        className="btn btn-primary mt-4"
-                        onClick={handelAddProductList}
-                      >
-                        <AddIcon />
-                      </Button>
-                    </Col>
-
-                    <Col xl={12} lg={12} md={12} sm={12}>
-                      <h5>Added Products</h5>
-                      <Table striped bordered hover>
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Customer Product ID</th>
-                            <th>Making Qty</th>
-                            <th className="text-center">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {addedProducts.map((product, idx) => (
-                            <tr key={idx + 1}>
-                              <td>{idx + 1}</td>
-                              {/* <td>{product.customerProductId}</td> */}
-                              <Select
-                                id={"product"}
-                                name={"product"}
-                                value={
-                                  formValues.productList
-                                    ?.map((option: any) => ({
-                                      label: option.name,
-                                      value: option.id,
-                                    }))
-                                    .find(
-                                      (option: any) =>
-                                        option.value ===
-                                        product.customerProductId
-                                    ) || null
-                                }
-                                options={
-                                  formValues.productList?.map(
-                                    (option: any) => ({
-                                      label: option.name,
-                                      value: option.id,
-                                    })
-                                  ) || []
-                                }
-                                onChange={(selectedOption: any) => {
-                                  setAddedProducts((prevProducts) =>
-                                    prevProducts.map((p, index) =>
-                                      index === idx
-                                        ? {
-                                          ...p,
-                                          customerProductId:
-                                            selectedOption?.value || "",
-                                        }
-                                        : p
-                                    )
-                                  );
-                                }}
-                                isSearchable
-                              />
-
-                              <td>
-                                <Form.Control
-                                  onChange={(e) =>
-                                    handleChangeProductList(Number(e.target.value), idx)
-                                  }
-                                  value={product.makingQty}
-                                />
-                              </td>
-                              <td className="text-center">
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  onClick={() => handleDelete(idx)}
-                                >
-                                  <DeleteIcon />
-                                </Button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
-                    </Col>
+            
                   </Row>
                   <Row className="mt-4">
                     <Col>
-                      <Button type="submit" className="btn btn-primary" disabled={loading}>
+                      <Button type="submit" className="btn btn-primary" onClick={(e : any)=>handleSubmit(e)} disabled={loading}>
                         {loading ? (
                           <>
                             <span className="me-2">Processing...</span>

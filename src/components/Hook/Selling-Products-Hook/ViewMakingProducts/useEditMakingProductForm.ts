@@ -135,10 +135,10 @@ console.log(formValues ,"formValues")
           BrandId:responseData?.BrandId
         }));
       } else {
-        setMessage(
-          `Error: ${response.data?.message || "Failed to Fetch Edit Product Data."
-          }`
-        );
+        // setMessage(
+        //   `Error: ${response.data?.message || "Failed to Fetch Edit Product Data."
+        //   }`
+        // );
       }
     } catch (error) {
       console.error("Error fetching product data:", error);
@@ -191,6 +191,7 @@ console.log(formValues ,"formValues")
     }
 
     const productData: Object = {
+      id:id,
       ProductName: formValues.productName,
       CatId: formValues.categoryId,
       SubCatId: formValues.subCategoryId,
@@ -234,7 +235,7 @@ console.log(formValues ,"formValues")
     };
 
     try {
-      const response: any = await updateMakingProductsAPI(Number(id), productData)
+      const response: any = await updateMakingProductsAPI( productData)
       if (response.status === 200) {
         // alert("Product Edit successfully!");
         navigate("/SellingProduct/ViewMakingProducts");

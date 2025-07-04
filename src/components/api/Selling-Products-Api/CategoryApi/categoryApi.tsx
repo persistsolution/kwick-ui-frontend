@@ -13,7 +13,6 @@ export const fetchCategories = async (): Promise<AxiosResponse<Category[]>> => {
   );
 };
 
-
 // API to fetch a category by ID
 export const fetchByIdCategory = async (
   id: number
@@ -28,7 +27,7 @@ export const updateCategory = async (
   id: number,
   data: Partial<Category>
 ): Promise<AxiosResponse<Category>> => {
-  return axios.put<Category>(
+  return axios.post<Category>(
     `${API_BASE_URL}/selling-products/category/update-category-api.php?id=${id}`,
     data
   );
