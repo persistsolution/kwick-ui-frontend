@@ -24,6 +24,7 @@ const ViewTransferStockToFofoFr: FC = () => {
     handleSort,
     handlePageChange,
     exportToExcel,
+    setSelectFranchise,
     // handleDeleteTransferStockToFofoFr,
     // handleEdit,
     getVisiblePages,
@@ -53,10 +54,12 @@ const ViewTransferStockToFofoFr: FC = () => {
                       <Select
                         name="state"
                         options={FranchiseList}
-                        className="basic-multi-select "
                         isSearchable
-                        menuPlacement="auto"
-                        classNamePrefix="Select2"
+                        getOptionLabel={(option: any) => option.full_name}
+                        getOptionValue={(option: any) => option.id.toString()}
+                        onChange={(selectedOption: any) => {
+                          setSelectFranchise(selectedOption ? selectedOption.id.toString() : "");
+                        }}
                         defaultValue={[FranchiseList[0]]}
                       />
                     </Form.Group>
@@ -68,7 +71,7 @@ const ViewTransferStockToFofoFr: FC = () => {
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: Date | any) => setfromDate(date)}
+                        onChange={(e) => setfromDate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
@@ -79,7 +82,7 @@ const ViewTransferStockToFofoFr: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: Date | any) => settodate(date)}
+                        onChange={(e) => settodate(e.target.value)}
                       />
                     </Form.Group>
                   </div>

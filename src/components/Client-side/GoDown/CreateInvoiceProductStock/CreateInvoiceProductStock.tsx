@@ -34,42 +34,33 @@ const CreateInvoiceProductStock: React.FC = () => {
                   <Row className="gy-4">
                     <Col xl={4}>
                       <Form.Group controlId="createGodownAccountName">
-                        <Form.Label>Vendor*</Form.Label>
+                        <Form.Label>Vendor <span className="text-danger">*</span></Form.Label>
                         <Select
                           name="vendorList"
                           options={vendorList}
-                          className="basic-multi-select "
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
                           defaultValue={[vendorList[0]]}
                         />
                       </Form.Group>
                     </Col>
                     <Col xl={4}>
                       <Form.Group controlId="franchiseList">
-                        <Form.Label>Franchise*</Form.Label>
+                        <Form.Label>Franchise <span className="text-danger">*</span></Form.Label>
                         <Select
                           name="franchiseList"
                           options={franchiseList}
-                          className="basic-multi-select "
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
                           defaultValue={[franchiseList[0]]}
                         />
                       </Form.Group>
                     </Col>
                     <Col xl={4}>
                       <Form.Group controlId="productList">
-                        <Form.Label>Product*</Form.Label>
+                        <Form.Label>Product <span className="text-danger">*</span></Form.Label>
                         <Select
                           name="productList"
                           options={productList}
-                          className="basic-multi-select "
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
                           defaultValue={[productList[0]]}
                         />
                       </Form.Group>
@@ -121,7 +112,7 @@ const CreateInvoiceProductStock: React.FC = () => {
 
                     <Col xl={2}>
                       <Form.Group controlId="totalQty">
-                        <Form.Label>Total Qty*</Form.Label>
+                        <Form.Label>Total Qty <span className="text-danger">*</span></Form.Label>
                         <Form.Control
                           name="totalQty"
                           type="number"
@@ -134,7 +125,7 @@ const CreateInvoiceProductStock: React.FC = () => {
 
                     <Col xl={2}>
                       <Form.Group controlId="gstAmount">
-                        <Form.Label>GST Amount*</Form.Label>
+                        <Form.Label>GST Amount <span className="text-danger">*</span></Form.Label>
                         <Form.Control
                           type="number"
                           name="gstAmount"
@@ -159,7 +150,7 @@ const CreateInvoiceProductStock: React.FC = () => {
 
                     <Col xl={2}>
                       <Form.Group controlId="requestDate">
-                        <Form.Label>Request Date*</Form.Label>
+                        <Form.Label>Request Date <span className="text-danger">*</span></Form.Label>
                         <Form.Control
                           type="date"
                           name="requestDate"
@@ -172,7 +163,7 @@ const CreateInvoiceProductStock: React.FC = () => {
 
                     <Col xl={2}>
                       <Form.Group controlId="updateDate">
-                        <Form.Label>Updated Date*</Form.Label>
+                        <Form.Label>Updated Date <span className="text-danger">*</span></Form.Label>
                         <Form.Control
                           type="date"
                           name="updateDate"
@@ -214,9 +205,14 @@ const CreateInvoiceProductStock: React.FC = () => {
                         className="btn btn-primary"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Submitting..." : "Submit"}
+                        {isLoading ? (
+                          <>
+                            <span className="me-2">Processing...</span>
+                            <span className="loading"><i className="ri-loader-2-fill fs-16"></i></span>
+                          </>
+                        ) : "Submit"}
                       </Button>
-                      {message && (
+                      {/* {message && (
                         <p
                           className={`mt-3 ${
                             message.includes("successfully")
@@ -226,7 +222,7 @@ const CreateInvoiceProductStock: React.FC = () => {
                         >
                           {message}
                         </p>
-                      )}
+                      )} */}
                     </Col>
                   </Row>
                   {/* </Container> */}

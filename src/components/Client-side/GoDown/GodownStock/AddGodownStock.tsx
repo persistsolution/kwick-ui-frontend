@@ -24,6 +24,7 @@ const AddGodownStock: React.FC = () => {
     isLoading,
     goDownList,
     goDownProductlist,
+    otherProductList,
     handleChange,
     handleSubmit,
     handelAddGodown,
@@ -76,22 +77,23 @@ const AddGodownStock: React.FC = () => {
                     <Container className="fieldset border mt-3 col-12">
                       <Row>
                         <Col xl={3}>
-                          <Form.Group controlId="goDownProductlist">
+                          <Form.Group controlId="otherProductList">
                             <Form.Label>
                               Product<span className="text-danger">*</span>
                             </Form.Label>
                             <Select
-                              name="goDownProductlist"
+                              name="otherProductList"
                               isSearchable
                               options={
-                                goDownProductlist?.map((option) => ({
+                                otherProductList?.map((option) => ({
                                   label: option.ProductName,
                                   value: option.id,
+                                  data:option
                                 })) || []
                               }
-                              onChange={(selectedOption: SelectOption | null) =>
+                              onChange={(selectedOption: any) =>
                                 selectedOption &&
-                                handlSelectGodownProductList(selectedOption)
+                                handlSelectGodownProductList(selectedOption.data)
                               }
                               required
                             />
@@ -233,9 +235,9 @@ const AddGodownStock: React.FC = () => {
 
                     {/* Listing Added Products */}
                     {formValues.addGodownStockArray.map((item, idx) => (
-                      <Container className="fieldset border p-4 mt-3" key={idx}>
+                      <Container className="fieldset border col-12 p-4 mt-3" key={idx}>
                         <Row>
-                          <Col xl={6}>
+                          <Col xl={4}>
                             <Form.Group controlId={`productName-${idx}`}>
                               <Form.Label>Product</Form.Label>
                               <Select
@@ -266,25 +268,25 @@ const AddGodownStock: React.FC = () => {
                           </Col>
 
                           {[
-                            { label: "Available Stock", key: "availableStock" },
-                            { label: "Unit", key: "unit" },
-                            { label: "Stock In Qty", key: "stockInQty" },
-                            { label: "Qty Unit", key: "qtyUnit" },
-                            { label: "Product Price", key: "productPrice" },
-                            { label: "Total Price", key: "totalPrice", readOnly: true },
-                            { label: "CGST%", key: "cgst", readOnly: true },
-                            { label: "SGST%", key: "sgst", readOnly: true },
-                            { label: "IGST%", key: "igst", readOnly: true },
-                            { label: "Total GST", key: "totalgst", readOnly: true },
+                            { label: "Available Stock", key: "availableStock" , type:"number" },
+                            { label: "Available Stock Unit", key: "unit"  , type:"text"},
+                            { label: "Stock In Qty", key: "stockInQty" , type:"number"},
+                            { label: "Qty Unit", key: "qtyUnit" , type:"text" },
+                            { label: "Product Price", key: "productPrice" , type:"number" },
+                            { label: "Total Price", key: "totalPrice", readOnly: true  , type:"number"},
+                            { label: "CGST%", key: "cgst", readOnly: true  , type:"number"},
+                            { label: "SGST%", key: "sgst", readOnly: true  , type:"number"},
+                            { label: "IGST%", key: "igst", readOnly: true  , type:"number"},
+                            { label: "Total GST", key: "totalgst", readOnly: true  , type:"number"},
                           ].map(({ label, key, readOnly = false }) => (
                             <Col xl={2} key={key}>
                               <Form.Group controlId={`${key}-${idx}`}>
                                 <Form.Label>{label}</Form.Label>
                                 <Form.Control
-                                  type="number"
+                                  type="text"
                                   name={key}
                                   value={(item as any)[key]}
-                                  onChange={(e) => handelChangeAddedGodownPoduct(e, idx)}
+                                  onChange={(e : any) => handelChangeAddedGodownPoduct(e, idx)}
                                   readOnly={readOnly}
                                 />
                               </Form.Group>

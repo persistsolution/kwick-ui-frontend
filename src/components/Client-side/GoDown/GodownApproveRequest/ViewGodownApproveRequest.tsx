@@ -3,16 +3,19 @@ import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
 import useGodownApproveRequest from "../../../Hook/GoDown-Hook/GodownApproveAccount/useGodownApproveRequest";
 import { Link } from "react-router-dom";
+import SkeletonLoader from "../../../../common/SkeletonLoader";
 
 const ViewGodownApproveRequest: FC = () => {
   const {
     indexOfLastGodownApproveRequest,
     indexOfFirstGodownApproveRequest,
     viewGodownApproveRequest,
+    currentviewGodownApproveRequest,
     searchTerm,
     currentPage,
     viewGodownApproveRequestPerPage,
     totalPages,
+    loading,
     handleSearch,
     handleSort,
     handlePageChange,
@@ -69,93 +72,95 @@ const ViewGodownApproveRequest: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                  <Table
-                    id="GodownAccount-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("invoiceNo")}>
-                          Invoice No
-                        </th>
-                        <th onClick={() => handleSort("franchise")}>
-                          Franchise{" "}
-                        </th>
-                        <th onClick={() => handleSort("requestedDate")}>
-                          Requested Data{" "}
-                        </th>
-                        <th onClick={() => handleSort("totalQty")}>
-                          Total Product{" "}
-                        </th>
-                        <th onClick={() => handleSort("downloadExcel")}>
-                          Download Excel{" "}
-                        </th>
-                        <th onClick={() => handleSort("narration")}>
-                          Narration{" "}
-                        </th>
-                        <th onClick={() => handleSort("CreatedDate")}>Created Date </th>
-                        <th onClick={() => handleSort("status")}>Status </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {viewGodownApproveRequest.length > 0 ? (
-                        viewGodownApproveRequest.map((GodownAccount: any) => (
-
-                          <tr key={GodownAccount.id}>
-                            <td>{GodownAccount?.sr_no}</td>
-
-                            <td>
-                              <Link
-                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
-                                to=""
-                                target="_blank"
-                              >
-                                #{GodownAccount?.request_id}
-                              </Link>
-                            </td>
-                            <td>{GodownAccount?.godown_name}</td>
-                            <td>{GodownAccount?.stock_date}</td>
-                            <td>                            <Link
-                              // to={`/Franchise/frDashboard/${GodownAccount.id}`}
-                              to=""
-                              target="_blank"
-                            >
-                              {GodownAccount?.item_count}
-                            </Link>
-                            </td>
-
-                            <td>
-                              <Link
-                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
-                                to=""
-                                target="_blank"
-                              >
-                                Download
-                              </Link>
-                            </td>
-                            <td>{GodownAccount?.narration}</td>
-                            <td>{GodownAccount?.created_date}</td>
-                            <td
-                            className={`${GodownAccount.status == "Approved"
-                              ? "text-success"
-                              : "text-danger"
-                              }`}
-                          >
-                            {GodownAccount.status}
-                          </td>
-                          </tr>
-
-                        ))
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="GodownAccount-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("invoiceNo")}>
+                            Invoice No
+                          </th>
+                          <th onClick={() => handleSort("franchise")}>
+                            Franchise{" "}
+                          </th>
+                          <th onClick={() => handleSort("requestedDate")}>
+                            Requested Data{" "}
+                          </th>
+                          <th onClick={() => handleSort("totalQty")}>
+                            Total Product{" "}
+                          </th>
+                          <th onClick={() => handleSort("downloadExcel")}>
+                            Download Excel{" "}
+                          </th>
+                          <th onClick={() => handleSort("narration")}>
+                            Narration{" "}
+                          </th>
+                          <th onClick={() => handleSort("CreatedDate")}>Created Date </th>
+                          <th onClick={() => handleSort("status")}>Status </th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {currentviewGodownApproveRequest.length > 0 ? (
+                          currentviewGodownApproveRequest.map((GodownAccount: any) => (
+                            <tr key={GodownAccount.id}>
+                              <td>{GodownAccount?.sr_no}</td>
+                              <td>
+                                <Link
+                                  // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                  to=""
+                                  target="_blank"
+                                >
+                                  #{GodownAccount?.request_id}
+                                </Link>
+                              </td>
+                              <td>{GodownAccount?.godown_name}</td>
+                              <td>{GodownAccount?.stock_date}</td>
+                              <td>                           
+                              <Link
+                                // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                to=""
+                                target="_blank"
+                              >
+                                {GodownAccount?.item_count}
+                              </Link>
+                              </td>
+                              <td>
+                                <Link
+                                  // to={`/Franchise/frDashboard/${GodownAccount.id}`}
+                                  to=""
+                                  target="_blank"
+                                >
+                                  Download
+                                </Link>
+                              </td>
+                              <td>{GodownAccount?.narration}</td>
+                              <td>{GodownAccount?.created_date}</td>
+                              <td
+                                className={`${GodownAccount.status == "Approved"
+                                  ? "text-success"
+                                  : "text-danger"
+                                  }`}
+                              >
+                                {GodownAccount.status}
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  )}
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

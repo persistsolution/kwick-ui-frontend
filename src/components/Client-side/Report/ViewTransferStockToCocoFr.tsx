@@ -21,6 +21,7 @@ const ViewTransferStockToCocoFr: FC = () => {
         franchiseArray,
         selectFranchise,
         godownProductArray,
+        franchisesList,
         selectFranchiseProduct,
         loading,
         currentTransferStockToCocoFr,
@@ -44,7 +45,6 @@ const ViewTransferStockToCocoFr: FC = () => {
         homepage="Products"
         activepage="Godown Stock Report"
       /> */}
-
             <div className="main-container container-fluid">
                 <Row>
                     <Col xl={12}>
@@ -55,16 +55,16 @@ const ViewTransferStockToCocoFr: FC = () => {
                                         <Form.Label>Select Franchise</Form.Label>
                                         <Form.Group>
                                             <Select
-                                                id="godown"
-                                                name="godown"
+                                                id="selectFranchise"
+                                                name="selectFranchise"
                                                 value={
-                                                    franchiseArray.find(
+                                                    franchisesList.find(
                                                         (option: any) => option.id.toString() === selectFranchise
                                                     ) || null
                                                 }
-                                                options={franchiseArray}
+                                                options={franchisesList}
                                                 getOptionLabel={(option: any) => option.label}
-                                                getOptionValue={(option: any) => option.id.toString()}
+                                                getOptionValue={(option: any) => option.id}
                                                 onChange={(selectedOption: any) => {
                                                     setSelectFranchise(selectedOption ? selectedOption.id.toString() : "");
                                                 }}
@@ -79,11 +79,10 @@ const ViewTransferStockToCocoFr: FC = () => {
                                             <Form.Control
                                                 type="date"
                                                 value={fromDate}
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setfromDate(e.target.value)}
+                                                onChange={(e) => setfromDate(e.target.value)}
                                             />
                                         </Form.Group>
                                     </div>
-
 
                                     <div className="col-md-2 col-6">
                                         <Form.Group controlId="toDate">
@@ -91,12 +90,10 @@ const ViewTransferStockToCocoFr: FC = () => {
                                             <Form.Control
                                                 type="date"
                                                 value={toDate}
-                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => settodate(e.target.value)}
+                                                onChange={(e) => settodate(e.target.value)}
                                             />
                                         </Form.Group>
                                     </div>
-
-
 
                                     <div className="col-md-6 col-12">
                                         <Form.Control

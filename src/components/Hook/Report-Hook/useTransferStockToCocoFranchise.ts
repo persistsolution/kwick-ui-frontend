@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { utils, writeFile } from "xlsx";
 import { fetchGodownFranchiseReportApi } from "../../api/Report-Api/dailySellReport";
+import { fetchFranchiseApi } from "../../api/Franchise-Api/FranchiseApi";
+
 
 const useTransferStockToCocoFr = () => {
   const [TransferStockToCocoFr, setTransferStockToCocoFr] = useState<any[]>([]);
@@ -20,9 +22,11 @@ const useTransferStockToCocoFr = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string | null; direction: string }>({ key: null, direction: "asc" });
   const [countryArray, setcountryArray] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [franchisesList ,setFranchisesList]=useState<any[]>([]);
 
   useEffect(() => {
     handleFetchTransferStockToCocoFr();
+    handleFetchFranchises();
   }, []);
 
   const handleFetchTransferStockToCocoFr = async () => {
@@ -39,11 +43,21 @@ const useTransferStockToCocoFr = () => {
     }
   };
 
+    const handleFetchFranchises = async () => {
+      try {
+        const response: any = await fetchFranchiseApi();
+        const data = response?.data?.data || []
+        setFranchisesList(data);
+      } catch (error) {
+        console.error("Error fetching franchises:", error);
+      }
+    };
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setFilteredTransferStockToCocoFr(
       TransferStockToCocoFr.filter((item: any) =>
-        item?.Name?.toLowerCase().includes(term.toLowerCase()) ||
+        item?.franchise_name?.toLowerCase().includes(term.toLowerCase()) ||
         item?.id?.toString().includes(term.toLowerCase())
       )
     );
@@ -112,6 +126,7 @@ const useTransferStockToCocoFr = () => {
     selectFranchise,
     selectFranchiseProduct,
     godownProductArray,
+    franchisesList,
     loading,
     handleSearch,
     settodate,

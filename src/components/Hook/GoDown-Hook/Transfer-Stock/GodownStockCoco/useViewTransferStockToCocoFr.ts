@@ -5,6 +5,7 @@ import {
   fetchTransferStockToCocoFrApi,
   deleteTransferStockToCocoFr,
 } from "../../../../api/GoDown-Api/Transfer-Stock/TransferStockApi";
+import { fetchFranchiseApi } from "../../../../api/Franchise-Api/FranchiseApi";
 
 const useViewTransferStockToCocoFr = () => {
   const [viewTransferStockToCocoFr, setviewTransferStockToCocoFr] = useState(
@@ -28,10 +29,12 @@ const useViewTransferStockToCocoFr = () => {
   const [toDate, settodate] = useState<Date | any>();
   const [FranchiseList, setFranchiseList] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectFranchise ,setSelectFranchise]= useState<string>("");
 
   const navigate = useNavigate();
   useEffect(() => {
     handleFetchviewTransferStockToCocoFr();
+    handleFetchFranchises();
   }, []);
 
   const handelNavigatetoTransferCoco = () => {
@@ -49,6 +52,16 @@ const useViewTransferStockToCocoFr = () => {
     } catch (error) {
       console.error("Error fetching viewTransferStockToCocoFr:", error);
       setLoading(false)
+    }
+  };
+  
+  const handleFetchFranchises = async () => {
+    try {
+      const response: any = await fetchFranchiseApi();
+      const data = response?.data?.data || []
+      setFranchiseList(data);
+    } catch (error) {
+      console.error("Error fetching franchises:", error);
     }
   };
 
@@ -160,12 +173,14 @@ const useViewTransferStockToCocoFr = () => {
     toDate,
     FranchiseList,
     loading,
+    selectFranchise,
     handleSearch,
     handleSort,
     handlePageChange,
     exportToExcel,
     handleDeleteTransferStockToCocoFr,
     handleEdit,
+    setSelectFranchise,
     getVisiblePages,
     setviewTransferStockToCocoFrPerPage,
     setfromDate,

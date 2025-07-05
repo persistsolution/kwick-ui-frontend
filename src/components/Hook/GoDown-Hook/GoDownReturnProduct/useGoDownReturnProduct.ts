@@ -3,39 +3,44 @@ import { utils, writeFile } from "xlsx";
 import { fetchGodownReturnProductApi } from "../../../api/GoDown-Api/GodownRetunProductApi/GodownRetunProductApi";
 import { useNavigate } from "react-router-dom";
 
+interface GodownReturnProduct {
+  id: number;
+  invoice_no?: string;
+  [key: string]: any;
+}
+
 const useGoDownReturnProduct = () => {
-  const [viewGodownReturnProduct, setviewGodownReturnProduct] = useState([]);
-  const [filteredviewGodownReturnProduct, setFilteredviewGodownReturnProduct] =
-    useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [viewGodownReturnProductPerPage, setviewGodownReturnProductPerPage] =
-    useState(5);
+  const [viewGodownReturnProduct, setviewGodownReturnProduct] = useState<GodownReturnProduct[]>([]);
+  const [filteredviewGodownReturnProduct, setFilteredviewGodownReturnProduct] = useState<GodownReturnProduct[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [viewGodownReturnProductPerPage, setviewGodownReturnProductPerPage] = useState<number>(5);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
     direction: string;
   }>({ key: null, direction: "asc" });
-  const [loading, setloading] = useState(false)
-  const navigate = useNavigate()
+  const [loading, setloading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleFetchviewGodownReturnProduct();
   }, []);
 
   const handleAddReturnProduct = () => {
-    navigate("/GoDown/GodownReturnProduct")
-  }
+    navigate("/GoDown/GodownReturnProduct");
+  };
 
   const handleFetchviewGodownReturnProduct = async () => {
-    setloading(true)
+    setloading(true);
     try {
       const response: any = await fetchGodownReturnProductApi();
-      const data = response?.data?.data || []
+      const data: GodownReturnProduct[] = response?.data?.data || [];
       setviewGodownReturnProduct(data);
       setFilteredviewGodownReturnProduct(data);
-      setloading(!data)
+      setloading(false); // Fixed logic: always set explicitly
     } catch (error) {
-      setloading(false)
+      setloading(false);
       console.error("Error fetching viewGodownReturnProduct:", error);
     }
   };
@@ -43,11 +48,9 @@ const useGoDownReturnProduct = () => {
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setFilteredviewGodownReturnProduct(
-      viewGodownReturnProduct.filter(
-        (GodownReturnProduct: any) =>
-          GodownReturnProduct?.Name?.toLowerCase().includes(
-            term.toLowerCase()
-          ) || GodownReturnProduct?.id?.toString().includes(term.toLowerCase())
+      viewGodownReturnProduct.filter((item: GodownReturnProduct) =>
+        item?.vendor_name?.toLowerCase().includes(term.toLowerCase()) ||
+        item?.id?.toString().includes(term.toLowerCase())
       )
     );
   };
@@ -57,16 +60,15 @@ const useGoDownReturnProduct = () => {
     if (sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
-    const sortedviewGodownReturnProduct = [
-      ...filteredviewGodownReturnProduct,
-    ].sort((a, b) => {
+
+    const sorted = [...filteredviewGodownReturnProduct].sort((a, b) => {
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
       if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSortConfig({ key, direction });
-    setFilteredviewGodownReturnProduct(sortedviewGodownReturnProduct);
+    setFilteredviewGodownReturnProduct(sorted);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -75,11 +77,13 @@ const useGoDownReturnProduct = () => {
 
   const exportToExcel = () => {
     const table = document.getElementById("GodownReturnProduct-table");
-    const workbook = utils.table_to_book(table);
-    writeFile(workbook, "GodownReturnProduct_data.xlsx");
+    if (table) {
+      const workbook = utils.table_to_book(table);
+      writeFile(workbook, "GodownReturnProduct_data.xlsx");
+    }
   };
 
-  const getVisiblePages = () => {
+  const getVisiblePages = (): number[] => {
     const maxVisiblePages = 5;
     let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
     let endPage = startPage + maxVisiblePages - 1;
@@ -89,22 +93,18 @@ const useGoDownReturnProduct = () => {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    return [...Array(endPage - startPage + 1)].map(
-      (_, index) => startPage + index
-    );
+    return [...Array(endPage - startPage + 1)].map((_, index) => startPage + index);
   };
 
-  const indexOfLastGodownReturnProduct =
-    currentPage * viewGodownReturnProductPerPage;
-  const indexOfFirstGodownReturnProduct =
-    indexOfLastGodownReturnProduct - viewGodownReturnProductPerPage;
+  const indexOfLastGodownReturnProduct = currentPage * viewGodownReturnProductPerPage;
+  const indexOfFirstGodownReturnProduct = indexOfLastGodownReturnProduct - viewGodownReturnProductPerPage;
+
   const currentviewGodownReturnProduct = filteredviewGodownReturnProduct.slice(
     indexOfFirstGodownReturnProduct,
     indexOfLastGodownReturnProduct
   );
-  const totalPages = Math.ceil(
-    filteredviewGodownReturnProduct.length / viewGodownReturnProductPerPage
-  );
+
+  const totalPages = Math.ceil(filteredviewGodownReturnProduct.length / viewGodownReturnProductPerPage);
 
   return {
     indexOfLastGodownReturnProduct,
@@ -124,7 +124,7 @@ const useGoDownReturnProduct = () => {
     exportToExcel,
     getVisiblePages,
     setviewGodownReturnProductPerPage,
-    handleAddReturnProduct
+    handleAddReturnProduct,
   };
 };
 

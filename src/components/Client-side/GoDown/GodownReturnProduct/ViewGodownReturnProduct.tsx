@@ -13,6 +13,7 @@ const ViewGodownReturnProduct: FC = () => {
     searchTerm,
     currentPage,
     viewGodownReturnProductPerPage,
+    currentviewGodownReturnProduct,
     totalPages,
     loading,
     handleSearch,
@@ -78,7 +79,7 @@ const ViewGodownReturnProduct: FC = () => {
                   {loading ? (
                     <SkeletonLoader loading={loading}/>
                   ) : (
-    <Table
+                  <Table
                     id="GodownAccount-table"
                     className="border text-nowrap text-md-nowrap table-hover mb-0"
                   >
@@ -107,11 +108,10 @@ const ViewGodownReturnProduct: FC = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {viewGodownReturnProduct.length > 0 ? (
-                        viewGodownReturnProduct.map((GodownAccount: any) => (
+                      {currentviewGodownReturnProduct.length > 0 ? (
+                        currentviewGodownReturnProduct.map((GodownAccount: any) => (
                           <tr key={GodownAccount.id}>
                             <td>{GodownAccount?.sr_no}</td>
-
                             <td>
                               {GodownAccount?.invoice_no}
                             </td>
@@ -138,7 +138,6 @@ const ViewGodownReturnProduct: FC = () => {
                               {GodownAccount.return_status}
                             </td>
                             <td>{GodownAccount?.created_at}</td>
-
                           </tr>
                         ))
                       ) : (
@@ -151,9 +150,7 @@ const ViewGodownReturnProduct: FC = () => {
                     </tbody>
                   </Table>
                   )}
-              
                 </div>
-
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                   <div>
                     Showing {indexOfFirstGodownReturnProduct + 1} to{" "}

@@ -24,6 +24,7 @@ const ViewTransferStockToOtherFr: FC = () => {
     handleSort,
     handlePageChange,
     exportToExcel,
+    setSelectFranchise,
     // handleDeleteTransferStockToOtherFr,
     // handleEdit,
     getVisiblePages,
@@ -53,10 +54,12 @@ const ViewTransferStockToOtherFr: FC = () => {
                       <Select
                         name="state"
                         options={FranchiseList}
-                        className="basic-multi-select "
                         isSearchable
-                        menuPlacement="auto"
-                        // classNamePrefix="Select2"
+                        getOptionLabel={(option: any) => option.full_name}
+                        getOptionValue={(option: any) => option.id.toString()}
+                        onChange={(selectedOption: any) => {
+                          setSelectFranchise(selectedOption ? selectedOption.id.toString() : "");
+                        }}
                         defaultValue={[FranchiseList[0]]}
                       />
                     </Form.Group>

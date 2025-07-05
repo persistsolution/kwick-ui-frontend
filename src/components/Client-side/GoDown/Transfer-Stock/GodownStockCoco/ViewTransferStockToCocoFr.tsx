@@ -30,6 +30,7 @@ const ViewTransferStockToCocoFr: FC = () => {
     setviewTransferStockToCocoFrPerPage,
     setfromDate,
     settodate,
+    setSelectFranchise,
     handelNavigatetoTransferCoco,
   } = useViewTransferStockToCocoFr();
 
@@ -53,10 +54,12 @@ const ViewTransferStockToCocoFr: FC = () => {
                       <Select
                         name="state"
                         options={FranchiseList}
-                        className="basic-multi-select "
                         isSearchable
-                        menuPlacement="auto"
-                        classNamePrefix="Select2"
+                        getOptionLabel={(option: any) => option.full_name}
+                        getOptionValue={(option: any) => option.id.toString()}
+                        onChange={(selectedOption: any) => {
+                          setSelectFranchise(selectedOption ? selectedOption.id.toString() : "");
+                        }}
                         defaultValue={[FranchiseList[0]]}
                       />
                     </Form.Group>
@@ -68,7 +71,7 @@ const ViewTransferStockToCocoFr: FC = () => {
                       <Form.Control
                         value={fromDate}
                         type="date"
-                        onChange={(date: Date | any) => setfromDate(date)}
+                        onChange={(e) => setfromDate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
@@ -79,7 +82,7 @@ const ViewTransferStockToCocoFr: FC = () => {
                       <Form.Control
                         value={toDate}
                         type="date"
-                        onChange={(date: Date | any) => settodate(date)}
+                        onChange={(e) => settodate(e.target.value)}
                       />
                     </Form.Group>
                   </div>
@@ -123,77 +126,77 @@ const ViewTransferStockToCocoFr: FC = () => {
                 </div>
 
                 <div className="table-responsive">
-                        {loading ? (
-                                  <SkeletonLoader loading={loading} />
-                                ) : (
-                  <Table
-                    id="GodownAccount-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("goDown")}>Go Down</th>
-                        <th onClick={() => handleSort("franchise")}>
-                          Franchise{" "}
-                        </th>
-                        <th onClick={() => handleSort("transferDate")}>
-                          Transfer Data{" "}
-                        </th>
-                        <th onClick={() => handleSort("totalQty")}>
-                          Total Qty{" "}
-                        </th>
-                        <th onClick={() => handleSort("totalAmount")}>
-                          Total Amount{" "}
-                        </th>
-                        <th onClick={() => handleSort("narration")}>
-                          Narration{" "}
-                        </th>
-                        <th onClick={() => handleSort("createdDate")}>
-                          Created Date{" "}
-                        </th>
-                        <th onClick={() => handleSort("invoicePrint")}>
-                          Invoice Print{" "}
-                        </th>
-                        <th onClick={() => handleSort("print")}>Print </th>
-                        {/* <th>Edit</th> */}
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentviewTransferStockToCocoFr.length > 0 ? (
-                        currentviewTransferStockToCocoFr.map(
-                          (GodownAccount: any) => (
-                            <tr key={GodownAccount.sr_no}>
-                              <td>{GodownAccount.sr_no}</td>
-                              <td>{GodownAccount.godown_name}</td>
-                              <td>{GodownAccount?.franchise_name}</td>
-                              <td>{GodownAccount.stock_date}</td>
-                              <td>{GodownAccount.total_qty}</td>
-                              <td>{GodownAccount.total_amount}</td>
-                              <td>{GodownAccount.narration}</td>
-                              <td>{GodownAccount.created_date}</td>
-                              <td >  <Link to="" target="_blank"
-                              ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
-                              <td><Link to="" target="_blank"
-                              ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
-                              <td>
-                                <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
-                                  <i className="bi bi-trash"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          )
-                        )
-                      ) : (
+                  {loading ? (
+                    <SkeletonLoader loading={loading} />
+                  ) : (
+                    <Table
+                      id="GodownAccount-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
                         <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("goDown")}>Go Down</th>
+                          <th onClick={() => handleSort("franchise")}>
+                            Franchise{" "}
+                          </th>
+                          <th onClick={() => handleSort("transferDate")}>
+                            Transfer Data{" "}
+                          </th>
+                          <th onClick={() => handleSort("totalQty")}>
+                            Total Qty{" "}
+                          </th>
+                          <th onClick={() => handleSort("totalAmount")}>
+                            Total Amount{" "}
+                          </th>
+                          <th onClick={() => handleSort("narration")}>
+                            Narration{" "}
+                          </th>
+                          <th onClick={() => handleSort("createdDate")}>
+                            Created Date{" "}
+                          </th>
+                          <th onClick={() => handleSort("invoicePrint")}>
+                            Invoice Print{" "}
+                          </th>
+                          <th onClick={() => handleSort("print")}>Print </th>
+                          {/* <th>Edit</th> */}
+                          <th>Delete</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </Table>)}
+                      </thead>
+                      <tbody>
+                        {currentviewTransferStockToCocoFr.length > 0 ? (
+                          currentviewTransferStockToCocoFr.map(
+                            (GodownAccount: any) => (
+                              <tr key={GodownAccount.sr_no}>
+                                <td>{GodownAccount.sr_no}</td>
+                                <td>{GodownAccount.godown_name}</td>
+                                <td>{GodownAccount?.franchise_name}</td>
+                                <td>{GodownAccount.stock_date}</td>
+                                <td>{GodownAccount.total_qty}</td>
+                                <td>{GodownAccount.total_amount}</td>
+                                <td>{GodownAccount.narration}</td>
+                                <td>{GodownAccount.created_date}</td>
+                                <td >  <Link to="" target="_blank"
+                                ><i className="fa fa-print fa-lg pointer"></i> </Link></td>
+                                <td><Link to="" target="_blank"
+                                ><i className="fa fa-print fa-lg pointer"></i></Link> </td>
+                                <td>
+                                  <button className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                    <i className="bi bi-trash"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            )
+                          )
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>)}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
