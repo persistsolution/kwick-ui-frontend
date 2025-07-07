@@ -25,7 +25,7 @@ export const updateEmployeeApi = async (
 export const deleteEmploye = async (
   id: number
 ): Promise<AxiosResponse<void>> => {
-  return axios.delete<void>(`${API_BASE_URL}/employee/delete/${id}`);
+  return axios.delete<void>(`${API_BASE_URL}/employee/delete-employee.php?id=${id}`);
 };
 
 // API to create Employe

@@ -4,6 +4,13 @@ import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import Select from "react-select";
 import useTragetCompletion from "../../Hook/TargetComplete-Hook/useTragetCompletion";
 
+
+interface FranchiseOption {
+  label: string;
+  value: string | number;
+}
+
+
 const TragetCompletion: React.FC = () => {
   const {
     indexOfLastTargetCompletion,
@@ -21,6 +28,8 @@ const TragetCompletion: React.FC = () => {
     // setfromDate,
     // settodate,
     formValues,
+    selectFranchise,
+    setSelectFranchise,
     handleSort,
     handlePageChange,
     exportToExcel,
@@ -50,13 +59,24 @@ const TragetCompletion: React.FC = () => {
                       <Form.Group controlId="goDownlist">
                         <Form.Label>Franchise</Form.Label>
                         <Select
-                          name="state"
-                          options={franchiseList}
-                          className="basic-multi-select "
+                          id="franchiseList"
+                          name="franchiseList"
+                          value={
+                            franchiseList
+                              ?.map((option): FranchiseOption => ({
+                                label: option.full_name,
+                                value: option.id,
+                              }))
+                              .find((option) => option.value === selectFranchise) || null
+                          }
+                          options={franchiseList?.map((option): FranchiseOption => ({
+                            label: option.full_name,
+                            value: option.id,
+                          }))}
+                          onChange={(selectedOption: any) => {
+                            setSelectFranchise(selectedOption ? selectedOption.value : "");
+                          }}
                           isSearchable
-                          menuPlacement="auto"
-                          classNamePrefix="Select2"
-                          defaultValue={[franchiseList[0]]}
                         />
                       </Form.Group>
                     </Col>

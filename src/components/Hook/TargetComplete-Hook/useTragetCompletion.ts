@@ -1,6 +1,7 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import { utils, writeFile } from "xlsx";
 import { TragetCompletionApi } from "../../api/SetTarget-Api/SetTargetApi";
+import { fetchFranchiseApi } from "../../api/Franchise-Api/FranchiseApi";
 
 // Define types
 interface TargetCompletionItem {
@@ -35,11 +36,17 @@ const useTragetCompletion = () => {
     key: null,
     direction: "asc",
   });
-
+  const [selectFranchise , setSelectFranchise] = useState<string>("");
   const [formValues, setFormValues] = useState<FormValues>({
     month: "",
     year: "",
   });
+
+
+    useEffect(() => {
+    handleFetchTargetCompletion();
+    handleFetchFranchises();
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -65,6 +72,16 @@ const useTragetCompletion = () => {
     }
   };
 
+    const handleFetchFranchises = async () => {
+      try {
+        const response: any = await fetchFranchiseApi();
+        const data = response?.data?.data || [];
+        setfranchiseList(data);
+      } catch (error) {
+        console.error("Error fetching franchises:", error);
+      }
+    };
+
   const handleFetchTargetCompletion = async () => {
     try {
       const response: any = await TragetCompletionApi({});
@@ -76,9 +93,7 @@ const useTragetCompletion = () => {
     }
   };
 
-  useEffect(() => {
-    handleFetchTargetCompletion();
-  }, []);
+
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -153,6 +168,8 @@ const useTragetCompletion = () => {
     fromDate,
     toDate,
     formValues,
+    selectFranchise , 
+    setSelectFranchise,
     handleSearch,
     settodate,
     setfromDate,

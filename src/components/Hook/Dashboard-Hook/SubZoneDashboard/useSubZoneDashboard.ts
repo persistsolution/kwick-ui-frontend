@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import dayjs from "dayjs";
 import { fetchDashboardDataApi } from "../../../api/Dashboard-Api/DashboardAPi";
-import { useNavigate } from "react-router-dom";
 
 interface DashboardDataType {
   ZoneId: string;
@@ -17,7 +16,7 @@ interface DashboardDataType {
   UPI: number;
 }
 
-const useIndexPage = () => {
+const useSubZoneDashboard = () => {
   const [selectReport, setSelectReport] = useState<string>("today");
   const [totalEmployees] = useState<any>(0);
   const [totalFranchises] = useState<any>(0);
@@ -25,7 +24,6 @@ const useIndexPage = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [dashboardData, setDashboardData] = useState<DashboardDataType[]>([]);
   const [toDate, setToDate] = useState<string>("");
-  const navigate = useNavigate()
 
   const [chartState] = useState({
     series: [
@@ -114,10 +112,6 @@ const useIndexPage = () => {
     }
   };
 
-  const handleOpenZone = (data :any)=>{
-navigate(`/Dashboard/SubZone/${data?.ZoneName}`)
-  }
-
   useEffect(() => {
     let from = "";
     let to = dayjs().format("YYYY-MM-DD");
@@ -200,7 +194,6 @@ const optionsDonutJS = {
     toDate,
     dashboardData,
     fetchDashboardData,
-    handleOpenZone,
     setFromDate,
     setToDate,
     setSelectReport,
@@ -208,4 +201,4 @@ const optionsDonutJS = {
   };
 };
 
-export default useIndexPage;
+export default useSubZoneDashboard;

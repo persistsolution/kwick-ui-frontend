@@ -3,6 +3,8 @@ import Indexpage from "../components/Client-side/Dashboard/AddMinDashboard/Index
 import SubZoneExpenseVSSale from "../components/Client-side/Dashboard/SubZoneExpenseVSSale/SubZoneExpenseVSSale";
 import ZoneExpenseVSSale from "../components/Client-side/Dashboard/ZoneExpenseVSSale/ZoneExpenseVSSale";
 import FranchiseExpenseVsSaleReport from "../components/Client-side/Dashboard/FranchiseExpenseVsSaleReport/FranchiseExpenseVsSaleReport";
+import SubZoneDashboard from "../components/Client-side/Dashboard/SubZoneDashboard/SubZoneDashboard";
+
 
 // Selling Product
 import ViewProduct from "../components/Client-side/Selling-Products/Products/ViewProduct";
@@ -225,6 +227,11 @@ export const RouteData: routeType[] = [
     id: 1,
     path: `${import.meta.env.BASE_URL}Dashboard/IndexPage`,
     element: <Indexpage />,
+  },
+    {
+    id: 1,
+    path: `${import.meta.env.BASE_URL}Dashboard/SubZone/:id`,
+    element: <SubZoneDashboard />,
   },
   {
     id: 1,

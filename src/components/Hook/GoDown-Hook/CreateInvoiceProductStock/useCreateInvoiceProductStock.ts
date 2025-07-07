@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createInvoiceProductStockApi } from "../../../api/GoDown-Api/CreateInvoiceProductStock/CreateInvoiceProductStock";
+import { fetchFranchiseApi } from "../../../api/Franchise-Api/FranchiseApi";
 
 interface RetailerFormValues {
   avaliableStock: number;
@@ -13,7 +14,8 @@ interface RetailerFormValues {
   updateDate: string;
   narration: string;
   remark: string;
-  [key: string]: any; 
+  franchiseId: number,
+  productId: number
 }
 
 const useCreateInvoiceProductStock = () => {
@@ -29,6 +31,8 @@ const useCreateInvoiceProductStock = () => {
     updateDate: "",
     narration: "",
     remark: "",
+    franchiseId: 0,
+    productId: 0
   });
 
   const [message, setMessage] = useState<string>("");
@@ -37,9 +41,14 @@ const useCreateInvoiceProductStock = () => {
   const [franchiseList, setfranchiseList] = useState<any[]>([]);
   const [productList, setproductList] = useState<any[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
 
+  useEffect(() => {
+    handleFetchFranchises();
+  }, [])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log(e, "e")
+    const { name, value, type } = e.target;
     if (type === "file") {
       const target = e.target as HTMLInputElement;
       const files = target.files;
@@ -59,13 +68,34 @@ const useCreateInvoiceProductStock = () => {
     }
   };
 
-  const handelAddcreateGodownAccount = async () => {
-    const createGodownAccountData = {}; 
 
+  const handleSelectChange = (selectedOption: any, fieldName: string) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [fieldName]: selectedOption?.value || "",
+    }));
+  };
+
+
+  console.log(formValues, "formValue")
+
+  const handleFetchFranchises = async () => {
+    try {
+      const response: any = await fetchFranchiseApi();
+      const data = response?.data?.data || []
+      setfranchiseList(data);
+    } catch (error) {
+      console.error("Error fetching franchises:", error);
+    }
+  };
+
+
+  const handelAddcreateGodownAccount = async () => {
+    const createGodownAccountData = {};
     try {
       const response: any = await createInvoiceProductStockApi(createGodownAccountData);
       if (response.status === 201) {
-        setMessage("Product Invoice Create successfully!");
+        // setMessage("Product Invoice Create successfully!");
         setFormValues({
           avaliableStock: 0,
           qty: 0,
@@ -78,6 +108,8 @@ const useCreateInvoiceProductStock = () => {
           updateDate: "",
           narration: "",
           remark: "",
+          franchiseId: 0,
+          productId: 0
         });
       }
     } catch (error) {
@@ -98,6 +130,7 @@ const useCreateInvoiceProductStock = () => {
     setvendorList,
     setfranchiseList,
     setproductList,
+    handleSelectChange,
     message,
     isLoading,
     productList,

@@ -48,6 +48,7 @@ interface FormData {
   shopName: string;
   lastName: string;
   middleName: string;
+  selectedZone:string
 }
 
 const useAddEmployee = () => {
@@ -93,10 +94,11 @@ const useAddEmployee = () => {
     shopName: "",
     lastName: "",
     middleName: "",
+    selectedZone:""
   });
-
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [ franchiseList , setFranchiseList] = useState<any>([]);
 
   const AdminAccess: AccessOption[] = [
     { value: 48, label: "Selling Product Category" },
@@ -152,6 +154,10 @@ const useAddEmployee = () => {
     { value: 80, label: "Today Barcode Order" },
     { value: 81, label: "Today Online Orders" },
   ];
+
+const zoneList :any = [
+      { value: 1, label: "WEST-SOUTH" },
+]
 
   const handleChange = (e: any) => {
     const { name, value, files } = e.target as HTMLInputElement;
@@ -268,6 +274,7 @@ const useAddEmployee = () => {
           shopName: "",
           lastName: "",
           middleName: "",
+          selectedZone:""
         });
       }
     } catch (err: any) {
@@ -283,8 +290,11 @@ const useAddEmployee = () => {
     franchiseOptions,
     formData,
     message,
+    franchiseList,
     isLoading,
+    zoneList,
     handleChange,
+    setFranchiseList,
     handleSubmit,
   };
 };

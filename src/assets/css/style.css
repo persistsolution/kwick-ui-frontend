@@ -42968,6 +42968,10 @@ body{
   zoom:80%;
 }
 
+.pointer{
+  cursor: pointer;
+}
+
 /* end:: quill editor */
 
 /*# sourceMappingURL=style.css.map */

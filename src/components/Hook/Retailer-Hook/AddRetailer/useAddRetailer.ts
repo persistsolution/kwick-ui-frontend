@@ -44,7 +44,6 @@ const useAddRetailer = () => {
         ...formValues,
         [name]: value,
       };
-
       setFormValues(updatedValues);
     }
   };

@@ -73,40 +73,40 @@ const ViewEmployee: FC = () => {
 
                 <div className="table-responsive">
                   {isLoading ? (
-<SkeletonLoader loading={isLoading}/>
+                    <SkeletonLoader loading={isLoading} />
                   ) : (
-                              <Table
-                    id="Employee-table"
-                    className="border text-nowrap text-md-nowrap table-hover mb-0"
-                  >
-                    <thead className="table-primary">
-                      <tr>
-                        <th onClick={() => handleSort("id")}>ID</th>
-                        <th onClick={() => handleSort("employee ID")}>
-                          Photo{" "}
-                        </th>
-                        <th onClick={() => handleSort("employee Name")}>
-                          Employee Name
-                        </th>
-                        <th onClick={() => handleSort("Shop Name")}>
-                          Designation{" "}
-                        </th>
-                        <th onClick={() => handleSort("employee Type")}>
-                          Email Id{" "}
-                        </th>
-                        <th onClick={() => handleSort("Contact No")}>
-                          Contact No
-                        </th>
-                        <th onClick={() => handleSort("Password")}>Password</th>
-                        <th onClick={() => handleSort("Status")}>
-                          Another Contact No
-                        </th>
-                        <th onClick={() => handleSort("Register Date")}>
-                          Address{" "}
-                        </th>
-                        <th>Status</th>
-                        <th>Register Date</th>
-                        {/* <th onClick={() => handleSort("Lattitude")}>
+                    <Table
+                      id="Employee-table"
+                      className="border text-nowrap text-md-nowrap table-hover mb-0"
+                    >
+                      <thead className="table-primary">
+                        <tr>
+                          <th onClick={() => handleSort("id")}>ID</th>
+                          <th onClick={() => handleSort("employee ID")}>
+                            Photo{" "}
+                          </th>
+                          <th onClick={() => handleSort("employee Name")}>
+                            Employee Name
+                          </th>
+                          <th onClick={() => handleSort("Shop Name")}>
+                            Designation{" "}
+                          </th>
+                          <th onClick={() => handleSort("employee Type")}>
+                            Email Id{" "}
+                          </th>
+                          <th onClick={() => handleSort("Contact No")}>
+                            Contact No
+                          </th>
+                          <th onClick={() => handleSort("Password")}>Password</th>
+                          <th onClick={() => handleSort("Status")}>
+                            Another Contact No
+                          </th>
+                          <th onClick={() => handleSort("Register Date")}>
+                            Address{" "}
+                          </th>
+                          <th>Status</th>
+                          <th>Register Date</th>
+                          {/* <th onClick={() => handleSort("Lattitude")}>
                           Adhar Card No
                         </th>
                         <th onClick={() => handleSort("Longitude")}>
@@ -119,39 +119,39 @@ const ViewEmployee: FC = () => {
                         <th>IFSC Code</th>
                         <th>UPI Id</th>
                    */}
-                        {/* <th>Date</th> */}
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentEmployee.length > 0 ? (
-                        currentEmployee.map((employee: any) => (
-                          <tr key={employee.id}>
-                            <td>{employee.id}</td>
-                            <td>
-                              <img
-                                className="avatar rounded-pill cover-image"
-                                src={employee.Photo}
-                                alt={employee.name || "employee Image"}
-                              />
-                            </td>{" "}
-                            <td>{employee.full_name}</td>
-                            <td>{employee.designation}</td>
-                            <td>{employee.email}</td>
-                            <td>{employee.phone}</td>
-                            <td>{employee.password}</td>
-                            <td>{employee.anotherPassword}</td>
-                            <td>{employee.address}</td>
-                            <td
-                              className={`${employee.status === "Approved"
-                                ? "text-success"
-                                : "text-danger"
-                                }`}
-                            >
-                              {employee.status}
-                            </td>
-                            <td>{employee.created_date}</td>
-                            {/*<td>{employee.addharNo}</td>
+                          {/* <th>Date</th> */}
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentEmployee.length > 0 ? (
+                          currentEmployee.map((employee: any) => (
+                            <tr key={employee.id}>
+                              <td>{employee.id}</td>
+                              <td>
+                                <img
+                                  className="avatar rounded-pill cover-image"
+                                  src={employee.Photo}
+                                  alt={employee.name || "employee Image"}
+                                />
+                              </td>{" "}
+                              <td>{employee.full_name}</td>
+                              <td>{employee.designation}</td>
+                              <td>{employee.email}</td>
+                              <td>{employee.phone}</td>
+                              <td>{employee.password}</td>
+                              <td>{employee.anotherPassword}</td>
+                              <td>{employee.address}</td>
+                              <td
+                                className={`${employee.status === "Approved"
+                                  ? "text-success"
+                                  : "text-danger"
+                                  }`}
+                              >
+                                {employee.status}
+                              </td>
+                              <td>{employee.created_date}</td>
+                              {/*<td>{employee.addharNo}</td>
                             <td>{employee.bloodgroup}</td>
                             <td>{employee.bankholderName}</td>
                             <td>{employee.bankname}</td>
@@ -159,31 +159,31 @@ const ViewEmployee: FC = () => {
                             <td>{employee.branch}</td>
                             <td>{employee.ifsccode}</td>
                             <td>{employee.upiid}</td> */}
-                            <td>
-                              <button onClick={() => handleEdit(employee.id)}
-                                className="btn btn-md btn-icon btn-info-light rounded-circle" >
-                                <i className="bi bi-pencil-square"></i>
-                              </button>
-                              &nbsp; &nbsp;
-                              <button onClick={() =>
-                                handleDeleteEmployee(employee.id)
-                              } className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
-                                <i className="bi bi-trash"></i>
-                              </button>
+                              <td>
+                                <button onClick={() => handleEdit(employee.id)}
+                                  className="btn btn-md btn-icon btn-info-light rounded-circle" >
+                                  <i className="bi bi-pencil-square"></i>
+                                </button>
+                                &nbsp; &nbsp;
+                                <button onClick={() =>
+                                  handleDeleteEmployee(employee.id)
+                                } className="btn btn-md btn-icon btn-secondary-light rounded-circle" >
+                                  <i className="bi bi-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={3} className="text-center">
+                              No records found.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={3} className="text-center">
-                            No records found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </Table>
+                        )}
+                      </tbody>
+                    </Table>
                   )}
-        
+
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">

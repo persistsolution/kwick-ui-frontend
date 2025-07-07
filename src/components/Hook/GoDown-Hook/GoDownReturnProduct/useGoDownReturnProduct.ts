@@ -20,7 +20,6 @@ const useGoDownReturnProduct = () => {
     direction: string;
   }>({ key: null, direction: "asc" });
   const [loading, setloading] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 //import Pageheader from "../../../../layouts/Component/PageHeader/PageHeader";
 import useAddEmployee from "../../../Hook/Employee-Hook/AddEmployee/useAddEmployee";
+import Select from "react-select";
 
 const AddEmployee: React.FC = () => {
   const {
@@ -11,7 +12,10 @@ const AddEmployee: React.FC = () => {
     formData,
     message,
     isLoading,
+    franchiseList,
+    zoneList,
     handleChange,
+    setFranchiseList,
     handleSubmit,
   } = useAddEmployee();
 
@@ -354,6 +358,25 @@ const AddEmployee: React.FC = () => {
                   <Container className="fieldset col-12">
                     <h4 className="legend"> Other Franchise Access</h4>
                     <Row className="gy-4"></Row>
+                  </Container>
+                  <Container className="fieldset col-12">
+                    <h4 className="legend"> Assign Zone </h4>
+                    <Row className="gy-4">
+                      <Col md={3}>
+                        <Form.Group controlId="franchise">
+                          <Select
+                            name="selectedZone"
+                            options={zoneList}
+                            getOptionLabel={(e: any) => e.full_name}
+                            getOptionValue={(e: any) => String(e.id)}
+                            isSearchable
+                            value={formData.selectedZone}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+
+                    </Row>
                   </Container>
                   <Container className="fieldset col-12">
                     <h4 className="legend">Bank Account Detail</h4>

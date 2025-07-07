@@ -1,6 +1,5 @@
 import { FC, Fragment } from "react";
 import { Card, Col, Row, Table, Button, Form } from "react-bootstrap";
-import useIndexPage from "../../../Hook/Dashboard-Hook/AddMinDashboard/useIndexPage";
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,91 +8,26 @@ import {
   Legend,
   Title,
 } from "chart.js";
+import useSubZoneDashboard from "../../../Hook/Dashboard-Hook/SubZoneDashboard/useSubZoneDashboard";
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-const Indexpage: FC = () => {
+const SubZoneDashboard: FC = () => {
   const {
-    fromDate,
-    toDate,
     optionsDonutJS,
     options,
-    totalEmployees,
-    totalFranchises,
-    totalProducts,
     dashboardData,
     totalCash,
     totalUPI,
     totalIncome,
     totalAvg,
-    chartState,
-    selectReport,
-    setSelectReport,
-    handleSearch,
-    setFromDate,
-    setToDate,
-    fetchDashboardData,
-    handleOpenZone
-  } = useIndexPage();
+  } = useSubZoneDashboard();
 
   return (
     <Fragment>
       <div className="main-container container-fluid">
         <Row>
-          <Col xl={12}>
-            <Card>
-              <Card.Body>
-                <div className="row align-items-center g-2 mb-3">
-                  <div className="col-md-2 gap-2">
-                    <Form.Label>Select Report</Form.Label>
-                    <Form.Select
-                      value={selectReport}
-                      onChange={(e) => setSelectReport(String(e.target.value))}
-                    >
-                      <option value="today">Today</option>
-                      <option value="yesterday">Yesterday</option>
-                      <option value="week">This Week</option>
-                      <option value="month">This Month</option>
-                      <option value="custom">Custom</option>
-                    </Form.Select>
-                  </div>
-
-                  {selectReport === "custom" && (
-                    <>
-                      <div className="col-md-2">
-                        <Form.Group>
-                          <Form.Label>From Date</Form.Label>
-                          <Form.Control
-                            type="date"
-                            value={fromDate}
-                            onChange={(e) => setFromDate(e.target.value)}
-                          />
-                        </Form.Group>
-                      </div>
-                      <div className="col-md-2">
-                        <Form.Group>
-                          <Form.Label>To Date</Form.Label>
-                          <Form.Control
-                            type="date"
-                            value={toDate}
-                            onChange={(e) => setToDate(e.target.value)}
-                          />
-                        </Form.Group>
-                      </div>
-                    </>
-                  )}
-
-                  <div className="col-1 mt-4 ">
-                    <Button variant="success mt-1" onClick={fetchDashboardData}>
-                      Search
-                    </Button>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-
           {dashboardData.map((zone : any, index : number) => (
-            <Col xl={4} lg={4} md={4} sm={6} xxl={3} key={index} className="pointer" onClick={()=>handleOpenZone(zone)}>
+            <Col xl={4} lg={4} md={4} sm={6} xxl={3} key={index} className="pointer" >
               <Card>
                 <Card.Header>
                   <Card.Title>
@@ -168,4 +102,4 @@ const Indexpage: FC = () => {
   );
 };
 
-export default Indexpage;
+export default SubZoneDashboard;

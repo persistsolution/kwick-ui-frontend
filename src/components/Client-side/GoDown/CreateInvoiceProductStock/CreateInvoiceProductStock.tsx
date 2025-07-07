@@ -13,6 +13,7 @@ const CreateInvoiceProductStock: React.FC = () => {
     franchiseList,
     productList,
     handleChange,
+    handleSelectChange,
     handleSubmit,
   } = useCreateInvoiceProductStock();
 
@@ -47,10 +48,12 @@ const CreateInvoiceProductStock: React.FC = () => {
                       <Form.Group controlId="franchiseList">
                         <Form.Label>Franchise <span className="text-danger">*</span></Form.Label>
                         <Select
-                          name="franchiseList"
+                          name="franchiseId"
                           options={franchiseList}
                           isSearchable
-                          defaultValue={[franchiseList[0]]}
+                          getOptionLabel={(e: any) => e.full_name}
+                          getOptionValue={(e: any) => String(e.id)}
+                          onChange={(selected) => handleSelectChange(selected, "franchiseId")}
                         />
                       </Form.Group>
                     </Col>
@@ -58,10 +61,13 @@ const CreateInvoiceProductStock: React.FC = () => {
                       <Form.Group controlId="productList">
                         <Form.Label>Product <span className="text-danger">*</span></Form.Label>
                         <Select
-                          name="productList"
+                          name="productId"
                           options={productList}
                           isSearchable
-                          defaultValue={[productList[0]]}
+                          getOptionLabel={(e: any) => e.full_name}
+                          getOptionValue={(e: any) => String(e.id)}
+                          onChange={(selected) => handleSelectChange(selected, "productId")}
+
                         />
                       </Form.Group>
                     </Col>
